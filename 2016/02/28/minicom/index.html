@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Abnerzhao"><meta name="description" content="minicom的介绍Linux下的Minicom的功能与Windows下的超级终端功能相似，可以通过串口控制外部的硬件设备，适于在linux通过超级终端对嵌入式设备行管理。minicom的安装配置和使用安装#apt-getinstallminicom配置实际案例：交换"><meta name="keywords" content="minicom"><title>minicom的使用 · Abner</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="http://yoursite.com/2016/02/28/minicom/"><link rel="alternate" href="/atom.xml" title="Abner"><link rel="stylesheet" href="/fonts/iconfont/iconfont.css"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5832f612aff8681e2ee213a3b8d9548b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics ID', 'auto');
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/tags/" target="_self">Tags</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">minicom的使用</h1><span class="post-time">Feb 28, 2016</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#minicom的介绍"><span class="toc-text">minicom的介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#minicom的安装配置和使用"><span class="toc-text">minicom的安装配置和使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置"><span class="toc-text">配置</span></a></li></ol></li></ol></div><div class="post-content"><h3 id="minicom的介绍"><a href="#minicom的介绍" class="headerlink" title="minicom的介绍"></a>minicom的介绍</h3><p>Linux下的Minicom的功能与Windows下的超级终端功能相似，<strong>可以通过串口控制外部的硬件设备</strong>，适于在linux通过超级终端对嵌入式设备行管理。</p>
+<h3 id="minicom的安装配置和使用"><a href="#minicom的安装配置和使用" class="headerlink" title="minicom的安装配置和使用"></a>minicom的安装配置和使用</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><pre><code># apt-get install minicom
+</code></pre><h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p> 实际案例：交换机的consle转usb口连接到服务器，通过minicom对交换机进行配置</p>
+<pre><code># lsusb   //查看USB的状态
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 002 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+Bus 002 Device 002: ID 0e0f:0003 VMware, Inc. Virtual Mouse
+Bus 002 Device 003: ID 0e0f:0002 VMware, Inc. Virtual USB Hub
+Bus 002 Device 004: ID 0e0f:0008 VMware, Inc.
+Bus 002 Device 005: ID 067b:2303 Prolific Technology, Inc. PL2303 Serial Port
+
+# dmesg |grep ttyUSB  //USB已经连接
+[11991.918691] usb 2-2.2: pl2303 converter now attached to ttyUSB0
+
+# minicom -s   //进行配置
+
++-----[configuration]------+
+| Filenames and paths      |
+| File transfer protocols  |
+| Serial port setup        |
+| Modem and dialing        |
+| Screen and keyboard      |
+| Save setup as dfl        |
+| Save setup as..          |
+| Exit                     |
+| Exit from Minicom        |
++--------------------------+
+
+#选择进入Serial port setup，按照之前查看的信息进行配置
+
++-----------------------------------------------------------------------+
+| A -    Serial Device      : /dev/ttyUSB0                              |
+| B - Lockfile Location     : /var/lock                                 |
+| C -   Callin Program      :                                           |
+| D -  Callout Program      :                                           |
+| E -    Bps/Par/Bits       : 115200 8N1                                |
+| F - Hardware Flow Control : Yes                                       |
+| G - Software Flow Control : No                                        |
+|                                                                       |
+|    Change which setting?                                              |
++-----------------------------------------------------------------------+
+    | Screen and keyboard      |
+    | Save setup as dfl        |
+    | Save setup as..          |
+    | Exit                     |
+    | Exit from Minicom        |
+    +--------------------------+
+
+#Enter退出，选择Save setup as dfl  保存为默认配置
+</code></pre><p>  然后进入终端输入minicom 就能连接进入交换机配置</p>
+</div></article><div class="tags"><a href="/tags/minicom/">minicom</a></div><div class="paginator"><a href="/2016/03/03/free/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/2016/02/25/ulimit/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div><section id="comments"><div id="disqus_thread"></div></section><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'http://yoursite.com/2016/02/28/minicom/';
+    this.page.identifier = '2016/02/28/minicom/';
+    this.page.title = 'minicom的使用';
+};
+(function() {
+var d = document, s = d.createElement('script');
+
+s.src = '//Your disqus ID.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();</script></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>

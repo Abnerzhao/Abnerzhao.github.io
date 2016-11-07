@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Abnerzhao"><meta name="description" content="一、简介GNUScreen是一款由GNU计划开发的用于命令行终端切换的自由软件。用户可以通过该软件同时连接多个本地或远程的命令行会话，并在其间自由切换。GNU’sScreen官方站点二、功能会话恢复只要Screen本身没有终止，在其内部运行的会话都可以恢复。对于远程登录"><meta name="keywords" content="screen"><title>Screen会话管理 · Abner</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="http://yoursite.com/2016/05/23/screen/"><link rel="alternate" href="/atom.xml" title="Abner"><link rel="stylesheet" href="/fonts/iconfont/iconfont.css"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5832f612aff8681e2ee213a3b8d9548b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics ID', 'auto');
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/tags/" target="_self">Tags</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">Screen会话管理</h1><span class="post-time">May 23, 2016</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、简介"><span class="toc-text">一、简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、功能"><span class="toc-text">二、功能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#会话恢复"><span class="toc-text">会话恢复</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#多窗口"><span class="toc-text">多窗口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#会话共享"><span class="toc-text">会话共享</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、常用参数"><span class="toc-text">三、常用参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、使用实例"><span class="toc-text">四、使用实例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建新窗口"><span class="toc-text">创建新窗口</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#会话分离与恢复"><span class="toc-text">会话分离与恢复</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#清除-dead会话"><span class="toc-text">清除 dead会话</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关闭会话"><span class="toc-text">关闭会话</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#会话共享-1"><span class="toc-text">会话共享</span></a></li></ol></div><div class="post-content"><h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><p>GNU Screen是一款由GNU计划开发的用于命令行终端切换的自由软件。用户可以通过该软件同时连接多个本地或远程的命令行会话，并在其间自由切换。</p>
+<p><a href="http://www.gnu.org/software/screen/" target="_blank" rel="external">GNU’s Screen 官方站点</a></p>
+<h3 id="二、功能"><a href="#二、功能" class="headerlink" title="二、功能"></a>二、功能</h3><h4 id="会话恢复"><a href="#会话恢复" class="headerlink" title="会话恢复"></a>会话恢复</h4><p>只要Screen本身没有终止，在其内部运行的会话都可以恢复。对于远程登录的用户即使网络连接中断，用户也不会失去对已经打开的命令行会话的控制。</p>
+<h4 id="多窗口"><a href="#多窗口" class="headerlink" title="多窗口"></a>多窗口</h4><p>在Screen环境下，所有的会话都独立的运行，并拥有各自的编号、输入、输出和窗口缓存。用户可以通过快捷键在不同的窗口下切换，并可以自由的重定向各个窗口的输入和输出。</p>
+<h4 id="会话共享"><a href="#会话共享" class="headerlink" title="会话共享"></a>会话共享</h4><p>Screen可以让一个或多个用户从不同终端多次登录一个会话，并共享会话的所有特性（比如可以看到完全相同的输出）。它同时提供了窗口访问权限的机制，可以对窗口进行密码保护。</p>
+<h3 id="三、常用参数"><a href="#三、常用参数" class="headerlink" title="三、常用参数"></a>三、常用参数</h3><pre><code>screen -S yourname   //新建一个叫yourname的session
+screen -ls（或者screen -list） //列出当前所有的session
+screen -r yourname  //回到yourname这个session
+screen -d yourname   //远程detach某个session，转移到当前终端
+screen -d -r yourname  //结束当前session并回到yourname这个session
+
+ctrl+a x -&gt; 锁住当前的 window，需用用户密码解锁
+ctrl-a k -&gt; kill window，强行关闭当前的 window
+ctrl+a d -&gt; detach，暂时离开当前session，将目前的 screen session (可能含有多个 windows) 丢到后台执行，并会回到还没进 screen 时的状态，此时在 screen session 里，每个 window 内运行的 process (无论是前台/后台)都在继续执行，即使 logout 也不影响
+</code></pre><h3 id="四、使用实例"><a href="#四、使用实例" class="headerlink" title="四、使用实例"></a>四、使用实例</h3><h4 id="创建新窗口"><a href="#创建新窗口" class="headerlink" title="创建新窗口"></a>创建新窗口</h4><pre><code># screen  -S text   // 创建一个名字为text的会话，会打开一个默认的shell环境（一般都是bash shell）
+# vi file.txt
+</code></pre><p>或</p>
+<pre><code># screen vi file.txt   //退出vi将退出该会话
+</code></pre><h3 id="会话分离与恢复"><a href="#会话分离与恢复" class="headerlink" title="会话分离与恢复"></a>会话分离与恢复</h3><p>在screen窗口键入C-a d，Screen会给出detached，暂时中断会话。</p>
+<p>找到并恢复会话：</p>
+<pre><code># screen -ls    //查看当前会话
+There is a screen on:
+10526.test  (05/23/2016 07:48:58 PM)    (Detached)
+1 Socket in /var/run/screen/S-root. 
+
+# screen -r  test  // 进入被中断的会话，screen的名字和编号都行
+</code></pre><h4 id="清除-dead会话"><a href="#清除-dead会话" class="headerlink" title="清除 dead会话"></a>清除 dead会话</h4><pre><code># screen -wipe
+</code></pre><h4 id="关闭会话"><a href="#关闭会话" class="headerlink" title="关闭会话"></a>关闭会话</h4><pre><code>Ctrl-a k  // kill会话，同时kill会话里的进程
+Ctrl-a :   // 然后输入quit命令退出Screen会话,会杀死所有窗口并退出其中运行的所有程序
+</code></pre><h3 id="会话共享-1"><a href="#会话共享-1" class="headerlink" title="会话共享"></a>会话共享</h3><pre><code># screen -x  screenname
+
+-x  Attach to a not detached screen. (Multi display mode).
+</code></pre></div></article><div class="tags"><a href="/tags/screen/">screen</a></div><div class="paginator"><a href="/2016/05/26/sar/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/2016/05/20/opennebula-life-cycle/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div><section id="comments"><div id="disqus_thread"></div></section><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'http://yoursite.com/2016/05/23/screen/';
+    this.page.identifier = '2016/05/23/screen/';
+    this.page.title = 'Screen会话管理';
+};
+(function() {
+var d = document, s = d.createElement('script');
+
+s.src = '//Your disqus ID.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();</script></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>

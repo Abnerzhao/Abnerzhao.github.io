@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Abnerzhao"><meta name="description" content="freemanualdescriptionfreedisplaysthetotalamountoffreeandusedphysicalandswapmemoryinthesystem,aswellasthebuffersused"><meta name="keywords" content="free"><title>free查看内存相关信息 · Abner</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="http://yoursite.com/2016/03/03/free/"><link rel="alternate" href="/atom.xml" title="Abner"><link rel="stylesheet" href="/fonts/iconfont/iconfont.css"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5832f612aff8681e2ee213a3b8d9548b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics ID', 'auto');
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/tags/" target="_self">Tags</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">free查看内存相关信息</h1><span class="post-time">Mar 3, 2016</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#free"><span class="toc-text">free</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#manual-description"><span class="toc-text">manual description</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#buffers-and-cached"><span class="toc-text">buffers and cached</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol></li></ol></div><div class="post-content"><h3 id="free"><a href="#free" class="headerlink" title="free"></a>free</h3><h4 id="manual-description"><a href="#manual-description" class="headerlink" title="manual description"></a>manual description</h4><blockquote>
+<p>free  displays  the total amount of free and used physical and swap memory in the system, as well as the buffers used bythe kernel.</p>
+<p>The shared memory column represents either the MemShared value (2.4 series kernels) or the Shmem value (2.6 series kernels and later) taken from the /proc/meminfo file. The value is zero if none of the entries is exported by the kernel.</p>
+</blockquote>
+<h4 id="buffers-and-cached"><a href="#buffers-and-cached" class="headerlink" title="buffers and cached"></a>buffers and cached</h4><blockquote>
+<p><strong>What is the difference between buffers and Cache?</strong></p>
+<p>A buffer is a temporary location to store data for a particular application and this data is not used by any other application. This is similar to bandwidth concept. When you try to send burst of data through network, if your network card is capable of sending less data, it will keep these huge amounts of data in buffer so that it can send data constantly in lesser speeds. In other hand Cache is a memory location to store frequently used data for faster access. Other difference between a buffer and a cache is that cache can be used multiple times where as buffer is used single time. And both are temporary store for your data processing.</p>
+</blockquote>
+<ul>
+<li>A buffer is something that has yet to be “written” to disk.</li>
+<li>A cache is something that has been “read” from the disk and stored for later use.</li>
+</ul>
+<p>buffer是用于存放要输出到disk（块设备）的数据的，而cache是存放从disk上读出的数据。   这二者是为了提高IO性能的。为了提高IO read的性能，总是要多cache一些数据，这也就是为什么cached memor比较大，而比较小的原因。</p>
+<pre><code>root@Mr-zhao:~# free -m
+             total       used       free     shared    buffers     cached
+Mem:          2001        979       1021          0         58        774
+-/+ buffers/cache:        146       1854
+Swap:         4092          0       4092
+</code></pre><p>当我们第一次读一个大文件时耗时可能会比第二次长，原因就是第二次读取时已有cache数据。</p>
+<ul>
+<li><p>-/+ buffers/cache(used): 表示一个应用程序认为系统被用掉多少内存；</p>
+<p>  -/+ buffers/cache(used) = Mem(used) – Mem(buffers) – Mem(cached)</p>
+</li>
+<li><p>-/+ buffers/cache(free)，表示一个应用程序认为系统还有多少内存；</p>
+<p>  -/+ buffers/cache(free) = Mem(free) + Mem(buffers) + Mem(cached)</p>
+</li>
+</ul>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="http://www.cnblogs.com/coldplayerest/archive/2010/02/20/1669949.html" target="_blank" rel="external">Linux上的free命令详解</a><br><a href="http://www.freelinuxconsole.info/understanding-free-command-in-linuxunix-2/" target="_blank" rel="external">Understanding free command in Linux/Unix</a></p>
+</div></article><div class="tags"><a href="/tags/free/">free</a></div><div class="paginator"><a href="/2016/03/05/Feb_tips/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/2016/02/28/minicom/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div><section id="comments"><div id="disqus_thread"></div></section><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'http://yoursite.com/2016/03/03/free/';
+    this.page.identifier = '2016/03/03/free/';
+    this.page.title = 'free查看内存相关信息';
+};
+(function() {
+var d = document, s = d.createElement('script');
+
+s.src = '//Your disqus ID.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();</script></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>

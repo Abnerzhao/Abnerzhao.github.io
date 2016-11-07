@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Abnerzhao"><meta name="description" content="deb包初探deb包结构包含两部分：控制信息（DEBIAN目录）安装内容（etc、usr等目录）DEBAIN目录一般包含以下文件：control主要描述软件包的名称(Package)，版本(Version)以及描述(Description)等，是deb包必须具备的描"><meta name="keywords" content="debian"><title>Make .deb Package · Abner</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="http://yoursite.com/2016/01/08/make_deb/"><link rel="alternate" href="/atom.xml" title="Abner"><link rel="stylesheet" href="/fonts/iconfont/iconfont.css"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5832f612aff8681e2ee213a3b8d9548b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics ID', 'auto');
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/tags/" target="_self">Tags</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">Make .deb Package</h1><span class="post-time">Jan 8, 2016</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#deb包初探"><span class="toc-text">deb包初探</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#deb包结构包含两部分："><span class="toc-text">deb包结构包含两部分：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DEBAIN目录一般包含以下文件："><span class="toc-text">DEBAIN目录一般包含以下文件：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一个control文件实例："><span class="toc-text">一个control文件实例：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deb制作"><span class="toc-text">deb制作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#源码包制作deb包"><span class="toc-text">源码包制作deb包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#deb-src制作deb包"><span class="toc-text">deb-src制作deb包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改现有的deb包制作新的deb包"><span class="toc-text">修改现有的deb包制作新的deb包</span></a></li></ol></li></ol></div><div class="post-content"><h3 id="deb包初探"><a href="#deb包初探" class="headerlink" title="deb包初探"></a>deb包初探</h3><h4 id="deb包结构包含两部分："><a href="#deb包结构包含两部分：" class="headerlink" title="deb包结构包含两部分："></a>deb包结构包含两部分：</h4><ul>
+<li>控制信息（DEBIAN目录）</li>
+<li>安装内容（etc、usr等目录）</li>
+</ul>
+<h4 id="DEBAIN目录一般包含以下文件："><a href="#DEBAIN目录一般包含以下文件：" class="headerlink" title="DEBAIN目录一般包含以下文件："></a>DEBAIN目录一般包含以下文件：</h4><ul>
+<li>control</li>
+</ul>
+<p>主要描述软件包的名称(Package)，版本(Version)以及描述(Description)等，是deb包必须具备的描述性文件，以便于软件的安装管理和索引。同时为了能将软件包进行充分的管理</p>
+<ul>
+<li>postinst(postinstallation)</li>
+</ul>
+<p>该脚本的主要任务是完成安装包时的配置工作。许多“postinst”脚本负责执行有关命令为新安装或升级的软件重启服务</p>
+<ul>
+<li>postrm(postremove)</li>
+</ul>
+<p>软件卸载后需要执行的脚本，主要负责修改软件包链接文件、或删除创建的文件</p>
+<ul>
+<li>preinst(preinstallation)</li>
+</ul>
+<p>在Deb包文件解包之前，将会运行该脚本。<br>许多“preinst”脚本的任务是停止作用于待升级软件包的服务，直到软件包安装或升级完成</p>
+<ul>
+<li>prerm(preremove)</li>
+</ul>
+<p>软件卸载前需要执行的脚本，主要负责停止与软件包相关的daemon服务</p>
+<ul>
+<li>copyright（版权）</li>
+<li>changlog（修订记录）</li>
+<li>conffiles</li>
+</ul>
+<h4 id="一个control文件实例："><a href="#一个control文件实例：" class="headerlink" title="一个control文件实例："></a>一个control文件实例：</h4><pre><code>Package: dante
+Version: 1.3.2-1
+Architecture: amd64
+Maintainer: mr-zhao &lt;zhifanzhao@163.com&gt;
+Installed-Size: 1438
+Depends: libc6 (&gt;&gt; 2.15), libc6 (&lt;&lt; 2.16), libgssapi-krb5-2 (&gt;= 1.10+dfsg~)
+Section: unknown  #声明软件类别
+Priority: extra   #软件对系统的重要程度（required、standar、option、extra）
+Homepage: &lt;insert the upstream URL, if relevant&gt;
+Description: &lt;insert up to 60 chars description&gt;
+&lt;insert long description, indented with spaces&gt;
+</code></pre><h3 id="deb制作"><a href="#deb制作" class="headerlink" title="deb制作"></a>deb制作</h3><p>deb包的制作有三种情况：</p>
+<ul>
+<li>源码包制作deb包</li>
+<li>deb-src包制作deb包</li>
+<li>修改现有的deb包制作新的deb包</li>
+</ul>
+<h4 id="源码包制作deb包"><a href="#源码包制作deb包" class="headerlink" title="源码包制作deb包"></a>源码包制作deb包</h4><p>源码包制作deb包一般常用有两种方法：</p>
+<ul>
+<li>checkinstall</li>
+</ul>
+<p>checkinstall不仅可以生成deb包，还可以生成rpm包，使用简单，但是不灵活，功能粗糙</p>
+<ul>
+<li>dpkg工具 dh-make</li>
+</ul>
+<p>dpkg是最基本的制作deb包的方法</p>
+<p>(1) 利用checkinstall打包</p>
+<p>Step 1：安装依赖关系软件包</p>
+<pre><code>$ sudo apt-get install build-essential automake autoconf libtool pkg-config libcurl4-openssl-dev intltool libxml2-dev libgtk2.0-dev libnotify-dev libglib2.0-dev libevent-dev checkinstall
+</code></pre><p>Step 2: 制作DEB包</p>
+<pre><code>$ wget http://www.inet.no/dante/files/dante-1.3.2.tar.gz
+$ tar zxvf dante-1.3.2.tar.gz
+$ cd dante-1.3.2
+$ ./configure
+$ make
+$ sudo checkinstall      //以一种交互的方式进行打包，过程会显示软件包基本信息，可直接修改
+
+当前目录下就生成 dante_1.3.2-1_amd64.deb
+</code></pre><p>Step 3: 测试软件包是否可用</p>
+<pre><code>$dpkg -i dante_1.3.2-1_amd64.deb //安装
+$dpkg -r dante_1.3.2-1_amd64.deb //卸载
+</code></pre><p>(2) 利用dpkg打包</p>
+<p>Step 1：安装依赖关系软件包</p>
+<pre><code>$ sudo apt-get install dh-make make fakeroot
+</code></pre><p>Step 2: 制作DEB包</p>
+<pre><code>$ wget http://www.inet.no/dante/files/dante-1.3.2.tar.gz
+$ tar zxvf dante-1.3.2.tar.gz
+$ cd dante-1.3.2
+$ dh_make -s -e zhifanzhao@163.com -f ../dante-1.3.2.tar.gz  //会在当前目录下生成debian目录，可自定义里面的控制信息
+$ dpkg-buildpackage -rfakeroot
+
+上级目录就会有 dante_1.3.2-1_amd64.deb
+</code></pre><p>Step 3: 测试软件包是否可用</p>
+<pre><code>$ dpkg -i dante_1.3.2-1_amd64.deb //安装
+$ dpkg -r dante_1.3.2-1_amd64.deb //卸载
+</code></pre><h4 id="deb-src制作deb包"><a href="#deb-src制作deb包" class="headerlink" title="deb-src制作deb包"></a>deb-src制作deb包</h4><p>这种方式往往是需要为原有的包进行小幅度优化，简单介绍一下。</p>
+<p>Step 1: 获取source包</p>
+<pre><code>$ apt-get source &lt;packagename&gt;
+</code></pre><p>Step 2: 修改代码和编译信息</p>
+<p>Step 3: 准备编译环境和依赖包</p>
+<pre><code>$ apt-get install dpkg-buildpackage
+$ apt-get build-dep &lt;packagename&gt;
+</code></pre><p>Step 4: 重新打包</p>
+<pre><code>$ dpkg-buildpackage -uc -d
+
+//完成后上一级目录将会出现一个或多个deb文件 (未测试)
+</code></pre><h4 id="修改现有的deb包制作新的deb包"><a href="#修改现有的deb包制作新的deb包" class="headerlink" title="修改现有的deb包制作新的deb包"></a>修改现有的deb包制作新的deb包</h4><pre><code>$ dpkg -X dante_1.3.2-1_amd64.deb  test //解包安装内容
+$ cd test
+$ dpkg -e ../dante_1.3.2-1_amd64.deb  //解包控制信息，生成DEBAIN目录
+$ ls test
+DEBIAN  usr
+自定义修改内容然后重新打包（一般是对配置文件进行修改，对功能进行调优等）
+$ cd ..
+$ dpkg -b test test_new.deb
+</code></pre><p><strong>Debain库非常丰富，一般都很少用源码包来制作deb包，通过对已有的deb包进行修改即可满足日常需求</strong></p>
+</div></article><div class="tags"><a href="/tags/debian/">debian</a></div><div class="paginator"><a href="/2016/01/09/Create-A-Local-Debian-Ubuntu-Mirror-With-apt-mirror/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/2016/01/01/command/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div><section id="comments"><div id="disqus_thread"></div></section><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'http://yoursite.com/2016/01/08/make_deb/';
+    this.page.identifier = '2016/01/08/make_deb/';
+    this.page.title = 'Make .deb Package';
+};
+(function() {
+var d = document, s = d.createElement('script');
+
+s.src = '//Your disqus ID.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();</script></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>

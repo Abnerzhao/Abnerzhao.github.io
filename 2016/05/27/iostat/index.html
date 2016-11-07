@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Abnerzhao"><meta name="description" content="一、iostat简介iostat-ReportCentralProcessingUnit(CPU)statisticsandinput/out-putstatisticsfordevicesandpartitions.iostat用于输出CPU"><meta name="keywords" content="iostat"><title>iostat查看磁盘IO信息 · Abner</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="http://yoursite.com/2016/05/27/iostat/"><link rel="alternate" href="/atom.xml" title="Abner"><link rel="stylesheet" href="/fonts/iconfont/iconfont.css"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5832f612aff8681e2ee213a3b8d9548b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics ID', 'auto');
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/tags/" target="_self">Tags</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">iostat查看磁盘IO信息</h1><span class="post-time">May 27, 2016</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、iostat简介"><span class="toc-text">一、iostat简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、iostat的简单使用"><span class="toc-text">二、iostat的简单使用</span></a></li></ol></div><div class="post-content"><h3 id="一、iostat简介"><a href="#一、iostat简介" class="headerlink" title="一、iostat简介"></a>一、iostat简介</h3><blockquote>
+<p>iostat - Report Central Processing Unit (CPU) statistics and input/out-put statistics for devices and partitions.</p>
+</blockquote>
+<p>iostat 用于输出CPU和磁盘I/O相关的统计信息。</p>
+<p>选项如下：</p>
+<pre><code>-c     The  -c  option  is exclusive of the -d option and displays only
+       the CPU usage report.  //仅显示CPU统计信息，与-d选项互斥
+
+-d     The -d option is exclusive of the -c option  and  displays  only
+       the device utilization report. //仅显示磁盘统计信息，与-c选项互斥
+
+-k     Display statistics in kilobytes per second instead of blocks per
+       second.  Data displayed are valid  only  with  kernels  2.4  and
+       newer. // 以KB为单位显示每秒的磁盘请求数，默认单位块
+
+ -p device | ALL
+       The -p option is exclusive of the -x option and displays statis-
+       tics for block devices and all their partitions that are used by
+       the  system.   If  a device name is entered on the command line,
+       then statistics for it and all  its  partitions  are  displayed.
+       Last,  the ALL keyword indicates that statistics have to be dis-
+       played for all the block devices and partitions defined  by  the
+       system,  including  those  that have never been used.  Note that
+       this option works only with post 2.5 kernels. 
+       // 用于显示块设备及系统分区的统计信息，与-x选项互斥
+
+-t     Print the time for each report displayed.
+
+-V     Print version number and usage then exit.
+
+-x     Display extended statistics.  This option is exclusive of the -p
+       one,   and   works   with   post  2.5  kernels  since  it  needs
+       /proc/diskstats file or a mounted sysfs to get  the  statistics.
+       This  option may also work with older kernels (e.g. 2.4) only if
+       extended statistics are available in /proc/partitions (the  ker-
+       nel needs to be patched for that).
+</code></pre><h3 id="二、iostat的简单使用"><a href="#二、iostat的简单使用" class="headerlink" title="二、iostat的简单使用"></a>二、iostat的简单使用</h3><pre><code># iostat  // 显示CPU和设备吞吐率的统计信息
+Linux 2.6.32-573.el6.x86_64 (Mr-zhao)   05/26/2016  _x86_64_    (2 CPU)
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+            0.05    0.00    0.07    0.01    0.00   99.87
+
+Device:            tps   Blk_read/s   Blk_wrtn/s   Blk_read   Blk_wrtn
+sda               0.76         3.69        12.60   60628026  206899224
+</code></pre><p>输出项说明：</p>
+<p>%user:  在用户级别运行所使用的 CPU 的百分比。</p>
+<p>%nice:  nice 操作所使用的 CPU 的百分比。</p>
+<p>%system:    在核心级别（kernel）运行所使用 CPU 的百分比。</p>
+<p>%iowait:    CPU 等待硬件 I/O 所占用 CPU 的百分比。</p>
+<p>%steal: 当管理程序（hypervisor）为另一个虚拟进程提供服务而等待虚拟 CPU 的百分比。</p>
+<p>%idle:  CPU 空闲时间的百分比。</p>
+<p>tps:    每秒钟物理设备的 I/O 传输总量。</p>
+<p>[MB/KB/B]lk_read:   读入的数据总量，单位为MB/KB/块。</p>
+<p>[MB/KB/B]lk_wrtn    :写入的数据总量，单位为MB/KB/块。</p>
+<p>[MB/KB/B]lk_read/s: 每秒从驱动器读入的数据量，单位为MB/KB/块。</p>
+<p>[MB/KB/B]lk_wrtn/s: 每秒向驱动器写入的数据量，单位为MB/KB/块。</p>
+<pre><code># iostat -d 2  //每隔2秒显示一次设备吞吐率的统计信息（单位为 块/s）
+# iostat -dk 2 //每隔2秒显示一次设备吞吐率的统计信息（单位为 KB/s）
+# iostat -dk 2 3 // 每隔2秒显示一次，共显示3次
+
+# iostat -x sda  //显示 sda 设备扩展统计信息
+Linux 2.6.32-573.el6.x86_64 (Mr-zhao)   05/26/2016  _x86_64_    (2 CPU)
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+            0.05    0.00    0.07    0.01    0.00   99.87
+
+Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda               0.00     0.86    0.05    0.72     3.69    12.60    21.36     0.00    1.83   0.75   0.06
+# iostat -p sda  //显示sda 及上面所有分区的统计信息
+Linux 2.6.32-573.el6.x86_64 (Mr-zhao)   05/26/2016  _x86_64_    (2 CPU)
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+            0.05    0.00    0.07    0.01    0.00   99.87
+
+Device:            tps   Blk_read/s   Blk_wrtn/s   Blk_read   Blk_wrtn
+sda               0.76         3.69        12.60   60628026  206904888
+sda1              0.00         0.00         0.00       4994        512
+sda2              0.04         3.52         2.22   57853834   36386304
+sda3              0.72         0.17        10.38    2763066  170501848
+sda4              0.00         0.00         0.00         20          0
+sda5              0.00         0.00         0.00       4816      16224
+</code></pre><p>输出项说明：</p>
+<p>rrqm/s: 将读入请求合并后，每秒发送到设备的读入请求数。</p>
+<p>wrqm/s: 将写入请求合并后，每秒发送到设备的写入请求数。</p>
+<p>r/s:    每秒发送到设备的读入请求数。</p>
+<p>w/s:    每秒发送到设备的写入请求数。</p>
+<p>rsec/s: 每秒从设备读入的扇区数。</p>
+<p>wsec/s: 每秒向设备写入的扇区数。</p>
+<p>rkB/s:  每秒从设备读入的数据量，单位为 KB/s。</p>
+<p>wkB/s:  每秒向设备写入的数据量，单位为 KB/s。</p>
+<p>rMB/s:  每秒从设备读入的数据量，单位为 MB/s。</p>
+<p>wMB/s:  每秒向设备写入的数据量，单位为 MB/s。</p>
+<p>avgrq-sz:   发送到设备的请求的平均大小，单位为扇区。</p>
+<p>avgqu-sz:   发送到设备的请求的平均队列长度。</p>
+<p>await:  I/O请求平均执行时间。包括发送请求和执行的时间。单位为毫秒。</p>
+<p>svctm:  发送到设备的I/O请求的平均执行时间。单位为毫秒。</p>
+<p>%util:  在I/O请求发送到设备期间，占用CPU时间的百分比。用于显示设备的带宽利用率。当这个值接近100%时，表示设备带宽已经占满。</p>
+</div></article><div class="tags"><a href="/tags/iostat/">iostat</a></div><div class="paginator"><a href="/2016/06/07/cpuinfo/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/2016/05/26/sar/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div><section id="comments"><div id="disqus_thread"></div></section><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'http://yoursite.com/2016/05/27/iostat/';
+    this.page.identifier = '2016/05/27/iostat/';
+    this.page.title = 'iostat查看磁盘IO信息';
+};
+(function() {
+var d = document, s = d.createElement('script');
+
+s.src = '//Your disqus ID.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();</script></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>

@@ -2,9 +2,254 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2016/11/04/test/</loc>
+    <loc>http://yoursite.com/2016/02/24/network-command/</loc>
     
-    <lastmod>2016-11-07T04:20:17.000Z</lastmod>
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/01/09/Create-A-Local-Debian-Ubuntu-Mirror-With-apt-mirror/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/03/05/Feb_tips/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/10/29/Python%E7%BC%96%E7%A0%81%E9%A3%8E%E6%A0%BC/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/05/20/ansible/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/10/03/cisco/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/02/23/cacit/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/01/01/command/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/06/07/cpuinfo/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/03/03/free/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/10/21/dmidecode/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/06/19/goodbye/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/12/25/idrac/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/05/27/iostat/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/09/15/ipmitool/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/10/05/ks/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/01/08/make_deb/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/01/15/mysql-duplicate/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/02/28/minicom/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/05/05/nc/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/03/08/Create-A-deb-Package-Repository/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/05/20/opennebula-life-cycle/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/10/11/raid/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/06/12/raid_states/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/04/23/opennebula/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/05/26/sar/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/05/23/screen/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/06/16/ss/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/01/12/sysstart/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/01/10/ubuntu_deb/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/02/25/ulimit/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/05/18/zabbix-agent/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/12/29/zabbix/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/11/04/%E5%B0%8F%E8%AF%95Ansible-Python-API/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/11/01/%E8%B7%A8%E4%BB%93%E5%BA%93%E8%BD%AC%E7%A7%BBSVN%E4%BB%A3%E7%A0%81%E7%9B%AE%E5%BD%95/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/10/29/%E6%91%84%E5%BD%B1%E7%9F%A5%E8%AF%86%E6%89%AB%E7%9B%B2/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
   </url>
   

@@ -1,0 +1,191 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Abnerzhao"><meta name="description" content="一、sar简介sar-Collect,report,orsavesystemactivityinformation.Usage:sar[options][intervalcount]sar选项[输出间隔时间][输出次数("><meta name="keywords" content="sar"><title>sar系统状态信息统计 · Abner</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="http://yoursite.com/2016/05/26/sar/"><link rel="alternate" href="/atom.xml" title="Abner"><link rel="stylesheet" href="/fonts/iconfont/iconfont.css"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5832f612aff8681e2ee213a3b8d9548b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics ID', 'auto');
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/tags/" target="_self">Tags</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">sar系统状态信息统计</h1><span class="post-time">May 26, 2016</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、sar-简介"><span class="toc-text">一、sar 简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、sar-常用命令"><span class="toc-text">二、sar 常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-CPU-Usage"><span class="toc-text">2.1 CPU Usage</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-Memory-Free-and-Used"><span class="toc-text">2.2 Memory Free and Used</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-Swap-Space-Used"><span class="toc-text">2.3 Swap Space Used</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-Overall-I-O-Activities"><span class="toc-text">2.4 Overall I/O Activities</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-Individual-Block-Device-I-O-Activities"><span class="toc-text">2.5 Individual Block Device I/O Activities</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-6-Display-context-switch-per-second"><span class="toc-text">2.6 Display context switch per second</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-7-Reports-run-queue-and-load-average"><span class="toc-text">2.7 Reports run queue and load average</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-8-Report-network-statistics"><span class="toc-text">2.8 Report network statistics</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-9-Report-Sar-Data-Using-Start-Time"><span class="toc-text">2.9 Report Sar Data Using Start Time</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol></div><div class="post-content"><h3 id="一、sar-简介"><a href="#一、sar-简介" class="headerlink" title="一、sar 简介"></a>一、sar 简介</h3><blockquote>
+<p>sar - Collect, report, or save system activity information.</p>
+<p>Usage: sar [ options ] [ interval  count  ]    </p>
+<p> sar 选项 [输出间隔时间] [输出次数(默认为1)]</p>
+</blockquote>
+<p>sar命令是Linux下系统运行状态统计工具，它将指定的操作系统状态计数器显示到标准输出设备。</p>
+<p>sar工具将对系统当前的状态进行取样，然后通过计算数据和比例来表达系统的当前运行状态。它的特点是可以连续对系统取样，获得大量的取样数据。取样数据和分析的结果都可以存入文件，使用它时消耗的系统资源很小。</p>
+<pre><code># cat /etc/cron.d/sysstat
+# Run system activity accounting tool every 10 minutes
+*/10 * * * * root /usr/lib64/sa/sa1 1 1
+# Generate a daily summary of process accounting at 23:53
+53 23 * * * root /usr/lib64/sa/sa2 -A   //将当天的汇总信息写入文件 /var/log/sa/saDD
+
+sa1: stores system activities in binary data file. sa1 depends on sadc for this purpose. sa1 runs from cron.
+sa2: creates daily summary of the collected statistics. sa2 runs from cron.
+</code></pre><h3 id="二、sar-常用命令"><a href="#二、sar-常用命令" class="headerlink" title="二、sar 常用命令"></a>二、sar 常用命令</h3><h4 id="2-1-CPU-Usage"><a href="#2-1-CPU-Usage" class="headerlink" title="2.1 CPU Usage"></a>2.1 CPU Usage</h4><blockquote>
+<p>sar -u:   Displays CPU usage for the current day that was collected until that point.</p>
+<p>sar -u ALL:  Same as “sar -u” but displays additional fields.</p>
+<p>sar -P ALL:  indicates that it should displays statistics for ALL the individual Cores.</p>
+<p>sar -u -f /var/log/sa/sa10:  Displays CPU usage for the 10day of the month from the sa10 file.</p>
+</blockquote>
+<pre><code># sar -u  1 3
+Linux 2.6.32-573.el6.x86_64 (Mr-zhao)   05/24/2016  _x86_64_    (2 CPU)
+
+06:23:59 PM     CPU     %user     %nice   %system   %iowait    %steal     %idle
+06:24:00 PM     all      0.00      0.00      0.00      0.00      0.00    100.00
+06:24:01 PM     all      0.00      0.00      0.50      0.00      0.00     99.50
+06:24:02 PM     all      0.50      0.00      0.50      0.00      0.00     99.00
+Average:        all      0.17      0.00      0.33      0.00      0.00     99.50
+
+# sar -P ALL 1 1
+Linux 2.6.32-573.el6.x86_64 (Mr-zhao)   05/24/2016  _x86_64_    (2 CPU)
+
+06:28:13 PM     CPU     %user     %nice   %system   %iowait    %steal     %idle
+06:28:14 PM     all      0.00      0.00      0.00      0.00      0.00    100.00
+06:28:14 PM       0      0.00      0.00      0.00      0.00      0.00    100.00
+06:28:14 PM       1      0.00      0.00      0.00      0.00      0.00    100.00
+
+Average:        CPU     %user     %nice   %system   %iowait    %steal     %idle
+Average:        all      0.00      0.00      0.00      0.00      0.00    100.00
+Average:          0      0.00      0.00      0.00      0.00      0.00    100.00
+Average:          1      0.00      0.00      0.00      0.00      0.00    100.00
+
+%iowait: Percentage of time that the CPU or CPUs were idle during which the  system  had an outstanding disk I/O request.
+         显示用于等待I/O操作占用 CPU 总时间的百分比，若该值过高则表示硬盘存在I/O瓶颈
+%idle: Percentage of time that the CPU or CPUs were idle and the system did  not  have an outstanding disk I/O request.
+         显示 CPU 空闲时间占用 CPU 总时间的百分比。
+</code></pre><h4 id="2-2-Memory-Free-and-Used"><a href="#2-2-Memory-Free-and-Used" class="headerlink" title="2.2 Memory Free and Used"></a>2.2 Memory Free and Used</h4><blockquote>
+<p> sar -r : Report memory utilization statistics.</p>
+</blockquote>
+<pre><code># sar -r 1 3
+Linux 2.6.32-573.el6.x86_64 (Mr-zhao)   05/25/2016  _x86_64_    (2 CPU)
+
+10:20:16 AM kbmemfree kbmemused  %memused kbbuffers  kbcached  kbcommit   %commit
+10:20:17 AM    157356   1764852     91.81    207948   1288836    791016      7.82
+10:20:18 AM    157356   1764852     91.81    207948   1288836    791016      7.82
+10:20:19 AM    157356   1764852     91.81    207948   1288836    791016      7.82
+Average:       157356   1764852     91.81    207948   1288836    791016      7.82
+</code></pre><h4 id="2-3-Swap-Space-Used"><a href="#2-3-Swap-Space-Used" class="headerlink" title="2.3 Swap Space Used"></a>2.3 Swap Space Used</h4><blockquote>
+<p>sar -S: Reports  swap statistics.</p>
+</blockquote>
+<pre><code># sar -S 1 3
+Linux 2.6.32-573.el6.x86_64 (Mr-zhao)   05/26/2016  _x86_64_    (2 CPU)
+
+10:05:34 AM kbswpfree kbswpused  %swpused  kbswpcad   %swpcad
+10:05:35 AM   8183488      7484      0.09       532      7.11
+10:05:36 AM   8183488      7484      0.09       532      7.11
+10:05:37 AM   8183488      7484      0.09       532      7.11
+Average:      8183488      7484      0.09       532      7.11
+</code></pre><h4 id="2-4-Overall-I-O-Activities"><a href="#2-4-Overall-I-O-Activities" class="headerlink" title="2.4 Overall I/O Activities"></a>2.4 Overall I/O Activities</h4><blockquote>
+<p>sar -b: reports I/O statistics.</p>
+</blockquote>
+<pre><code># sar -b 1 3
+Linux 2.6.32-504.23.4.el6.x86_64 (tjtx-93-96.58os.org)  05/26/2016  _x86_64_    (24 CPU)
+
+10:12:27 AM       tps      rtps      wtps   bread/s   bwrtn/s
+10:12:28 AM     49.49      0.00     49.49      0.00    412.12
+10:12:29 AM      0.00      0.00      0.00      0.00      0.00
+10:12:30 AM      0.00      0.00      0.00      0.00      0.00
+Average:        16.39      0.00     16.39      0.00    136.45
+</code></pre><h4 id="2-5-Individual-Block-Device-I-O-Activities"><a href="#2-5-Individual-Block-Device-I-O-Activities" class="headerlink" title="2.5 Individual Block Device I/O Activities"></a>2.5 Individual Block Device I/O Activities</h4><blockquote>
+<p>sar -d: To identify the activities by the individual block devices </p>
+<p> -p: Pretty-print  device names</p>
+</blockquote>
+<pre><code># sar -d 1 3
+Linux 2.6.32-504.23.4.el6.x86_64 (tjtx-93-96.58os.org)  05/26/2016  _x86_64_    (24 CPU)
+
+10:17:42 AM       DEV       tps  rd_sec/s  wr_sec/s  avgrq-sz  avgqu-sz     await     svctm     %util
+10:17:43 AM    dev8-0      1.98      0.00    847.52    428.00      0.01      3.00      1.50      0.30
+
+10:17:43 AM       DEV       tps  rd_sec/s  wr_sec/s  avgrq-sz  avgqu-sz     await     svctm     %util
+10:17:44 AM    dev8-0      3.00      0.00     96.00     32.00      0.00      0.00      0.00      0.00
+
+10:17:44 AM       DEV       tps  rd_sec/s  wr_sec/s  avgrq-sz  avgqu-sz     await     svctm     %util
+10:17:45 AM    dev8-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+
+Average:          DEV       tps  rd_sec/s  wr_sec/s  avgrq-sz  avgqu-sz     await     svctm     %util
+Average:       dev8-0      1.67      0.00    317.33    190.40      0.00      1.20      0.60      0.10
+# sar -dp 1 3
+Linux 2.6.32-504.23.4.el6.x86_64 (tjtx-93-96.58os.org)  05/26/2016  _x86_64_    (24 CPU)
+
+10:21:36 AM       DEV       tps  rd_sec/s  wr_sec/s  avgrq-sz  avgqu-sz     await     svctm     %util
+10:21:37 AM       sda      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+
+10:21:37 AM       DEV       tps  rd_sec/s  wr_sec/s  avgrq-sz  avgqu-sz     await     svctm     %util
+10:21:38 AM       sda     10.00      0.00    184.00     18.40      0.00      0.30      0.30      0.30
+
+10:21:38 AM       DEV       tps  rd_sec/s  wr_sec/s  avgrq-sz  avgqu-sz     await     svctm     %util
+10:21:39 AM       sda      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+
+Average:          DEV       tps  rd_sec/s  wr_sec/s  avgrq-sz  avgqu-sz     await     svctm     %util
+Average:          sda      3.36      0.00     61.74     18.40      0.00      0.30      0.30      0.10
+</code></pre><h4 id="2-6-Display-context-switch-per-second"><a href="#2-6-Display-context-switch-per-second" class="headerlink" title="2.6 Display context switch per second"></a>2.6 Display context switch per second</h4><blockquote>
+<p>sar -w: Reports the total number of processes created per second, and total number of context switches per second.    </p>
+</blockquote>
+<pre><code># sar -w 1 3
+Linux 2.6.32-504.23.4.el6.x86_64 (tjtx-93-96.58os.org)  05/26/2016  _x86_64_    (24 CPU)
+
+10:33:49 AM    proc/s   cswch/s
+10:33:50 AM      8.08    732.32
+10:33:51 AM     10.00    964.00
+10:33:52 AM      8.08    686.87
+Average:         8.72    794.97
+</code></pre><h4 id="2-7-Reports-run-queue-and-load-average"><a href="#2-7-Reports-run-queue-and-load-average" class="headerlink" title="2.7 Reports run queue and load average"></a>2.7 Reports run queue and load average</h4><blockquote>
+<p>sar -q: Reports the run queue size and load average of last 1 minute, 5 minutes, and 15 minutes.</p>
+</blockquote>
+<pre><code># sar -q 1 3
+Linux 2.6.32-504.el6.x86_64 (tjtx-83-97.58os.org)   05/26/2016  _x86_64_    (32 CPU)
+
+10:58:55 AM   runq-sz  plist-sz   ldavg-1   ldavg-5  ldavg-15
+10:58:56 AM         4       874      0.79      0.58      0.51
+10:58:57 AM         0       873      0.79      0.58      0.51
+10:58:58 AM         0       865      0.79      0.58      0.51
+Average:            1       871      0.79      0.58      0.51
+</code></pre><h4 id="2-8-Report-network-statistics"><a href="#2-8-Report-network-statistics" class="headerlink" title="2.8 Report network statistics"></a>2.8 Report network statistics</h4><blockquote>
+<p>sar  -n { keyword [,…] | ALL } : Report network statistics.</p>
+<p>Possible  keywords  are  DEV,  EDEV, NFS, NFSD, SOCK, IP, EIP, ICMP, EICMP, TCP, ETCP,<br>              UDP, SOCK6, IP6, EIP6, ICMP6, EICMP6 and UDP6.</p>
+<p>   DEV – Displays network devices vital statistics for eth0, eth1, etc.</p>
+</blockquote>
+<pre><code># sar -n DEV 1 1
+Linux 2.6.32-504.23.4.el6.x86_64 (tjtx-93-96.58os.org)  05/26/2016  _x86_64_    (24 CPU)
+
+11:06:32 AM     IFACE   rxpck/s   txpck/s    rxkB/s    txkB/s   rxcmp/s   txcmp/s  rxmcst/s
+11:06:33 AM        lo      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+11:06:33 AM      eth0    175.76    173.74     27.92     31.94      0.00      0.00      0.00
+11:06:33 AM      eth1      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+11:06:33 AM      eth2      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+11:06:33 AM      eth3      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+
+
+Average:        IFACE   rxpck/s   txpck/s    rxkB/s    txkB/s   rxcmp/s   txcmp/s  rxmcst/s
+Average:           lo      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+Average:         eth0    175.76    173.74     27.92     31.94      0.00      0.00      0.00
+Average:         eth1      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+Average:         eth2      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+Average:         eth3      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+# sar -n DEV  | grep eth0
+</code></pre><h4 id="2-9-Report-Sar-Data-Using-Start-Time"><a href="#2-9-Report-Sar-Data-Using-Start-Time" class="headerlink" title="2.9 Report Sar Data Using Start Time"></a>2.9 Report Sar Data Using Start Time</h4><blockquote>
+<p>-s [ hh:mm:ss ]</p>
+<p>   Set  the  starting  time of the data, causing the sar command to extract records time-<br>              tagged at, or following, the time specified.</p>
+<p>When you view historic sar data from the /var/log/sa/saXX file using “sar -f” option, it displays all the sar data for that specific day starting from 12:00 a.m for that day.</p>
+<p>Using “-s hh:mi:ss” option, you can specify the start time. For example, if you specify “sar -s 10:00:00”, it will display the sar data starting from 10 a.m (instead of starting from midnight) as shown below.</p>
+</blockquote>
+<pre><code># sar -q -f /var/log/sa/sa23 -s 10:00:01
+</code></pre><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.thegeekstuff.com/2011/03/sar-examples/" target="_blank" rel="external">10 Useful Sar (Sysstat) Examples for UNIX / Linux Performance Monitoring</a></p>
+</div></article><div class="tags"><a href="/tags/sar/">sar</a></div><div class="paginator"><a href="/2016/05/27/iostat/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/2016/05/23/screen/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div><section id="comments"><div id="disqus_thread"></div></section><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'http://yoursite.com/2016/05/26/sar/';
+    this.page.identifier = '2016/05/26/sar/';
+    this.page.title = 'sar系统状态信息统计';
+};
+(function() {
+var d = document, s = d.createElement('script');
+
+s.src = '//Your disqus ID.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();</script></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>

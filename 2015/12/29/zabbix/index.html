@@ -1,0 +1,192 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Abnerzhao"><meta name="description" content="一、基础环境zabbix版本:2.0.5OSversion：ubuntu14.04phpversion:5.5安装目录：/usr/local/zabbixzabbixserver:10.249.6.29mysqlserver:10.249.17.52"><meta name="keywords" content="zabbix"><title>Zabbix快速部署 · Abner</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="http://yoursite.com/2015/12/29/zabbix/"><link rel="alternate" href="/atom.xml" title="Abner"><link rel="stylesheet" href="/fonts/iconfont/iconfont.css"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5832f612aff8681e2ee213a3b8d9548b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics ID', 'auto');
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/tags/" target="_self">Tags</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">Zabbix快速部署</h1><span class="post-time">Dec 29, 2015</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、基础环境"><span class="toc-text">一、基础环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、软件安装"><span class="toc-text">二、软件安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、基础配置"><span class="toc-text">三、基础配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、问题解决"><span class="toc-text">四、问题解决</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五、自动化安装脚本"><span class="toc-text">五、自动化安装脚本</span></a></li></ol></div><div class="post-content"><h3 id="一、基础环境"><a href="#一、基础环境" class="headerlink" title="一、基础环境"></a>一、基础环境</h3><ul>
+<li>zabbix版本:2.0.5</li>
+<li>OS version：ubuntu 14.04</li>
+<li>php version: 5.5</li>
+<li>安装目录：/usr/local/zabbix</li>
+<li>zabbix server :10.249.6.29</li>
+<li>mysql server : 10.249.17.52</li>
+</ul>
+<h3 id="二、软件安装"><a href="#二、软件安装" class="headerlink" title="二、软件安装"></a>二、软件安装</h3><p>安装基础依赖软件包</p>
+<pre><code>apt-get install snmp-mibs-downloader libmysqld-dev  libghc-curl-dev  unixodbc-dev libsnmp-dev  \
+libopenipmi-dev nginx php5-fpm  php5-cgi php5-mysql php5-fpm php5-curl php5-gd php5-idn \
+php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-mhash php5-ming \
+php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl \
+make mysql-client -y
+</code></pre><p>源码编译安装zabbix</p>
+<pre><code>#下载源码包
+wget http://liquidtelecom.dl.sourceforge.net/project/zabbix/ZABBIX%20Latest%20Stable/2.0.5/zabbix-2.0.5.tar.gz
+
+#解压编译安装
+tar -xf zabbix-2.0.5.tar.gz
+cd zabbix-2.0.5
+
+./configure --prefix=/usr/local/zabbix  --enable-server --enable-proxy --enable-agent  --with-mysql=/usr/bin/mysql_config --with-net-snmp --with-libcurl --with-openipmi --with-unixodbc --with-ldap
+
+make &amp;&amp; make install
+</code></pre><h3 id="三、基础配置"><a href="#三、基础配置" class="headerlink" title="三、基础配置"></a>三、基础配置</h3><p><strong>数据库配置</strong></p>
+<p>数据库可以使用本地数据库（即zabbix server和数据库在同一台机器）也可使用远程数据库。建议使用远程数据库方便管理和日常操作。</p>
+<p>数据库机器系统：RedHat 6.4</p>
+<p>数据库机器IP：10.249.17.52</p>
+<pre><code>yum install mysql-server
+mysqladmin -uroot password &apos;mysql_pass&apos;
+mysql -uroot -p
+mysql&gt;create database zabbix character set utf8;
+mysql&gt;grant all privileges on zabbix.* to zabbix@&apos;%&apos; identified by &apos;zabbix&apos;;
+mysql&gt;grant all privileges on zabbix.* to zabbix@&apos;10.249.6.29&apos; identified by &apos;zabbix&apos;;
+mysql&gt;flush privileges;
+</code></pre><p><strong>zabbix server 端配置</strong></p>
+<p>导入数据库表结构</p>
+<pre><code>mysql -h 10.249.17.52 -u zabbix -pzabbix zabbix &lt; /root/zabbix-2.0.5/database/mysql/schema.sql
+mysql -h 10.249.17.52 -u zabbix -pzabbix zabbix &lt; /root/zabbix-2.0.5/database/mysql/images.sql
+mysql -h 10.249.17.52 -u zabbix -pzabbix zabbix &lt; /root/zabbix-2.0.5/database/mysql/data.sql
+#注意导入sql语句的顺序
+</code></pre><p> 编辑zabbix server配置文件</p>
+<pre><code>cat /usr/local/zabbix/etc/zabbix_server.conf | egrep -v &quot;^#|^$&quot;
+ListenPort=10051
+SourceIP=0.0.0.0
+LogFile=/var/log/zabbix/zabbix_server.log
+LogFileSize=1024
+DebugLevel=3
+PidFile=/var/run/zabbix/zabbix_server.pid
+DBHost=10.249.17.52
+DBName=zabbix
+DBUser=zabbix
+DBPassword=zabbix
+DBPort=3306
+StartPollers=5
+StartPollersUnreachable=8
+StartTrappers=10
+StartPingers=60
+StartDiscoverers=10
+StartHTTPPollers=1
+SNMPTrapperFile=/tmp/zabbix_traps.tmp
+StartSNMPTrapper=1
+CacheSize=2048M
+CacheUpdateFrequency=900
+StartDBSyncers=30
+HistoryCacheSize=2048M
+TrendCacheSize=2048M
+HistoryTextCacheSize=2048M
+Timeout=30
+UnreachablePeriod=150
+UnreachableDelay=30
+FpingLocation=/usr/sbin/fping
+LogSlowQueries=1000
+TmpDir=/tmp/zabbix-pinger
+
+#配置agent监控自身
+cat zabbix_agentd.conf | egrep -v &quot;^#|^$&quot;
+LogFile=/tmp/zabbix_agentd.log
+Server=127.0.0.1
+ServerActive=127.0.0.1
+Hostname=Zabbix server
+</code></pre><p><strong>新建相关目录与权限设置</strong></p>
+<pre><code>mkdir /var/www
+mkdir /var/log/zabbix
+mkdir /var/run/zabbix
+useradd zabbix
+chown -R zabbix:zabbix /var/log/zabbix
+chown -R zabbix:zabbix /var/run/zabbix
+</code></pre><p><strong>LNMP架构配置</strong> </p>
+<p>  zabbix web页面展示可以使用LAMP架构也可以使用LNMP架构。这里我们使用nginx+php-fpm,配置简单，语法易懂。</p>
+<pre><code>cp -r  /root/zabbix-2.0.5/frontends/php /var/www/zabbix
+vi /etc/nginx/sites-enabled/zabbix.conf
+server {
+listen  80;
+server_name 10.249.6.29;
+index   index.php;
+root    /var/www/zabbix;
+access_log  /var/www/access.log;
+keepalive_timeout  300;
+fastcgi_connect_timeout 300;
+fastcgi_send_timeout 300;
+fastcgi_read_timeout  300;
+location / {
+    try_files $uri $uri/ index.php;
+}
+
+location ~ \.php$ {
+    fastcgi_pass 127.0.0.1:9000;
+    fastcgi_index   index.php;
+    fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
+    }
+}
+
+#配置php-fpm
+sed -i &quot;s/;date.timezone =/date.timezone = Asia\/Shanghai/g&quot; /etc/php5/fpm/php.ini
+sed -i &quot;s#max_execution_time = 30#max_execution_time = 300#g&quot; /etc/php5/fpm/php.ini
+sed -i &quot;s#post_max_size = 8M#post_max_size = 32M#g&quot; /etc/php5/fpm/php.ini
+sed -i &quot;s#max_input_time = 60#max_input_time = 300#g&quot; /etc/php5/fpm/php.ini
+sed -i &quot;s#memory_limit = 128M#memory_limit = 128M#g&quot; /etc/php5/fpm/php.ini
+sed -i &quot;s/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g&quot; /etc/php5/fpm/pool.d/www.conf
+</code></pre><p>服务启动配置</p>
+<pre><code>cp /root/zabbix-2.0.5/misc/init.d/debian/* /etc/init.d/
+chmod 755  /etc/init.d/zabbix_*
+
+#拷贝文件后需要修改变量DAEMON和PID
+sed -i &apos;s/DAEMON=\/usr\/local\/sbin\/${NAME}/DAEMON=\/usr\/local\/zabbix\/sbin\/${NAME}/g&apos; /etc/init.d/zabbix-server
+sed -i  &apos;s/PID=\/tmp\/$NAME.pid/PID=\/var\/run\/zabbix\/$NAME.pid/g&apos; /etc/init.d/zabbix-server
+#或是创建软连接
+ln -s /usr/local/zabbix/sbin/zabbix_server  /etc/init.d/zabbix_server
+
+#启动服务
+/usr/local/zabbix/sbin/zabbix_server
+/usr/sbin/nginx -t
+/usr/sbin/nginx
+/usr/sbin/php5-fpm
+</code></pre><h3 id="四、问题解决"><a href="#四、问题解决" class="headerlink" title="四、问题解决"></a>四、问题解决</h3><p><strong>PHP5.5 mysql_connect模块错误提示</strong></p>
+<p>由于zabbix版本较低，而是安装在ubuntu 14.04系统上，php版本较高所以会有如下报错：</p>
+<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/1111.jpg" alt=""></p>
+<p>mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead [include/db.inc.php:77</p>
+<p>解决方法：</p>
+<pre><code>cd /var/www/zabbix/include/
+cp db.inc.php db.inc.php.bak
+wget https://support.zabbix.com/secure/attachment/23266/db.inc.patch
+patch -p1 db.inc.php &lt; db.inc.patch
+</code></pre><p><strong>zabbix web界面汉化</strong></p>
+<p>修改web界面语言如果Chinese(zh_CN)是灰的</p>
+<pre><code>locale -a | grep zh_CN //结果应该是空的
+locale-gen zh_CN.UTF-8  //添加语言包
+</code></pre><p>然后重启apache 或是nginx+php-fpm即可</p>
+<p>如果看不到Chinese(zh_CN)选项,则需修改/var/www/zabbix/include/locales.inc.php文件</p>
+<pre><code>&apos;zh_CN&apos; =&gt; array(&apos;name&apos; =&gt; _(&apos;Chinese (zh_CN)&apos;),        &apos;display&apos; =&gt; true),
+//原本这里为false,请改为true
+</code></pre><p><strong>zabbix 中文图形乱码</strong></p>
+<p>由于zabbix的web端没有中文字库，我们需要把中文字库加上。</p>
+<p>中文字体：<a href="http://pan.baidu.com/s/1sjQj3XF" target="_blank" rel="external">黑体下载</a></p>
+<p>将下载的文件拷贝到/var/www/zabbix/fonts 目录下</p>
+<p>然后修改zabbix的web端/include/defines.inc.php</p>
+<pre><code>#define(&apos;ZBX_GRAPH_FONT_NAME&apos;, &apos;DejaVuSans&apos;); // font file name
+define(&apos;ZBX_GRAPH_FONT_NAME&apos;,&apos;simhei&apos;);
+#define(&apos;ZBX_FONT_NAME&apos;, &apos;DejaVuSans&apos;);
+define(&apos;ZBX_FONT_NSMR&apos;,&apos;simhei&apos;);
+</code></pre><h3 id="五、自动化安装脚本"><a href="#五、自动化安装脚本" class="headerlink" title="五、自动化安装脚本"></a>五、自动化安装脚本</h3><p>使用自动安装脚本可快速部署环境，在使用前请先明确自己的环境。此脚本在ubuntu 14.04 安装zabbix 2.0.5 测试成功。</p>
+<p><code>注意明确文件路径,修改配置文件中MYSQLDB数据库相关变量以及nginx中servername</code></p>
+<p><a href="https://github.com/Abnerzhao/zabbix/tree/master/doc" target="_blank" rel="external">自动安装脚本查看下载</a></p>
+</div></article><div class="tags"><a href="/tags/zabbix/">zabbix</a></div><div class="paginator"><a href="/2016/01/01/command/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/2015/12/25/idrac/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div><section id="comments"><div id="disqus_thread"></div></section><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'http://yoursite.com/2015/12/29/zabbix/';
+    this.page.identifier = '2015/12/29/zabbix/';
+    this.page.title = 'Zabbix快速部署';
+};
+(function() {
+var d = document, s = d.createElement('script');
+
+s.src = '//Your disqus ID.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();</script></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>

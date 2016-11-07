@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Abnerzhao"><meta name="description" content="ulimit简介ulimit用于限制shell启动进程所占用的资源，支持以下各种类型的限制：所创建的内核文件的大小、进程数据块的大小、Shell进程创建文件的大小、内存锁住的大小、常驻内存集的大小、打开文件描述符的数量、分配堆栈的最大大小、CPU时间、单个用户的最大线程"><meta name="keywords" content="ulimit"><title>ulimit小记 · Abner</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="http://yoursite.com/2016/02/25/ulimit/"><link rel="alternate" href="/atom.xml" title="Abner"><link rel="stylesheet" href="/fonts/iconfont/iconfont.css"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5832f612aff8681e2ee213a3b8d9548b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics ID', 'auto');
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/tags/" target="_self">Tags</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">ulimit小记</h1><span class="post-time">Feb 25, 2016</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#ulimit简介"><span class="toc-text">ulimit简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ulimit的设置"><span class="toc-text">ulimit的设置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#临时性的修改，只对当前shell生效。"><span class="toc-text">临时性的修改，只对当前shell生效。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#想要ulimit的设置永久性生效，需要修改-etc-security-limits-conf文件。"><span class="toc-text">想要ulimit的设置永久性生效，需要修改/etc/security/limits.conf文件。</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol></div><div class="post-content"><h3 id="ulimit简介"><a href="#ulimit简介" class="headerlink" title="ulimit简介"></a>ulimit简介</h3><p>ulimit 用于限制 shell 启动进程所占用的资源，支持以下各种类型的限制：所创建的内核文件的大小、进程数据块的大小、Shell 进程创建文件的大小、内存锁住的大小、常驻内存集的大小、打开文件描述符的数量、分配堆栈的最大大小、CPU 时间、单个用户的最大线程数、Shell 进程所能使用的最大虚拟内存。同时，它支持硬资源和软资源的限制。</p>
+<p>作为临时限制，ulimit 可以作用于通过使用其命令登录的 shell 会话，在会话终止时便结束限制，并不影响于其他 shell 会话。而对于长期的固定限制，ulimit 命令语句又可以被添加到由登录 shell 读取的文件中，作用于特定的 shell 用户。</p>
+<h3 id="ulimit的设置"><a href="#ulimit的设置" class="headerlink" title="ulimit的设置"></a>ulimit的设置</h3><pre><code>[root@Mr-zhao ~]# ulimit  -a    //查看当前配置文件ulimit全局系数
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 7389
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 10240
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 10240
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 10240
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+</code></pre><p>对于线上环境的机器一般要对<code>open files</code>和<code>max user processes</code>进行修改。</p>
+<h4 id="临时性的修改，只对当前shell生效。"><a href="#临时性的修改，只对当前shell生效。" class="headerlink" title="临时性的修改，只对当前shell生效。"></a>临时性的修改，只对当前shell生效。</h4><pre><code>ulimit  -n 65535
+ulimit  -u 65535
+</code></pre><h4 id="想要ulimit的设置永久性生效，需要修改-etc-security-limits-conf文件。"><a href="#想要ulimit的设置永久性生效，需要修改-etc-security-limits-conf文件。" class="headerlink" title="想要ulimit的设置永久性生效，需要修改/etc/security/limits.conf文件。"></a>想要ulimit的设置永久性生效，需要修改/etc/security/limits.conf文件。</h4><p>对于centos系统/etc/security/limits.d/90-nproc.conf文件的优先级高于/etc/security/limits.conf，所以对全局的设定需修改90-nproc.conf文件。对于单个用户的ulimit的设置并不受etc/security/limits.d/90-nproc.conf影响。</p>
+<p>对于ubuntu系统，只需对/etc/security/limits.conf文件进行修改，ubuntu系统没有引入90-nproc.conf文件。但是ubuntux系统也会存在一个问题，就是对全局的设置其实对于root用户是没有效果的。所以ubuntu系统下的设置如下：</p>
+<pre><code>root@Mr-zhao:~# grep -Ev &quot;^$|^#&quot; /etc/security/limits.conf
+root - nofile 65535
+root - nproc  65535
+* - nofile 65535
+* - nproc 65535
+</code></pre><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.ibm.com/developerworks/cn/linux/l-cn-ulimit/" target="_blank" rel="external">通过 ulimit 改善系统性能</a><br><a href="http://ss64.com/bash/limits.conf.html" target="_blank" rel="external">limits.conf - configuration file</a></p>
+</div></article><div class="tags"><a href="/tags/ulimit/">ulimit</a></div><div class="paginator"><a href="/2016/02/28/minicom/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/2016/02/24/network-command/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div><section id="comments"><div id="disqus_thread"></div></section><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'http://yoursite.com/2016/02/25/ulimit/';
+    this.page.identifier = '2016/02/25/ulimit/';
+    this.page.title = 'ulimit小记';
+};
+(function() {
+var d = document, s = d.createElement('script');
+
+s.src = '//Your disqus ID.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();</script></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Abnerzhao"><meta name="description" content="DevOps"><title>Abner</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="http://yoursite.com/page/4/"><link rel="alternate" href="/atom.xml" title="Abner"><link rel="stylesheet" href="/fonts/iconfont/iconfont.css"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5832f612aff8681e2ee213a3b8d9548b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics ID', 'auto');
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/tags/" target="_self">Tags</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/10/21/dmidecode/" class="post-link">利用dmidecode查看服务器硬件信息</a></h2><span class="post-time">Oct 21, 2015</span><div class="post-content"><h3 id="Dmidecode"><a href="#Dmidecode" class="headerlink" title="Dmidecode"></a>Dmidecode</h3><blockquote>
+<p>Dmidecode reports information about your system’s hardware as described in your system BIOS according to the SMBIOS/DMI standard (see a sample output). This information typically includes system manufacturer, model name, serial number, BIOS version, asset tag as well as a lot of other details of varying level of interest and reliability depending on the manufacturer. This will often include usage status for the CPU sockets, expansion slots (e.g. AGP, PCI, ISA) and memory module slots, and the list of I/O ports (e.g. serial, parallel, USB).</p>
+</blockquote>
+<p> dmidecode 遵循 SMBIOS/DMI 标准，其输出的信息包括 BIOS、系统、主板、处理器、内存、缓存等等。</p>
+<h4 id="DMI"><a href="#DMI" class="headerlink" title="DMI"></a>DMI</h4><p>Desktop Management Interface</p>
+<p>电脑系统信息的管理系统,DMI的主要组成部分是Management Information Format(MIF)数据库。这个数据库包括了所有有关电脑系统和配件的信息。通过DMI，用户可以获取序列号、电脑厂商、串口信息以及其它系统配件信息</p>
+<h4 id="SMBIOS"><a href="#SMBIOS" class="headerlink" title="SMBIOS"></a>SMBIOS</h4><p>System Management BIOS</p>
+<p>主板或系统制造者以标准格式显示产品管理信息所需遵循的统一规范</p>
+<h3 id="Dmidecode的作用"><a href="#Dmidecode的作用" class="headerlink" title="Dmidecode的作用"></a>Dmidecode的作用</h3><p>将DMI数据库中的信息解码，以可读的文本方式显示。由于DMI信息可以人为修改，因此里面的信息不一定是系统准确的信息。</p>
+<h3 id="Dmidecode的使用"><a href="#Dmidecode的使用" class="headerlink" title="Dmidecode的使用"></a>Dmidecode的使用</h3><p>Usage: dmidecode [OPTIONS]</p>
+<p>Options are:</p>
+<p>-q, –quiet Less verbose output     //显示更少的简化信息</p>
+<p>-s, –string KEYWORD Only display the value of the given DMI string  //只显示指定DMI字符串的信息</p>
+<p>-t, –type TYPE Only display the entries of given type  //只显示指定条目的信息</p>
+<pre><code>dmidecode: option requires an argument -- &apos;s&apos;
+String keyword expected
+Valid string keywords are:
+    bios-vendor
+    bios-version
+    bios-release-date
+    system-manufacturer
+    system-product-name
+    system-version
+    system-serial-number
+    system-uuid
+    baseboard-manufacturer
+    baseboard-product-name
+    baseboard-version
+    baseboard-serial-number
+    baseboard-asset-tag
+    chassis-manufacturer
+    chassis-type
+    chassis-version
+    chassis-serial-number
+    chassis-asset-tag
+    processor-family
+    processor-manufacturer
+    processor-version
+    processor-frequency
+
+---
+dmidecode: option requires an argument -- &apos;t&apos;
+Type number or keyword expected
+Valid type keywords are:
+    bios
+    system
+    baseboard
+    chassis
+    processor
+    memory
+    cache
+    connector
+    slot
+</code></pre><h3 id="Dmidecode常用命令"><a href="#Dmidecode常用命令" class="headerlink" title="Dmidecode常用命令"></a>Dmidecode常用命令</h3><p>查看内存槽数、那个槽位插了内存，大小是多少</p>
+<pre><code>dmidecode|grep -P -A5 &quot;Memory\s+Device&quot;|grep Size|grep -v Range
+</code></pre><p>查看最大支持内存数</p>
+<pre><code>dmidecode|grep -P &apos;Maximum\s+Capacity&apos;
+</code></pre><p>查看服务器型号</p>
+<pre><code>dmidecode | grep &apos;Product Name&apos;
+</code></pre><p>查看主板的序列号</p>
+<pre><code>dmidecode |grep &apos;Serial Number&apos;
+</code></pre><p>查看系统序列号</p>
+<pre><code>dmidecode -s system-serial-number
+</code></pre><p>查看内存信息</p>
+<pre><code>dmidecode -t memory
+</code></pre><p>查看OEM信息</p>
+<pre><code>dmidecode -t 11
+</code></pre></div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/10/11/raid/" class="post-link">RAID阵列卡系列命令备忘</a></h2><span class="post-time">Oct 11, 2015</span><div class="post-content"><h3 id="阵列卡的常见类型"><a href="#阵列卡的常见类型" class="headerlink" title="阵列卡的常见类型"></a>阵列卡的常见类型</h3><h4 id="查看阵列卡的类型"><a href="#查看阵列卡的类型" class="headerlink" title="查看阵列卡的类型"></a>查看阵列卡的类型</h4><pre><code>lspci | grep -i raid
+</code></pre><p>一般有lsi和hp的两种，对应的管理命令为 MegaCli 和 hpssacli</p>
+<p>LSI官方网站和驱动下载 <a href="http://www.avagotech.com" target="_blank" rel="external">avagotech</a></p>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><h4 id="LSI的MegaSAS-RAID卡系列命令"><a href="#LSI的MegaSAS-RAID卡系列命令" class="headerlink" title="LSI的MegaSAS RAID卡系列命令"></a>LSI的MegaSAS RAID卡系列命令</h4><p><strong>显示所有逻辑磁盘组信息</strong></p>
+<pre><code>MegaCli -LDInfo -Lall -aALL
+MegaCli -LDInfo -Lall -aALL | grep State
+// 过滤State， 正常情况为：&quot;State : Optimal&quot;，否则为异常，例如 &quot;State : Degraded&quot;
+</code></pre><p><strong>查看所有物理磁盘信息</strong></p>
+<pre><code>MegaCli -PDList -aAll -NoLog
+MegaCli -PDList -aAll -NoLog | grep   &quot;Firmware state&quot;
+//如果 &quot;Firmware state&quot; 显示为非 Online，则表示该磁盘有问题。
+</code></pre><p><strong>显示 RAID 卡型号，RAID 设置及物理磁盘的相关信息</strong></p>
+<pre><code>MegaCli -cfgdsply -aALL -NoLog
+</code></pre><p><strong>查看磁盘总数和磁盘类型</strong></p>
+<pre><code>MegaCli -cfgdsply -aALL -NoLog | grep &quot;Media Type:&quot;
+</code></pre><p><strong>查看磁盘的rebuild 进度</strong></p>
+<pre><code># MegaCli -PDRbld -ShowProg -PhysDrv [32:3] -a0
+Rebuild Progress on Device at Enclosure 32, Slot 3 Completed 95% in 50 Minutes.
+</code></pre><p>显示 RAID 卡信息</p>
+<pre><code>MegaCli -AdpAllInfo -aALL -NoLog
+</code></pre><p>查看 RAID 卡日志</p>
+<pre><code>MegaCli -FwTermLog -Dsply -aALL -NoLog
+</code></pre><p>查看电池信息</p>
+<pre><code>MegaCli -AdpBbuCmd -aAll -NoLog
+</code></pre><p>显示适配器个数</p>
+<pre><code>MegaCli -adpCount -NoLog
+</code></pre><p>显示适配器时间</p>
+<pre><code>MegaCli -AdpGetTime –aALL -NoLog
+</code></pre><p><strong>常见设置</strong></p>
+<pre><code>MegaCli -LDSetProp WB -LALL -aALL
+MegaCli -LDSetProp ADRA -LALL-aALL
+MegaCli -LDSetProp disDskCache -LALL-aALL
+MegaCli -LDSetProp CachedBadBBU -Lall -aALL
+</code></pre><h4 id="HP-Smart-Array-CLI-命令"><a href="#HP-Smart-Array-CLI-命令" class="headerlink" title="HP Smart Array CLI 命令"></a>HP Smart Array CLI 命令</h4><p><strong>显示raid卡信息</strong></p>
+<pre><code>hpssacli ctrl all show  config
+hpssacli ctrl all show detail config   //查看raid卡详细信息
+</code></pre><p><strong>显示所有物理磁盘信息</strong></p>
+<pre><code>hpssacli ctrl slot=0 pd all show status
+hpssacli ctrl slot=0 pd all show detail   //查看所有物理磁盘详细信息
+hpssacli ctrl all show config | grep physicaldrive  //查看磁盘总数和磁盘类型
+</code></pre><p><strong>查看电池状态</strong></p>
+<pre><code>hpssacli ctrl all show status | grep Battery
+</code></pre><p><strong>查看raid缓存策略</strong></p>
+<pre><code>hpssacli ctrl all show detail config | grep &quot;Drive Write Cache:&quot;
+Drive Write Cache: Enabled
+
+// Drive Write Cache 有两种状态：Disable和Enable。
+// Disable代表将数据直接写入磁盘，Enable代表先将数据写入缓存然后在写入磁盘。
+</code></pre><p><strong>常见设置</strong></p>
+<p>开启阵列逻辑盘cache加速策略</p>
+<pre><code>hpssacli ctrl slot=1 logicaldrive 1 modify arrayaccelerator=enable
+</code></pre><p>没有电池的情况下开启raid写缓存</p>
+<pre><code>hpssacli ctrl slot=1 modify nobatterywritecache=enable forced
+</code></pre><p>启用物理磁盘cache功能</p>
+<pre><code>hpssacli ctrl slot=1 modify drivewritecache=enable
+</code></pre><p>设置读写百分比</p>
+<pre><code>hpssacli ctrl slot=1 modify cacheratio=25/75
+</code></pre><h3 id="raid电池策略"><a href="#raid电池策略" class="headerlink" title="raid电池策略"></a>raid电池策略</h3><p><strong>电池作用</strong></p>
+<p>保护数据：当服务器掉电时，raid电池提供电量保证raid卡缓存的数据写入磁盘。</p>
+<p><strong>电池的充放电</strong></p>
+<p>由于电池是可充电电池，在空闲时候会有微弱的放电。当电量低于一定的阀值，raid卡程序会进行一次放电，将剩余电量放掉然后再充电。在充放电的过程，raid的缓存策略会发生改变，当电池电量低于阀值时，raid卡程序会认为电池不可用，从而禁用了缓存策略，这时数据会直接写入磁盘，raid IO性能会下降，系统的IO的负载会升高。对于高IO的应用，IO性能下降的影响还是比较大。</p>
+<p><strong>电池充放电对IO影响的解决方案</strong></p>
+<p>1.检测电池的状态，掌握电池充放电的周期，在机器负载低的情况下手动强制放电。</p>
+<pre><code>MegaCli -AdpBbuCmd -BbuLearn -aALL
+</code></pre><p>电池在放电过程策略会从WriteBack变成WriteThrough</p>
+<p>2.强制改变raid策略，使其在充放电过程不禁用raid卡缓存</p>
+<pre><code>MegaCli -LDSetProp CachedBadBBU -lall -a0
+</code></pre><p>raid缓存策略从No Write Cache if Bad BBU变成Write Cache OK if Bad BBU，这样在充放电的过程IO性能也不下降。</p>
+<p><strong>简单介绍四种raid cache策略</strong></p>
+<ul>
+<li>WriteBack</li>
+</ul>
+<p>进行写操作时，将数据写入RAID卡缓存，并直接返回，RAID卡控制器将在系统负载低或者Cache满了的情况下把数据写入硬盘。该设置会大大提升RAID卡写性能，绝大多数的情况下会降低系统IO负载。数据的可靠性由RAID卡的BBU(Battery Backup Unit)进行保证。</p>
+<ul>
+<li>WriteThrough</li>
+</ul>
+<p>数据写操作不使用缓存，数据直接写入磁盘。RAID卡写性能下降，在大多数情况下该设置会造成系统IO负载上升。</p>
+<ul>
+<li>No Write Cache if Bad BBU</li>
+</ul>
+<p>如果BBU出问题，则关闭Write Cache。由WriteBack自动切换到WriteThrough模式。如果没有特殊要求，强烈建议采用该设置，以确保数据的安全。</p>
+<ul>
+<li>Write Cache OK if Bad BBU</li>
+</ul>
+<p>如果BBU出问题，依然启用Write Cache. 这是不推荐的设置，BBU出问题将无法保证断电情况下数据的正常，如果此时依然采用WriteBack模式，遇到断电将发生数据丢失。除非有UPS作额外保证，不然不推荐采用这个设置。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.inetmail.ca/Wiki/index.php/HP_Smart_Array_CLI_commands_on_ESXi" target="_blank" rel="external">HP_Smart_Array_CLI_commands</a><br><a href="http://zh.community.dell.com/techcenter/b/weblog/archive/2013/03/07/megacli-command-share" target="_blank" rel="external">MegaCli常用管理命令汇总</a></p>
+</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/10/05/ks/" class="post-link">kickstart服务器网卡设置</a></h2><span class="post-time">Oct 5, 2015</span><div class="post-content"><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>使用kickstart给DELL服务器安装操作系统时，有些DELL服务器的默认网卡名为em0、em1导致我们在自动安装过程报错，无法自动选择网卡配置。</p>
+<h3 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h3><p>首先修改tftp配置文件  /var/lib/tftp/pxelinux.cfg/default，在APPEND 这行末尾添加 <code>biosdevname=0</code></p>
+<pre><code>KERNEL rhel/6.4/x86_64/vmlinuz
+APPEND initrd=rhel/6.4/x86_64/initrd.gz  ksdevice=eth0
+ks=http://10.10.5.3/netboot/kickstart/rhel/6/db.ks biosdevname=0
+</code></pre><p>然后再修改kickstart文件，在bootloader这行末尾添加<code>--append=&quot;biosdevname=0&quot;</code></p>
+<pre><code>bootloader --location=mbr --append=&quot;biosdevname=0&quot;
+</code></pre></div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/10/03/cisco/" class="post-link">思科交换机光模块兼容设置</a></h2><span class="post-time">Oct 3, 2015</span><div class="post-content"><h4 id="在思科交换机上使用华三的光模块，出现以下问题："><a href="#在思科交换机上使用华三的光模块，出现以下问题：" class="headerlink" title="在思科交换机上使用华三的光模块，出现以下问题："></a>在思科交换机上使用华三的光模块，出现以下问题：</h4><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/16.png" alt=""></p>
+<p>原因：思科网络设备是不允许使用非思科标配的光模块，所以这里是不兼容报错。</p>
+<h4 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h4><p>进入<strong>端口配置模式</strong>，输入三条命令即可解决：</p>
+<pre><code>CISCO（int-conf）service unsupported-transceiver
+CISCO（int-conf）no errdisable detect cause gbic-invalid
+CISCO（int-conf）speed nonegotiate
+</code></pre><p>保存配置，重新插入光模块即可。</p>
+</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/09/15/ipmitool/" class="post-link">ipmitool智能平台管理工具</a></h2><span class="post-time">Sep 15, 2015</span><div class="post-content"><h3 id="IPMI"><a href="#IPMI" class="headerlink" title="IPMI"></a>IPMI</h3><p>Intelligent Platform Management Interface</p>
+<p>IPMI是一个开放的标准，监控，记录，回收，库存和硬件实现独立于主CPU，BIOS，以及操作系统的控制权。无论在开机还是关机的状态下，只要接通电源就可以实现对服务器的监控。</p>
+<p>The service processor (or Baseboard Management Controller, BMC) is the brain behind platform management and its primary purpose is to handle the autonomous sensor monitoring and event logging features.</p>
+<p>IPMI是一种规范的标准，其中最重要的物理部件就是BMC(Baseboard Management Controller)一种嵌入式管理微控制器，它相当于整个平台管理的“大脑”，通过它ipmi可以监控各个传感器的数据并记录各种事件的日志。</p>
+<p>利用 IPMI可以监视服务器的物理特征，如温度、电压、电扇工作状态、电源供应以及机箱入侵等。</p>
+<h3 id="ipmitool"><a href="#ipmitool" class="headerlink" title="ipmitool"></a>ipmitool</h3><p><strong>ipmitool - utility for controlling IPMI-enabled devices</strong></p>
+<p>ipmitool 用于管理和配置，支持智能平台管理接口(IPMI)1.5版和2.0版规范的设备的命令行工具</p>
+<h3 id="ipmitool常用选项"><a href="#ipmitool常用选项" class="headerlink" title="ipmitool常用选项"></a>ipmitool常用选项</h3><p>Ipmitool本地监控命令：</p>
+<pre><code>ipmitool –I open command
+</code></pre><p>其中-I open表示使用OpenIPMI接口，command有以下项：</p>
+<ul>
+<li>raw：发送一个原始的IPMI请求，并且打印回复信息。</li>
+</ul>
+<ul>
+<li><p><code>Lan</code>：配置网络（lan）信道(channel)</p>
+</li>
+<li><p>chassis ：查看底盘的状态和设置电源</p>
+</li>
+<li><p>event：向BMC发送一个已经定义的事件（event），可用于测试配置的SNMP是否成功</p>
+</li>
+</ul>
+<ul>
+<li><p>mc：  查看MC（Management Contollor）状态和各种允许的项</p>
+</li>
+<li><p>sdr：打印传感器仓库中的所有监控项和从传感器读取到的值。</p>
+</li>
+<li><p><code>Sensor</code>：打印详细的传感器信息。</p>
+</li>
+<li><p>Fru：打印内建的Field Replaceable Unit (FRU)信息</p>
+</li>
+<li><p>Sel： 打印 System Event Log (SEL)</p>
+</li>
+<li><p>Pef： 设置 Platform Event Filtering(PEF)，事件过滤平台用于在监控系统发现有event时候，用PEF中的策略进行事件过滤，然后看是否需要报警。</p>
+</li>
+<li><p>Sol/isol：用于配置通过串口的Lan进行监控</p>
+</li>
+<li><p>User：设置BMC中用户的信息 。</p>
+</li>
+<li><p>Channel：设置Management Controller信道。</p>
+</li>
+</ul>
+<h3 id="ipmitool-常用命令举例"><a href="#ipmitool-常用命令举例" class="headerlink" title="ipmitool 常用命令举例"></a>ipmitool 常用命令举例</h3><p>查看传感器中的各种监测值和该值的监测阈值，包括CPU温度，电压，风扇转速，电源调制模块温度，电源电压等信息。</p>
+<pre><code>ipmitool -I open sensor list
+</code></pre><p>查看idrac卡相关信息，包括IP、MAC地址等</p>
+<pre><code>ipmitool -I open lan print
+</code></pre><p><strong>通过ipmitool重置idrac登陆密码</strong></p>
+<p>1.加载内核模块</p>
+<pre><code>modprobe ipmi_msghandler
+modprobe ipmi_devintf
+modprobe ipmi_si
+</code></pre><p>2.查看idrac用户</p>
+<pre><code>ipmitool user list &lt;channel_no&gt;
+</code></pre><p>DELL的<channel_no>是1，HP的是2</channel_no></p>
+<p>如果不知道机器的型号可以通过如下命令获取通道号,获取到的通道号代表管理员id</p>
+<pre><code>for i in {1..14}; do ipmitool lan print $i 2&gt;/dev/null | grep -q ^Set &amp;&amp; echo $i; done
+</code></pre><p>3.重置管理员密码</p>
+<pre><code>ipmitool lan set &lt;channel_no&gt; password  xxxxxx
+ipmitool lan set 2 password  xxxxxx
+</code></pre><h3 id="推荐阅读"><a href="#推荐阅读" class="headerlink" title="推荐阅读"></a>推荐阅读</h3><p><a href="http://openipmi.sourceforge.net/IPMI.pdf" target="_blank" rel="external">http://openipmi.sourceforge.net/IPMI.pdf</a><br><a href="http://www.openfusion.net/tags/ipmi/" target="_blank" rel="external">http://www.openfusion.net/tags/ipmi/</a></p>
+</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/06/19/goodbye/" class="post-link">再见，青春</a></h2><span class="post-time">Jun 19, 2015</span><div class="post-content"><h5 id="那时的你，很年轻"><a href="#那时的你，很年轻" class="headerlink" title="那时的你，很年轻"></a>那时的你，很年轻</h5><p>上海的夏夜凉风袭袭，一个人在出租房里惴惴不安。三天假期的小欢喜无法弥补青葱岁月别离的忧伤。今天发毕业证，而我却在上班。没有亲自去领，一方面是工作的原因，还有一方面可能是自己不想目睹那真切的别离吧~毕业证和毕业照已经邮寄在路上，株洲到上海。像是从故乡寄给在外游子的一封信，里面有你故乡的味道和曾经的记忆。尽管你已经知道一切都已经回不去了，但是你还是很期待那封信，还是想一次又一次的去读它。<strong>怀念，不是因为那个时候有多美好，而是因为那个时候你很年轻。</strong></p>
+<p>大学四年，的确没有什么好称道的。平淡之中偶尔精彩。很可惜四年了都没能够认清自己，没有想明白今后的道路要怎么走。既没独善其身，也没随波逐流。过着自己认为理所当然的日子，不去理会那些自己认为毫无价值与意义的人和事。自己总是自以为是，性格上也有些小问题，也不能算是缺陷，反正就是喜欢一个人独自生活，自己安排自己的时间，不想别人打扰，也很少去关心朋友，基本上好友不主动联系我，我是不会打电话去操心他的。反正朋友也不多，也只能怪自己不够坦诚。也说不清缘由吧，不知道是自己太吝啬时间还是不想去打扰别人，空间、朋友圈默默关注及时点赞就好啦。</p>
+<p>四年，给我的感觉并没有四年，回忆里最清晰深刻地只有两个暑假。一个在滇藏线，一个在工大西街。依稀记得当初不明白穷游的真正含义，和一群和我一样不明不白的人在路上定义着穷游。大理的雨夜，丽江的酒吧，虎跳峡的历险，香格里拉的离别与抉择，进藏路上的无助和美景。成为我们永远珍藏的回忆。记得即将离开学校时，和那群虽是不明不白但是历经生死的人还笑谈我们傻逼的曾经。只怪当时太年轻。还好年轻，所以才会有那些美好。工大西街，田径场的夜晚，台球桌上的小憩，闷热机房里的神曲，夜宵摊的喧闹，还有那些年刷过的美团。最努力，最自律，收获最多的那个夏天。或许真的只有涅槃才能重生。一切的付出都是值得的，不会有作废的努力。</p>
+<h5 id="不知如何和青春道别，只知江湖身不由己。"><a href="#不知如何和青春道别，只知江湖身不由己。" class="headerlink" title="不知如何和青春道别，只知江湖身不由己。"></a>不知如何和青春道别，只知江湖身不由己。</h5><blockquote>
+<p> 既自以心为形役，奚惆怅而独悲？悟已往之不谏，知来者之可追。实迷途其未远，觉今是而昨非。</p>
+</blockquote>
+<p>以前自己怎么也不会想到现在的我会在上海，朝九晚五的工作。那时的我特别想去北京，想亲自体验北漂的生活，也特别佩服那些心怀梦想在北京打拼的人，尽管现实不会如理想中那么美好，但是依然坚持着，因为这里很热闹，你并不会觉得孤单。这里很公平，你并不会缺少机会。只身来到上海，魔都并不如我想象般高贵冷艳，这里有太多的人和我一样，一样年轻，一样憧憬这美好的未来。尽管这里精英荟萃，尽管自己很渺小，我们都坚信：<strong>世界是美好的，是值得我们去奋斗的。</strong></p>
+<p>工作其实挺考验一个人的能力，如何把工作八小时效率提高，如何合理的管理安排自己的时间，工作、学习、健身、阅读、娱乐等。工作后尽管有各种限制，并不如你想象般自由有趣。但是依然可以过的很有趣，生活是自己的，你说要有趣就可以有乐趣。</p>
+<p>我只想做一个不安分的人。骑着自行车穿过魔都的每个角落，用相机留住这里的过往，夜晚奔跑在阵阵花香的锦绣大道，或是沉浸在安静的浦图。希望自己的不安分能够给生活带来一些精彩。看着周围的同事，有时会让我很焦虑。房贷、车贷，或许这些我都需要经历吧~不谈也罢。还是喜欢现在一无所有的自己。拥有的越多或许烦恼也就越多。</p>
+<p>最后也不知道想说什么了，只想告诉自己，出了校园入了社会，要做一个成熟理智的男人，学着承担更多的责任。在快节奏和重复的生活里给自己一点惊喜和乐趣。</p>
+<blockquote>
+<p>要有最朴素的生活和最遥远的梦想，即使明天天寒地冻路远马亡。——海子</p>
+</blockquote>
+</div></article></li></ul><div class="paginator"><a href="/page/3/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a></div></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>
