@@ -15,6 +15,7 @@ ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/."
 <p><a href="http://www.gnu.org/software/screen/" target="_blank" rel="external">GNU’s Screen 官方站点</a></p>
 <h3 id="二、功能"><a href="#二、功能" class="headerlink" title="二、功能"></a>二、功能</h3><h4 id="会话恢复"><a href="#会话恢复" class="headerlink" title="会话恢复"></a>会话恢复</h4><p>只要Screen本身没有终止，在其内部运行的会话都可以恢复。对于远程登录的用户即使网络连接中断，用户也不会失去对已经打开的命令行会话的控制。</p>
 <h4 id="多窗口"><a href="#多窗口" class="headerlink" title="多窗口"></a>多窗口</h4><p>在Screen环境下，所有的会话都独立的运行，并拥有各自的编号、输入、输出和窗口缓存。用户可以通过快捷键在不同的窗口下切换，并可以自由的重定向各个窗口的输入和输出。</p>
+<a id="more"></a>
 <h4 id="会话共享"><a href="#会话共享" class="headerlink" title="会话共享"></a>会话共享</h4><p>Screen可以让一个或多个用户从不同终端多次登录一个会话，并共享会话的所有特性（比如可以看到完全相同的输出）。它同时提供了窗口访问权限的机制，可以对窗口进行密码保护。</p>
 <h3 id="三、常用参数"><a href="#三、常用参数" class="headerlink" title="三、常用参数"></a>三、常用参数</h3><pre><code>screen -S yourname   //新建一个叫yourname的session
 screen -ls（或者screen -list） //列出当前所有的session

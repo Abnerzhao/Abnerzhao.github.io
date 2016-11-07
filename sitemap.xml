@@ -2,79 +2,72 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2016/11/04/%E5%B0%8F%E8%AF%95Ansible-Python-API/</loc>
+    <loc>http://yoursite.com/2016/05/20/opennebula-life-cycle/</loc>
     
-    <lastmod>2016-11-07T06:35:33.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/02/24/network-command/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    <lastmod>2016-11-07T08:44:29.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/03/05/Feb_tips/</loc>
+    <loc>http://yoursite.com/2016/05/23/screen/</loc>
     
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/10/29/Python%E7%BC%96%E7%A0%81%E9%A3%8E%E6%A0%BC/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    <lastmod>2016-11-07T08:44:10.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/05/20/ansible/</loc>
+    <loc>http://yoursite.com/2016/05/26/sar/</loc>
     
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2015/10/03/cisco/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    <lastmod>2016-11-07T08:43:42.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/02/23/cacit/</loc>
+    <loc>http://yoursite.com/2016/05/27/iostat/</loc>
     
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/01/01/command/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    <lastmod>2016-11-07T08:43:21.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://yoursite.com/2016/06/07/cpuinfo/</loc>
     
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    <lastmod>2016-11-07T08:43:00.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/03/03/free/</loc>
+    <loc>http://yoursite.com/2016/06/12/raid_states/</loc>
     
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    <lastmod>2016-11-07T08:42:36.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2015/10/21/dmidecode/</loc>
+    <loc>http://yoursite.com/2016/06/16/ss/</loc>
     
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    <lastmod>2016-11-07T08:42:14.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/10/29/Python-code-style/</loc>
+    
+    <lastmod>2016-11-07T08:41:54.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/11/01/svn-code-transfer/</loc>
+    
+    <lastmod>2016-11-07T08:41:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/11/04/ansible-python-api/</loc>
+    
+    <lastmod>2016-11-07T06:35:33.000Z</lastmod>
     
   </url>
   
@@ -93,7 +86,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/05/27/iostat/</loc>
+    <loc>http://yoursite.com/2016/03/05/Feb_tips/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
@@ -142,14 +135,14 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/03/08/Create-A-deb-Package-Repository/</loc>
+    <loc>http://yoursite.com/2016/02/24/network-command/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/05/20/opennebula-life-cycle/</loc>
+    <loc>http://yoursite.com/2016/03/08/Create-A-deb-Package-Repository/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
@@ -163,7 +156,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/06/12/raid_states/</loc>
+    <loc>http://yoursite.com/2016/05/20/ansible/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
@@ -177,21 +170,21 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/05/26/sar/</loc>
+    <loc>http://yoursite.com/2015/10/03/cisco/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/05/23/screen/</loc>
+    <loc>http://yoursite.com/2016/02/23/cacit/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/06/16/ss/</loc>
+    <loc>http://yoursite.com/2016/01/01/command/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
@@ -240,14 +233,21 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/11/01/%E8%B7%A8%E4%BB%93%E5%BA%93%E8%BD%AC%E7%A7%BBSVN%E4%BB%A3%E7%A0%81%E7%9B%AE%E5%BD%95/</loc>
+    <loc>http://yoursite.com/2016/03/03/free/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2015/10/29/%E6%91%84%E5%BD%B1%E7%9F%A5%E8%AF%86%E6%89%AB%E7%9B%B2/</loc>
+    <loc>http://yoursite.com/2015/10/21/dmidecode/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/10/29/photography/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     

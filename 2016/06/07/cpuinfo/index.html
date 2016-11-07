@@ -23,7 +23,8 @@ Architecture:          x86_64
 CPU op-mode(s):        32-bit, 64-bit
 Byte Order:            Little Endian
 ......
-</code></pre><h4 id="物理CPU个数"><a href="#物理CPU个数" class="headerlink" title="物理CPU个数"></a>物理CPU个数</h4><pre><code># cat /proc/cpuinfo | grep &quot;physical id&quot; | sort -u | wc -l
+</code></pre><a id="more"></a>
+<h4 id="物理CPU个数"><a href="#物理CPU个数" class="headerlink" title="物理CPU个数"></a>物理CPU个数</h4><pre><code># cat /proc/cpuinfo | grep &quot;physical id&quot; | sort -u | wc -l
 2
 </code></pre><h4 id="单个物理CPU中Core个数"><a href="#单个物理CPU中Core个数" class="headerlink" title="单个物理CPU中Core个数"></a>单个物理CPU中Core个数</h4><pre><code># cat /proc/cpuinfo | grep &quot;cpu cores&quot; | uniq
 cpu cores   : 8

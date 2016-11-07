@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Abnerzhao"><meta name="description" content="由于公司先前代码管理比较混乱，不同部门之间的代码有放在同一个仓库的，抽空转移了部分并记录备忘。project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支oldsvn:http://svnserver/svn/dev/trunk/project/news"><meta name="keywords" content="svn"><title>跨仓库转移SVN代码目录 · Abner</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="http://yoursite.com/2016/11/01/跨仓库转移SVN代码目录/"><link rel="alternate" href="/atom.xml" title="Abner"><link rel="stylesheet" href="/fonts/iconfont/iconfont.css"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Abnerzhao"><meta name="description" content="由于公司先前代码管理比较混乱，不同部门之间的代码有放在同一个仓库的，抽空转移了部分并记录备忘。project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支oldsvn:http://svnserver/svn/dev/trunk/project/new"><meta name="keywords" content="svn"><title>跨仓库转移SVN代码目录 · Abner</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="http://yoursite.com/2016/11/01/svn-code-transfer/"><link rel="alternate" href="/atom.xml" title="Abner"><link rel="stylesheet" href="/fonts/iconfont/iconfont.css"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
 (function() {
   var hm = document.createElement("script");
   hm.src = "//hm.baidu.com/hm.js?5832f612aff8681e2ee213a3b8d9548b";
@@ -11,8 +11,9 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'Your Google Analytics ID', 'auto');
-ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">跨仓库转移SVN代码目录</h1><span class="post-time">Nov 1, 2016</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支"><span class="toc-text">project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#转移方法："><span class="toc-text">转移方法：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></div><div class="post-content"><p>由于公司先前代码管理比较混乱，不同部门之间的代码有放在同一个仓库的，抽空转移了部分并记录备忘。</p>
-<h4 id="project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支"><a href="#project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支" class="headerlink" title="project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支"></a>project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支</h4><blockquote>
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">跨仓库转移SVN代码目录</h1><span class="post-time">Nov 1, 2016</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#转移方法："><span class="toc-text">转移方法：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol></div><div class="post-content"><p>由于公司先前代码管理比较混乱，不同部门之间的代码有放在同一个仓库的，抽空转移了部分并记录备忘。</p>
+<p><strong>project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支</strong></p>
+<blockquote>
 <p>old svn: <a href="http://svnserver/svn/dev/trunk/project/" target="_blank" rel="external">http://svnserver/svn/dev/trunk/project/</a></p>
 <p>new svn:<a href="http://svnserver/svn/ops/trunk/" target="_blank" rel="external">http://svnserver/svn/ops/trunk/</a></p>
 </blockquote>
@@ -23,6 +24,7 @@ svn: E200007: Source and destination URLs appear not to point to the same reposi
 <p>svn: E200007: Source and destination URLs appear not to point to the same repository. </p>
 <p>不同的仓库之间无法直接move或cp项目代码</p>
 </blockquote>
+<a id="more"></a>
 <h3 id="转移方法："><a href="#转移方法：" class="headerlink" title="转移方法："></a>转移方法：</h3><p><strong>方法一：</strong></p>
 <p>先将old svn项目代码check到本地然后import到new svn中</p>
 <ul>
@@ -46,7 +48,7 @@ $ svn import project  svn:http://svnserver/svn/ops/trunk/  -m &apos;import proje
 <pre><code>$ svnadmin dump dev | svndumpfilter include /trunk/UDPServer/ --drop-empty-revs --renumber-revs --preserve-revprops &gt; /tmp/project.dump
 $ svnadmin load ops &lt; /tmp/project.dump
 </code></pre><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://falstaff.agner.ch/2011/11/12/subversion-move-folder-from-one-repository-to-another/" target="_blank" rel="external">subversion-move-folder-from-one-repository-to-another</a></p>
-</div></article><div class="tags"><a href="/tags/svn/">svn</a></div><div class="paginator"><a href="/2016/11/04/小试Ansible-Python-API/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/2016/10/29/Python编码风格/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div><section id="comments"><div data-thread-key="http://yoursite.com/2016/11/01/跨仓库转移SVN代码目录/index.html" data-title="跨仓库转移SVN代码目录" data-url="http://yoursite.com/2016/11/01/跨仓库转移SVN代码目录/index.html" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name: "wulifun" };
+</div></article><div class="tags"><a href="/tags/svn/">svn</a></div><div class="paginator"><a href="/2016/11/04/ansible-python-api/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/2016/10/29/Python-code-style/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div><section id="comments"><div data-thread-key="http://yoursite.com/2016/11/01/svn-code-transfer/index.html" data-title="跨仓库转移SVN代码目录" data-url="http://yoursite.com/2016/11/01/svn-code-transfer/index.html" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name: "wulifun" };
 (function() {
     var ds = document.createElement('script');
     ds.type = 'text/javascript';ds.async = true;

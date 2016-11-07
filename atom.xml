@@ -17,8 +17,8 @@
   
   <entry>
     <title>小试Ansible Python API</title>
-    <link href="http://yoursite.com/2016/11/04/%E5%B0%8F%E8%AF%95Ansible-Python-API/"/>
-    <id>http://yoursite.com/2016/11/04/小试Ansible-Python-API/</id>
+    <link href="http://yoursite.com/2016/11/04/ansible-python-api/"/>
+    <id>http://yoursite.com/2016/11/04/ansible-python-api/</id>
     <published>2016-11-04T10:49:12.000Z</published>
     <updated>2016-11-07T06:35:33.000Z</updated>
     
@@ -128,13 +128,14 @@ $ cat exp.yml
   
   <entry>
     <title>跨仓库转移SVN代码目录</title>
-    <link href="http://yoursite.com/2016/11/01/%E8%B7%A8%E4%BB%93%E5%BA%93%E8%BD%AC%E7%A7%BBSVN%E4%BB%A3%E7%A0%81%E7%9B%AE%E5%BD%95/"/>
-    <id>http://yoursite.com/2016/11/01/跨仓库转移SVN代码目录/</id>
+    <link href="http://yoursite.com/2016/11/01/svn-code-transfer/"/>
+    <id>http://yoursite.com/2016/11/01/svn-code-transfer/</id>
     <published>2016-11-01T10:59:38.000Z</published>
-    <updated>2016-11-07T05:14:48.000Z</updated>
+    <updated>2016-11-07T08:41:08.000Z</updated>
     
     <content type="html"><![CDATA[<p>由于公司先前代码管理比较混乱，不同部门之间的代码有放在同一个仓库的，抽空转移了部分并记录备忘。</p>
-<h4 id="project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支"><a href="#project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支" class="headerlink" title="project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支"></a>project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支</h4><blockquote>
+<p><strong>project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支</strong></p>
+<blockquote>
 <p>old svn: <a href="http://svnserver/svn/dev/trunk/project/" target="_blank" rel="external">http://svnserver/svn/dev/trunk/project/</a></p>
 <p>new svn:<a href="http://svnserver/svn/ops/trunk/" target="_blank" rel="external">http://svnserver/svn/ops/trunk/</a></p>
 </blockquote>
@@ -145,6 +146,7 @@ svn: E200007: Source and destination URLs appear not to point to the same reposi
 <p>svn: E200007: Source and destination URLs appear not to point to the same repository. </p>
 <p>不同的仓库之间无法直接move或cp项目代码</p>
 </blockquote>
+<a id="more"></a>
 <h3 id="转移方法："><a href="#转移方法：" class="headerlink" title="转移方法："></a>转移方法：</h3><p><strong>方法一：</strong></p>
 <p>先将old svn项目代码check到本地然后import到new svn中</p>
 <ul>
@@ -173,7 +175,18 @@ $ svnadmin load ops &lt; /tmp/project.dump
     <summary type="html">
     
       &lt;p&gt;由于公司先前代码管理比较混乱，不同部门之间的代码有放在同一个仓库的，抽空转移了部分并记录备忘。&lt;/p&gt;
-&lt;h4 id=&quot;project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支&quot;&gt;&lt;a href=&quot;#project项目位于dev仓库的主分支，现需要将他转移
+&lt;p&gt;&lt;strong&gt;project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;old svn: &lt;a href=&quot;http://svnserver/svn/dev/trunk/project/&quot;&gt;http://svnserver/svn/dev/trunk/project/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;new svn:&lt;a href=&quot;http://svnserver/svn/ops/trunk/&quot;&gt;http://svnserver/svn/ops/trunk/&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;直接svn move 报错：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ svn move  http://svnserver/svn/dev/trunk/project/  http://svnserver/svn/ops/trunk/
+svn: E200007: Source and destination URLs appear not to point to the same repository.
+&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
+&lt;p&gt;svn: E200007: Source and destination URLs appear not to point to the same repository. &lt;/p&gt;
+&lt;p&gt;不同的仓库之间无法直接move或cp项目代码&lt;/p&gt;
+&lt;/blockquote&gt;
     
     </summary>
     
@@ -186,10 +199,10 @@ $ svnadmin load ops &lt; /tmp/project.dump
   
   <entry>
     <title>Python编码风格</title>
-    <link href="http://yoursite.com/2016/10/29/Python%E7%BC%96%E7%A0%81%E9%A3%8E%E6%A0%BC/"/>
-    <id>http://yoursite.com/2016/10/29/Python编码风格/</id>
+    <link href="http://yoursite.com/2016/10/29/Python-code-style/"/>
+    <id>http://yoursite.com/2016/10/29/Python-code-style/</id>
     <published>2016-10-29T07:00:25.000Z</published>
-    <updated>2016-11-07T05:14:48.000Z</updated>
+    <updated>2016-11-07T08:41:54.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="标记"><a href="#标记" class="headerlink" title="#!标记"></a>#!标记</h3><blockquote>
 <p>大部分.py文件不必以#!作为文件的开始。 程序的main文件应该以 #!/usr/bin/python2或者 #!/usr/bin/python3开始。 (<code>#!先用于帮助内核找到Python解释器, 但是在导入模块时, 将会被忽略。因此只有被直接执行的文件中才有必要加入#!</code>)</p>
@@ -200,6 +213,7 @@ $ svnadmin load ops &lt; /tmp/project.dump
 <h3 id="行长度"><a href="#行长度" class="headerlink" title="行长度"></a>行长度</h3><blockquote>
 <p>每行不超过80个字符</p>
 </blockquote>
+<a id="more"></a>
 <h4 id="例外："><a href="#例外：" class="headerlink" title="例外："></a>例外：</h4><ul>
 <li>长的导入模块语句</li>
 <li>注释里的URL</li>
@@ -334,7 +348,14 @@ if __name__ == &apos;__main__&apos;:
     <summary type="html">
     
       &lt;h3 id=&quot;标记&quot;&gt;&lt;a href=&quot;#标记&quot; class=&quot;headerlink&quot; title=&quot;#!标记&quot;&gt;&lt;/a&gt;#!标记&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;大部分.py文件不必以#!作为文件的开始。 程序的main文件应该以 #!/usr/bin/python2
+&lt;p&gt;大部分.py文件不必以#!作为文件的开始。 程序的main文件应该以 #!/usr/bin/python2或者 #!/usr/bin/python3开始。 (&lt;code&gt;#!先用于帮助内核找到Python解释器, 但是在导入模块时, 将会被忽略。因此只有被直接执行的文件中才有必要加入#!&lt;/code&gt;)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;分号&quot;&gt;&lt;a href=&quot;#分号&quot; class=&quot;headerlink&quot; title=&quot;分号&quot;&gt;&lt;/a&gt;分号&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;不要在行尾加分号, 也不要用分号将两条命令放在同一行.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;行长度&quot;&gt;&lt;a href=&quot;#行长度&quot; class=&quot;headerlink&quot; title=&quot;行长度&quot;&gt;&lt;/a&gt;行长度&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;每行不超过80个字符&lt;/p&gt;
+&lt;/blockquote&gt;
     
     </summary>
     
@@ -350,7 +371,7 @@ if __name__ == &apos;__main__&apos;:
     <link href="http://yoursite.com/2016/06/16/ss/"/>
     <id>http://yoursite.com/2016/06/16/ss/</id>
     <published>2016-06-16T12:46:44.000Z</published>
-    <updated>2016-11-07T05:14:48.000Z</updated>
+    <updated>2016-11-07T08:42:14.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="一、ss-简介"><a href="#一、ss-简介" class="headerlink" title="一、ss 简介"></a>一、ss 简介</h2><blockquote>
 <p>ss  is  used to dump socket statistics. It allows showing information similar to netstat.  It can dis‐<br>       play more TCP and state informations than other tools.</p>
@@ -359,6 +380,7 @@ if __name__ == &apos;__main__&apos;:
 </blockquote>
 <p>ss 命令用来显示处于活动状态的套接字信息。ss命令可以用来获取socket统计信息，它可以显示和netstat类似的内容。但 ss 的优势在于它能够显示更多更详细的有关TCP和连接状态的信息，而且比netstat更快速更高效。</p>
 <p>ss 利用到了TCP协议栈中tcp_diag。tcp_diag是一个用于分析统计的模块，可以获得Linux 内核中第一手的信息，这就确保了ss的快捷高效。</p>
+<a id="more"></a>
 <h3 id="1-1-选项"><a href="#1-1-选项" class="headerlink" title="1.1 选项"></a>1.1 选项</h3><pre><code>Usage: ss [ OPTIONS ]
     ss [ OPTIONS ] [ FILTER ]
 -h, --help      this message
@@ -458,7 +480,12 @@ Recv-Q Send-Q                           Local Address:Port                      
     <summary type="html">
     
       &lt;h2 id=&quot;一、ss-简介&quot;&gt;&lt;a href=&quot;#一、ss-简介&quot; class=&quot;headerlink&quot; title=&quot;一、ss 简介&quot;&gt;&lt;/a&gt;一、ss 简介&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;ss  is  used to dump socket statistic
+&lt;p&gt;ss  is  used to dump socket statistics. It allows showing information similar to netstat.  It can dis‐&lt;br&gt;       play more TCP and state informations than other tools.&lt;/p&gt;
+&lt;p&gt;The ss command is capable of showing more information than the netstat and is faster. The netstat command reads various /proc files to gather information. However this approach falls weak when there are lots of connections to display. This makes it slower.&lt;/p&gt;
+&lt;p&gt;The ss command gets its information directly from kernel space. The options used with the ss commands are very similar to netstat making it an easy replacement.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;ss 命令用来显示处于活动状态的套接字信息。ss命令可以用来获取socket统计信息，它可以显示和netstat类似的内容。但 ss 的优势在于它能够显示更多更详细的有关TCP和连接状态的信息，而且比netstat更快速更高效。&lt;/p&gt;
+&lt;p&gt;ss 利用到了TCP协议栈中tcp_diag。tcp_diag是一个用于分析统计的模块，可以获得Linux 内核中第一手的信息，这就确保了ss的快捷高效。&lt;/p&gt;
     
     </summary>
     
@@ -474,9 +501,10 @@ Recv-Q Send-Q                           Local Address:Port                      
     <link href="http://yoursite.com/2016/06/12/raid_states/"/>
     <id>http://yoursite.com/2016/06/12/raid_states/</id>
     <published>2016-06-12T13:06:42.000Z</published>
-    <updated>2016-11-07T05:14:48.000Z</updated>
+    <updated>2016-11-07T08:42:36.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="Physical-Drive-States"><a href="#Physical-Drive-States" class="headerlink" title="Physical Drive States"></a>Physical Drive States</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/54211F71-8626-4FEE-A37D-91E5F1464B74.png" alt=""></p>
+<a id="more"></a>
 <p>Unconfigured Good：表示该硬盘为空闲硬盘,没有加入到raid阵列中也没有设置为热备盘</p>
 <p>Unconfigured Bad：表示该硬盘为空闲硬盘且硬盘有损坏</p>
 <p>Rebuild:表示该盘正在重建数据</p>
@@ -491,7 +519,7 @@ Recv-Q Send-Q                           Local Address:Port                      
     
     <summary type="html">
     
-      &lt;h3 id=&quot;Physical-Drive-States&quot;&gt;&lt;a href=&quot;#Physical-Drive-States&quot; class=&quot;headerlink&quot; title=&quot;Physical Drive States&quot;&gt;&lt;/a&gt;Physical Drive States&lt;/
+      &lt;h3 id=&quot;Physical-Drive-States&quot;&gt;&lt;a href=&quot;#Physical-Drive-States&quot; class=&quot;headerlink&quot; title=&quot;Physical Drive States&quot;&gt;&lt;/a&gt;Physical Drive States&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;http://7vzmp5.com1.z0.glb.clouddn.com/54211F71-8626-4FEE-A37D-91E5F1464B74.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
     
     </summary>
     
@@ -507,7 +535,7 @@ Recv-Q Send-Q                           Local Address:Port                      
     <link href="http://yoursite.com/2016/06/07/cpuinfo/"/>
     <id>http://yoursite.com/2016/06/07/cpuinfo/</id>
     <published>2016-06-07T12:39:35.000Z</published>
-    <updated>2016-11-07T05:14:48.000Z</updated>
+    <updated>2016-11-07T08:43:00.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="proc-cpuinfo"><a href="#proc-cpuinfo" class="headerlink" title="/proc/cpuinfo"></a>/proc/cpuinfo</h3><blockquote>
 <p> Information about the processor, such as its type, make, model, and performance.</p>
@@ -521,7 +549,8 @@ Architecture:          x86_64
 CPU op-mode(s):        32-bit, 64-bit
 Byte Order:            Little Endian
 ......
-</code></pre><h4 id="物理CPU个数"><a href="#物理CPU个数" class="headerlink" title="物理CPU个数"></a>物理CPU个数</h4><pre><code># cat /proc/cpuinfo | grep &quot;physical id&quot; | sort -u | wc -l
+</code></pre><a id="more"></a>
+<h4 id="物理CPU个数"><a href="#物理CPU个数" class="headerlink" title="物理CPU个数"></a>物理CPU个数</h4><pre><code># cat /proc/cpuinfo | grep &quot;physical id&quot; | sort -u | wc -l
 2
 </code></pre><h4 id="单个物理CPU中Core个数"><a href="#单个物理CPU中Core个数" class="headerlink" title="单个物理CPU中Core个数"></a>单个物理CPU中Core个数</h4><pre><code># cat /proc/cpuinfo | grep &quot;cpu cores&quot; | uniq
 cpu cores   : 8
@@ -554,7 +583,18 @@ Thread(s) per core:    2
     <summary type="html">
     
       &lt;h3 id=&quot;proc-cpuinfo&quot;&gt;&lt;a href=&quot;#proc-cpuinfo&quot; class=&quot;headerlink&quot; title=&quot;/proc/cpuinfo&quot;&gt;&lt;/a&gt;/proc/cpuinfo&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt; Information ab
+&lt;p&gt; Information about the processor, such as its type, make, model, and performance.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;信息查看&quot;&gt;&lt;a href=&quot;#信息查看&quot; class=&quot;headerlink&quot; title=&quot;信息查看&quot;&gt;&lt;/a&gt;信息查看&lt;/h3&gt;&lt;h4 id=&quot;CPU型号&quot;&gt;&lt;a href=&quot;#CPU型号&quot; class=&quot;headerlink&quot; title=&quot;CPU型号&quot;&gt;&lt;/a&gt;CPU型号&lt;/h4&gt;&lt;pre&gt;&lt;code&gt;# cat /proc/cpuinfo | grep vendor | uniq
+vendor_id   : GenuineIntel
+#  cat /proc/cpuinfo | grep &amp;apos;model name&amp;apos; | uniq
+model name  : Intel(R) Xeon(R) CPU E5-2630 v3 @ 2.40GHz
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&quot;CPU-架构&quot;&gt;&lt;a href=&quot;#CPU-架构&quot; class=&quot;headerlink&quot; title=&quot;CPU 架构&quot;&gt;&lt;/a&gt;CPU 架构&lt;/h4&gt;&lt;pre&gt;&lt;code&gt;# lscpu
+Architecture:          x86_64
+CPU op-mode(s):        32-bit, 64-bit
+Byte Order:            Little Endian
+......
+&lt;/code&gt;&lt;/pre&gt;
     
     </summary>
     
@@ -570,12 +610,13 @@ Thread(s) per core:    2
     <link href="http://yoursite.com/2016/05/27/iostat/"/>
     <id>http://yoursite.com/2016/05/27/iostat/</id>
     <published>2016-05-27T03:19:17.000Z</published>
-    <updated>2016-11-07T05:14:48.000Z</updated>
+    <updated>2016-11-07T08:43:21.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="一、iostat简介"><a href="#一、iostat简介" class="headerlink" title="一、iostat简介"></a>一、iostat简介</h3><blockquote>
 <p>iostat - Report Central Processing Unit (CPU) statistics and input/out-put statistics for devices and partitions.</p>
 </blockquote>
 <p>iostat 用于输出CPU和磁盘I/O相关的统计信息。</p>
+<a id="more"></a>
 <p>选项如下：</p>
 <pre><code>-c     The  -c  option  is exclusive of the -d option and displays only
        the CPU usage report.  //仅显示CPU统计信息，与-d选项互斥
@@ -674,7 +715,9 @@ sda5              0.00         0.00         0.00       4816      16224
     <summary type="html">
     
       &lt;h3 id=&quot;一、iostat简介&quot;&gt;&lt;a href=&quot;#一、iostat简介&quot; class=&quot;headerlink&quot; title=&quot;一、iostat简介&quot;&gt;&lt;/a&gt;一、iostat简介&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;iostat - Report Central P
+&lt;p&gt;iostat - Report Central Processing Unit (CPU) statistics and input/out-put statistics for devices and partitions.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;iostat 用于输出CPU和磁盘I/O相关的统计信息。&lt;/p&gt;
     
     </summary>
     
@@ -690,7 +733,7 @@ sda5              0.00         0.00         0.00       4816      16224
     <link href="http://yoursite.com/2016/05/26/sar/"/>
     <id>http://yoursite.com/2016/05/26/sar/</id>
     <published>2016-05-26T03:15:51.000Z</published>
-    <updated>2016-11-07T05:14:48.000Z</updated>
+    <updated>2016-11-07T08:43:42.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="一、sar-简介"><a href="#一、sar-简介" class="headerlink" title="一、sar 简介"></a>一、sar 简介</h3><blockquote>
 <p>sar - Collect, report, or save system activity information.</p>
@@ -699,6 +742,7 @@ sda5              0.00         0.00         0.00       4816      16224
 </blockquote>
 <p>sar命令是Linux下系统运行状态统计工具，它将指定的操作系统状态计数器显示到标准输出设备。</p>
 <p>sar工具将对系统当前的状态进行取样，然后通过计算数据和比例来表达系统的当前运行状态。它的特点是可以连续对系统取样，获得大量的取样数据。取样数据和分析的结果都可以存入文件，使用它时消耗的系统资源很小。</p>
+<a id="more"></a>
 <pre><code># cat /etc/cron.d/sysstat
 # Run system activity accounting tool every 10 minutes
 */10 * * * * root /usr/lib64/sa/sa1 1 1
@@ -862,7 +906,12 @@ Average:         eth3      0.00      0.00      0.00      0.00      0.00      0.0
     <summary type="html">
     
       &lt;h3 id=&quot;一、sar-简介&quot;&gt;&lt;a href=&quot;#一、sar-简介&quot; class=&quot;headerlink&quot; title=&quot;一、sar 简介&quot;&gt;&lt;/a&gt;一、sar 简介&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;sar - Collect, report, or save sy
+&lt;p&gt;sar - Collect, report, or save system activity information.&lt;/p&gt;
+&lt;p&gt;Usage: sar [ options ] [ interval  count  ]    &lt;/p&gt;
+&lt;p&gt; sar 选项 [输出间隔时间] [输出次数(默认为1)]&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;sar命令是Linux下系统运行状态统计工具，它将指定的操作系统状态计数器显示到标准输出设备。&lt;/p&gt;
+&lt;p&gt;sar工具将对系统当前的状态进行取样，然后通过计算数据和比例来表达系统的当前运行状态。它的特点是可以连续对系统取样，获得大量的取样数据。取样数据和分析的结果都可以存入文件，使用它时消耗的系统资源很小。&lt;/p&gt;
     
     </summary>
     
@@ -878,12 +927,13 @@ Average:         eth3      0.00      0.00      0.00      0.00      0.00      0.0
     <link href="http://yoursite.com/2016/05/23/screen/"/>
     <id>http://yoursite.com/2016/05/23/screen/</id>
     <published>2016-05-23T12:47:12.000Z</published>
-    <updated>2016-11-07T05:14:48.000Z</updated>
+    <updated>2016-11-07T08:44:10.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><p>GNU Screen是一款由GNU计划开发的用于命令行终端切换的自由软件。用户可以通过该软件同时连接多个本地或远程的命令行会话，并在其间自由切换。</p>
 <p><a href="http://www.gnu.org/software/screen/" target="_blank" rel="external">GNU’s Screen 官方站点</a></p>
 <h3 id="二、功能"><a href="#二、功能" class="headerlink" title="二、功能"></a>二、功能</h3><h4 id="会话恢复"><a href="#会话恢复" class="headerlink" title="会话恢复"></a>会话恢复</h4><p>只要Screen本身没有终止，在其内部运行的会话都可以恢复。对于远程登录的用户即使网络连接中断，用户也不会失去对已经打开的命令行会话的控制。</p>
 <h4 id="多窗口"><a href="#多窗口" class="headerlink" title="多窗口"></a>多窗口</h4><p>在Screen环境下，所有的会话都独立的运行，并拥有各自的编号、输入、输出和窗口缓存。用户可以通过快捷键在不同的窗口下切换，并可以自由的重定向各个窗口的输入和输出。</p>
+<a id="more"></a>
 <h4 id="会话共享"><a href="#会话共享" class="headerlink" title="会话共享"></a>会话共享</h4><p>Screen可以让一个或多个用户从不同终端多次登录一个会话，并共享会话的所有特性（比如可以看到完全相同的输出）。它同时提供了窗口访问权限的机制，可以对窗口进行密码保护。</p>
 <h3 id="三、常用参数"><a href="#三、常用参数" class="headerlink" title="三、常用参数"></a>三、常用参数</h3><pre><code>screen -S yourname   //新建一个叫yourname的session
 screen -ls（或者screen -list） //列出当前所有的session
@@ -916,7 +966,10 @@ Ctrl-a :   // 然后输入quit命令退出Screen会话,会杀死所有窗口并�
     
     <summary type="html">
     
-      &lt;h3 id=&quot;一、简介&quot;&gt;&lt;a href=&quot;#一、简介&quot; class=&quot;headerlink&quot; title=&quot;一、简介&quot;&gt;&lt;/a&gt;一、简介&lt;/h3&gt;&lt;p&gt;GNU Screen是一款由GNU计划开发的用于命令行终端切换的自由软件。用户可以通过该软件同时连接多个本地或远程的命令行会
+      &lt;h3 id=&quot;一、简介&quot;&gt;&lt;a href=&quot;#一、简介&quot; class=&quot;headerlink&quot; title=&quot;一、简介&quot;&gt;&lt;/a&gt;一、简介&lt;/h3&gt;&lt;p&gt;GNU Screen是一款由GNU计划开发的用于命令行终端切换的自由软件。用户可以通过该软件同时连接多个本地或远程的命令行会话，并在其间自由切换。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.gnu.org/software/screen/&quot;&gt;GNU’s Screen 官方站点&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;二、功能&quot;&gt;&lt;a href=&quot;#二、功能&quot; class=&quot;headerlink&quot; title=&quot;二、功能&quot;&gt;&lt;/a&gt;二、功能&lt;/h3&gt;&lt;h4 id=&quot;会话恢复&quot;&gt;&lt;a href=&quot;#会话恢复&quot; class=&quot;headerlink&quot; title=&quot;会话恢复&quot;&gt;&lt;/a&gt;会话恢复&lt;/h4&gt;&lt;p&gt;只要Screen本身没有终止，在其内部运行的会话都可以恢复。对于远程登录的用户即使网络连接中断，用户也不会失去对已经打开的命令行会话的控制。&lt;/p&gt;
+&lt;h4 id=&quot;多窗口&quot;&gt;&lt;a href=&quot;#多窗口&quot; class=&quot;headerlink&quot; title=&quot;多窗口&quot;&gt;&lt;/a&gt;多窗口&lt;/h4&gt;&lt;p&gt;在Screen环境下，所有的会话都独立的运行，并拥有各自的编号、输入、输出和窗口缓存。用户可以通过快捷键在不同的窗口下切换，并可以自由的重定向各个窗口的输入和输出。&lt;/p&gt;
     
     </summary>
     
@@ -932,10 +985,11 @@ Ctrl-a :   // 然后输入quit命令退出Screen会话,会杀死所有窗口并�
     <link href="http://yoursite.com/2016/05/20/opennebula-life-cycle/"/>
     <id>http://yoursite.com/2016/05/20/opennebula-life-cycle/</id>
     <published>2016-05-20T09:34:53.000Z</published>
-    <updated>2016-11-07T05:14:48.000Z</updated>
+    <updated>2016-11-07T08:44:29.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="OpenNebula-Virtual-Machine-Life-cycle"><a href="#OpenNebula-Virtual-Machine-Life-cycle" class="headerlink" title="OpenNebula Virtual Machine Life-cycle"></a>OpenNebula Virtual Machine Life-cycle</h3><p><img src="http://docs.opennebula.org/4.14/_images/states-simple.png" alt=""></p>
 <p>具体状态详情请参考：<a href="http://docs.opennebula.org/4.14/user/virtual_resource_management/vm_guide_2.html" target="_blank" rel="external">vm_guide_2</a></p>
+<a id="more"></a>
 <h3 id="OpenNebula-Host-Life-cycle"><a href="#OpenNebula-Host-Life-cycle" class="headerlink" title="OpenNebula Host Life-cycle"></a>OpenNebula Host Life-cycle</h3><table>
 <thead>
 <tr>
@@ -984,7 +1038,8 @@ Ctrl-a :   // 然后输入quit命令退出Screen会话,会杀死所有窗口并�
     
     <summary type="html">
     
-      &lt;h3 id=&quot;OpenNebula-Virtual-Machine-Life-cycle&quot;&gt;&lt;a href=&quot;#OpenNebula-Virtual-Machine-Life-cycle&quot; class=&quot;headerlink&quot; title=&quot;OpenNebula Virtual
+      &lt;h3 id=&quot;OpenNebula-Virtual-Machine-Life-cycle&quot;&gt;&lt;a href=&quot;#OpenNebula-Virtual-Machine-Life-cycle&quot; class=&quot;headerlink&quot; title=&quot;OpenNebula Virtual Machine Life-cycle&quot;&gt;&lt;/a&gt;OpenNebula Virtual Machine Life-cycle&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;http://docs.opennebula.org/4.14/_images/states-simple.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;具体状态详情请参考：&lt;a href=&quot;http://docs.opennebula.org/4.14/user/virtual_resource_management/vm_guide_2.html&quot;&gt;vm_guide_2&lt;/a&gt;&lt;/p&gt;
     
     </summary>
     

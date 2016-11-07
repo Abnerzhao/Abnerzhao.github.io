@@ -18,6 +18,7 @@ ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/."
 </blockquote>
 <p>ss 命令用来显示处于活动状态的套接字信息。ss命令可以用来获取socket统计信息，它可以显示和netstat类似的内容。但 ss 的优势在于它能够显示更多更详细的有关TCP和连接状态的信息，而且比netstat更快速更高效。</p>
 <p>ss 利用到了TCP协议栈中tcp_diag。tcp_diag是一个用于分析统计的模块，可以获得Linux 内核中第一手的信息，这就确保了ss的快捷高效。</p>
+<a id="more"></a>
 <h3 id="1-1-选项"><a href="#1-1-选项" class="headerlink" title="1.1 选项"></a>1.1 选项</h3><pre><code>Usage: ss [ OPTIONS ]
     ss [ OPTIONS ] [ FILTER ]
 -h, --help      this message
@@ -112,7 +113,7 @@ Recv-Q Send-Q                           Local Address:Port                      
 # ss -nt  dst :443 or dst :80 
 # ss -nt dst 74.125.236.178
 </code></pre><h2 id="三、参考"><a href="#三、参考" class="headerlink" title="三、参考"></a>三、参考</h2><p><a href="http://www.binarytides.com/linux-ss-command/" target="_blank" rel="external">10 examples of Linux ss command to monitor network connections</a><br><a href="http://man.linuxde.net/ss" target="_blank" rel="external">ss 命令详解</a></p>
-</div></article><div class="tags"><a href="/tags/ss/">ss</a></div><div class="paginator"><a href="/2016/10/29/Python编码风格/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/2016/06/12/raid_states/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div><section id="comments"><div data-thread-key="http://yoursite.com/2016/06/16/ss/index.html" data-title="ss获取内核状态信息" data-url="http://yoursite.com/2016/06/16/ss/index.html" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name: "wulifun" };
+</div></article><div class="tags"><a href="/tags/ss/">ss</a></div><div class="paginator"><a href="/2016/10/29/Python-code-style/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/2016/06/12/raid_states/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div><section id="comments"><div data-thread-key="http://yoursite.com/2016/06/16/ss/index.html" data-title="ss获取内核状态信息" data-url="http://yoursite.com/2016/06/16/ss/index.html" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name: "wulifun" };
 (function() {
     var ds = document.createElement('script');
     ds.type = 'text/javascript';ds.async = true;
