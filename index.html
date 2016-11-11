@@ -11,7 +11,131 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'Your Google Analytics ID', 'auto');
-ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/11/04/ansible-python-api/" class="post-link">小试Ansible Python API</a></h2><span class="post-time">Nov 4, 2016</span><div class="post-content"><h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><h3 id="命令行"><a href="#命令行" class="headerlink" title="命令行"></a>命令行</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// ping 模块</div><div class="line">$ ansible localhost -m ping</div><div class="line">localhost | success &gt;&gt; &#123;</div><div class="line">    &quot;changed&quot;: false,</div><div class="line">    &quot;ping&quot;: &quot;pong&quot;</div><div class="line">&#125;</div><div class="line">// shell 模块</div><div class="line">$ ansible localhost -m shell -a &apos;uptime&apos;</div><div class="line">localhost | success | rc=0 &gt;&gt;</div><div class="line">11:00:11 up 66 days, 23:34,  1 user,  load average: 0.00, 0.01, 0.05</div></pre></td></tr></table></figure>
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/11/11/pdb/" class="post-link">pdb代码调试</a></h2><span class="post-time">Nov 11, 2016</span><div class="post-content"><h3 id="简单调试示例"><a href="#简单调试示例" class="headerlink" title="简单调试示例"></a>简单调试示例</h3><pre><code>$ python -m pdb exp.py  #停在脚本第一行等待调试
+&gt; /Users/Mr-zhao/work_space/scripts/exp.py(3)&lt;module&gt;()
+-&gt; a = 1
+(Pdb) l    #list列出当前代码所在行
+    1   #!/usr/bin/env python
+    2
+    3  -&gt;   a = 1
+    4   b = 2
+    5   c = 3
+    6   d = a+b+c
+    7   print d
+[EOF]
+(Pdb) n #next执行下一行
+&gt; /Users/Mr-zhao/work_space/scripts/exp.py(4)&lt;module&gt;()
+-&gt; b = 2
+(Pdb) p a  #打印变量值，pp和print都可以
+1
+(Pdb) c  #continue继续执行程序，遇到断点则停止
+6    #由于脚本没有设置断点，则直接运行完成输出结果
+The program finished and will be restarted
+&gt; /Users/Mr-zhao/work_space/scripts/exp.py(3)&lt;module&gt;()
+-&gt; a = 1
+(Pdb) q  # exit退出
+</code></pre><h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>break 或 b</td>
+<td>设置断点</td>
+</tr>
+<tr>
+<td>continue 或 c</td>
+<td>继续执行程序，遇到断点则停止</td>
+</tr>
+<tr>
+<td>list 或 l</td>
+<td>查看当前行的代码段，默认显示11行代码</td>
+</tr>
+<tr>
+<td>step 或 s</td>
+<td>进入函数</td>
+</tr>
+<tr>
+<td>return 或 r</td>
+<td>执行代码直到从当前函数返回</td>
+</tr>
+<tr>
+<td>exit 或 q</td>
+<td>中止并退出</td>
+</tr>
+<tr>
+<td>next 或 n</td>
+<td>执行下一行</td>
+</tr>
+<tr>
+<td>p 或 pp</td>
+<td>打印变量的值</td>
+</tr>
+<tr>
+<td>help</td>
+<td>帮助</td>
+</tr>
+</tbody>
+</table>
+<h3 id="设置断点"><a href="#设置断点" class="headerlink" title="设置断点"></a>设置断点</h3><h4 id="命令行方式"><a href="#命令行方式" class="headerlink" title="命令行方式"></a>命令行方式</h4><pre><code>$ python -m pdb exp1.py
+&gt; /Users/Mr-zhao/work_space/scripts/exp1.py(3)&lt;module&gt;()
+-&gt; x = 1
+(Pdb) l
+    1   #!/usr/bin/env python
+    2
+    3  -&gt;   x = 1
+    4   y = 2
+    5   z = x + y
+    6   print z
+[EOF]
+(Pdb) b 5  #设置第5行断点
+Breakpoint 1 at /Users/Mr-zhao/work_space/scripts/exp1.py:5
+(Pdb) b
+Num Type         Disp Enb   Where
+1   breakpoint   keep yes   at /Users/Mr-zhao/work_space/scripts/exp1.py:5
+(Pdb) c  #执行程序停留在断点位置
+&gt; /Users/Mr-zhao/work_space/scripts/exp1.py(5)&lt;module&gt;()
+-&gt; z = x + y
+(Pdb) q 
+</code></pre><h4 id="脚本内部设置"><a href="#脚本内部设置" class="headerlink" title="脚本内部设置"></a>脚本内部设置</h4><pre><code>$ cat exp.py
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import pdb  #导入模块
+def pdbexp(x,y):
+    a = 1
+    return a+x+y
+x = 1
+y = 2
+pdb.set_trace()   #设置断点
+z = pdbexp(x,y)
+print z
+</code></pre><p>开始调试：</p>
+<pre><code>$ python exp.py
+&gt; /Users/Mr-zhao/work_space/scripts/exp.py(9)&lt;module&gt;()
+-&gt; z = pdbexp(x,y)
+(Pdb) l
+    4       a = 1
+    5       return a+x+y
+    6   x = 1
+    7   y = 2
+    8   pdb.set_trace()
+    9  -&gt;   z = pdbexp(x,y)
+    10      print z
+[EOF]
+(Pdb) s  #进入函数
+--Call--
+&gt; /Users/Mr-zhao/work_space/scripts/exp.py(3)pdbexp()
+-&gt; def pdbexp(x,y):
+(Pdb) a #打印函数参数
+x = 1
+y = 2
+(Pdb) c #继续运行
+4
+</code></pre><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.ibm.com/developerworks/cn/linux/l-cn-pythondebugger/index.html" target="_blank" rel="external">Python 代码调试技巧</a><br><a href="https://docs.python.org/2/library/pdb.html" target="_blank" rel="external">pdb官方文档</a></p>
+</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/11/04/ansible-python-api/" class="post-link">小试Ansible Python API</a></h2><span class="post-time">Nov 4, 2016</span><div class="post-content"><h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><h3 id="命令行"><a href="#命令行" class="headerlink" title="命令行"></a>命令行</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// ping 模块</div><div class="line">$ ansible localhost -m ping</div><div class="line">localhost | success &gt;&gt; &#123;</div><div class="line">    &quot;changed&quot;: false,</div><div class="line">    &quot;ping&quot;: &quot;pong&quot;</div><div class="line">&#125;</div><div class="line">// shell 模块</div><div class="line">$ ansible localhost -m shell -a &apos;uptime&apos;</div><div class="line">localhost | success | rc=0 &gt;&gt;</div><div class="line">11:00:11 up 66 days, 23:34,  1 user,  load average: 0.00, 0.01, 0.05</div></pre></td></tr></table></figure>
 <h3 id="Python-API"><a href="#Python-API" class="headerlink" title="Python API"></a>Python API</h3><p>通过ansible.runner模块来实现</p></div><a href="/2016/11/04/ansible-python-api/" class="read-more">Read more..</a></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/11/01/svn-code-transfer/" class="post-link">跨仓库转移SVN代码目录</a></h2><span class="post-time">Nov 1, 2016</span><div class="post-content"><p>由于公司先前代码管理比较混乱，不同部门之间的代码有放在同一个仓库的，抽空转移了部分并记录备忘。</p>
 <p><strong>project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支</strong></p>
 <blockquote>
@@ -62,5 +186,4 @@ Byte Order:            Little Endian
 <p>sar工具将对系统当前的状态进行取样，然后通过计算数据和比例来表达系统的当前运行状态。它的特点是可以连续对系统取样，获得大量的取样数据。取样数据和分析的结果都可以存入文件，使用它时消耗的系统资源很小。</p></div><a href="/2016/05/26/sar/" class="read-more">Read more..</a></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/05/23/screen/" class="post-link">Screen会话管理</a></h2><span class="post-time">May 23, 2016</span><div class="post-content"><h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><p>GNU Screen是一款由GNU计划开发的用于命令行终端切换的自由软件。用户可以通过该软件同时连接多个本地或远程的命令行会话，并在其间自由切换。</p>
 <p><a href="http://www.gnu.org/software/screen/">GNU’s Screen 官方站点</a></p>
 <h3 id="二、功能"><a href="#二、功能" class="headerlink" title="二、功能"></a>二、功能</h3><h4 id="会话恢复"><a href="#会话恢复" class="headerlink" title="会话恢复"></a>会话恢复</h4><p>只要Screen本身没有终止，在其内部运行的会话都可以恢复。对于远程登录的用户即使网络连接中断，用户也不会失去对已经打开的命令行会话的控制。</p>
-<h4 id="多窗口"><a href="#多窗口" class="headerlink" title="多窗口"></a>多窗口</h4><p>在Screen环境下，所有的会话都独立的运行，并拥有各自的编号、输入、输出和窗口缓存。用户可以通过快捷键在不同的窗口下切换，并可以自由的重定向各个窗口的输入和输出。</p></div><a href="/2016/05/23/screen/" class="read-more">Read more..</a></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/05/20/opennebula-life-cycle/" class="post-link">OpenNebula life-cycle</a></h2><span class="post-time">May 20, 2016</span><div class="post-content"><h3 id="OpenNebula-Virtual-Machine-Life-cycle"><a href="#OpenNebula-Virtual-Machine-Life-cycle" class="headerlink" title="OpenNebula Virtual Machine Life-cycle"></a>OpenNebula Virtual Machine Life-cycle</h3><p><img src="http://docs.opennebula.org/4.14/_images/states-simple.png" alt=""></p>
-<p>具体状态详情请参考：<a href="http://docs.opennebula.org/4.14/user/virtual_resource_management/vm_guide_2.html">vm_guide_2</a></p></div><a href="/2016/05/20/opennebula-life-cycle/" class="read-more">Read more..</a></article></li></ul><div class="paginator"><a href="/page/2/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>
+<h4 id="多窗口"><a href="#多窗口" class="headerlink" title="多窗口"></a>多窗口</h4><p>在Screen环境下，所有的会话都独立的运行，并拥有各自的编号、输入、输出和窗口缓存。用户可以通过快捷键在不同的窗口下切换，并可以自由的重定向各个窗口的输入和输出。</p></div><a href="/2016/05/23/screen/" class="read-more">Read more..</a></article></li></ul><div class="paginator"><a href="/page/2/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>
