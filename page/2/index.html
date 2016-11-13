@@ -11,7 +11,10 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'Your Google Analytics ID', 'auto');
-ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/05/20/opennebula-life-cycle/" class="post-link">OpenNebula life-cycle</a></h2><span class="post-time">May 20, 2016</span><div class="post-content"><h3 id="OpenNebula-Virtual-Machine-Life-cycle"><a href="#OpenNebula-Virtual-Machine-Life-cycle" class="headerlink" title="OpenNebula Virtual Machine Life-cycle"></a>OpenNebula Virtual Machine Life-cycle</h3><p><img src="http://docs.opennebula.org/4.14/_images/states-simple.png" alt=""></p>
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/05/23/screen/" class="post-link">Screen会话管理</a></h2><span class="post-time">May 23, 2016</span><div class="post-content"><h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><p>GNU Screen是一款由GNU计划开发的用于命令行终端切换的自由软件。用户可以通过该软件同时连接多个本地或远程的命令行会话，并在其间自由切换。</p>
+<p><a href="http://www.gnu.org/software/screen/">GNU’s Screen 官方站点</a></p>
+<h3 id="二、功能"><a href="#二、功能" class="headerlink" title="二、功能"></a>二、功能</h3><h4 id="会话恢复"><a href="#会话恢复" class="headerlink" title="会话恢复"></a>会话恢复</h4><p>只要Screen本身没有终止，在其内部运行的会话都可以恢复。对于远程登录的用户即使网络连接中断，用户也不会失去对已经打开的命令行会话的控制。</p>
+<h4 id="多窗口"><a href="#多窗口" class="headerlink" title="多窗口"></a>多窗口</h4><p>在Screen环境下，所有的会话都独立的运行，并拥有各自的编号、输入、输出和窗口缓存。用户可以通过快捷键在不同的窗口下切换，并可以自由的重定向各个窗口的输入和输出。</p></div><a href="/2016/05/23/screen/" class="read-more">Read more..</a></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/05/20/opennebula-life-cycle/" class="post-link">OpenNebula life-cycle</a></h2><span class="post-time">May 20, 2016</span><div class="post-content"><h3 id="OpenNebula-Virtual-Machine-Life-cycle"><a href="#OpenNebula-Virtual-Machine-Life-cycle" class="headerlink" title="OpenNebula Virtual Machine Life-cycle"></a>OpenNebula Virtual Machine Life-cycle</h3><p><img src="http://docs.opennebula.org/4.14/_images/states-simple.png" alt=""></p>
 <p>具体状态详情请参考：<a href="http://docs.opennebula.org/4.14/user/virtual_resource_management/vm_guide_2.html">vm_guide_2</a></p></div><a href="/2016/05/20/opennebula-life-cycle/" class="read-more">Read more..</a></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/05/20/ansible/" class="post-link">Ansible基础知识备忘</a></h2><span class="post-time">May 20, 2016</span><div class="post-content"><h3 id="一、体系结构"><a href="#一、体系结构" class="headerlink" title="一、体系结构"></a>一、体系结构</h3><p>ansible是一款基于python开发，揉合了众多自动化运维工具功能的轻量级自动化运维工具，目前实现了除系统安装以外的批量系统配置、批量任务执行及批量程序部署等功能。</p>
 <p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/25.png" alt=""></p>
 <ul>
@@ -1275,34 +1278,4 @@ Bus 002 Device 005: ID 067b:2303 Prolific Technology, Inc. PL2303 Serial Port
 
 #Enter退出，选择Save setup as dfl  保存为默认配置
 </code></pre><p>  然后进入终端输入minicom 就能连接进入交换机配置</p>
-</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/02/25/ulimit/" class="post-link">ulimit小记</a></h2><span class="post-time">Feb 25, 2016</span><div class="post-content"><h3 id="ulimit简介"><a href="#ulimit简介" class="headerlink" title="ulimit简介"></a>ulimit简介</h3><p>ulimit 用于限制 shell 启动进程所占用的资源，支持以下各种类型的限制：所创建的内核文件的大小、进程数据块的大小、Shell 进程创建文件的大小、内存锁住的大小、常驻内存集的大小、打开文件描述符的数量、分配堆栈的最大大小、CPU 时间、单个用户的最大线程数、Shell 进程所能使用的最大虚拟内存。同时，它支持硬资源和软资源的限制。</p>
-<p>作为临时限制，ulimit 可以作用于通过使用其命令登录的 shell 会话，在会话终止时便结束限制，并不影响于其他 shell 会话。而对于长期的固定限制，ulimit 命令语句又可以被添加到由登录 shell 读取的文件中，作用于特定的 shell 用户。</p>
-<h3 id="ulimit的设置"><a href="#ulimit的设置" class="headerlink" title="ulimit的设置"></a>ulimit的设置</h3><pre><code>[root@Mr-zhao ~]# ulimit  -a    //查看当前配置文件ulimit全局系数
-core file size          (blocks, -c) 0
-data seg size           (kbytes, -d) unlimited
-scheduling priority             (-e) 0
-file size               (blocks, -f) unlimited
-pending signals                 (-i) 7389
-max locked memory       (kbytes, -l) 64
-max memory size         (kbytes, -m) unlimited
-open files                      (-n) 10240
-pipe size            (512 bytes, -p) 8
-POSIX message queues     (bytes, -q) 819200
-real-time priority              (-r) 0
-stack size              (kbytes, -s) 10240
-cpu time               (seconds, -t) unlimited
-max user processes              (-u) 10240
-virtual memory          (kbytes, -v) unlimited
-file locks                      (-x) unlimited
-</code></pre><p>对于线上环境的机器一般要对<code>open files</code>和<code>max user processes</code>进行修改。</p>
-<h4 id="临时性的修改，只对当前shell生效。"><a href="#临时性的修改，只对当前shell生效。" class="headerlink" title="临时性的修改，只对当前shell生效。"></a>临时性的修改，只对当前shell生效。</h4><pre><code>ulimit  -n 65535
-ulimit  -u 65535
-</code></pre><h4 id="想要ulimit的设置永久性生效，需要修改-etc-security-limits-conf文件。"><a href="#想要ulimit的设置永久性生效，需要修改-etc-security-limits-conf文件。" class="headerlink" title="想要ulimit的设置永久性生效，需要修改/etc/security/limits.conf文件。"></a>想要ulimit的设置永久性生效，需要修改/etc/security/limits.conf文件。</h4><p>对于centos系统/etc/security/limits.d/90-nproc.conf文件的优先级高于/etc/security/limits.conf，所以对全局的设定需修改90-nproc.conf文件。对于单个用户的ulimit的设置并不受etc/security/limits.d/90-nproc.conf影响。</p>
-<p>对于ubuntu系统，只需对/etc/security/limits.conf文件进行修改，ubuntu系统没有引入90-nproc.conf文件。但是ubuntux系统也会存在一个问题，就是对全局的设置其实对于root用户是没有效果的。所以ubuntu系统下的设置如下：</p>
-<pre><code>root@Mr-zhao:~# grep -Ev &quot;^$|^#&quot; /etc/security/limits.conf
-root - nofile 65535
-root - nproc  65535
-* - nofile 65535
-* - nproc 65535
-</code></pre><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.ibm.com/developerworks/cn/linux/l-cn-ulimit/" target="_blank" rel="external">通过 ulimit 改善系统性能</a><br><a href="http://ss64.com/bash/limits.conf.html" target="_blank" rel="external">limits.conf - configuration file</a></p>
 </div></article></li></ul><div class="paginator"><a href="/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/page/3/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>

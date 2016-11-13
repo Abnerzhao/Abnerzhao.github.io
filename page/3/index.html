@@ -11,7 +11,37 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'Your Google Analytics ID', 'auto');
-ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/02/24/network-command/" class="post-link">网络相关命令备忘</a></h2><span class="post-time">Feb 24, 2016</span><div class="post-content"><h3 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h3><p>查看网络连接状态接口等信息。</p>
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/02/25/ulimit/" class="post-link">ulimit小记</a></h2><span class="post-time">Feb 25, 2016</span><div class="post-content"><h3 id="ulimit简介"><a href="#ulimit简介" class="headerlink" title="ulimit简介"></a>ulimit简介</h3><p>ulimit 用于限制 shell 启动进程所占用的资源，支持以下各种类型的限制：所创建的内核文件的大小、进程数据块的大小、Shell 进程创建文件的大小、内存锁住的大小、常驻内存集的大小、打开文件描述符的数量、分配堆栈的最大大小、CPU 时间、单个用户的最大线程数、Shell 进程所能使用的最大虚拟内存。同时，它支持硬资源和软资源的限制。</p>
+<p>作为临时限制，ulimit 可以作用于通过使用其命令登录的 shell 会话，在会话终止时便结束限制，并不影响于其他 shell 会话。而对于长期的固定限制，ulimit 命令语句又可以被添加到由登录 shell 读取的文件中，作用于特定的 shell 用户。</p>
+<h3 id="ulimit的设置"><a href="#ulimit的设置" class="headerlink" title="ulimit的设置"></a>ulimit的设置</h3><pre><code>[root@Mr-zhao ~]# ulimit  -a    //查看当前配置文件ulimit全局系数
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 7389
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 10240
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 10240
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 10240
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+</code></pre><p>对于线上环境的机器一般要对<code>open files</code>和<code>max user processes</code>进行修改。</p>
+<h4 id="临时性的修改，只对当前shell生效。"><a href="#临时性的修改，只对当前shell生效。" class="headerlink" title="临时性的修改，只对当前shell生效。"></a>临时性的修改，只对当前shell生效。</h4><pre><code>ulimit  -n 65535
+ulimit  -u 65535
+</code></pre><h4 id="想要ulimit的设置永久性生效，需要修改-etc-security-limits-conf文件。"><a href="#想要ulimit的设置永久性生效，需要修改-etc-security-limits-conf文件。" class="headerlink" title="想要ulimit的设置永久性生效，需要修改/etc/security/limits.conf文件。"></a>想要ulimit的设置永久性生效，需要修改/etc/security/limits.conf文件。</h4><p>对于centos系统/etc/security/limits.d/90-nproc.conf文件的优先级高于/etc/security/limits.conf，所以对全局的设定需修改90-nproc.conf文件。对于单个用户的ulimit的设置并不受etc/security/limits.d/90-nproc.conf影响。</p>
+<p>对于ubuntu系统，只需对/etc/security/limits.conf文件进行修改，ubuntu系统没有引入90-nproc.conf文件。但是ubuntux系统也会存在一个问题，就是对全局的设置其实对于root用户是没有效果的。所以ubuntu系统下的设置如下：</p>
+<pre><code>root@Mr-zhao:~# grep -Ev &quot;^$|^#&quot; /etc/security/limits.conf
+root - nofile 65535
+root - nproc  65535
+* - nofile 65535
+* - nproc 65535
+</code></pre><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.ibm.com/developerworks/cn/linux/l-cn-ulimit/" target="_blank" rel="external">通过 ulimit 改善系统性能</a><br><a href="http://ss64.com/bash/limits.conf.html" target="_blank" rel="external">limits.conf - configuration file</a></p>
+</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/02/24/network-command/" class="post-link">网络相关命令备忘</a></h2><span class="post-time">Feb 24, 2016</span><div class="post-content"><h3 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h3><p>查看网络连接状态接口等信息。</p>
 <h4 id="常用的命令选项："><a href="#常用的命令选项：" class="headerlink" title="常用的命令选项："></a>常用的命令选项：</h4><ul>
 <li>a : 显示所有活动连接</li>
 <li>n：以数字的形式显示（不使用主机名与服务名称，使用 IP 与 port number ）</li>
@@ -853,12 +883,4 @@ define(&apos;ZBX_FONT_NSMR&apos;,&apos;simhei&apos;);
 </code></pre><h3 id="五、自动化安装脚本"><a href="#五、自动化安装脚本" class="headerlink" title="五、自动化安装脚本"></a>五、自动化安装脚本</h3><p>使用自动安装脚本可快速部署环境，在使用前请先明确自己的环境。此脚本在ubuntu 14.04 安装zabbix 2.0.5 测试成功。</p>
 <p><code>注意明确文件路径,修改配置文件中MYSQLDB数据库相关变量以及nginx中servername</code></p>
 <p><a href="https://github.com/Abnerzhao/zabbix/tree/master/doc" target="_blank" rel="external">自动安装脚本查看下载</a></p>
-</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/12/25/idrac/" class="post-link">idrac卡reset命令</a></h2><span class="post-time">Dec 25, 2015</span><div class="post-content"><ul>
-<li><p><strong>DELL</strong></p>
-<pre><code>racadm racreset
-</code></pre></li>
-<li><p><strong>Huawei</strong></p>
-<pre><code>ipmcset -d reset
-</code></pre></li>
-</ul>
 </div></article></li></ul><div class="paginator"><a href="/page/2/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/page/4/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>
