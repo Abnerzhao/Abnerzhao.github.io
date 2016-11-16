@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-11-16T13:16:08.000Z</updated>
+  <updated>2016-11-16T13:19:41.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2016/11/16/python-datetime/"/>
     <id>http://yoursite.com/2016/11/16/python-datetime/</id>
     <published>2016-11-16T13:08:40.000Z</published>
-    <updated>2016-11-16T13:16:08.000Z</updated>
+    <updated>2016-11-16T13:19:41.000Z</updated>
     
     <content type="html"><![CDATA[<p>关于datetime时间操作在日常工作中也没有经常用到，但是每次要用时却又想不起来，与其重复查文档不如总结一下备忘。本文只简单记录了常用的一些方法，不同类型格式之间的转换(如时间对象类型、字符串、timestamp、time tuple类型）以及时区问题等没有记录。</p>
 <h2 id="datetime模块"><a href="#datetime模块" class="headerlink" title="datetime模块"></a>datetime模块</h2><p>datetime 模块主要用来操作日期和时间</p>
@@ -32,7 +32,8 @@ print datetime.date(2016,11,16) //生成日期对象
 //stdout
 2016-11-16
 2016-11-16
-</code></pre><h3 id="time时间对象"><a href="#time时间对象" class="headerlink" title="time时间对象"></a>time时间对象</h3><pre><code>import datetime
+</code></pre><a id="more"></a>
+<h3 id="time时间对象"><a href="#time时间对象" class="headerlink" title="time时间对象"></a>time时间对象</h3><pre><code>import datetime
 
 Time = datetime.time(12,24,50) //生成时间对象
 print Time
@@ -182,6 +183,16 @@ time.struct_time(tm_year=2016, tm_mon=11, tm_mday=16, tm_hour=17, tm_min=25, tm_
     <summary type="html">
     
       &lt;p&gt;关于datetime时间操作在日常工作中也没有经常用到，但是每次要用时却又想不起来，与其重复查文档不如总结一下备忘。本文只简单记录了常用的一些方法，不同类型格式之间的转换(如时间对象类型、字符串、timestamp、time tuple类型）以及时区问题等没有记录。&lt;/p&gt;
+&lt;h2 id=&quot;datetime模块&quot;&gt;&lt;a href=&quot;#datetime模块&quot; class=&quot;headerlink&quot; title=&quot;datetime模块&quot;&gt;&lt;/a&gt;datetime模块&lt;/h2&gt;&lt;p&gt;datetime 模块主要用来操作日期和时间&lt;/p&gt;
+&lt;h3 id=&quot;date日期对象&quot;&gt;&lt;a href=&quot;#date日期对象&quot; class=&quot;headerlink&quot; title=&quot;date日期对象&quot;&gt;&lt;/a&gt;date日期对象&lt;/h3&gt;&lt;pre&gt;&lt;code&gt;import datetime
+
+print datetime.date.today()  //返回当前本地日期
+print datetime.date(2016,11,16) //生成日期对象
+
+//stdout
+2016-11-16
+2016-11-16
+&lt;/code&gt;&lt;/pre&gt;
     
     </summary>
     
