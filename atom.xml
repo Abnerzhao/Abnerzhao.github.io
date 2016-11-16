@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-11-13T04:05:28.000Z</updated>
+  <updated>2016-11-16T13:16:08.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,183 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>python-datetime</title>
+    <link href="http://yoursite.com/2016/11/16/python-datetime/"/>
+    <id>http://yoursite.com/2016/11/16/python-datetime/</id>
+    <published>2016-11-16T13:08:40.000Z</published>
+    <updated>2016-11-16T13:16:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>关于datetime时间操作在日常工作中也没有经常用到，但是每次要用时却又想不起来，与其重复查文档不如总结一下备忘。本文只简单记录了常用的一些方法，不同类型格式之间的转换(如时间对象类型、字符串、timestamp、time tuple类型）以及时区问题等没有记录。</p>
+<h2 id="datetime模块"><a href="#datetime模块" class="headerlink" title="datetime模块"></a>datetime模块</h2><p>datetime 模块主要用来操作日期和时间</p>
+<h3 id="date日期对象"><a href="#date日期对象" class="headerlink" title="date日期对象"></a>date日期对象</h3><pre><code>import datetime
+
+print datetime.date.today()  //返回当前本地日期
+print datetime.date(2016,11,16) //生成日期对象
+
+//stdout
+2016-11-16
+2016-11-16
+</code></pre><h3 id="time时间对象"><a href="#time时间对象" class="headerlink" title="time时间对象"></a>time时间对象</h3><pre><code>import datetime
+
+Time = datetime.time(12,24,50) //生成时间对象
+print Time
+print Time.hour
+print Time.minute
+print Time.second
+
+//stdout
+12:24:50
+12
+24
+50
+</code></pre><h3 id="datetime日期时间对象"><a href="#datetime日期时间对象" class="headerlink" title="datetime日期时间对象"></a>datetime日期时间对象</h3><pre><code>import datetime
+
+print datetime.datetime(2016,11,16,12,24,50) //生成datetime对象
+print datetime.datetime.now() //返回当前日期时间
+print datetime.datetime.now().strftime(&apos;%Y-%m-%d %H:%M:%S&apos;) //对当前时间格式化并返回字符串(将datetime对象转换为str)
+print datetime.datetime.now().ctime() //返回当前时间字符串
+print datetime.datetime.strptime(&apos;2016-11-16 16:13:43&apos;,&apos;%Y-%m-%d %H:%M:%S&apos;)//将字符串转换为datetime对象
+
+//stdout
+2016-11-16 12:24:50
+2016-11-16 16:58:47.913755
+2016-11-16 16:58:47
+Wed Nov 16 16:58:47 2016
+2016-11-16 16:13:43
+</code></pre><h3 id="timedelta对象"><a href="#timedelta对象" class="headerlink" title="timedelta对象"></a>timedelta对象</h3><p>timedelta对象表示一个时间段，即两个日期 (date) 或时间 (time) 之间的差。利用timedelta可实现时间的相加减，当然时间对象本身就能直接进行算术运算和比较运算。</p>
+<blockquote>
+<p>datetime.timedelta([days[, seconds[, microseconds[, milliseconds[, minutes[, hours[, weeks]]]]]]])</p>
+</blockquote>
+<pre><code>import datetime
+
+print datetime.date.today() + datetime.timedelta(days=3) //3天后
+print datetime.date.today() - datetime.timedelta(days=3) //3天前
+print datetime.date.today() + datetime.timedelta(days=-3) //3天前(参数可为负)
+print datetime.datetime.now() + datetime.timedelta(weeks=1) //1个星期后
+print datetime.datetime.now() + datetime.timedelta(days=1) //明天
+print datetime.datetime.now() + datetime.timedelta(hours=3) //3小时后
+print datetime.datetime.now() + datetime.timedelta(minutes=5) //5分钟后
+print datetime.datetime.now() + datetime.timedelta(seconds=60) //60秒
+
+//stdout
+2016-11-19
+2016-11-13
+2016-11-13
+2016-11-23 17:14:26.311780
+2016-11-17 17:14:26.311797
+2016-11-16 20:14:26.311806
+2016-11-16 17:19:26.311815
+2016-11-16 17:15:26.311823
+</code></pre><h2 id="time模块"><a href="#time模块" class="headerlink" title="time模块"></a>time模块</h2><p>time模块提供时间相关的功能</p>
+<pre><code>import time
+
+print time.ctime() //返回当前时间字符串
+print time.localtime() //返回当前时间timetuple
+time.sleep(10) //睡眠10秒
+print time.strftime(&apos;%Y-%m-%d %H:%M:%S&apos;) //格式化并返回字符串
+
+//stdout
+Wed Nov 16 17:25:50 2016
+time.struct_time(tm_year=2016, tm_mon=11, tm_mday=16, tm_hour=17, tm_min=25, tm_sec=50, tm_wday=2, tm_yday=321, tm_isdst=0)
+2016-11-16 17:26:00
+</code></pre><h2 id="strftime-格式化字符串含义"><a href="#strftime-格式化字符串含义" class="headerlink" title="strftime()格式化字符串含义"></a>strftime()格式化字符串含义</h2><table>
+<thead>
+<tr>
+<th>Directive</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%a</td>
+<td>星期名称简写</td>
+<td>Sun, Mon, …, Sat</td>
+</tr>
+<tr>
+<td>%A</td>
+<td>星期名称的全称</td>
+<td>Sunday, Monday, …, Saturday</td>
+</tr>
+<tr>
+<td>%w</td>
+<td>十进制数表示的星期[0表示星期日]</td>
+<td>0, 1, …, 6</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>十进制数表示的一个月的第几天</td>
+<td>01, 02, …, 31</td>
+</tr>
+<tr>
+<td>%b</td>
+<td>月份名称的简写</td>
+<td>Jan, Feb, …, Dec</td>
+</tr>
+<tr>
+<td>%B</td>
+<td>月份名称的全称</td>
+<td>January, February, …, December</td>
+</tr>
+<tr>
+<td>%m</td>
+<td>十进制数表示的月份</td>
+<td>01, 02, …, 12</td>
+</tr>
+<tr>
+<td>%y</td>
+<td>十进制数表示的年份，不带有世纪</td>
+<td>00, 01, …, 99</td>
+</tr>
+<tr>
+<td>%Y</td>
+<td>十进制数表示的年份，带有世纪</td>
+<td>1970, 1988, 2001, 2013</td>
+</tr>
+<tr>
+<td>%H</td>
+<td>十进制数表示的小时（24小时制）</td>
+<td>00, 01, …, 23</td>
+</tr>
+<tr>
+<td>%I</td>
+<td>十进制数表示的小时（12小时制）</td>
+<td>01, 02, …, 12</td>
+</tr>
+<tr>
+<td>%p</td>
+<td>AM or PM</td>
+<td>AM, PM</td>
+</tr>
+<tr>
+<td>%M</td>
+<td>十进制数表示的分钟</td>
+<td>00, 01, …, 59</td>
+</tr>
+<tr>
+<td>%S</td>
+<td>十进制表示的秒数</td>
+<td>00, 01, …, 59</td>
+</tr>
+</tbody>
+</table>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://docs.python.org/2/library/datetime.html" target="_blank" rel="external">datetime官方文档</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;关于datetime时间操作在日常工作中也没有经常用到，但是每次要用时却又想不起来，与其重复查文档不如总结一下备忘。本文只简单记录了常用的一些方法，不同类型格式之间的转换(如时间对象类型、字符串、timestamp、time tuple类型）以及时区问题等没有记录。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Dev" scheme="http://yoursite.com/categories/Dev/"/>
+    
+    
+      <category term="datetime" scheme="http://yoursite.com/tags/datetime/"/>
+    
+  </entry>
   
   <entry>
     <title>单人旅途之杭州</title>
@@ -2660,78 +2837,6 @@ Swap:         4092          0       4092
     
     
       <category term="free" scheme="http://yoursite.com/tags/free/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>minicom的使用</title>
-    <link href="http://yoursite.com/2016/02/28/minicom/"/>
-    <id>http://yoursite.com/2016/02/28/minicom/</id>
-    <published>2016-02-28T13:21:34.000Z</published>
-    <updated>2016-11-07T05:14:48.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="minicom的介绍"><a href="#minicom的介绍" class="headerlink" title="minicom的介绍"></a>minicom的介绍</h3><p>Linux下的Minicom的功能与Windows下的超级终端功能相似，<strong>可以通过串口控制外部的硬件设备</strong>，适于在linux通过超级终端对嵌入式设备行管理。</p>
-<h3 id="minicom的安装配置和使用"><a href="#minicom的安装配置和使用" class="headerlink" title="minicom的安装配置和使用"></a>minicom的安装配置和使用</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><pre><code># apt-get install minicom
-</code></pre><h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p> 实际案例：交换机的consle转usb口连接到服务器，通过minicom对交换机进行配置</p>
-<pre><code># lsusb   //查看USB的状态
-Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
-Bus 002 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
-Bus 002 Device 002: ID 0e0f:0003 VMware, Inc. Virtual Mouse
-Bus 002 Device 003: ID 0e0f:0002 VMware, Inc. Virtual USB Hub
-Bus 002 Device 004: ID 0e0f:0008 VMware, Inc.
-Bus 002 Device 005: ID 067b:2303 Prolific Technology, Inc. PL2303 Serial Port
-
-# dmesg |grep ttyUSB  //USB已经连接
-[11991.918691] usb 2-2.2: pl2303 converter now attached to ttyUSB0
-
-# minicom -s   //进行配置
-
-+-----[configuration]------+
-| Filenames and paths      |
-| File transfer protocols  |
-| Serial port setup        |
-| Modem and dialing        |
-| Screen and keyboard      |
-| Save setup as dfl        |
-| Save setup as..          |
-| Exit                     |
-| Exit from Minicom        |
-+--------------------------+
-
-#选择进入Serial port setup，按照之前查看的信息进行配置
-
-+-----------------------------------------------------------------------+
-| A -    Serial Device      : /dev/ttyUSB0                              |
-| B - Lockfile Location     : /var/lock                                 |
-| C -   Callin Program      :                                           |
-| D -  Callout Program      :                                           |
-| E -    Bps/Par/Bits       : 115200 8N1                                |
-| F - Hardware Flow Control : Yes                                       |
-| G - Software Flow Control : No                                        |
-|                                                                       |
-|    Change which setting?                                              |
-+-----------------------------------------------------------------------+
-    | Screen and keyboard      |
-    | Save setup as dfl        |
-    | Save setup as..          |
-    | Exit                     |
-    | Exit from Minicom        |
-    +--------------------------+
-
-#Enter退出，选择Save setup as dfl  保存为默认配置
-</code></pre><p>  然后进入终端输入minicom 就能连接进入交换机配置</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;minicom的介绍&quot;&gt;&lt;a href=&quot;#minicom的介绍&quot; class=&quot;headerlink&quot; title=&quot;minicom的介绍&quot;&gt;&lt;/a&gt;minicom的介绍&lt;/h3&gt;&lt;p&gt;Linux下的Minicom的功能与Windows下的超级终端功能相似，&lt;s
-    
-    </summary>
-    
-      <category term="Tools" scheme="http://yoursite.com/categories/Tools/"/>
-    
-    
-      <category term="minicom" scheme="http://yoursite.com/tags/minicom/"/>
     
   </entry>
   

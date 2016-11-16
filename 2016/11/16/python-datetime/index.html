@@ -1,0 +1,176 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Abnerzhao"><meta name="description" content="关于datetime时间操作在日常工作中也没有经常用到，但是每次要用时却又想不起来，与其重复查文档不如总结一下备忘。本文只简单记录了常用的一些方法，不同类型格式之间的转换(如时间对象类型、字符串、timestamp、timetuple类型）以及时区问题等没有记录。dateti"><meta name="keywords" content="datetime"><title>python-datetime · Abner</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="http://yoursite.com/2016/11/16/python-datetime/"><link rel="alternate" href="/atom.xml" title="Abner"><link rel="stylesheet" href="/fonts/iconfont/iconfont.css"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5832f612aff8681e2ee213a3b8d9548b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics ID', 'auto');
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">python-datetime</h1><span class="post-time">Nov 16, 2016</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#datetime模块"><span class="toc-text">datetime模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#date日期对象"><span class="toc-text">date日期对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#time时间对象"><span class="toc-text">time时间对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#datetime日期时间对象"><span class="toc-text">datetime日期时间对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#timedelta对象"><span class="toc-text">timedelta对象</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#time模块"><span class="toc-text">time模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strftime-格式化字符串含义"><span class="toc-text">strftime()格式化字符串含义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol></div><div class="post-content"><p>关于datetime时间操作在日常工作中也没有经常用到，但是每次要用时却又想不起来，与其重复查文档不如总结一下备忘。本文只简单记录了常用的一些方法，不同类型格式之间的转换(如时间对象类型、字符串、timestamp、time tuple类型）以及时区问题等没有记录。</p>
+<h2 id="datetime模块"><a href="#datetime模块" class="headerlink" title="datetime模块"></a>datetime模块</h2><p>datetime 模块主要用来操作日期和时间</p>
+<h3 id="date日期对象"><a href="#date日期对象" class="headerlink" title="date日期对象"></a>date日期对象</h3><pre><code>import datetime
+
+print datetime.date.today()  //返回当前本地日期
+print datetime.date(2016,11,16) //生成日期对象
+
+//stdout
+2016-11-16
+2016-11-16
+</code></pre><h3 id="time时间对象"><a href="#time时间对象" class="headerlink" title="time时间对象"></a>time时间对象</h3><pre><code>import datetime
+
+Time = datetime.time(12,24,50) //生成时间对象
+print Time
+print Time.hour
+print Time.minute
+print Time.second
+
+//stdout
+12:24:50
+12
+24
+50
+</code></pre><h3 id="datetime日期时间对象"><a href="#datetime日期时间对象" class="headerlink" title="datetime日期时间对象"></a>datetime日期时间对象</h3><pre><code>import datetime
+
+print datetime.datetime(2016,11,16,12,24,50) //生成datetime对象
+print datetime.datetime.now() //返回当前日期时间
+print datetime.datetime.now().strftime(&apos;%Y-%m-%d %H:%M:%S&apos;) //对当前时间格式化并返回字符串(将datetime对象转换为str)
+print datetime.datetime.now().ctime() //返回当前时间字符串
+print datetime.datetime.strptime(&apos;2016-11-16 16:13:43&apos;,&apos;%Y-%m-%d %H:%M:%S&apos;)//将字符串转换为datetime对象
+
+//stdout
+2016-11-16 12:24:50
+2016-11-16 16:58:47.913755
+2016-11-16 16:58:47
+Wed Nov 16 16:58:47 2016
+2016-11-16 16:13:43
+</code></pre><h3 id="timedelta对象"><a href="#timedelta对象" class="headerlink" title="timedelta对象"></a>timedelta对象</h3><p>timedelta对象表示一个时间段，即两个日期 (date) 或时间 (time) 之间的差。利用timedelta可实现时间的相加减，当然时间对象本身就能直接进行算术运算和比较运算。</p>
+<blockquote>
+<p>datetime.timedelta([days[, seconds[, microseconds[, milliseconds[, minutes[, hours[, weeks]]]]]]])</p>
+</blockquote>
+<pre><code>import datetime
+
+print datetime.date.today() + datetime.timedelta(days=3) //3天后
+print datetime.date.today() - datetime.timedelta(days=3) //3天前
+print datetime.date.today() + datetime.timedelta(days=-3) //3天前(参数可为负)
+print datetime.datetime.now() + datetime.timedelta(weeks=1) //1个星期后
+print datetime.datetime.now() + datetime.timedelta(days=1) //明天
+print datetime.datetime.now() + datetime.timedelta(hours=3) //3小时后
+print datetime.datetime.now() + datetime.timedelta(minutes=5) //5分钟后
+print datetime.datetime.now() + datetime.timedelta(seconds=60) //60秒
+
+//stdout
+2016-11-19
+2016-11-13
+2016-11-13
+2016-11-23 17:14:26.311780
+2016-11-17 17:14:26.311797
+2016-11-16 20:14:26.311806
+2016-11-16 17:19:26.311815
+2016-11-16 17:15:26.311823
+</code></pre><h2 id="time模块"><a href="#time模块" class="headerlink" title="time模块"></a>time模块</h2><p>time模块提供时间相关的功能</p>
+<pre><code>import time
+
+print time.ctime() //返回当前时间字符串
+print time.localtime() //返回当前时间timetuple
+time.sleep(10) //睡眠10秒
+print time.strftime(&apos;%Y-%m-%d %H:%M:%S&apos;) //格式化并返回字符串
+
+//stdout
+Wed Nov 16 17:25:50 2016
+time.struct_time(tm_year=2016, tm_mon=11, tm_mday=16, tm_hour=17, tm_min=25, tm_sec=50, tm_wday=2, tm_yday=321, tm_isdst=0)
+2016-11-16 17:26:00
+</code></pre><h2 id="strftime-格式化字符串含义"><a href="#strftime-格式化字符串含义" class="headerlink" title="strftime()格式化字符串含义"></a>strftime()格式化字符串含义</h2><table>
+<thead>
+<tr>
+<th>Directive</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%a</td>
+<td>星期名称简写</td>
+<td>Sun, Mon, …, Sat</td>
+</tr>
+<tr>
+<td>%A</td>
+<td>星期名称的全称</td>
+<td>Sunday, Monday, …, Saturday</td>
+</tr>
+<tr>
+<td>%w</td>
+<td>十进制数表示的星期[0表示星期日]</td>
+<td>0, 1, …, 6</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>十进制数表示的一个月的第几天</td>
+<td>01, 02, …, 31</td>
+</tr>
+<tr>
+<td>%b</td>
+<td>月份名称的简写</td>
+<td>Jan, Feb, …, Dec</td>
+</tr>
+<tr>
+<td>%B</td>
+<td>月份名称的全称</td>
+<td>January, February, …, December</td>
+</tr>
+<tr>
+<td>%m</td>
+<td>十进制数表示的月份</td>
+<td>01, 02, …, 12</td>
+</tr>
+<tr>
+<td>%y</td>
+<td>十进制数表示的年份，不带有世纪</td>
+<td>00, 01, …, 99</td>
+</tr>
+<tr>
+<td>%Y</td>
+<td>十进制数表示的年份，带有世纪</td>
+<td>1970, 1988, 2001, 2013</td>
+</tr>
+<tr>
+<td>%H</td>
+<td>十进制数表示的小时（24小时制）</td>
+<td>00, 01, …, 23</td>
+</tr>
+<tr>
+<td>%I</td>
+<td>十进制数表示的小时（12小时制）</td>
+<td>01, 02, …, 12</td>
+</tr>
+<tr>
+<td>%p</td>
+<td>AM or PM</td>
+<td>AM, PM</td>
+</tr>
+<tr>
+<td>%M</td>
+<td>十进制数表示的分钟</td>
+<td>00, 01, …, 59</td>
+</tr>
+<tr>
+<td>%S</td>
+<td>十进制表示的秒数</td>
+<td>00, 01, …, 59</td>
+</tr>
+</tbody>
+</table>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://docs.python.org/2/library/datetime.html" target="_blank" rel="external">datetime官方文档</a></p>
+</div></article><div class="tags"><a href="/tags/datetime/">datetime</a></div><div class="paginator"><a href="/2016/11/13/hangzhou/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div><section id="comments"><div data-thread-key="http://yoursite.com/2016/11/16/python-datetime/index.html" data-title="python-datetime" data-url="http://yoursite.com/2016/11/16/python-datetime/index.html" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name: "wulifun" };
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></section></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>
