@@ -1,0 +1,98 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Abnerzhao"><meta name="description" content="字典排序字典key排序方法一：dict={&amp;apos;b&amp;apos;:3,&amp;apos;a&amp;apos;:1,&amp;apos;d&amp;apos;:7,&amp;apos;c&amp;apos;:5}items=dict.items()items.sort()print[valuefor"><meta name="keywords" content="sort"><title>Python字典排序和列表去重 · Abner</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="http://yoursite.com/2016/08/18/python-dict-list-sort/"><link rel="alternate" href="/atom.xml" title="Abner"><link rel="stylesheet" href="/fonts/iconfont/iconfont.css"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5832f612aff8681e2ee213a3b8d9548b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics ID', 'auto');
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">Python字典排序和列表去重</h1><span class="post-time">Aug 18, 2016</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#字典排序"><span class="toc-text">字典排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字典key排序"><span class="toc-text">字典key排序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#方法一："><span class="toc-text">方法一：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#方法二："><span class="toc-text">方法二：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字典value排序"><span class="toc-text">字典value排序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#方法一：-1"><span class="toc-text">方法一：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#方法二：-1"><span class="toc-text">方法二：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表去重"><span class="toc-text">列表去重</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法一：-2"><span class="toc-text">方法一：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二：-2"><span class="toc-text">方法二：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法三："><span class="toc-text">方法三：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sort和sorted"><span class="toc-text">sort和sorted</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#利用sort和sorted实现列表排序"><span class="toc-text">利用sort和sorted实现列表排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sorted对字典排序"><span class="toc-text">sorted对字典排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sorted-key示例"><span class="toc-text">sorted key示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol></div><div class="post-content"><h2 id="字典排序"><a href="#字典排序" class="headerlink" title="字典排序"></a>字典排序</h2><h3 id="字典key排序"><a href="#字典key排序" class="headerlink" title="字典key排序"></a>字典key排序</h3><h4 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h4><pre><code>dict = {&apos;b&apos;:3,&apos;a&apos;:1,&apos;d&apos;:7,&apos;c&apos;:5}
+items = dict.items()
+items.sort()
+
+print [value for key,value in items] //[1, 3, 5, 7]
+或
+print [(k,v) for k,v in items] //[(&apos;a&apos;, 1), (&apos;b&apos;, 3), (&apos;c&apos;, 5), (&apos;d&apos;, 7)]
+</code></pre><h4 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h4><pre><code>dict = {&apos;b&apos;:3,&apos;a&apos;:1,&apos;d&apos;:7,&apos;c&apos;:5}
+print [(k,dict[k]) for k in sorted(dict.keys())] 
+
+//stdout
+[(&apos;a&apos;, 1), (&apos;b&apos;, 3), (&apos;c&apos;, 5), (&apos;d&apos;, 7)]
+</code></pre><h3 id="字典value排序"><a href="#字典value排序" class="headerlink" title="字典value排序"></a>字典value排序</h3><h4 id="方法一：-1"><a href="#方法一：-1" class="headerlink" title="方法一："></a>方法一：</h4><pre><code>dict = {&apos;b&apos;:3,&apos;a&apos;:1,&apos;d&apos;:7,&apos;c&apos;:5}
+print [ v for v in sorted(dict.values())]
+
+//stdout
+[1, 3, 5, 7]
+</code></pre><h4 id="方法二：-1"><a href="#方法二：-1" class="headerlink" title="方法二："></a>方法二：</h4><pre><code>dict = {&apos;b&apos;:3,&apos;a&apos;:1,&apos;d&apos;:7,&apos;c&apos;:5}
+sorted(dict.items(), lambda x, y: cmp(x[1], y[1]))
+//[(&apos;a&apos;, 1), (&apos;b&apos;, 3), (&apos;c&apos;, 5), (&apos;d&apos;, 7)]
+sorted(dict.items(), lambda x, y: cmp(x[1], y[1]), reverse=True) //降序
+//[(&apos;d&apos;, 7), (&apos;c&apos;, 5), (&apos;b&apos;, 3), (&apos;a&apos;, 1)]
+</code></pre><h2 id="列表去重"><a href="#列表去重" class="headerlink" title="列表去重"></a>列表去重</h2><h3 id="方法一：-2"><a href="#方法一：-2" class="headerlink" title="方法一："></a>方法一：</h3><p>set方法：类似dict但不存储value，且key不能重复</p>
+<pre><code>num_list = [1,1,2,3,4,4]
+list = list(set(num_list))
+print list
+
+//stdout
+[1, 2, 3, 4]
+</code></pre><h3 id="方法二：-2"><a href="#方法二：-2" class="headerlink" title="方法二："></a>方法二：</h3><pre><code>num_list = [1,1,2,3,4,4]
+print {}.fromkeys(num_list).keys() //创建新的字典 list的值为key 然后取key
+
+//stdout
+[1, 2, 3, 4]
+</code></pre><h3 id="方法三："><a href="#方法三：" class="headerlink" title="方法三："></a>方法三：</h3><pre><code>ids = [1,1,2,3,4,4]
+func = lambda x,y: x if y in x else x + [y]
+print reduce(func, [[], ] + ids) //利用reduce函数
+
+//stdout
+[1, 2, 3, 4]
+</code></pre><h2 id="sort和sorted"><a href="#sort和sorted" class="headerlink" title="sort和sorted"></a>sort和sorted</h2><p><strong>sort在容器内部排序，sorted生成一个新排好序的容器</strong></p>
+<blockquote>
+<p>sorted(iterable[, cmp[, key[, reverse]]])<br>iterable:可迭代对象<br>cmp:比较函数，默认为None<br>key:比较的关键字，默认为None<br>reverse:布尔值</p>
+</blockquote>
+<h3 id="利用sort和sorted实现列表排序"><a href="#利用sort和sorted实现列表排序" class="headerlink" title="利用sort和sorted实现列表排序"></a>利用sort和sorted实现列表排序</h3><pre><code>#sort
+list = [1,3,5,2,7,4]
+list.sort(reverse = True)
+print list
+
+//stdout
+[7, 5, 4, 3, 2, 1]  
+
+#sorted
+list = [1,3,5,2,7,4]
+new_list = sorted(list)
+print list
+print new_list
+
+//stdout
+[1, 3, 5, 2, 7, 4]
+[1, 2, 3, 4, 5, 7]
+</code></pre><h3 id="sorted对字典排序"><a href="#sorted对字典排序" class="headerlink" title="sorted对字典排序"></a>sorted对字典排序</h3><pre><code>dict = {&apos;b&apos;:3,&apos;a&apos;:1,&apos;d&apos;:7,&apos;c&apos;:5}
+print sorted(dict.items(), key=lambda d: d[0]) //key
+print sorted(dict.items(), key=lambda d: d[1]) //value
+</code></pre><h3 id="sorted-key示例"><a href="#sorted-key示例" class="headerlink" title="sorted key示例"></a>sorted key示例</h3><pre><code>#exp1
+&gt;&gt;&gt; sorted(&quot;This is a test string from Andrew&quot;.split(), key=str.lower)
+[&apos;a&apos;, &apos;Andrew&apos;, &apos;from&apos;, &apos;is&apos;, &apos;string&apos;, &apos;test&apos;, &apos;This&apos;]
+
+#exp2
+&gt;&gt;&gt; student_tuples = [
+    (&apos;john&apos;, &apos;A&apos;, 15),
+    (&apos;jane&apos;, &apos;B&apos;, 12),
+    (&apos;dave&apos;, &apos;B&apos;, 10),
+]
+&gt;&gt;&gt; sorted(student_tuples, key=lambda student: student[2]) # sort by age
+[(&apos;dave&apos;, &apos;B&apos;, 10), (&apos;jane&apos;, &apos;B&apos;, 12), (&apos;john&apos;, &apos;A&apos;, 15)]
+</code></pre><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://wiki.python.org/moin/HowTo/Sorting" target="_blank" rel="external">Sorting Mini-HOW TO</a><br><a href="https://docs.python.org/2/library/functions.html" target="_blank" rel="external">Built-in Functions</a></p>
+</div></article><div class="tags"><a href="/tags/sort/">sort</a></div><div class="paginator"><a href="/2016/10/29/Python-code-style/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/2016/06/16/ss/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div><section id="comments"><div data-thread-key="http://yoursite.com/2016/08/18/python-dict-list-sort/index.html" data-title="Python字典排序和列表去重" data-url="http://yoursite.com/2016/08/18/python-dict-list-sort/index.html" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name: "wulifun" };
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></section></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>

@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2016/08/18/python-dict-list-sort/</loc>
+    
+    <lastmod>2016-11-18T03:32:59.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2016/11/16/python-datetime/</loc>
     
     <lastmod>2016-11-16T13:20:32.000Z</lastmod>
@@ -100,20 +107,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/05/05/nc/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2015/10/05/ks/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2016/05/20/ansible/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
@@ -128,7 +121,105 @@
   </url>
   
   <url>
+    <loc>http://yoursite.com/2015/10/05/ks/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2016/01/08/make_deb/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/12/25/idrac/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/02/24/network-command/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/05/05/nc/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/01/09/Create-A-Local-Debian-Ubuntu-Mirror-With-apt-mirror/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/02/23/cacit/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/01/01/command/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/03/03/free/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/04/23/opennebula/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/10/29/photography/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/10/11/raid/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/03/05/Feb_tips/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/06/19/goodbye/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/10/03/cisco/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
@@ -149,83 +240,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/01/09/Create-A-Local-Debian-Ubuntu-Mirror-With-apt-mirror/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/02/24/network-command/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/02/23/cacit/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2015/10/29/photography/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2015/10/03/cisco/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/01/01/command/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/03/05/Feb_tips/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/04/23/opennebula/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2015/10/11/raid/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/03/03/free/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/01/12/sysstart/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2015/10/21/dmidecode/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
@@ -233,21 +247,14 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2015/06/19/goodbye/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2015/12/25/idrac/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2016/01/10/ubuntu_deb/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/01/12/sysstart/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     

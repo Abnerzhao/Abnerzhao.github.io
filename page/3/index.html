@@ -11,7 +11,35 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'Your Google Analytics ID', 'auto');
-ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/02/28/minicom/" class="post-link">minicom的使用</a></h2><span class="post-time">Feb 28, 2016</span><div class="post-content"><h3 id="minicom的介绍"><a href="#minicom的介绍" class="headerlink" title="minicom的介绍"></a>minicom的介绍</h3><p>Linux下的Minicom的功能与Windows下的超级终端功能相似，<strong>可以通过串口控制外部的硬件设备</strong>，适于在linux通过超级终端对嵌入式设备行管理。</p>
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/03/03/free/" class="post-link">free查看内存相关信息</a></h2><span class="post-time">Mar 3, 2016</span><div class="post-content"><h3 id="free"><a href="#free" class="headerlink" title="free"></a>free</h3><h4 id="manual-description"><a href="#manual-description" class="headerlink" title="manual description"></a>manual description</h4><blockquote>
+<p>free  displays  the total amount of free and used physical and swap memory in the system, as well as the buffers used bythe kernel.</p>
+<p>The shared memory column represents either the MemShared value (2.4 series kernels) or the Shmem value (2.6 series kernels and later) taken from the /proc/meminfo file. The value is zero if none of the entries is exported by the kernel.</p>
+</blockquote>
+<h4 id="buffers-and-cached"><a href="#buffers-and-cached" class="headerlink" title="buffers and cached"></a>buffers and cached</h4><blockquote>
+<p><strong>What is the difference between buffers and Cache?</strong></p>
+<p>A buffer is a temporary location to store data for a particular application and this data is not used by any other application. This is similar to bandwidth concept. When you try to send burst of data through network, if your network card is capable of sending less data, it will keep these huge amounts of data in buffer so that it can send data constantly in lesser speeds. In other hand Cache is a memory location to store frequently used data for faster access. Other difference between a buffer and a cache is that cache can be used multiple times where as buffer is used single time. And both are temporary store for your data processing.</p>
+</blockquote>
+<ul>
+<li>A buffer is something that has yet to be “written” to disk.</li>
+<li>A cache is something that has been “read” from the disk and stored for later use.</li>
+</ul>
+<p>buffer是用于存放要输出到disk（块设备）的数据的，而cache是存放从disk上读出的数据。   这二者是为了提高IO性能的。为了提高IO read的性能，总是要多cache一些数据，这也就是为什么cached memor比较大，而比较小的原因。</p>
+<pre><code>root@Mr-zhao:~# free -m
+             total       used       free     shared    buffers     cached
+Mem:          2001        979       1021          0         58        774
+-/+ buffers/cache:        146       1854
+Swap:         4092          0       4092
+</code></pre><p>当我们第一次读一个大文件时耗时可能会比第二次长，原因就是第二次读取时已有cache数据。</p>
+<ul>
+<li><p>-/+ buffers/cache(used): 表示一个应用程序认为系统被用掉多少内存；</p>
+<p>  -/+ buffers/cache(used) = Mem(used) – Mem(buffers) – Mem(cached)</p>
+</li>
+<li><p>-/+ buffers/cache(free)，表示一个应用程序认为系统还有多少内存；</p>
+<p>  -/+ buffers/cache(free) = Mem(free) + Mem(buffers) + Mem(cached)</p>
+</li>
+</ul>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="http://www.cnblogs.com/coldplayerest/archive/2010/02/20/1669949.html" target="_blank" rel="external">Linux上的free命令详解</a><br><a href="http://www.freelinuxconsole.info/understanding-free-command-in-linuxunix-2/" target="_blank" rel="external">Understanding free command in Linux/Unix</a></p>
+</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/02/28/minicom/" class="post-link">minicom的使用</a></h2><span class="post-time">Feb 28, 2016</span><div class="post-content"><h3 id="minicom的介绍"><a href="#minicom的介绍" class="headerlink" title="minicom的介绍"></a>minicom的介绍</h3><p>Linux下的Minicom的功能与Windows下的超级终端功能相似，<strong>可以通过串口控制外部的硬件设备</strong>，适于在linux通过超级终端对嵌入式设备行管理。</p>
 <h3 id="minicom的安装配置和使用"><a href="#minicom的安装配置和使用" class="headerlink" title="minicom的安装配置和使用"></a>minicom的安装配置和使用</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><pre><code># apt-get install minicom
 </code></pre><h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p> 实际案例：交换机的consle转usb口连接到服务器，通过minicom对交换机进行配置</p>
 <pre><code># lsusb   //查看USB的状态
@@ -763,8 +791,4 @@ DEBIAN  usr
 $ cd ..
 $ dpkg -b test test_new.deb
 </code></pre><p><strong>Debain库非常丰富，一般都很少用源码包来制作deb包，通过对已有的deb包进行修改即可满足日常需求</strong></p>
-</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/01/01/command/" class="post-link">运维必备之Linux命令概览</a></h2><span class="post-time">Jan 1, 2016</span><div class="post-content"><h3 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/C3EB9F70-7F51-4B46-8B14-825CD9B8C11B.png" alt=""></p>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/BF852F66-2D8E-42D8-A4EB-2826A98C354C.png" alt=""></p>
-<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/429014F3-442B-4115-A97D-32D62E6BEE7F.png" alt=""></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.brendangregg.com/linuxperf.html" target="_blank" rel="external">Linux Performance</a></p>
 </div></article></li></ul><div class="paginator"><a href="/page/2/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/page/4/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>
