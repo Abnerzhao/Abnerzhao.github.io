@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-11-16T13:20:32.000Z</updated>
+  <updated>2016-11-20T02:28:06.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,83 +20,21 @@
     <link href="http://yoursite.com/2016/11/16/python-datetime/"/>
     <id>http://yoursite.com/2016/11/16/python-datetime/</id>
     <published>2016-11-16T13:08:40.000Z</published>
-    <updated>2016-11-16T13:20:32.000Z</updated>
+    <updated>2016-11-20T02:28:06.000Z</updated>
     
-    <content type="html"><![CDATA[<p>关于datetime时间操作在日常工作中也没有经常用到，但是每次要用时却又想不起来，与其重复查文档不如总结一下备忘。本文只简单记录了常用的一些方法，不同类型格式之间的转换(如时间对象类型、字符串、timestamp、time tuple类型）以及时区问题等没有记录。</p>
+    <content type="html"><![CDATA[<p>关于datetime时间操作在日常工作中也没有经常用到，但是每次要用时却又想不起来，与其重复查文档不如总结一下备忘。本文只简单记录了常用的一些方法，不同类型格式之间的转换(如时间对象类型、字符串、timestamp、time tuple类型）以及时区问题等暂未深入了解。</p>
 <h2 id="datetime模块"><a href="#datetime模块" class="headerlink" title="datetime模块"></a>datetime模块</h2><p>datetime 模块主要用来操作日期和时间</p>
-<h3 id="date日期对象"><a href="#date日期对象" class="headerlink" title="date日期对象"></a>date日期对象</h3><pre><code>import datetime
-
-print datetime.date.today()  //返回当前本地日期
-print datetime.date(2016,11,16) //生成日期对象
-
-//stdout
-2016-11-16
-2016-11-16
-</code></pre><a id="more"></a>
-<h3 id="time时间对象"><a href="#time时间对象" class="headerlink" title="time时间对象"></a>time时间对象</h3><pre><code>import datetime
-
-Time = datetime.time(12,24,50) //生成时间对象
-print Time
-print Time.hour
-print Time.minute
-print Time.second
-
-//stdout
-12:24:50
-12
-24
-50
-</code></pre><h3 id="datetime日期时间对象"><a href="#datetime日期时间对象" class="headerlink" title="datetime日期时间对象"></a>datetime日期时间对象</h3><pre><code>import datetime
-
-print datetime.datetime(2016,11,16,12,24,50) //生成datetime对象
-print datetime.datetime.now() //返回当前日期时间
-print datetime.datetime.now().strftime(&apos;%Y-%m-%d %H:%M:%S&apos;) //对当前时间格式化并返回字符串(将datetime对象转换为str)
-print datetime.datetime.now().ctime() //返回当前时间字符串
-print datetime.datetime.strptime(&apos;2016-11-16 16:13:43&apos;,&apos;%Y-%m-%d %H:%M:%S&apos;)//将字符串转换为datetime对象
-
-//stdout
-2016-11-16 12:24:50
-2016-11-16 16:58:47.913755
-2016-11-16 16:58:47
-Wed Nov 16 16:58:47 2016
-2016-11-16 16:13:43
-</code></pre><h3 id="timedelta对象"><a href="#timedelta对象" class="headerlink" title="timedelta对象"></a>timedelta对象</h3><p>timedelta对象表示一个时间段，即两个日期 (date) 或时间 (time) 之间的差。利用timedelta可实现时间的相加减，当然时间对象本身就能直接进行算术运算和比较运算。</p>
+<h3 id="date日期对象"><a href="#date日期对象" class="headerlink" title="date日期对象"></a>date日期对象</h3><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> datetime</div><div class="line"></div><div class="line"><span class="keyword">print</span> datetime.date.today()  //返回当前本地日期</div><div class="line"><span class="keyword">print</span> datetime.date(<span class="number">2016</span>,<span class="number">11</span>,<span class="number">16</span>) //生成日期对象</div><div class="line"></div><div class="line">//stdout</div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span></div></pre></td></tr></table></figure>
+<h3 id="time时间对象"><a href="#time时间对象" class="headerlink" title="time时间对象"></a>time时间对象</h3><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> datetime</div><div class="line"></div><div class="line">Time = datetime.time(<span class="number">12</span>,<span class="number">24</span>,<span class="number">50</span>) //生成时间对象</div><div class="line"><span class="keyword">print</span> Time</div><div class="line"><span class="keyword">print</span> Time.hour</div><div class="line"><span class="keyword">print</span> Time.minute</div><div class="line"><span class="keyword">print</span> Time.second</div><div class="line"></div><div class="line">//stdout</div><div class="line"><span class="number">12</span>:<span class="number">24</span>:<span class="number">50</span></div><div class="line"><span class="number">12</span></div><div class="line"><span class="number">24</span></div><div class="line"><span class="number">50</span></div></pre></td></tr></table></figure>
+<h3 id="datetime日期时间对象"><a href="#datetime日期时间对象" class="headerlink" title="datetime日期时间对象"></a>datetime日期时间对象</h3><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> datetime</div><div class="line"></div><div class="line"><span class="keyword">print</span> datetime.datetime(<span class="number">2016</span>,<span class="number">11</span>,<span class="number">16</span>,<span class="number">12</span>,<span class="number">24</span>,<span class="number">50</span>) //生成datetime对象</div><div class="line"><span class="keyword">print</span> datetime.datetime.now() //返回当前日期时间</div><div class="line"><span class="keyword">print</span> datetime.datetime.now().strftime(<span class="string">'%Y-%m-%d %H:%M:%S'</span>) //对当前时间格式化并返回字符串(将datetime对象转换为str)</div><div class="line"><span class="keyword">print</span> datetime.datetime.now().ctime() //返回当前时间字符串</div><div class="line"><span class="keyword">print</span> datetime.datetime.strptime(<span class="string">'2016-11-16 16:13:43'</span>,<span class="string">'%Y-%m-%d %H:%M:%S'</span>)//将字符串转换为datetime对象</div><div class="line"></div><div class="line">//stdout</div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span> <span class="number">12</span>:<span class="number">24</span>:<span class="number">50</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span> <span class="number">16</span>:<span class="number">58</span>:<span class="number">47.913755</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span> <span class="number">16</span>:<span class="number">58</span>:<span class="number">47</span></div><div class="line">Wed Nov <span class="number">16</span> <span class="number">16</span>:<span class="number">58</span>:<span class="number">47</span> <span class="number">2016</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span> <span class="number">16</span>:<span class="number">13</span>:<span class="number">43</span></div></pre></td></tr></table></figure>
+<h3 id="timedelta对象"><a href="#timedelta对象" class="headerlink" title="timedelta对象"></a>timedelta对象</h3><p>timedelta对象表示一个时间段，即两个日期 (date) 或时间 (time) 之间的差。利用timedelta可实现时间的相加减，当然时间对象本身就能直接进行算术运算和比较运算。</p>
 <blockquote>
 <p>datetime.timedelta([days[, seconds[, microseconds[, milliseconds[, minutes[, hours[, weeks]]]]]]])</p>
 </blockquote>
-<pre><code>import datetime
-
-print datetime.date.today() + datetime.timedelta(days=3) //3天后
-print datetime.date.today() - datetime.timedelta(days=3) //3天前
-print datetime.date.today() + datetime.timedelta(days=-3) //3天前(参数可为负)
-print datetime.datetime.now() + datetime.timedelta(weeks=1) //1个星期后
-print datetime.datetime.now() + datetime.timedelta(days=1) //明天
-print datetime.datetime.now() + datetime.timedelta(hours=3) //3小时后
-print datetime.datetime.now() + datetime.timedelta(minutes=5) //5分钟后
-print datetime.datetime.now() + datetime.timedelta(seconds=60) //60秒
-
-//stdout
-2016-11-19
-2016-11-13
-2016-11-13
-2016-11-23 17:14:26.311780
-2016-11-17 17:14:26.311797
-2016-11-16 20:14:26.311806
-2016-11-16 17:19:26.311815
-2016-11-16 17:15:26.311823
-</code></pre><h2 id="time模块"><a href="#time模块" class="headerlink" title="time模块"></a>time模块</h2><p>time模块提供时间相关的功能</p>
-<pre><code>import time
-
-print time.ctime() //返回当前时间字符串
-print time.localtime() //返回当前时间timetuple
-time.sleep(10) //睡眠10秒
-print time.strftime(&apos;%Y-%m-%d %H:%M:%S&apos;) //格式化并返回字符串
-
-//stdout
-Wed Nov 16 17:25:50 2016
-time.struct_time(tm_year=2016, tm_mon=11, tm_mday=16, tm_hour=17, tm_min=25, tm_sec=50, tm_wday=2, tm_yday=321, tm_isdst=0)
-2016-11-16 17:26:00
-</code></pre><h2 id="strftime-格式化字符串含义"><a href="#strftime-格式化字符串含义" class="headerlink" title="strftime()格式化字符串含义"></a>strftime()格式化字符串含义</h2><table>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> datetime</div><div class="line"></div><div class="line"><span class="keyword">print</span> datetime.date.today() + datetime.timedelta(days=<span class="number">3</span>) //<span class="number">3</span>天后</div><div class="line"><span class="keyword">print</span> datetime.date.today() - datetime.timedelta(days=<span class="number">3</span>) //<span class="number">3</span>天前</div><div class="line"><span class="keyword">print</span> datetime.date.today() + datetime.timedelta(days=<span class="number">-3</span>) //<span class="number">3</span>天前(参数可为负)</div><div class="line"><span class="keyword">print</span> datetime.datetime.now() + datetime.timedelta(weeks=<span class="number">1</span>) //<span class="number">1</span>个星期后</div><div class="line"><span class="keyword">print</span> datetime.datetime.now() + datetime.timedelta(days=<span class="number">1</span>) //明天</div><div class="line"><span class="keyword">print</span> datetime.datetime.now() + datetime.timedelta(hours=<span class="number">3</span>) //<span class="number">3</span>小时后</div><div class="line"><span class="keyword">print</span> datetime.datetime.now() + datetime.timedelta(minutes=<span class="number">5</span>) //<span class="number">5</span>分钟后</div><div class="line"><span class="keyword">print</span> datetime.datetime.now() + datetime.timedelta(seconds=<span class="number">60</span>) //<span class="number">60</span>秒</div><div class="line"></div><div class="line">//stdout</div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-19</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-13</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-13</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-23</span> <span class="number">17</span>:<span class="number">14</span>:<span class="number">26.311780</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-17</span> <span class="number">17</span>:<span class="number">14</span>:<span class="number">26.311797</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span> <span class="number">20</span>:<span class="number">14</span>:<span class="number">26.311806</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span> <span class="number">17</span>:<span class="number">19</span>:<span class="number">26.311815</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span> <span class="number">17</span>:<span class="number">15</span>:<span class="number">26.311823</span></div></pre></td></tr></table></figure>
+<h2 id="time模块"><a href="#time模块" class="headerlink" title="time模块"></a>time模块</h2><p>time模块提供时间相关的功能</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> time</div><div class="line"></div><div class="line"><span class="keyword">print</span> time.ctime() //返回当前时间字符串</div><div class="line"><span class="keyword">print</span> time.localtime() //返回当前时间timetuple</div><div class="line">time.sleep(<span class="number">10</span>) //睡眠<span class="number">10</span>秒</div><div class="line"><span class="keyword">print</span> time.strftime(<span class="string">'%Y-%m-%d %H:%M:%S'</span>) //格式化并返回字符串</div><div class="line"></div><div class="line">//stdout</div><div class="line">Wed Nov <span class="number">16</span> <span class="number">17</span>:<span class="number">25</span>:<span class="number">50</span> <span class="number">2016</span></div><div class="line">time.struct_time(tm_year=<span class="number">2016</span>, tm_mon=<span class="number">11</span>, tm_mday=<span class="number">16</span>, tm_hour=<span class="number">17</span>, tm_min=<span class="number">25</span>, tm_sec=<span class="number">50</span>, tm_wday=<span class="number">2</span>, tm_yday=<span class="number">321</span>, tm_isdst=<span class="number">0</span>)</div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span> <span class="number">17</span>:<span class="number">26</span>:<span class="number">00</span></div></pre></td></tr></table></figure>
+<h2 id="strftime-格式化字符串含义"><a href="#strftime-格式化字符串含义" class="headerlink" title="strftime()格式化字符串含义"></a>strftime()格式化字符串含义</h2><table>
 <thead>
 <tr>
 <th>Directive</th>
@@ -177,22 +115,13 @@ time.struct_time(tm_year=2016, tm_mon=11, tm_mday=16, tm_hour=17, tm_min=25, tm_
 </tr>
 </tbody>
 </table>
+<h2 id="数据类型转换"><a href="#数据类型转换" class="headerlink" title="数据类型转换"></a>数据类型转换</h2><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/C24469F5-B517-4D77-963E-37A6BC4B56AC.png" alt=""></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://docs.python.org/2/library/datetime.html" target="_blank" rel="external">datetime官方文档</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;关于datetime时间操作在日常工作中也没有经常用到，但是每次要用时却又想不起来，与其重复查文档不如总结一下备忘。本文只简单记录了常用的一些方法，不同类型格式之间的转换(如时间对象类型、字符串、timestamp、time tuple类型）以及时区问题等没有记录。&lt;/p&gt;
-&lt;h2 id=&quot;datetime模块&quot;&gt;&lt;a href=&quot;#datetime模块&quot; class=&quot;headerlink&quot; title=&quot;datetime模块&quot;&gt;&lt;/a&gt;datetime模块&lt;/h2&gt;&lt;p&gt;datetime 模块主要用来操作日期和时间&lt;/p&gt;
-&lt;h3 id=&quot;date日期对象&quot;&gt;&lt;a href=&quot;#date日期对象&quot; class=&quot;headerlink&quot; title=&quot;date日期对象&quot;&gt;&lt;/a&gt;date日期对象&lt;/h3&gt;&lt;pre&gt;&lt;code&gt;import datetime
-
-print datetime.date.today()  //返回当前本地日期
-print datetime.date(2016,11,16) //生成日期对象
-
-//stdout
-2016-11-16
-2016-11-16
-&lt;/code&gt;&lt;/pre&gt;
+      &lt;p&gt;关于datetime时间操作在日常工作中也没有经常用到，但是每次要用时却又想不起来，与其重复查文档不如总结一下备忘。本文只简单记录了常用的一些方法，不同类型格式之间的转换(如时间对象类型、字符串、timestamp、time tuple类型）以及时区问题等暂未深入了解。&lt;/
     
     </summary>
     
@@ -793,111 +722,46 @@ if __name__ == &apos;__main__&apos;:
   
   <entry>
     <title>Python字典排序和列表去重</title>
-    <link href="http://yoursite.com/2016/08/18/python-dict-list-sort/"/>
-    <id>http://yoursite.com/2016/08/18/python-dict-list-sort/</id>
-    <published>2016-08-18T03:31:26.000Z</published>
-    <updated>2016-11-18T07:51:58.000Z</updated>
+    <link href="http://yoursite.com/2016/09/18/python-dict-list-sort/"/>
+    <id>http://yoursite.com/2016/09/18/python-dict-list-sort/</id>
+    <published>2016-09-18T03:31:26.000Z</published>
+    <updated>2016-11-20T02:31:45.000Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="字典排序"><a href="#字典排序" class="headerlink" title="字典排序"></a>字典排序</h2><h3 id="字典key排序"><a href="#字典key排序" class="headerlink" title="字典key排序"></a>字典key排序</h3><p>方法一：</p>
-<pre><code>dict = {&apos;b&apos;:3,&apos;a&apos;:1,&apos;d&apos;:7,&apos;c&apos;:5}
-items = dict.items()
-items.sort()
-
-print [(k,v) for k,v in items] //[(&apos;a&apos;, 1), (&apos;b&apos;, 3), (&apos;c&apos;, 5), (&apos;d&apos;, 7)]
-</code></pre><p>方法二：</p>
-<pre><code>dict = {&apos;b&apos;:3,&apos;a&apos;:1,&apos;d&apos;:7,&apos;c&apos;:5}
-print [(k,dict[k]) for k in sorted(dict.keys())] 
-
-//stdout
-[(&apos;a&apos;, 1), (&apos;b&apos;, 3), (&apos;c&apos;, 5), (&apos;d&apos;, 7)]
-</code></pre><a id="more"></a>
-<h3 id="字典value排序"><a href="#字典value排序" class="headerlink" title="字典value排序"></a>字典value排序</h3><p>方法一：</p>
-<pre><code>dict = {&apos;b&apos;:3,&apos;a&apos;:1,&apos;d&apos;:7,&apos;c&apos;:5}
-print [ v for v in sorted(dict.values())]
-
-//stdout
-[1, 3, 5, 7]
-</code></pre><p>方法二：</p>
-<pre><code>dict = {&apos;b&apos;:3,&apos;a&apos;:1,&apos;d&apos;:7,&apos;c&apos;:5}
-sorted(dict.items(), lambda x, y: cmp(x[1], y[1]))
-//[(&apos;a&apos;, 1), (&apos;b&apos;, 3), (&apos;c&apos;, 5), (&apos;d&apos;, 7)]
-sorted(dict.items(), lambda x, y: cmp(x[1], y[1]), reverse=True) //降序
-//[(&apos;d&apos;, 7), (&apos;c&apos;, 5), (&apos;b&apos;, 3), (&apos;a&apos;, 1)]
-</code></pre><h2 id="列表去重"><a href="#列表去重" class="headerlink" title="列表去重"></a>列表去重</h2><p>方法一：</p>
-<p>set方法：类似dict但不存储value，且key不能重复</p>
-<pre><code>num_list = [1,1,2,3,4,4]
-list = list(set(num_list))
-print list
-
-//stdout
-[1, 2, 3, 4]
-</code></pre><p>方法二：</p>
-<pre><code>num_list = [1,1,2,3,4,4]
-print {}.fromkeys(num_list).keys() //创建新的字典 list的值为key 然后取key
-
-//stdout
-[1, 2, 3, 4]
-</code></pre><p>方法三：</p>
-<pre><code>ids = [1,1,2,3,4,4]
-func = lambda x,y: x if y in x else x + [y]
-print reduce(func, [[], ] + ids) //利用reduce函数
-
-//stdout
-[1, 2, 3, 4]
-</code></pre><h2 id="sort和sorted"><a href="#sort和sorted" class="headerlink" title="sort和sorted"></a>sort和sorted</h2><p><strong>sort在容器内部排序，sorted生成一个新排好序的容器</strong></p>
+    <content type="html"><![CDATA[<h2 id="字典排序"><a href="#字典排序" class="headerlink" title="字典排序"></a>字典排序</h2><h3 id="字典key排序"><a href="#字典key排序" class="headerlink" title="字典key排序"></a>字典key排序</h3><h4 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">dict = &#123;&apos;b&apos;:3,&apos;a&apos;:1,&apos;d&apos;:7,&apos;c&apos;:5&#125;</div><div class="line">items = dict.items()</div><div class="line">items.sort()</div><div class="line">    </div><div class="line">print [(k,v) for k,v in items] //[(&apos;a&apos;, 1), (&apos;b&apos;, 3), (&apos;c&apos;, 5), (&apos;d&apos;, 7)]</div></pre></td></tr></table></figure>
+<h4 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">dict = &#123;&apos;b&apos;:3,&apos;a&apos;:1,&apos;d&apos;:7,&apos;c&apos;:5&#125;</div><div class="line">print [(k,dict[k]) for k in sorted(dict.keys())] </div><div class="line"></div><div class="line">//stdout</div><div class="line">[(&apos;a&apos;, 1), (&apos;b&apos;, 3), (&apos;c&apos;, 5), (&apos;d&apos;, 7)]</div><div class="line">```    </div><div class="line"></div><div class="line"></div><div class="line">### 字典value排序</div><div class="line"></div><div class="line">#### 方法一：</div></pre></td></tr></table></figure>
+<p>dict = {‘b’:3,’a’:1,’d’:7,’c’:5}<br>print [ v for v in sorted(dict.values())]</p>
+<p>//stdout<br>[1, 3, 5, 7]<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"></div><div class="line">#### 方法二：</div></pre></td></tr></table></figure></p>
+<p>dict = {‘b’:3,’a’:1,’d’:7,’c’:5}<br>sorted(dict.items(), lambda x, y: cmp(x[1], y[1]))<br>//[(‘a’, 1), (‘b’, 3), (‘c’, 5), (‘d’, 7)]<br>sorted(dict.items(), lambda x, y: cmp(x[1], y[1]), reverse=True) //降序<br>//[(‘d’, 7), (‘c’, 5), (‘b’, 3), (‘a’, 1)]<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"></div><div class="line">## 列表去重</div><div class="line"></div><div class="line">### 方法一：</div><div class="line"></div><div class="line">set方法：类似dict但不存储value，且key不能重复</div><div class="line">```    </div><div class="line">num_list = [1,1,2,3,4,4]</div><div class="line">list = list(set(num_list))</div><div class="line">print list</div><div class="line"></div><div class="line">//stdout</div><div class="line">[1, 2, 3, 4]</div></pre></td></tr></table></figure></p>
+<h3 id="方法二：-1"><a href="#方法二：-1" class="headerlink" title="方法二："></a>方法二：</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">num_list = [1,1,2,3,4,4]</div><div class="line">print &#123;&#125;.fromkeys(num_list).keys() //创建新的字典 list的值为key 然后取key</div><div class="line"></div><div class="line">//stdout</div><div class="line">[1, 2, 3, 4]</div><div class="line">```    </div><div class="line">    </div><div class="line"></div><div class="line">### 方法三：</div></pre></td></tr></table></figure>
+<p>ids = [1,1,2,3,4,4]<br>func = lambda x,y: x if y in x else x + [y]<br>print reduce(func, [[], ] + ids) //利用reduce函数</p>
+<p>//stdout<br>[1, 2, 3, 4]<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"></div><div class="line">## sort和sorted</div><div class="line"></div><div class="line">**sort在容器内部排序，sorted生成一个新排好序的容器**</div><div class="line"></div><div class="line">&gt; sorted(iterable[, cmp[, key[, reverse]]])</div><div class="line">iterable:可迭代对象</div><div class="line">cmp:比较函数，默认为None</div><div class="line">key:比较的关键字，默认为None</div><div class="line">reverse:布尔值，True则降序排列</div><div class="line"></div><div class="line">### 利用sort和sorted实现列表排序</div></pre></td></tr></table></figure></p>
+<p>#sort<br>list = [1,3,5,2,7,4]<br>list.sort(reverse = True)<br>print list</p>
+<p>//stdout<br>[7, 5, 4, 3, 2, 1]  </p>
+<p>#sorted<br>list = [1,3,5,2,7,4]<br>new_list = sorted(list)<br>print list<br>print new_list</p>
+<p>//stdout<br>[1, 3, 5, 2, 7, 4]<br>[1, 2, 3, 4, 5, 7]<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"></div><div class="line">### sorted对字典排序</div></pre></td></tr></table></figure></p>
+<p>dict = {‘b’:3,’a’:1,’d’:7,’c’:5}<br>print sorted(dict.items(), key=lambda d: d[0]) //key<br>print sorted(dict.items(), key=lambda d: d[1]) //value<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">### sorted key示例</div></pre></td></tr></table></figure></p>
+<p>#exp1</p>
 <blockquote>
-<p>sorted(iterable[, cmp[, key[, reverse]]])<br>iterable:可迭代对象<br>cmp:比较函数，默认为None<br>key:比较的关键字，默认为None<br>reverse:布尔值，True则降序排列</p>
+<blockquote>
+<blockquote>
+<p>sorted(“This is a test string from Andrew”.split(), key=str.lower)<br>[‘a’, ‘Andrew’, ‘from’, ‘is’, ‘string’, ‘test’, ‘This’]</p>
 </blockquote>
-<h3 id="利用sort和sorted实现列表排序"><a href="#利用sort和sorted实现列表排序" class="headerlink" title="利用sort和sorted实现列表排序"></a>利用sort和sorted实现列表排序</h3><pre><code>#sort
-list = [1,3,5,2,7,4]
-list.sort(reverse = True)
-print list
-
-//stdout
-[7, 5, 4, 3, 2, 1]  
-
-#sorted
-list = [1,3,5,2,7,4]
-new_list = sorted(list)
-print list
-print new_list
-
-//stdout
-[1, 3, 5, 2, 7, 4]
-[1, 2, 3, 4, 5, 7]
-</code></pre><h3 id="sorted对字典排序"><a href="#sorted对字典排序" class="headerlink" title="sorted对字典排序"></a>sorted对字典排序</h3><pre><code>dict = {&apos;b&apos;:3,&apos;a&apos;:1,&apos;d&apos;:7,&apos;c&apos;:5}
-print sorted(dict.items(), key=lambda d: d[0]) //key
-print sorted(dict.items(), key=lambda d: d[1]) //value
-</code></pre><h3 id="sorted-key示例"><a href="#sorted-key示例" class="headerlink" title="sorted key示例"></a>sorted key示例</h3><pre><code>#exp1
-&gt;&gt;&gt; sorted(&quot;This is a test string from Andrew&quot;.split(), key=str.lower)
-[&apos;a&apos;, &apos;Andrew&apos;, &apos;from&apos;, &apos;is&apos;, &apos;string&apos;, &apos;test&apos;, &apos;This&apos;]
-
-#exp2
-&gt;&gt;&gt; student_tuples = [
-    (&apos;john&apos;, &apos;A&apos;, 15),
-    (&apos;jane&apos;, &apos;B&apos;, 12),
-    (&apos;dave&apos;, &apos;B&apos;, 10),
-]
-&gt;&gt;&gt; sorted(student_tuples, key=lambda student: student[2]) # sort by age
-[(&apos;dave&apos;, &apos;B&apos;, 10), (&apos;jane&apos;, &apos;B&apos;, 12), (&apos;john&apos;, &apos;A&apos;, 15)]
-</code></pre><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://wiki.python.org/moin/HowTo/Sorting" target="_blank" rel="external">Sorting Mini-HOW TO</a><br><a href="https://docs.python.org/2/library/functions.html" target="_blank" rel="external">Built-in Functions</a></p>
+</blockquote>
+</blockquote>
+<p>#exp2</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>student_tuples = [<br>    (‘john’, ‘A’, 15),<br>    (‘jane’, ‘B’, 12),<br>    (‘dave’, ‘B’, 10),<br>]<br>sorted(student_tuples, key=lambda student: student[2]) # sort by age<br>[(‘dave’, ‘B’, 10), (‘jane’, ‘B’, 12), (‘john’, ‘A’, 15)]<br>```</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://wiki.python.org/moin/HowTo/Sorting" target="_blank" rel="external">Sorting Mini-HOW TO</a><br><a href="https://docs.python.org/2/library/functions.html" target="_blank" rel="external">Built-in Functions</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;字典排序&quot;&gt;&lt;a href=&quot;#字典排序&quot; class=&quot;headerlink&quot; title=&quot;字典排序&quot;&gt;&lt;/a&gt;字典排序&lt;/h2&gt;&lt;h3 id=&quot;字典key排序&quot;&gt;&lt;a href=&quot;#字典key排序&quot; class=&quot;headerlink&quot; title=&quot;字典key排序&quot;&gt;&lt;/a&gt;字典key排序&lt;/h3&gt;&lt;p&gt;方法一：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;dict = {&amp;apos;b&amp;apos;:3,&amp;apos;a&amp;apos;:1,&amp;apos;d&amp;apos;:7,&amp;apos;c&amp;apos;:5}
-items = dict.items()
-items.sort()
-
-print [(k,v) for k,v in items] //[(&amp;apos;a&amp;apos;, 1), (&amp;apos;b&amp;apos;, 3), (&amp;apos;c&amp;apos;, 5), (&amp;apos;d&amp;apos;, 7)]
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;方法二：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;dict = {&amp;apos;b&amp;apos;:3,&amp;apos;a&amp;apos;:1,&amp;apos;d&amp;apos;:7,&amp;apos;c&amp;apos;:5}
-print [(k,dict[k]) for k in sorted(dict.keys())] 
-
-//stdout
-[(&amp;apos;a&amp;apos;, 1), (&amp;apos;b&amp;apos;, 3), (&amp;apos;c&amp;apos;, 5), (&amp;apos;d&amp;apos;, 7)]
-&lt;/code&gt;&lt;/pre&gt;
+      &lt;h2 id=&quot;字典排序&quot;&gt;&lt;a href=&quot;#字典排序&quot; class=&quot;headerlink&quot; title=&quot;字典排序&quot;&gt;&lt;/a&gt;字典排序&lt;/h2&gt;&lt;h3 id=&quot;字典key排序&quot;&gt;&lt;a href=&quot;#字典key排序&quot; class=&quot;headerlink&quot; title=&quot;字典k
     
     </summary>
     

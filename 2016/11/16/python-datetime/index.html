@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Abnerzhao"><meta name="description" content="关于datetime时间操作在日常工作中也没有经常用到，但是每次要用时却又想不起来，与其重复查文档不如总结一下备忘。本文只简单记录了常用的一些方法，不同类型格式之间的转换(如时间对象类型、字符串、timestamp、timetuple类型）以及时区问题等没有记录。dateti"><meta name="keywords" content="datetime"><title>Python datetime时间那点事 · Abner</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="http://yoursite.com/2016/11/16/python-datetime/"><link rel="alternate" href="/atom.xml" title="Abner"><link rel="stylesheet" href="/fonts/iconfont/iconfont.css"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Abnerzhao"><meta name="description" content="关于datetime时间操作在日常工作中也没有经常用到，但是每次要用时却又想不起来，与其重复查文档不如总结一下备忘。本文只简单记录了常用的一些方法，不同类型格式之间的转换(如时间对象类型、字符串、timestamp、timetuple类型）以及时区问题等暂未深入了解。date"><meta name="keywords" content="datetime"><title>Python datetime时间那点事 · Abner</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="http://yoursite.com/2016/11/16/python-datetime/"><link rel="alternate" href="/atom.xml" title="Abner"><link rel="stylesheet" href="/fonts/iconfont/iconfont.css"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
 (function() {
   var hm = document.createElement("script");
   hm.src = "//hm.baidu.com/hm.js?5832f612aff8681e2ee213a3b8d9548b";
@@ -11,81 +11,19 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'Your Google Analytics ID', 'auto');
-ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">Python datetime时间那点事</h1><span class="post-time">Nov 16, 2016</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#datetime模块"><span class="toc-text">datetime模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#date日期对象"><span class="toc-text">date日期对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#time时间对象"><span class="toc-text">time时间对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#datetime日期时间对象"><span class="toc-text">datetime日期时间对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#timedelta对象"><span class="toc-text">timedelta对象</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#time模块"><span class="toc-text">time模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strftime-格式化字符串含义"><span class="toc-text">strftime()格式化字符串含义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol></div><div class="post-content"><p>关于datetime时间操作在日常工作中也没有经常用到，但是每次要用时却又想不起来，与其重复查文档不如总结一下备忘。本文只简单记录了常用的一些方法，不同类型格式之间的转换(如时间对象类型、字符串、timestamp、time tuple类型）以及时区问题等没有记录。</p>
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">Python datetime时间那点事</h1><span class="post-time">Nov 16, 2016</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#datetime模块"><span class="toc-text">datetime模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#date日期对象"><span class="toc-text">date日期对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#time时间对象"><span class="toc-text">time时间对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#datetime日期时间对象"><span class="toc-text">datetime日期时间对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#timedelta对象"><span class="toc-text">timedelta对象</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#time模块"><span class="toc-text">time模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strftime-格式化字符串含义"><span class="toc-text">strftime()格式化字符串含义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型转换"><span class="toc-text">数据类型转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol></div><div class="post-content"><p>关于datetime时间操作在日常工作中也没有经常用到，但是每次要用时却又想不起来，与其重复查文档不如总结一下备忘。本文只简单记录了常用的一些方法，不同类型格式之间的转换(如时间对象类型、字符串、timestamp、time tuple类型）以及时区问题等暂未深入了解。</p>
 <h2 id="datetime模块"><a href="#datetime模块" class="headerlink" title="datetime模块"></a>datetime模块</h2><p>datetime 模块主要用来操作日期和时间</p>
-<h3 id="date日期对象"><a href="#date日期对象" class="headerlink" title="date日期对象"></a>date日期对象</h3><pre><code>import datetime
-
-print datetime.date.today()  //返回当前本地日期
-print datetime.date(2016,11,16) //生成日期对象
-
-//stdout
-2016-11-16
-2016-11-16
-</code></pre><a id="more"></a>
-<h3 id="time时间对象"><a href="#time时间对象" class="headerlink" title="time时间对象"></a>time时间对象</h3><pre><code>import datetime
-
-Time = datetime.time(12,24,50) //生成时间对象
-print Time
-print Time.hour
-print Time.minute
-print Time.second
-
-//stdout
-12:24:50
-12
-24
-50
-</code></pre><h3 id="datetime日期时间对象"><a href="#datetime日期时间对象" class="headerlink" title="datetime日期时间对象"></a>datetime日期时间对象</h3><pre><code>import datetime
-
-print datetime.datetime(2016,11,16,12,24,50) //生成datetime对象
-print datetime.datetime.now() //返回当前日期时间
-print datetime.datetime.now().strftime(&apos;%Y-%m-%d %H:%M:%S&apos;) //对当前时间格式化并返回字符串(将datetime对象转换为str)
-print datetime.datetime.now().ctime() //返回当前时间字符串
-print datetime.datetime.strptime(&apos;2016-11-16 16:13:43&apos;,&apos;%Y-%m-%d %H:%M:%S&apos;)//将字符串转换为datetime对象
-
-//stdout
-2016-11-16 12:24:50
-2016-11-16 16:58:47.913755
-2016-11-16 16:58:47
-Wed Nov 16 16:58:47 2016
-2016-11-16 16:13:43
-</code></pre><h3 id="timedelta对象"><a href="#timedelta对象" class="headerlink" title="timedelta对象"></a>timedelta对象</h3><p>timedelta对象表示一个时间段，即两个日期 (date) 或时间 (time) 之间的差。利用timedelta可实现时间的相加减，当然时间对象本身就能直接进行算术运算和比较运算。</p>
+<h3 id="date日期对象"><a href="#date日期对象" class="headerlink" title="date日期对象"></a>date日期对象</h3><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> datetime</div><div class="line"></div><div class="line"><span class="keyword">print</span> datetime.date.today()  //返回当前本地日期</div><div class="line"><span class="keyword">print</span> datetime.date(<span class="number">2016</span>,<span class="number">11</span>,<span class="number">16</span>) //生成日期对象</div><div class="line"></div><div class="line">//stdout</div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span></div></pre></td></tr></table></figure>
+<h3 id="time时间对象"><a href="#time时间对象" class="headerlink" title="time时间对象"></a>time时间对象</h3><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> datetime</div><div class="line"></div><div class="line">Time = datetime.time(<span class="number">12</span>,<span class="number">24</span>,<span class="number">50</span>) //生成时间对象</div><div class="line"><span class="keyword">print</span> Time</div><div class="line"><span class="keyword">print</span> Time.hour</div><div class="line"><span class="keyword">print</span> Time.minute</div><div class="line"><span class="keyword">print</span> Time.second</div><div class="line"></div><div class="line">//stdout</div><div class="line"><span class="number">12</span>:<span class="number">24</span>:<span class="number">50</span></div><div class="line"><span class="number">12</span></div><div class="line"><span class="number">24</span></div><div class="line"><span class="number">50</span></div></pre></td></tr></table></figure>
+<h3 id="datetime日期时间对象"><a href="#datetime日期时间对象" class="headerlink" title="datetime日期时间对象"></a>datetime日期时间对象</h3><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> datetime</div><div class="line"></div><div class="line"><span class="keyword">print</span> datetime.datetime(<span class="number">2016</span>,<span class="number">11</span>,<span class="number">16</span>,<span class="number">12</span>,<span class="number">24</span>,<span class="number">50</span>) //生成datetime对象</div><div class="line"><span class="keyword">print</span> datetime.datetime.now() //返回当前日期时间</div><div class="line"><span class="keyword">print</span> datetime.datetime.now().strftime(<span class="string">'%Y-%m-%d %H:%M:%S'</span>) //对当前时间格式化并返回字符串(将datetime对象转换为str)</div><div class="line"><span class="keyword">print</span> datetime.datetime.now().ctime() //返回当前时间字符串</div><div class="line"><span class="keyword">print</span> datetime.datetime.strptime(<span class="string">'2016-11-16 16:13:43'</span>,<span class="string">'%Y-%m-%d %H:%M:%S'</span>)//将字符串转换为datetime对象</div><div class="line"></div><div class="line">//stdout</div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span> <span class="number">12</span>:<span class="number">24</span>:<span class="number">50</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span> <span class="number">16</span>:<span class="number">58</span>:<span class="number">47.913755</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span> <span class="number">16</span>:<span class="number">58</span>:<span class="number">47</span></div><div class="line">Wed Nov <span class="number">16</span> <span class="number">16</span>:<span class="number">58</span>:<span class="number">47</span> <span class="number">2016</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span> <span class="number">16</span>:<span class="number">13</span>:<span class="number">43</span></div></pre></td></tr></table></figure>
+<h3 id="timedelta对象"><a href="#timedelta对象" class="headerlink" title="timedelta对象"></a>timedelta对象</h3><p>timedelta对象表示一个时间段，即两个日期 (date) 或时间 (time) 之间的差。利用timedelta可实现时间的相加减，当然时间对象本身就能直接进行算术运算和比较运算。</p>
 <blockquote>
 <p>datetime.timedelta([days[, seconds[, microseconds[, milliseconds[, minutes[, hours[, weeks]]]]]]])</p>
 </blockquote>
-<pre><code>import datetime
-
-print datetime.date.today() + datetime.timedelta(days=3) //3天后
-print datetime.date.today() - datetime.timedelta(days=3) //3天前
-print datetime.date.today() + datetime.timedelta(days=-3) //3天前(参数可为负)
-print datetime.datetime.now() + datetime.timedelta(weeks=1) //1个星期后
-print datetime.datetime.now() + datetime.timedelta(days=1) //明天
-print datetime.datetime.now() + datetime.timedelta(hours=3) //3小时后
-print datetime.datetime.now() + datetime.timedelta(minutes=5) //5分钟后
-print datetime.datetime.now() + datetime.timedelta(seconds=60) //60秒
-
-//stdout
-2016-11-19
-2016-11-13
-2016-11-13
-2016-11-23 17:14:26.311780
-2016-11-17 17:14:26.311797
-2016-11-16 20:14:26.311806
-2016-11-16 17:19:26.311815
-2016-11-16 17:15:26.311823
-</code></pre><h2 id="time模块"><a href="#time模块" class="headerlink" title="time模块"></a>time模块</h2><p>time模块提供时间相关的功能</p>
-<pre><code>import time
-
-print time.ctime() //返回当前时间字符串
-print time.localtime() //返回当前时间timetuple
-time.sleep(10) //睡眠10秒
-print time.strftime(&apos;%Y-%m-%d %H:%M:%S&apos;) //格式化并返回字符串
-
-//stdout
-Wed Nov 16 17:25:50 2016
-time.struct_time(tm_year=2016, tm_mon=11, tm_mday=16, tm_hour=17, tm_min=25, tm_sec=50, tm_wday=2, tm_yday=321, tm_isdst=0)
-2016-11-16 17:26:00
-</code></pre><h2 id="strftime-格式化字符串含义"><a href="#strftime-格式化字符串含义" class="headerlink" title="strftime()格式化字符串含义"></a>strftime()格式化字符串含义</h2><table>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> datetime</div><div class="line"></div><div class="line"><span class="keyword">print</span> datetime.date.today() + datetime.timedelta(days=<span class="number">3</span>) //<span class="number">3</span>天后</div><div class="line"><span class="keyword">print</span> datetime.date.today() - datetime.timedelta(days=<span class="number">3</span>) //<span class="number">3</span>天前</div><div class="line"><span class="keyword">print</span> datetime.date.today() + datetime.timedelta(days=<span class="number">-3</span>) //<span class="number">3</span>天前(参数可为负)</div><div class="line"><span class="keyword">print</span> datetime.datetime.now() + datetime.timedelta(weeks=<span class="number">1</span>) //<span class="number">1</span>个星期后</div><div class="line"><span class="keyword">print</span> datetime.datetime.now() + datetime.timedelta(days=<span class="number">1</span>) //明天</div><div class="line"><span class="keyword">print</span> datetime.datetime.now() + datetime.timedelta(hours=<span class="number">3</span>) //<span class="number">3</span>小时后</div><div class="line"><span class="keyword">print</span> datetime.datetime.now() + datetime.timedelta(minutes=<span class="number">5</span>) //<span class="number">5</span>分钟后</div><div class="line"><span class="keyword">print</span> datetime.datetime.now() + datetime.timedelta(seconds=<span class="number">60</span>) //<span class="number">60</span>秒</div><div class="line"></div><div class="line">//stdout</div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-19</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-13</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-13</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-23</span> <span class="number">17</span>:<span class="number">14</span>:<span class="number">26.311780</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-17</span> <span class="number">17</span>:<span class="number">14</span>:<span class="number">26.311797</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span> <span class="number">20</span>:<span class="number">14</span>:<span class="number">26.311806</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span> <span class="number">17</span>:<span class="number">19</span>:<span class="number">26.311815</span></div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span> <span class="number">17</span>:<span class="number">15</span>:<span class="number">26.311823</span></div></pre></td></tr></table></figure>
+<h2 id="time模块"><a href="#time模块" class="headerlink" title="time模块"></a>time模块</h2><p>time模块提供时间相关的功能</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> time</div><div class="line"></div><div class="line"><span class="keyword">print</span> time.ctime() //返回当前时间字符串</div><div class="line"><span class="keyword">print</span> time.localtime() //返回当前时间timetuple</div><div class="line">time.sleep(<span class="number">10</span>) //睡眠<span class="number">10</span>秒</div><div class="line"><span class="keyword">print</span> time.strftime(<span class="string">'%Y-%m-%d %H:%M:%S'</span>) //格式化并返回字符串</div><div class="line"></div><div class="line">//stdout</div><div class="line">Wed Nov <span class="number">16</span> <span class="number">17</span>:<span class="number">25</span>:<span class="number">50</span> <span class="number">2016</span></div><div class="line">time.struct_time(tm_year=<span class="number">2016</span>, tm_mon=<span class="number">11</span>, tm_mday=<span class="number">16</span>, tm_hour=<span class="number">17</span>, tm_min=<span class="number">25</span>, tm_sec=<span class="number">50</span>, tm_wday=<span class="number">2</span>, tm_yday=<span class="number">321</span>, tm_isdst=<span class="number">0</span>)</div><div class="line"><span class="number">2016</span><span class="number">-11</span><span class="number">-16</span> <span class="number">17</span>:<span class="number">26</span>:<span class="number">00</span></div></pre></td></tr></table></figure>
+<h2 id="strftime-格式化字符串含义"><a href="#strftime-格式化字符串含义" class="headerlink" title="strftime()格式化字符串含义"></a>strftime()格式化字符串含义</h2><table>
 <thead>
 <tr>
 <th>Directive</th>
@@ -166,6 +104,7 @@ time.struct_time(tm_year=2016, tm_mon=11, tm_mday=16, tm_hour=17, tm_min=25, tm_
 </tr>
 </tbody>
 </table>
+<h2 id="数据类型转换"><a href="#数据类型转换" class="headerlink" title="数据类型转换"></a>数据类型转换</h2><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/C24469F5-B517-4D77-963E-37A6BC4B56AC.png" alt=""></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://docs.python.org/2/library/datetime.html" target="_blank" rel="external">datetime官方文档</a></p>
 </div></article><div class="tags"><a href="/tags/datetime/">datetime</a></div><div class="paginator"><a href="/2016/11/13/hangzhou/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div><section id="comments"><div data-thread-key="http://yoursite.com/2016/11/16/python-datetime/index.html" data-title="Python datetime时间那点事" data-url="http://yoursite.com/2016/11/16/python-datetime/index.html" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name: "wulifun" };
 (function() {
