@@ -11,7 +11,19 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'Your Google Analytics ID', 'auto');
-ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/05/27/iostat/" class="post-link">iostat查看磁盘IO信息</a></h2><span class="post-time">May 27, 2016</span><div class="post-content"><h3 id="一、iostat简介"><a href="#一、iostat简介" class="headerlink" title="一、iostat简介"></a>一、iostat简介</h3><blockquote>
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/06/07/cpuinfo/" class="post-link">cpuinfo</a></h2><span class="post-time">Jun 7, 2016</span><div class="post-content"><h3 id="proc-cpuinfo"><a href="#proc-cpuinfo" class="headerlink" title="/proc/cpuinfo"></a>/proc/cpuinfo</h3><blockquote>
+<p> Information about the processor, such as its type, make, model, and performance.</p>
+</blockquote>
+<h3 id="信息查看"><a href="#信息查看" class="headerlink" title="信息查看"></a>信息查看</h3><h4 id="CPU型号"><a href="#CPU型号" class="headerlink" title="CPU型号"></a>CPU型号</h4><pre><code># cat /proc/cpuinfo | grep vendor | uniq
+vendor_id   : GenuineIntel
+#  cat /proc/cpuinfo | grep &apos;model name&apos; | uniq
+model name  : Intel(R) Xeon(R) CPU E5-2630 v3 @ 2.40GHz
+</code></pre><h4 id="CPU-架构"><a href="#CPU-架构" class="headerlink" title="CPU 架构"></a>CPU 架构</h4><pre><code># lscpu
+Architecture:          x86_64
+CPU op-mode(s):        32-bit, 64-bit
+Byte Order:            Little Endian
+......
+</code></pre></div><a href="/2016/06/07/cpuinfo/" class="read-more">Read more..</a></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/05/27/iostat/" class="post-link">iostat查看磁盘IO信息</a></h2><span class="post-time">May 27, 2016</span><div class="post-content"><h3 id="一、iostat简介"><a href="#一、iostat简介" class="headerlink" title="一、iostat简介"></a>一、iostat简介</h3><blockquote>
 <p>iostat - Report Central Processing Unit (CPU) statistics and input/out-put statistics for devices and partitions.</p>
 </blockquote>
 <p>iostat 用于输出CPU和磁盘I/O相关的统计信息。</p></div><a href="/2016/05/27/iostat/" class="read-more">Read more..</a></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/05/26/sar/" class="post-link">sar系统状态信息统计</a></h2><span class="post-time">May 26, 2016</span><div class="post-content"><h3 id="一、sar-简介"><a href="#一、sar-简介" class="headerlink" title="一、sar 简介"></a>一、sar 简介</h3><blockquote>
@@ -1106,107 +1118,4 @@ outdir   /data/apt/repos    //pool输出的位置
 
 #reprepro remove trusty packages   //remove 
 </code></pre><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.tecmint.com/create-deb-pacakge-repository-in-ubuntu/" target="_blank" rel="external">Create A .deb Package Repository</a><br><a href="https://wikitech.wikimedia.org/wiki/Reprepro" target="_blank" rel="external">wiki reprepro</a><br><a href="https://wiki.debian.org/SecureApt" target="_blank" rel="external">SecureApt)</a><br><a href="http://irtfweb.ifa.hawaii.edu/~lockhart/gpg/" target="_blank" rel="external">gpg-cheat</a><br><a href="http://www.ruanyifeng.com/blog/2013/07/gpg.html" target="_blank" rel="external">gpg</a></p>
-</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/03/05/Feb_tips/" class="post-link">Work Tips</a></h2><span class="post-time">Mar 5, 2016</span><div class="post-content"><h3 id="1-无交互修改系统密码"><a href="#1-无交互修改系统密码" class="headerlink" title="1.无交互修改系统密码"></a><u>1.无交互修改系统密码</u></h3><p>CentOS</p>
-<pre><code>echo 123456 |  passwd --stdin root
-</code></pre><p>Ubuntu</p>
-<pre><code>echo &quot;root:123456&quot; | chpasswd   //ubuntu是BSD 非标准的不能用
-</code></pre><p>CentOS和Ubuntu还有一个地方要注意，CentOS默认新建的普通用户是没有sudo权限的，需要在/etc/sudoers文件中加入用户和权限才能执行sudo，而Ubuntu执行sudo 默认输入当前用户密码即可执行。</p>
-<h3 id="2-deb包的字段含义"><a href="#2-deb包的字段含义" class="headerlink" title="2.deb包的字段含义"></a><u>2.deb包的字段含义</u></h3><pre><code>root@Mr-zhao:~# aptitude search node
-p   ansible-node-fireball                           - Ansible fireball transport support for nodes
-p   ax25-node                                       - Amateur Packet Radio Node program
-p   ax25-node:i386                                  - Amateur Packet Radio Node program
-p   knode                                           - graphical news reader
-p   knode:i386                                      - graphical news reader
-p   leafnode                                        - NNTP server for small sites
-p   leafnode:i386                                   - NNTP server for small sites
-p   libjs-node-uuid                                 - simple, fast generation of RFC4122 UUIDs - JavaScript libr
-v   libnode-node-expat                              -
-v   libnode-node-expat:i386                         -
-</code></pre><blockquote>
-<p>current state of the package: <code>the most common states are p, meaning that no trace of the packageexists on the system, c, meaning that the package was deleted but its configuration files remain on the system, i, meaning that the package is installed, and v, meaning that the package is virtual.</code> ( man aptitude )</p>
-</blockquote>
-<h3 id="3-apt-get-update-NO-PUBKEY"><a href="#3-apt-get-update-NO-PUBKEY" class="headerlink" title="3.apt-get update NO_PUBKEY"></a><u>3.apt-get update NO_PUBKEY</u></h3><p>将私有镜像仓库的key添加到本地trusted数据库</p>
-<pre><code># curl -l http://mirrors.corp.ops.com/ops/public.key|apt-key add -
-</code></pre><p>如果还有报错，则使用以下命令：</p>
-<pre><code># apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 3B4FE6ACC0B21F32
-
-# apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 40976EAF437D05B5
-</code></pre><h3 id="4-Cacti-weathermap-插件-editor-php-的安全性设置"><a href="#4-Cacti-weathermap-插件-editor-php-的安全性设置" class="headerlink" title="4.Cacti weathermap 插件 editor.php 的安全性设置"></a><u>4.Cacti weathermap 插件 editor.php 的安全性设置</u></h3><p>Cacti weathermap采用.htaccess的验证方法</p>
-<p>首先在/var/www/html/plugins/weathermap下创建一个验证文件</p>
-<pre><code>#htpasswd -cb /var/www/html/plugins/weathermap/.htpasswd cacti catiuser
-//cacti是用户名，cactiuser是密码
-</code></pre><p>创建好验证文件后，在apache的配置文件末尾加上如下的代码</p>
-<pre><code>&lt;Directory/var/www/html/plugins/weathermap&gt;
-&lt;Files editor.php&gt;
-AuthType Basic
-AuthName &quot;Please input your username and password.&quot;
-AuthUserFile /var/www/html/plugins/weathermap/.htpasswd
-require valid-user
-&lt;/Files&gt;
-&lt;/Directory&gt;
-</code></pre><h3 id="5-SSD磁盘分区4K对齐检测"><a href="#5-SSD磁盘分区4K对齐检测" class="headerlink" title="5.SSD磁盘分区4K对齐检测"></a><u>5.SSD磁盘分区4K对齐检测</u></h3><p>使用fdisk分区，则查看start能否被8整除</p>
-<pre><code>fdisk -lu |awk &apos;$1==&quot;/dev/sdb1&quot; {print $2/8}&apos;
-</code></pre><p>使用parted分区</p>
-<pre><code>root@Mr-zhao:~# parted /dev/sdb
-GNU Parted 2.1
-Using /dev/sdb
-Welcome to GNU Parted! Type &apos;help&apos; to view a list of commands.
-(parted) print
-Model: DELL PERC H730P Mini (scsi)
-Disk /dev/sdb: 1439GB
-Sector size (logical/physical): 512B/4096B
-Partition Table: gpt
-
-Number  Start   End     Size    File system  Name     Flags
-1      1049kB  1439GB  1439GB  xfs          primary
-
-(parted) align-check opt 1
-1 aligned   #返回aligned，即对齐
-(parted)
-</code></pre><h3 id="6-drop-caches"><a href="#6-drop-caches" class="headerlink" title="6.drop caches"></a><u>6.drop caches</u></h3><p>Writing to this will cause the kernel to drop clean caches, dentries and inodes from memory, causing thatmemory to become free.</p>
-<p>To free pagecache:</p>
-<pre><code>echo 1 &gt; /proc/sys/vm/drop_caches
-</code></pre><p>To free dentries and inodes:</p>
-<pre><code>echo 2 &gt; /proc/sys/vm/drop_caches
-</code></pre><p>To free pagecache, dentries andinodes:</p>
-<pre><code>echo 3 &gt; /proc/sys/vm/drop_caches
-</code></pre><p>As this is a non-destructiveoperation and dirty objects are not freeable, the user should run sync first.</p>
-<h3 id="7-系统快速求援"><a href="#7-系统快速求援" class="headerlink" title="7.系统快速求援"></a><u>7.系统快速求援</u></h3><blockquote>
-<ul>
-<li>at the grub prompt,hit a to append options</li>
-<li>add init=/bin/bash to the kernel command line</li>
-<li>mount -o remount,rw /</li>
-<li>vim /etc/fstab</li>
-<li>reboot</li>
-</ul>
-</blockquote>
-<h3 id="8-修改网卡规则（设置显示为eth0）"><a href="#8-修改网卡规则（设置显示为eth0）" class="headerlink" title="8.修改网卡规则（设置显示为eth0）"></a><u>8.修改网卡规则（设置显示为eth0）</u></h3><pre><code>编辑 /etc/udev/rules.d/70-persistent-net.rules  修改网卡规则
-</code></pre><h3 id="9-重启网卡失败：device-eth0-does-not-seem-to-be-present-delaying-initialization"><a href="#9-重启网卡失败：device-eth0-does-not-seem-to-be-present-delaying-initialization" class="headerlink" title="9.重启网卡失败：device eth0 does not seem to be present, delaying initialization"></a><u>9.重启网卡失败：device eth0 does not seem to be present, delaying initialization</u></h3><pre><code>/etc/udev/rules.d/70-persistent-net.rules 删除后重启机器
-</code></pre><h3 id="10-查看磁盘的rebuild-进度"><a href="#10-查看磁盘的rebuild-进度" class="headerlink" title="10.查看磁盘的rebuild 进度"></a><u>10.查看磁盘的rebuild 进度</u></h3><pre><code># MegaCli -PDRbld -ShowProg -PhysDrv [32:3] -a0
-Rebuild Progress on Device at Enclosure 32, Slot 3 Completed 95% in 50 Minutes.
-</code></pre><h3 id="11-sed-i-破坏链接文件属性"><a href="#11-sed-i-破坏链接文件属性" class="headerlink" title="11.sed -i  破坏链接文件属性"></a><u>11.sed -i  破坏链接文件属性</u></h3><pre><code>--follow-symlinks
-
-          follow symlinks when processing in place; hard links will still be broken.
-
--i[SUFFIX], --in-place[=SUFFIX]
-
-          edit  files in place (makes backup if extension supplied).  The default operation mode
-          is to break symbolic and hard links.  This can be changed with  --follow-symlinks  and
-          --copy.
-
--c, --copy
-
-          use  copy  instead  of  rename when shuffling files in -i mode.  While this will avoid
-          breaking links (symbolic or hard), the resulting  editing  operation  is  not  atomic.
-          This  is  rarely the desired mode; --follow-symlinks is usually enough, and it is both
-          faster and more secure.
-</code></pre><p> mannul中释义 -i选项对软链接和硬链接都会破坏，加上 –follow-symlinks选项只对软链接有效，硬链接还是会被破坏，加上 -c选项则软硬链接都不会遭到破坏。</p>
-<h3 id="12-文本内容操作，合并去重"><a href="#12-文本内容操作，合并去重" class="headerlink" title="12.文本内容操作，合并去重"></a><u>12.文本内容操作，合并去重</u></h3><pre><code>cat /etc/rc.local  /etc/rc.d/rc.local |  awk &apos;!a[$0]++&apos;
-</code></pre><h3 id="13-ssh登陆信息显示-etc-motd"><a href="#13-ssh登陆信息显示-etc-motd" class="headerlink" title="13.ssh登陆信息显示 /etc/motd"></a><u>13.ssh登陆信息显示 /etc/motd</u></h3><p>/etc/motd/etc/motd即messageoftoday（布告栏信息），每次用户登录时，/etc/motd文件的内容会显示在用户的终端,如果用户登录系统是图形界面，这些信息则不会显示。</p>
-<h3 id="14-SSD磁盘型号与系列"><a href="#14-SSD磁盘型号与系列" class="headerlink" title="14.SSD磁盘型号与系列"></a><u>14.SSD磁盘型号与系列</u></h3><pre><code>SSDSC2BB480G4   属于S3500系列
-SSDSC2BA800G4   属于S3710系列
-SSDSC2BA800G3   属于S3700系列
-SSDSC2BX800G4   属于S3610系列
-800、480表示磁盘容量
-</code></pre><p>  <a href="http://ark.intel.com/ZH-CN#@SolidStateDrives" target="_blank" rel="external">Intel SSD 官网查询</a>  </p>
 </div></article></li></ul><div class="paginator"><a href="/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/page/3/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>

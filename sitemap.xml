@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2016/11/20/django-web-framework/</loc>
+    
+    <lastmod>2016-11-20T08:00:44.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/about/index.html</loc>
     
     <lastmod>2016-11-20T02:48:05.000Z</lastmod>
@@ -107,21 +114,14 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2015/12/25/idrac/</loc>
+    <loc>http://yoursite.com/2015/10/05/ks/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/01/08/make_deb/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2015/09/15/ipmitool/</loc>
+    <loc>http://yoursite.com/2016/01/01/command/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
@@ -135,21 +135,21 @@
   </url>
   
   <url>
+    <loc>http://yoursite.com/2016/01/08/make_deb/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/02/28/minicom/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2016/05/05/nc/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2015/10/03/cisco/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/04/23/opennebula/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
@@ -170,42 +170,21 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2015/10/29/photography/</loc>
+    <loc>http://yoursite.com/2016/03/05/Feb_tips/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/01/01/command/</loc>
+    <loc>http://yoursite.com/2015/10/03/cisco/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/02/23/cacit/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2015/10/11/raid/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/01/09/Create-A-Local-Debian-Ubuntu-Mirror-With-apt-mirror/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/03/03/free/</loc>
+    <loc>http://yoursite.com/2016/04/23/opennebula/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
@@ -219,7 +198,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/03/05/Feb_tips/</loc>
+    <loc>http://yoursite.com/2015/10/29/photography/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
@@ -233,6 +212,20 @@
   </url>
   
   <url>
+    <loc>http://yoursite.com/2016/03/03/free/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/01/09/Create-A-Local-Debian-Ubuntu-Mirror-With-apt-mirror/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2016/01/12/sysstart/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
@@ -240,14 +233,28 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2015/10/05/ks/</loc>
+    <loc>http://yoursite.com/2016/02/23/cacit/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/02/28/minicom/</loc>
+    <loc>http://yoursite.com/2015/12/25/idrac/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/09/15/ipmitool/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/10/11/raid/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
@@ -268,14 +275,14 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2015/12/29/zabbix/</loc>
+    <loc>http://yoursite.com/2016/02/25/ulimit/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/02/25/ulimit/</loc>
+    <loc>http://yoursite.com/2015/12/29/zabbix/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
