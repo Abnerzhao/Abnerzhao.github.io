@@ -20,6 +20,7 @@ ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/."
 <p>Web框架为应用程序提供了一套程序框架，可以让程序员专注于编写清晰、易维护的代码</p>
 <h3 id="MVC设计模式"><a href="#MVC设计模式" class="headerlink" title="MVC设计模式"></a>MVC设计模式</h3><p><code>模型-视图-控制器(MVC)</code>：MVC是一种软件开发的方法，它把代码的定义和数据访问的方法（模型）与请求逻辑（控制器）还有用户接口（视图）分开来</p>
 <p>任何一个通过django实现的功能都会包含一下几个文件：</p>
+<a id="more"></a>
 <ul>
 <li><p>models.py 模型(model)<br>通过定义Python类来描述数据表。通过简单的Python的代码实现对数据库的增删改查等操作</p>
 </li>
@@ -30,7 +31,6 @@ ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/."
 <li><p>html模板 模板(template)<br>表现逻辑</p>
 </li>
 </ul>
-<a id="more"></a>
 <p><strong>对于django而言更准确的描述是采用的MTV的架构(Model-Template-View)</strong></p>
 <h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ pip install Django==1.7.9</div><div class="line"></div><div class="line">&gt;&gt;&gt; import django</div><div class="line">&gt;&gt;&gt; django.VERSION</div><div class="line">(1, 7, 9, &apos;final&apos;, 0)</div></pre></td></tr></table></figure>
 <h4 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h4><p>默认使用sqlite3，当然也支持其他主流数据库</p>
