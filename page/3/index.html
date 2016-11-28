@@ -11,7 +11,117 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'Your Google Analytics ID', 'auto');
-ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/03/05/Feb_tips/" class="post-link">Work Tips</a></h2><span class="post-time">Mar 5, 2016</span><div class="post-content"><h3 id="1-无交互修改系统密码"><a href="#1-无交互修改系统密码" class="headerlink" title="1.无交互修改系统密码"></a><u>1.无交互修改系统密码</u></h3><p>CentOS</p>
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/03/08/Create-A-deb-Package-Repository/" class="post-link">Create A .deb Package Repository</a></h2><span class="post-time">Mar 8, 2016</span><div class="post-content"><h3 id="Install-Reprepro-and-Generate-Key"><a href="#Install-Reprepro-and-Generate-Key" class="headerlink" title="Install Reprepro and Generate Key"></a>Install Reprepro and Generate Key</h3><p>安装软件包并生成密钥</p>
+<pre><code># sudo apt-get  install reprepro gnupg -y
+</code></pre><p>创建gpg key需要大量的随机操作，使用rng-tools产生大量随机操作    </p>
+<pre><code># apt-get install rng-tools -y
+
+# vim /etc/default/rng-tools   
+
+[...]
+
+HRNGDEVICE=/dev/urandom
+
+[...]
+
+# /etc/init.d/rng-tools start
+</code></pre><p>Generate a gpg key using gnupg  </p>
+<pre><code># gpg --gen-key
+......
+Please select what kind of key you want:
+(1) RSA and RSA (default)
+(2) DSA and Elgamal
+(3) DSA (sign only)
+(4) RSA (sign only)
+Your selection? 4
+RSA keys may be between 1024 and 4096 bits long.
+What keysize do you want? (2048) 4096
+Requested keysize is 4096 bits
+Please specify how long the key should be valid.
+        0 = key does not expire
+    &lt;n&gt;  = key expires in n days
+    &lt;n&gt;w = key expires in n weeks
+    &lt;n&gt;m = key expires in n months
+    &lt;n&gt;y = key expires in n years
+Key is valid for? (0) 0
+Key does not expire at all
+Is this correct? (y/N) y
+
+You need a user ID to identify your key; the software constructs the user ID
+from the Real Name, Comment and Email Address in this form:
+ &quot;Heinrich Heine (Der Dichter) &lt;heinrichh@duesseldorf.de&gt;&quot;
+
+Real name: Mr-zhao
+Email address: zhifanzhao@gmail.com
+Comment: ops deb
+Enter passphrase:****
+You selected this USER-ID:
+    &quot;Mr-zhao (ops deb) &lt;zhifanzhao@gmail.com&gt;&quot;
+
+Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? o
+You need a Passphrase to protect your secret key.
+
+You don&apos;t want a passphrase - this is probably a *bad* idea!
+I will do it anyway.  You can change your passphrase at any time,
+using this program with the option &quot;--edit-key&quot;.
+
+We need to generate a lot of random bytes.
+ It is a good idea to perform some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number generator a better chance to gain enough entropy.
+
+......
+gpg: /root/.gnupg/trustdb.gpg: trustdb created
+gpg: key D94F748F marked as ultimately trusted
+public and secret key created and signed.
+
+gpg: checking the trustdb
+gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
+gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+pub   4096R/D94F748F 2016-03-08
+    Key fingerprint = 7D96 2419 19C6 B7C3 7F97  F4BB 63BF 6A4F D94F 748F
+uid                  Mr-zhao (ops deb) &lt;zhifanzhao@gmail.com&gt;
+
+Note that this key cannot be used for encryption.  You may want to use
+the command &quot;--edit-key&quot; to generate a subkey for this purpose. 
+</code></pre><p>查看和修改 gpg key</p>
+<pre><code># gpg --list-keys
+/root/.gnupg/pubring.gpg
+------------------------
+pub   4096R/D94F748F 2016-03-08
+uid                  Mr-zhao (ops deb) &lt;zhifanzhao@gmail.com&gt;
+
+# gpg --edit-key
+usage: gpg [options] --edit-key user-id [commands]
+</code></pre><h3 id="Create-a-Package-Repository-and-Export-Key"><a href="#Create-a-Package-Repository-and-Export-Key" class="headerlink" title="Create a Package Repository and Export Key"></a>Create a Package Repository and Export Key</h3><pre><code># cd /data
+# mkdir apt
+# mkdir -p ./apt/conf
+
+#vim  ./apt/conf/distributions
+Origin:        ops-ubuntu
+Label:         ops-ubuntu
+Suite:         trusty
+Codename:      trusty
+Version:       14.04
+Architectures: amd64 i386
+Components:    main restricted multiverse universe
+Description:   private main deb repository for trusty
+SignWith: yes
+
+#vim ./apt/conf/options   //reprepro --options命令的集合
+verbose
+basedir  .
+ask-passphrase
+distdir  /data/apt/repos/dists   //dist文件的输出位置
+outdir   /data/apt/repos    //pool输出的位置
+</code></pre><p>Create the repository tree</p>
+<pre><code># reprepro --ask-passphrase -Vb /data/apt/ export
+</code></pre><p>Export Key</p>
+<pre><code># gpg --armor --export Mr-zhao zhifanzhao@gmail.com &gt;&gt; ./repos/public.key
+</code></pre><h3 id="Add-Packages-to-Newly-Created-Repository"><a href="#Add-Packages-to-Newly-Created-Repository" class="headerlink" title="Add Packages to Newly Created Repository"></a>Add Packages to Newly Created Repository</h3><pre><code>#reprepro -b . -C main includedeb trusty /tmp/packages.deb  //add
+
+#reprepro remove trusty packages   //remove 
+</code></pre><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.tecmint.com/create-deb-pacakge-repository-in-ubuntu/" target="_blank" rel="external">Create A .deb Package Repository</a><br><a href="https://wikitech.wikimedia.org/wiki/Reprepro" target="_blank" rel="external">wiki reprepro</a><br><a href="https://wiki.debian.org/SecureApt" target="_blank" rel="external">SecureApt)</a><br><a href="http://irtfweb.ifa.hawaii.edu/~lockhart/gpg/" target="_blank" rel="external">gpg-cheat</a><br><a href="http://www.ruanyifeng.com/blog/2013/07/gpg.html" target="_blank" rel="external">gpg</a></p>
+</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/03/05/Feb_tips/" class="post-link">Work Tips</a></h2><span class="post-time">Mar 5, 2016</span><div class="post-content"><h3 id="1-无交互修改系统密码"><a href="#1-无交互修改系统密码" class="headerlink" title="1.无交互修改系统密码"></a><u>1.无交互修改系统密码</u></h3><p>CentOS</p>
 <pre><code>echo 123456 |  passwd --stdin root
 </code></pre><p>Ubuntu</p>
 <pre><code>echo &quot;root:123456&quot; | chpasswd   //ubuntu是BSD 非标准的不能用
@@ -701,93 +811,4 @@ universe/
 <p><strong><code>indices/</code>  维护人员文件和重载文件</strong></p>
 <p>indices（index复数）表示索引目录</p>
 <p><strong><code>project/</code>  大部分为开发人员的资源</strong></p>
-</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/01/09/Create-A-Local-Debian-Ubuntu-Mirror-With-apt-mirror/" class="post-link">Create A Local Debian/Ubuntu Mirror With apt-mirror</a></h2><span class="post-time">Jan 9, 2016</span><div class="post-content"><h3 id="Install-and-Configure-apt-mirror"><a href="#Install-and-Configure-apt-mirror" class="headerlink" title="Install and Configure apt-mirror"></a>Install and Configure apt-mirror</h3><p>Install apt-mirror</p>
-<pre><code>$ sudo apt-get install apt-mirror
-</code></pre><p>Configure apt-mirror</p>
-<p>编辑配置文件/etc/apt/mirror.list，以ubuntu 14.04 为例：</p>
-<pre><code>############# config ##################
-
-#
-
-set base_path      /var/spool/apt-mirror
-
-#
-
-set mirror_path    /data/mirror
-
-set skel_path   $base_path/skel
-
-set var_path   $base_path/var
-
-set cleanscript  $var_path/clean.sh      #这个脚本会记录每次同步后那些需要删除的文件
-
-# set defaultarch
-
-# set postmirror_script $var_path/postmirror.sh
-
-# set run_postmirror 0
-
-set nthreads20#用20个线程去wget镜像
-
-set _tilde 0
-
-#
-
-############# end config ##############
-
-deb http://cn.archive.ubuntu.com/ubuntu trusty main restricted universe multiverse
-
-deb http://cn.archive.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
-
-deb http://cn.archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse
-
-deb http://cn.archive.ubuntu.com/ubuntu trusty-proposed main restricted universe multiverse
-
-deb http://cn.archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse
-
-deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty main restricted universe multiverse
-
-deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
-
-deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse
-
-deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty-proposed main restricted universe multiverse
-
-deb-i386 http://cn.archive.ubuntu.com/ubun trustytu-backports main restricted universe multiverse
-
-# 如果这个源是要用来做pxe启动的话需要添加(因为默认没有将这几个文件同步过来)
-
-deb http://cn.archive.ubuntu.com/ubuntu trusty main/debian-installer restricted/debian-installer universe/debian-installer multiverse/debian-installer
-
-deb-i386 ttp://cn.archive.ubuntu.com/ubuntu trusty main/debian-installer restricted/debian-installer universe/debian-installer multiverse/debian-installer
-</code></pre><p>镜像官方仓库所有软件</p>
-<pre><code>$ sudo apt-mirror          
-//apt-mirror成功后会执行/var/spool/apt-mirror/var/clean.sh完成同步后的清理工作
-</code></pre><h3 id="源的升级与更新"><a href="#源的升级与更新" class="headerlink" title="源的升级与更新"></a>源的升级与更新</h3><p>日常升级</p>
-<pre><code>$ sudo apt-mirror
-</code></pre><p>计划任务自动更新</p>
-<pre><code>0 4 * * * /usr/bin/apt-mirror &gt;&gt; /var/spool/apt-mirror/var/cron.log
-</code></pre><h3 id="使用nginx搭建本地镜像源"><a href="#使用nginx搭建本地镜像源" class="headerlink" title="使用nginx搭建本地镜像源"></a>使用nginx搭建本地镜像源</h3><h4 id="nginx-安装配置"><a href="#nginx-安装配置" class="headerlink" title="nginx 安装配置"></a>nginx 安装配置</h4><p>nginx 安装</p>
-<p>参考：<a href="http://nginx.org/en/docs/install.html" target="_blank" rel="external">官方文档</a></p>
-<p>nginx 基本配置</p>
-<p>编辑配置文件 /usr/local/nginx/conf/sites-enabled/mirror.conf</p>
-<pre><code>server {
-listen       80;
-server_name  _;
-root         /data/mirror/web;
-autoindex    on;
-}
-</code></pre><p>在<code>/data/mirror/web</code>目录做一个镜像目录的软连接</p>
-<pre><code>$ ln -s /data/mirror/archive.ubuntu.com/ubuntu/ /data/mirror/web/ubuntu
-</code></pre><p>启动nginx服务</p>
-<pre><code>$ sudo /usr/local/nginx/sbin/nginx -t
-$ sudo /usr/local/nginx/sbin/nginx
-</code></pre><p>本地测试</p>
-<p>在浏览器输入搭建nginx机器IP，也可以配置域名访问</p>
-<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/26720CDE-B91E-40F3-8D46-CAC92FAE90F2.png" alt=""></p>
-<h3 id="客户端使用测试"><a href="#客户端使用测试" class="headerlink" title="客户端使用测试"></a>客户端使用测试</h3><p>编辑配置文件 /etc/apt/sources.list 或在/etc/apt/sources.list.d/ 目录下新建文件，并在文件最前面写入如下字段：</p>
-<pre><code>deb http://10.249.17.26/ubuntu precise main universe
-</code></pre><p>使用</p>
-<pre><code>$ apt-get update
-$ apt-get install (packagename)
-</code></pre></div></article></li></ul><div class="paginator"><a href="/page/2/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/page/4/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>
+</div></article></li></ul><div class="paginator"><a href="/page/2/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/page/4/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>
