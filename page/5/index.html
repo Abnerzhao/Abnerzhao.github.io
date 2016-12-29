@@ -11,7 +11,14 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'Your Google Analytics ID', 'auto');
-ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/09/15/ipmitool/" class="post-link">ipmitool智能平台管理工具</a></h2><span class="post-time">Sep 15, 2015</span><div class="post-content"><h3 id="IPMI"><a href="#IPMI" class="headerlink" title="IPMI"></a>IPMI</h3><p>Intelligent Platform Management Interface</p>
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/10/03/cisco/" class="post-link">思科交换机光模块兼容设置</a></h2><span class="post-time">Oct 3, 2015</span><div class="post-content"><h4 id="在思科交换机上使用华三的光模块，出现以下问题："><a href="#在思科交换机上使用华三的光模块，出现以下问题：" class="headerlink" title="在思科交换机上使用华三的光模块，出现以下问题："></a>在思科交换机上使用华三的光模块，出现以下问题：</h4><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/16.png" alt=""></p>
+<p>原因：思科网络设备是不允许使用非思科标配的光模块，所以这里是不兼容报错。</p>
+<h4 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h4><p>进入<strong>端口配置模式</strong>，输入三条命令即可解决：</p>
+<pre><code>CISCO（int-conf）service unsupported-transceiver
+CISCO（int-conf）no errdisable detect cause gbic-invalid
+CISCO（int-conf）speed nonegotiate
+</code></pre><p>保存配置，重新插入光模块即可。</p>
+</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/09/15/ipmitool/" class="post-link">ipmitool智能平台管理工具</a></h2><span class="post-time">Sep 15, 2015</span><div class="post-content"><h3 id="IPMI"><a href="#IPMI" class="headerlink" title="IPMI"></a>IPMI</h3><p>Intelligent Platform Management Interface</p>
 <p>IPMI是一个开放的标准，监控，记录，回收，库存和硬件实现独立于主CPU，BIOS，以及操作系统的控制权。无论在开机还是关机的状态下，只要接通电源就可以实现对服务器的监控。</p>
 <p>The service processor (or Baseboard Management Controller, BMC) is the brain behind platform management and its primary purpose is to handle the autonomous sensor monitoring and event logging features.</p>
 <p>IPMI是一种规范的标准，其中最重要的物理部件就是BMC(Baseboard Management Controller)一种嵌入式管理微控制器，它相当于整个平台管理的“大脑”，通过它ipmi可以监控各个传感器的数据并记录各种事件的日志。</p>
