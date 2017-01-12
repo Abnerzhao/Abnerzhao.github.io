@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-01-12T02:10:08.000Z</updated>
+  <updated>2017-01-12T02:13:09.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/01/11/Zabbix-Low-level-discovery/"/>
     <id>http://yoursite.com/2017/01/11/Zabbix-Low-level-discovery/</id>
     <published>2017-01-11T14:13:32.000Z</published>
-    <updated>2017-01-12T02:10:08.000Z</updated>
+    <updated>2017-01-12T02:13:09.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>Low-level discovery provides a way to automatically create items, triggers, and graphs for different entities on a computer. For instance, Zabbix can automatically start monitoring file systems or network interfaces on your machine, without the need to create items for each file system or network interface manually. </p>
@@ -43,7 +43,7 @@
 <h4 id="4-编写监控脚本"><a href="#4-编写监控脚本" class="headerlink" title="4.编写监控脚本"></a>4.编写监控脚本</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat udp_port.sh</div><div class="line">Port=$1</div><div class="line">case $Port in</div><div class="line">        12222)   netstat -nupl | grep 12222 |wc -l;;</div><div class="line">        12223)   netstat -nupl | grep 12223 |wc -l;;</div><div class="line">        12224)   netstat -nupl | grep 12224 |wc -l;;</div><div class="line">        12225)   netstat -nupl | grep 12225 |wc -l;;</div><div class="line">        12226)   netstat -nupl | grep 12226 |wc -l;;</div><div class="line">        12227)   netstat -nupl | grep 12227 |wc -l;;</div><div class="line">        12228)   netstat -nupl | grep 12228 |wc -l;;</div><div class="line">        12229)   netstat -nupl | grep 12229 |wc -l;;</div><div class="line">        *) echo Error; exit 1;;</div><div class="line">esac</div></pre></td></tr></table></figure>
 <h4 id="5-web添加模板"><a href="#5-web添加模板" class="headerlink" title="5.web添加模板"></a>5.web添加模板</h4><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/01256527-8987-40C4-9C65-2FC6D1D8610F.png" alt=""></p>
 <p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/E604037B-096A-4789-9AB3-A47B14020FB2.png" alt=""></p>
-<h4 id="6-将模板关联对对应机器"><a href="#6-将模板关联对对应机器" class="headerlink" title="6.将模板关联对对应机器"></a>6.将模板关联对对应机器</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.zabbix.com/documentation/2.4/manual/discovery/low_level_discovery" target="_blank" rel="external">LDD官方文档</a></p>
+<h4 id="6-将模板关联对应机器"><a href="#6-将模板关联对应机器" class="headerlink" title="6.将模板关联对应机器"></a>6.将模板关联对应机器</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.zabbix.com/documentation/2.4/manual/discovery/low_level_discovery" target="_blank" rel="external">LDD官方文档</a></p>
 ]]></content>
     
     <summary type="html">
