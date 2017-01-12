@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-01-11T14:14:43.000Z</updated>
+  <updated>2017-01-12T02:10:08.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/01/11/Zabbix-Low-level-discovery/"/>
     <id>http://yoursite.com/2017/01/11/Zabbix-Low-level-discovery/</id>
     <published>2017-01-11T14:13:32.000Z</published>
-    <updated>2017-01-11T14:14:43.000Z</updated>
+    <updated>2017-01-12T02:10:08.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>Low-level discovery provides a way to automatically create items, triggers, and graphs for different entities on a computer. For instance, Zabbix can automatically start monitoring file systems or network interfaces on your machine, without the need to create items for each file system or network interface manually. </p>
@@ -33,6 +33,7 @@
 </ul>
 <p>A user can define their own types of discovery, provided they follow a particular JSON protocol.</p>
 </blockquote>
+<a id="more"></a>
 <p>简而言之，zabbix的低水平发现就是减少我们的重复操作，能够根据不同的监控实例自动添加监控项、触发器和图形。<br><code>vfs.fs.discovery</code>和<code>net.if.discovery</code>就是zabbix自带的自动发现键值，能够自动识别agent端的文件挂载情况和网卡信息。还有基于SNMP OID的自动发现键值，能够自动识别交换机的所有端口信息。<br>当我们的一个服务有多个端口需要监控时，我通常是先在agent端写好监控脚本，定义键值，然后再为每个端口新建监控项、触发器和图形（当然你可以直接克隆），但还是免不了一些重复操作。下面就通过一个例子看一下Low-level discovery是如何工作的：</p>
 <h3 id="监控需求："><a href="#监控需求：" class="headerlink" title="监控需求："></a>监控需求：</h3><p>监控udp端口12222-12229的端口状态</p>
 <h3 id="实现步骤："><a href="#实现步骤：" class="headerlink" title="实现步骤："></a>实现步骤：</h3><h4 id="1-以json格式自定义发现类型"><a href="#1-以json格式自定义发现类型" class="headerlink" title="1.以json格式自定义发现类型"></a>1.以json格式自定义发现类型</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat udpport_discovery.py</div><div class="line">#!/usr/bin/env python</div><div class="line">import sys,datetime,socket</div><div class="line"></div><div class="line">if __name__ == &quot;__main__&quot;:</div><div class="line">    zbxkey = sys.argv[1]</div><div class="line">    zbx_d = &#123;&#125;</div><div class="line">    zbx_d[&quot;data&quot;] = []</div><div class="line">    host_name = socket.gethostname().lower()</div><div class="line"></div><div class="line">    res = [&apos;12222&apos;, &apos;12223&apos;, &apos;12224&apos;, &apos;12225&apos;, &apos;12226&apos;, &apos;12227&apos;, &apos;12228&apos;, &apos;12229&apos;]</div><div class="line">    for line in res:</div><div class="line">        d = &#123;&#125;</div><div class="line">        d[&quot;&#123;#%s&#125;&quot; % zbxkey] = line</div><div class="line">        zbx_d[&quot;data&quot;].append(d)</div><div class="line">    print str(zbx_d).replace(&quot;&apos;&quot;,&apos;&quot;&apos;)</div></pre></td></tr></table></figure>
@@ -48,7 +49,16 @@
     <summary type="html">
     
       &lt;blockquote&gt;
-&lt;p&gt;Low-level discovery provides a way to automatically create items, triggers, and graphs for different entities on a computer.
+&lt;p&gt;Low-level discovery provides a way to automatically create items, triggers, and graphs for different entities on a computer. For instance, Zabbix can automatically start monitoring file systems or network interfaces on your machine, without the need to create items for each file system or network interface manually. &lt;/p&gt;
+&lt;p&gt;In Zabbix, four types of item discovery are supported out of the box:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;discovery of file systems;&lt;/li&gt;
+&lt;li&gt;discovery of network interfaces;&lt;/li&gt;
+&lt;li&gt;discovery of CPUs and CPU cores;&lt;/li&gt;
+&lt;li&gt;discovery of SNMP OIDs.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A user can define their own types of discovery, provided they follow a particular JSON protocol.&lt;/p&gt;
+&lt;/blockquote&gt;
     
     </summary>
     
