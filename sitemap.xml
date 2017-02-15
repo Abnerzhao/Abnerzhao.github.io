@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/about/index.html</loc>
+    
+    <lastmod>2017-02-15T12:57:11.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2017/01/11/Zabbix-Low-level-discovery/</loc>
     
     <lastmod>2017-02-15T12:55:01.000Z</lastmod>
@@ -40,13 +47,6 @@
     <loc>http://yoursite.com/2016/09/18/python-dict-list-sort/</loc>
     
     <lastmod>2016-11-23T10:07:44.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/about/index.html</loc>
-    
-    <lastmod>2016-11-20T02:48:05.000Z</lastmod>
     
   </url>
   
