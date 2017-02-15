@@ -11,615 +11,7 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'Your Google Analytics ID', 'auto');
-ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/01/12/sysstart/" class="post-link">开机自启动脚本设置</a></h2><span class="post-time">Jan 12, 2016</span><div class="post-content"><h3 id="CentOS"><a href="#CentOS" class="headerlink" title="CentOS"></a>CentOS</h3><pre><code>touch   /etc/rc3.d/S99init_sys
-chmod 777 /etc/rc3.d/S99init_sys
-</code></pre><h3 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><p>使用update-rc.d命令添加开机自启动脚本的基本步骤：</p>
-<p>1./etc/init.d 中加入一个 script</p>
-<p>2.在 /etc/rc*.d 中,K 开头是 kill , S 开头是 start , 数字顺序代表启动的顺序，在 /etc/init.d 中建立一个叫作 sys_init 的 script , 执行：</p>
-<pre><code>update-rc.d sys_init defaults    #即可实现开机自启动
-</code></pre><p>  <strong>update-rc.d命令</strong></p>
-<p>  设置启动和关闭顺序、指定运行的系统级别</p>
-<pre><code>update-rc.d sys_init defaults
-
-update-rc.d  sys_init  defaults 90  //设置启动顺序
-
-update-rc.d  sys_init  defaults 20 80
-//前面的20是start时的运行顺序级别，80为kill时的级别
-
-update-rc.d  sys_init  defaults start 20 2 3 4 5 . stop 80 0 1 6 .
-//设定启动运行级别2,3和4的优先级为20，运行级别5的优先级为30。停止运行级别0,1和6的优先级为80
-</code></pre></div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/01/10/ubuntu_deb/" class="post-link">ubuntu源简介</a></h2><span class="post-time">Jan 10, 2016</span><div class="post-content"><h3 id="Ubuntu发行版本代号"><a href="#Ubuntu发行版本代号" class="headerlink" title="Ubuntu发行版本代号"></a>Ubuntu发行版本代号</h3><pre><code>版本         发布日期                代号                 含义
-12.04 LTS   2012年4月发布         Precise Pangolin       精确的穿山甲
-14.04 LTS   2014年4月发布         Trusty Tahr            可靠的山羊
-</code></pre><h3 id="Ubuntu源文件"><a href="#Ubuntu源文件" class="headerlink" title="Ubuntu源文件"></a>Ubuntu源文件</h3><pre><code>$ cat /etc/apt/sources.list
-deb http://mirrors.corp.test.com/ubuntu/ precise main restricted universe multiverse
-deb http://mirrors.corp.test.com/ubuntu/ precise-updates main restricted universe multiverse
-deb http://mirrors.corp.test.com/ubuntu/ precise-security main restricted universe multiverse
-deb http://mirrors.corp.test.com/ubuntu/ precise-proposed main restricted universe multiverse
-deb http://mirrors.corp.test.com/ubuntu/ precise-backports main restricted universe multiverse
-</code></pre><h4 id="源文件各部分含义"><a href="#源文件各部分含义" class="headerlink" title="源文件各部分含义"></a>源文件各部分含义</h4><ul>
-<li>deb,deb-src分别表示软件包，源代码包</li>
-<li>precise 表示当前ubuntu对应的发型版本</li>
-<li>security,backports[补丁],updates[更新]，proposed[推荐的，提议的]等代表dists[存储位置]的子目录，用以区分各种类型的软件包和源代码包,apt-get update用于同步索引，apt-get upgrate用于安装新文件</li>
-<li>main,restricted,universe,multiverse为该版本的软件包，每一类中有多种类型软件包。</li>
-</ul>
-<h3 id="Ubuntu源目录结构"><a href="#Ubuntu源目录结构" class="headerlink" title="Ubuntu源目录结构"></a>Ubuntu源目录结构</h3><ul>
-<li><p><strong><code>dists/</code></strong>   发行版，便于理解[各个版本]</p>
-</li>
-<li><p><strong><code>indices/</code></strong> 维护人员文件和重载文件</p>
-</li>
-<li><p><strong><code>pool/</code></strong>   软件包的新的物理地址</p>
-</li>
-<li><p><strong><code>project/</code></strong>  大部分为开发人员的资源</p>
-</li>
-</ul>
-<h4 id="目录结构介绍"><a href="#目录结构介绍" class="headerlink" title="目录结构介绍"></a>目录结构介绍</h4><p><strong><code>dists/</code>   发行版，便于理解[各个版本]</strong></p>
-<p>dists目录说明了ubuntu各个版本的5个附加仓库，每个附加仓库表示该版本软件包的 一种类型，每种类型有四种来源的安装包：</p>
-<pre><code>precise/
-
-precise-backports/
-
-precise-proposed/
-
-precise-security/
-
-precise-updates/
-</code></pre><p> 发行版软件包的每种类型都对应一个如下内容的目录：</p>
-<pre><code>Contents-amd64.gz
-Contents-i386.gz
-main/
-multiverse/
-Release
-Release.gpg
-restricted/
-universe/
-</code></pre><p>在sources.list中设置到main，mulitiverse这一层即可，其中每个该种目录对应文件如下：</p>
-<pre><code>.
-├── binary-amd64
-│   ├── Packages
-│   ├── Packages.bz2
-│   ├── Packages.gz
-│   └── Release
-├── binary-i386
-│   ├── Packages
-│   ├── Packages.bz2
-│   ├── Packages.gz
-│   └── Release
-└── debian-installer
-├── binary-amd64
-│   ├── Packages
-│   ├── Packages.bz2
-│   └── Packages.gz
-└── binary-i386
-    ├── Packages
-    ├── Packages.bz2
-    └── Packages.gz
-</code></pre><p> 在每一个体系中都有一个安装包目录和源代码包目录，其中内容为一个压缩文件，该文件描述了这种类型体系结构的所有安装包的详细信息，包括在/pool目录下的存储位置等等，十分详细，格式如下：</p>
-<pre><code>Package: umbrello-kde4
-Priority: optionalls
-Section: devel
-Installed-Size: 4468
-Maintainer: Ubuntu MOTU Developers
-Original-Maintainer: Debian Qt/KDE Maintainers
-Architecture: i386
-Source: kdesdk-kde4
-Version: 4:4.0.5-0ubuntu1~hardy1
-Depends: kde-icons-oxygen, kdebase-runtime, kdebase-runtime-data, kdelibs5 (&gt;= 4:4.0.5-0ubuntu1~hardy2), libc6 (&gt;= 2.4), libqt4-core (&gt;= 4.3.4), libqt4-gui (&gt;= 4.3.4), libqt4-qt3support (&gt;= 4.3.4), libstdc++6 (&gt;= 4.1.1-21), libxml2 (&gt;= 2.6.27), libxslt1.1 (&gt;= 1.1.20)
-Suggests: khelpcenter-kde4
-Filename: pool/main/k/kdesdk-kde4/umbrello-kde4_4.0.5-0ubuntu1~hardy1_i386.deb
-Size: 1782804
-MD5sum: f751b63e2c42e3abc0bc714f228cc966 SHA1: 728b30a325f44a8da9e5b53792f475a3f98da048 SHA256: 1e3b0e324a3188ee6605c6d138ecd22d45b15516aabb35d69f17ad27c4e5d6db
-Description: UML modelling tool and code generator for KDE 4 Umbrello UML Modeller is a Unified Modelling Language editor for KDE 4. It can create diagrams of software and other systems in the industry-standard UML format, and can also generate code from UML diagrams in a variety of programming languages.
-This package is part of KDE4, and a component of the kdesdk-kde4 module.
-See the &apos;kde4&apos; and &apos;kdesdk-kde4&apos; packages for more information.
-Bugs: https://bugs.launchpad.net/ubuntu/+filebug
-Origin: Ubuntu
-</code></pre><p> <strong><code>pool/</code> 软件包的新的物理地址</strong></p>
-<p>pool目录用于实际存储所有新的软件包，索引通过dists分类目录索引，其下内容为：</p>
-<pre><code>main/
-multiverse/
-restricted/
-universe/
-</code></pre><p>各项定义如下：</p>
-<ul>
-<li>main/：“main”组件包括了自由软件、可以被自由发布的软件和被Ubuntu团队完全支持的软件。其中包括了大多数流行的和稳定的开源软件，当您安装Ubuntu时默认安装的就是这些软件。</li>
-</ul>
-<ul>
-<li><p>restricted/：“restricted”组件是专供普遍用途，而且没有自由软件版权，但依然被Ubuntu团队支持的软件。请注意，因为不能直接修改软件，因而我们可能不能提供完全的技术支持，即便如此，我们还能向实际作者反馈Bug报告。</p>
-</li>
-<li><p>universe/：“universe”组件是整个自由、开源Linux世界的缩影。在“universe”组件中，你可以找到大多数开源软件，以及在开源版权下的软件，所有这些都是在公共源的基础上建立的。这些软件都是使用“main”中的组件编写的，它们能与“main”组件相安无事地共同运行，但它们没有安全升级的保障。“universe”组件包含了数以千计的软件。虽然是公共的，用户必须明白它们与稳定的Ubuntu核心的软件的差异和不稳定。</p>
-</li>
-<li><p>multiverse/：multiverse”组件包含了“不自由”的软件，这意味着这些软件不满足 Ubuntu相对于“main”组件的各种版权政策。当您使用这些软件时，如何调整各种权力以及遵重版权所有者的问题，就完全依靠您自己把握了。这些软件不被我们支持，而且通常不能被修改和更新，您将自己承担任何风险</p>
-</li>
-</ul>
-<p><strong><code>indices/</code>  维护人员文件和重载文件</strong></p>
-<p>indices（index复数）表示索引目录</p>
-<p><strong><code>project/</code>  大部分为开发人员的资源</strong></p>
-</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/01/09/Create-A-Local-Debian-Ubuntu-Mirror-With-apt-mirror/" class="post-link">Create A Local Debian/Ubuntu Mirror With apt-mirror</a></h2><span class="post-time">Jan 9, 2016</span><div class="post-content"><h3 id="Install-and-Configure-apt-mirror"><a href="#Install-and-Configure-apt-mirror" class="headerlink" title="Install and Configure apt-mirror"></a>Install and Configure apt-mirror</h3><p>Install apt-mirror</p>
-<pre><code>$ sudo apt-get install apt-mirror
-</code></pre><p>Configure apt-mirror</p>
-<p>编辑配置文件/etc/apt/mirror.list，以ubuntu 14.04 为例：</p>
-<pre><code>############# config ##################
-
-#
-
-set base_path      /var/spool/apt-mirror
-
-#
-
-set mirror_path    /data/mirror
-
-set skel_path   $base_path/skel
-
-set var_path   $base_path/var
-
-set cleanscript  $var_path/clean.sh      #这个脚本会记录每次同步后那些需要删除的文件
-
-# set defaultarch
-
-# set postmirror_script $var_path/postmirror.sh
-
-# set run_postmirror 0
-
-set nthreads20#用20个线程去wget镜像
-
-set _tilde 0
-
-#
-
-############# end config ##############
-
-deb http://cn.archive.ubuntu.com/ubuntu trusty main restricted universe multiverse
-
-deb http://cn.archive.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
-
-deb http://cn.archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse
-
-deb http://cn.archive.ubuntu.com/ubuntu trusty-proposed main restricted universe multiverse
-
-deb http://cn.archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse
-
-deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty main restricted universe multiverse
-
-deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
-
-deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse
-
-deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty-proposed main restricted universe multiverse
-
-deb-i386 http://cn.archive.ubuntu.com/ubun trustytu-backports main restricted universe multiverse
-
-# 如果这个源是要用来做pxe启动的话需要添加(因为默认没有将这几个文件同步过来)
-
-deb http://cn.archive.ubuntu.com/ubuntu trusty main/debian-installer restricted/debian-installer universe/debian-installer multiverse/debian-installer
-
-deb-i386 ttp://cn.archive.ubuntu.com/ubuntu trusty main/debian-installer restricted/debian-installer universe/debian-installer multiverse/debian-installer
-</code></pre><p>镜像官方仓库所有软件</p>
-<pre><code>$ sudo apt-mirror          
-//apt-mirror成功后会执行/var/spool/apt-mirror/var/clean.sh完成同步后的清理工作
-</code></pre><h3 id="源的升级与更新"><a href="#源的升级与更新" class="headerlink" title="源的升级与更新"></a>源的升级与更新</h3><p>日常升级</p>
-<pre><code>$ sudo apt-mirror
-</code></pre><p>计划任务自动更新</p>
-<pre><code>0 4 * * * /usr/bin/apt-mirror &gt;&gt; /var/spool/apt-mirror/var/cron.log
-</code></pre><h3 id="使用nginx搭建本地镜像源"><a href="#使用nginx搭建本地镜像源" class="headerlink" title="使用nginx搭建本地镜像源"></a>使用nginx搭建本地镜像源</h3><h4 id="nginx-安装配置"><a href="#nginx-安装配置" class="headerlink" title="nginx 安装配置"></a>nginx 安装配置</h4><p>nginx 安装</p>
-<p>参考：<a href="http://nginx.org/en/docs/install.html" target="_blank" rel="external">官方文档</a></p>
-<p>nginx 基本配置</p>
-<p>编辑配置文件 /usr/local/nginx/conf/sites-enabled/mirror.conf</p>
-<pre><code>server {
-listen       80;
-server_name  _;
-root         /data/mirror/web;
-autoindex    on;
-}
-</code></pre><p>在<code>/data/mirror/web</code>目录做一个镜像目录的软连接</p>
-<pre><code>$ ln -s /data/mirror/archive.ubuntu.com/ubuntu/ /data/mirror/web/ubuntu
-</code></pre><p>启动nginx服务</p>
-<pre><code>$ sudo /usr/local/nginx/sbin/nginx -t
-$ sudo /usr/local/nginx/sbin/nginx
-</code></pre><p>本地测试</p>
-<p>在浏览器输入搭建nginx机器IP，也可以配置域名访问</p>
-<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/26720CDE-B91E-40F3-8D46-CAC92FAE90F2.png" alt=""></p>
-<h3 id="客户端使用测试"><a href="#客户端使用测试" class="headerlink" title="客户端使用测试"></a>客户端使用测试</h3><p>编辑配置文件 /etc/apt/sources.list 或在/etc/apt/sources.list.d/ 目录下新建文件，并在文件最前面写入如下字段：</p>
-<pre><code>deb http://10.249.17.26/ubuntu precise main universe
-</code></pre><p>使用</p>
-<pre><code>$ apt-get update
-$ apt-get install (packagename)
-</code></pre></div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/01/08/make_deb/" class="post-link">Make .deb Package</a></h2><span class="post-time">Jan 8, 2016</span><div class="post-content"><h3 id="deb包初探"><a href="#deb包初探" class="headerlink" title="deb包初探"></a>deb包初探</h3><h4 id="deb包结构包含两部分："><a href="#deb包结构包含两部分：" class="headerlink" title="deb包结构包含两部分："></a>deb包结构包含两部分：</h4><ul>
-<li>控制信息（DEBIAN目录）</li>
-<li>安装内容（etc、usr等目录）</li>
-</ul>
-<h4 id="DEBAIN目录一般包含以下文件："><a href="#DEBAIN目录一般包含以下文件：" class="headerlink" title="DEBAIN目录一般包含以下文件："></a>DEBAIN目录一般包含以下文件：</h4><ul>
-<li>control</li>
-</ul>
-<p>主要描述软件包的名称(Package)，版本(Version)以及描述(Description)等，是deb包必须具备的描述性文件，以便于软件的安装管理和索引。同时为了能将软件包进行充分的管理</p>
-<ul>
-<li>postinst(postinstallation)</li>
-</ul>
-<p>该脚本的主要任务是完成安装包时的配置工作。许多“postinst”脚本负责执行有关命令为新安装或升级的软件重启服务</p>
-<ul>
-<li>postrm(postremove)</li>
-</ul>
-<p>软件卸载后需要执行的脚本，主要负责修改软件包链接文件、或删除创建的文件</p>
-<ul>
-<li>preinst(preinstallation)</li>
-</ul>
-<p>在Deb包文件解包之前，将会运行该脚本。<br>许多“preinst”脚本的任务是停止作用于待升级软件包的服务，直到软件包安装或升级完成</p>
-<ul>
-<li>prerm(preremove)</li>
-</ul>
-<p>软件卸载前需要执行的脚本，主要负责停止与软件包相关的daemon服务</p>
-<ul>
-<li>copyright（版权）</li>
-<li>changlog（修订记录）</li>
-<li>conffiles</li>
-</ul>
-<h4 id="一个control文件实例："><a href="#一个control文件实例：" class="headerlink" title="一个control文件实例："></a>一个control文件实例：</h4><pre><code>Package: dante
-Version: 1.3.2-1
-Architecture: amd64
-Maintainer: mr-zhao &lt;zhifanzhao@163.com&gt;
-Installed-Size: 1438
-Depends: libc6 (&gt;&gt; 2.15), libc6 (&lt;&lt; 2.16), libgssapi-krb5-2 (&gt;= 1.10+dfsg~)
-Section: unknown  #声明软件类别
-Priority: extra   #软件对系统的重要程度（required、standar、option、extra）
-Homepage: &lt;insert the upstream URL, if relevant&gt;
-Description: &lt;insert up to 60 chars description&gt;
-&lt;insert long description, indented with spaces&gt;
-</code></pre><h3 id="deb制作"><a href="#deb制作" class="headerlink" title="deb制作"></a>deb制作</h3><p>deb包的制作有三种情况：</p>
-<ul>
-<li>源码包制作deb包</li>
-<li>deb-src包制作deb包</li>
-<li>修改现有的deb包制作新的deb包</li>
-</ul>
-<h4 id="源码包制作deb包"><a href="#源码包制作deb包" class="headerlink" title="源码包制作deb包"></a>源码包制作deb包</h4><p>源码包制作deb包一般常用有两种方法：</p>
-<ul>
-<li>checkinstall</li>
-</ul>
-<p>checkinstall不仅可以生成deb包，还可以生成rpm包，使用简单，但是不灵活，功能粗糙</p>
-<ul>
-<li>dpkg工具 dh-make</li>
-</ul>
-<p>dpkg是最基本的制作deb包的方法</p>
-<p>(1) 利用checkinstall打包</p>
-<p>Step 1：安装依赖关系软件包</p>
-<pre><code>$ sudo apt-get install build-essential automake autoconf libtool pkg-config libcurl4-openssl-dev intltool libxml2-dev libgtk2.0-dev libnotify-dev libglib2.0-dev libevent-dev checkinstall
-</code></pre><p>Step 2: 制作DEB包</p>
-<pre><code>$ wget http://www.inet.no/dante/files/dante-1.3.2.tar.gz
-$ tar zxvf dante-1.3.2.tar.gz
-$ cd dante-1.3.2
-$ ./configure
-$ make
-$ sudo checkinstall      //以一种交互的方式进行打包，过程会显示软件包基本信息，可直接修改
-
-当前目录下就生成 dante_1.3.2-1_amd64.deb
-</code></pre><p>Step 3: 测试软件包是否可用</p>
-<pre><code>$dpkg -i dante_1.3.2-1_amd64.deb //安装
-$dpkg -r dante_1.3.2-1_amd64.deb //卸载
-</code></pre><p>(2) 利用dpkg打包</p>
-<p>Step 1：安装依赖关系软件包</p>
-<pre><code>$ sudo apt-get install dh-make make fakeroot
-</code></pre><p>Step 2: 制作DEB包</p>
-<pre><code>$ wget http://www.inet.no/dante/files/dante-1.3.2.tar.gz
-$ tar zxvf dante-1.3.2.tar.gz
-$ cd dante-1.3.2
-$ dh_make -s -e zhifanzhao@163.com -f ../dante-1.3.2.tar.gz  //会在当前目录下生成debian目录，可自定义里面的控制信息
-$ dpkg-buildpackage -rfakeroot
-
-上级目录就会有 dante_1.3.2-1_amd64.deb
-</code></pre><p>Step 3: 测试软件包是否可用</p>
-<pre><code>$ dpkg -i dante_1.3.2-1_amd64.deb //安装
-$ dpkg -r dante_1.3.2-1_amd64.deb //卸载
-</code></pre><h4 id="deb-src制作deb包"><a href="#deb-src制作deb包" class="headerlink" title="deb-src制作deb包"></a>deb-src制作deb包</h4><p>这种方式往往是需要为原有的包进行小幅度优化，简单介绍一下。</p>
-<p>Step 1: 获取source包</p>
-<pre><code>$ apt-get source &lt;packagename&gt;
-</code></pre><p>Step 2: 修改代码和编译信息</p>
-<p>Step 3: 准备编译环境和依赖包</p>
-<pre><code>$ apt-get install dpkg-buildpackage
-$ apt-get build-dep &lt;packagename&gt;
-</code></pre><p>Step 4: 重新打包</p>
-<pre><code>$ dpkg-buildpackage -uc -d
-
-//完成后上一级目录将会出现一个或多个deb文件 (未测试)
-</code></pre><h4 id="修改现有的deb包制作新的deb包"><a href="#修改现有的deb包制作新的deb包" class="headerlink" title="修改现有的deb包制作新的deb包"></a>修改现有的deb包制作新的deb包</h4><pre><code>$ dpkg -X dante_1.3.2-1_amd64.deb  test //解包安装内容
-$ cd test
-$ dpkg -e ../dante_1.3.2-1_amd64.deb  //解包控制信息，生成DEBAIN目录
-$ ls test
-DEBIAN  usr
-自定义修改内容然后重新打包（一般是对配置文件进行修改，对功能进行调优等）
-$ cd ..
-$ dpkg -b test test_new.deb
-</code></pre><p><strong>Debain库非常丰富，一般都很少用源码包来制作deb包，通过对已有的deb包进行修改即可满足日常需求</strong></p>
-</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/01/01/command/" class="post-link">运维必备之Linux命令概览</a></h2><span class="post-time">Jan 1, 2016</span><div class="post-content"><h3 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/C3EB9F70-7F51-4B46-8B14-825CD9B8C11B.png" alt=""></p>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/BF852F66-2D8E-42D8-A4EB-2826A98C354C.png" alt=""></p>
-<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/429014F3-442B-4115-A97D-32D62E6BEE7F.png" alt=""></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.brendangregg.com/linuxperf.html" target="_blank" rel="external">Linux Performance</a></p>
-</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/12/29/zabbix/" class="post-link">Zabbix快速部署</a></h2><span class="post-time">Dec 29, 2015</span><div class="post-content"><h3 id="一、基础环境"><a href="#一、基础环境" class="headerlink" title="一、基础环境"></a>一、基础环境</h3><ul>
-<li>zabbix版本:2.0.5</li>
-<li>OS version：ubuntu 14.04</li>
-<li>php version: 5.5</li>
-<li>安装目录：/usr/local/zabbix</li>
-<li>zabbix server :10.249.6.29</li>
-<li>mysql server : 10.249.17.52</li>
-</ul>
-<h3 id="二、软件安装"><a href="#二、软件安装" class="headerlink" title="二、软件安装"></a>二、软件安装</h3><p>安装基础依赖软件包</p>
-<pre><code>apt-get install snmp-mibs-downloader libmysqld-dev  libghc-curl-dev  unixodbc-dev libsnmp-dev  \
-libopenipmi-dev nginx php5-fpm  php5-cgi php5-mysql php5-fpm php5-curl php5-gd php5-idn \
-php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-mhash php5-ming \
-php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl \
-make mysql-client -y
-</code></pre><p>源码编译安装zabbix</p>
-<pre><code>#下载源码包
-wget http://liquidtelecom.dl.sourceforge.net/project/zabbix/ZABBIX%20Latest%20Stable/2.0.5/zabbix-2.0.5.tar.gz
-
-#解压编译安装
-tar -xf zabbix-2.0.5.tar.gz
-cd zabbix-2.0.5
-
-./configure --prefix=/usr/local/zabbix  --enable-server --enable-proxy --enable-agent  --with-mysql=/usr/bin/mysql_config --with-net-snmp --with-libcurl --with-openipmi --with-unixodbc --with-ldap
-
-make &amp;&amp; make install
-</code></pre><h3 id="三、基础配置"><a href="#三、基础配置" class="headerlink" title="三、基础配置"></a>三、基础配置</h3><p><strong>数据库配置</strong></p>
-<p>数据库可以使用本地数据库（即zabbix server和数据库在同一台机器）也可使用远程数据库。建议使用远程数据库方便管理和日常操作。</p>
-<p>数据库机器系统：RedHat 6.4</p>
-<p>数据库机器IP：10.249.17.52</p>
-<pre><code>yum install mysql-server
-mysqladmin -uroot password &apos;mysql_pass&apos;
-mysql -uroot -p
-mysql&gt;create database zabbix character set utf8;
-mysql&gt;grant all privileges on zabbix.* to zabbix@&apos;%&apos; identified by &apos;zabbix&apos;;
-mysql&gt;grant all privileges on zabbix.* to zabbix@&apos;10.249.6.29&apos; identified by &apos;zabbix&apos;;
-mysql&gt;flush privileges;
-</code></pre><p><strong>zabbix server 端配置</strong></p>
-<p>导入数据库表结构</p>
-<pre><code>mysql -h 10.249.17.52 -u zabbix -pzabbix zabbix &lt; /root/zabbix-2.0.5/database/mysql/schema.sql
-mysql -h 10.249.17.52 -u zabbix -pzabbix zabbix &lt; /root/zabbix-2.0.5/database/mysql/images.sql
-mysql -h 10.249.17.52 -u zabbix -pzabbix zabbix &lt; /root/zabbix-2.0.5/database/mysql/data.sql
-#注意导入sql语句的顺序
-</code></pre><p> 编辑zabbix server配置文件</p>
-<pre><code>cat /usr/local/zabbix/etc/zabbix_server.conf | egrep -v &quot;^#|^$&quot;
-ListenPort=10051
-SourceIP=0.0.0.0
-LogFile=/var/log/zabbix/zabbix_server.log
-LogFileSize=1024
-DebugLevel=3
-PidFile=/var/run/zabbix/zabbix_server.pid
-DBHost=10.249.17.52
-DBName=zabbix
-DBUser=zabbix
-DBPassword=zabbix
-DBPort=3306
-StartPollers=5
-StartPollersUnreachable=8
-StartTrappers=10
-StartPingers=60
-StartDiscoverers=10
-StartHTTPPollers=1
-SNMPTrapperFile=/tmp/zabbix_traps.tmp
-StartSNMPTrapper=1
-CacheSize=2048M
-CacheUpdateFrequency=900
-StartDBSyncers=30
-HistoryCacheSize=2048M
-TrendCacheSize=2048M
-HistoryTextCacheSize=2048M
-Timeout=30
-UnreachablePeriod=150
-UnreachableDelay=30
-FpingLocation=/usr/sbin/fping
-LogSlowQueries=1000
-TmpDir=/tmp/zabbix-pinger
-
-#配置agent监控自身
-cat zabbix_agentd.conf | egrep -v &quot;^#|^$&quot;
-LogFile=/tmp/zabbix_agentd.log
-Server=127.0.0.1
-ServerActive=127.0.0.1
-Hostname=Zabbix server
-</code></pre><p><strong>新建相关目录与权限设置</strong></p>
-<pre><code>mkdir /var/www
-mkdir /var/log/zabbix
-mkdir /var/run/zabbix
-useradd zabbix
-chown -R zabbix:zabbix /var/log/zabbix
-chown -R zabbix:zabbix /var/run/zabbix
-</code></pre><p><strong>LNMP架构配置</strong> </p>
-<p>  zabbix web页面展示可以使用LAMP架构也可以使用LNMP架构。这里我们使用nginx+php-fpm,配置简单，语法易懂。</p>
-<pre><code>cp -r  /root/zabbix-2.0.5/frontends/php /var/www/zabbix
-vi /etc/nginx/sites-enabled/zabbix.conf
-server {
-listen  80;
-server_name 10.249.6.29;
-index   index.php;
-root    /var/www/zabbix;
-access_log  /var/www/access.log;
-keepalive_timeout  300;
-fastcgi_connect_timeout 300;
-fastcgi_send_timeout 300;
-fastcgi_read_timeout  300;
-location / {
-    try_files $uri $uri/ index.php;
-}
-
-location ~ \.php$ {
-    fastcgi_pass 127.0.0.1:9000;
-    fastcgi_index   index.php;
-    fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    include fastcgi_params;
-    }
-}
-
-#配置php-fpm
-sed -i &quot;s/;date.timezone =/date.timezone = Asia\/Shanghai/g&quot; /etc/php5/fpm/php.ini
-sed -i &quot;s#max_execution_time = 30#max_execution_time = 300#g&quot; /etc/php5/fpm/php.ini
-sed -i &quot;s#post_max_size = 8M#post_max_size = 32M#g&quot; /etc/php5/fpm/php.ini
-sed -i &quot;s#max_input_time = 60#max_input_time = 300#g&quot; /etc/php5/fpm/php.ini
-sed -i &quot;s#memory_limit = 128M#memory_limit = 128M#g&quot; /etc/php5/fpm/php.ini
-sed -i &quot;s/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g&quot; /etc/php5/fpm/pool.d/www.conf
-</code></pre><p>服务启动配置</p>
-<pre><code>cp /root/zabbix-2.0.5/misc/init.d/debian/* /etc/init.d/
-chmod 755  /etc/init.d/zabbix_*
-
-#拷贝文件后需要修改变量DAEMON和PID
-sed -i &apos;s/DAEMON=\/usr\/local\/sbin\/${NAME}/DAEMON=\/usr\/local\/zabbix\/sbin\/${NAME}/g&apos; /etc/init.d/zabbix-server
-sed -i  &apos;s/PID=\/tmp\/$NAME.pid/PID=\/var\/run\/zabbix\/$NAME.pid/g&apos; /etc/init.d/zabbix-server
-#或是创建软连接
-ln -s /usr/local/zabbix/sbin/zabbix_server  /etc/init.d/zabbix_server
-
-#启动服务
-/usr/local/zabbix/sbin/zabbix_server
-/usr/sbin/nginx -t
-/usr/sbin/nginx
-/usr/sbin/php5-fpm
-</code></pre><h3 id="四、问题解决"><a href="#四、问题解决" class="headerlink" title="四、问题解决"></a>四、问题解决</h3><p><strong>PHP5.5 mysql_connect模块错误提示</strong></p>
-<p>由于zabbix版本较低，而是安装在ubuntu 14.04系统上，php版本较高所以会有如下报错：</p>
-<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/1111.jpg" alt=""></p>
-<p>mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead [include/db.inc.php:77</p>
-<p>解决方法：</p>
-<pre><code>cd /var/www/zabbix/include/
-cp db.inc.php db.inc.php.bak
-wget https://support.zabbix.com/secure/attachment/23266/db.inc.patch
-patch -p1 db.inc.php &lt; db.inc.patch
-</code></pre><p><strong>zabbix web界面汉化</strong></p>
-<p>修改web界面语言如果Chinese(zh_CN)是灰的</p>
-<pre><code>locale -a | grep zh_CN //结果应该是空的
-locale-gen zh_CN.UTF-8  //添加语言包
-</code></pre><p>然后重启apache 或是nginx+php-fpm即可</p>
-<p>如果看不到Chinese(zh_CN)选项,则需修改/var/www/zabbix/include/locales.inc.php文件</p>
-<pre><code>&apos;zh_CN&apos; =&gt; array(&apos;name&apos; =&gt; _(&apos;Chinese (zh_CN)&apos;),        &apos;display&apos; =&gt; true),
-//原本这里为false,请改为true
-</code></pre><p><strong>zabbix 中文图形乱码</strong></p>
-<p>由于zabbix的web端没有中文字库，我们需要把中文字库加上。</p>
-<p>中文字体：<a href="http://pan.baidu.com/s/1sjQj3XF" target="_blank" rel="external">黑体下载</a></p>
-<p>将下载的文件拷贝到/var/www/zabbix/fonts 目录下</p>
-<p>然后修改zabbix的web端/include/defines.inc.php</p>
-<pre><code>#define(&apos;ZBX_GRAPH_FONT_NAME&apos;, &apos;DejaVuSans&apos;); // font file name
-define(&apos;ZBX_GRAPH_FONT_NAME&apos;,&apos;simhei&apos;);
-#define(&apos;ZBX_FONT_NAME&apos;, &apos;DejaVuSans&apos;);
-define(&apos;ZBX_FONT_NSMR&apos;,&apos;simhei&apos;);
-</code></pre><h3 id="五、自动化安装脚本"><a href="#五、自动化安装脚本" class="headerlink" title="五、自动化安装脚本"></a>五、自动化安装脚本</h3><p>使用自动安装脚本可快速部署环境，在使用前请先明确自己的环境。此脚本在ubuntu 14.04 安装zabbix 2.0.5 测试成功。</p>
-<p><code>注意明确文件路径,修改配置文件中MYSQLDB数据库相关变量以及nginx中servername</code></p>
-<p><a href="https://github.com/Abnerzhao/zabbix/tree/master/doc" target="_blank" rel="external">自动安装脚本查看下载</a></p>
-</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/12/25/idrac/" class="post-link">idrac卡reset命令</a></h2><span class="post-time">Dec 25, 2015</span><div class="post-content"><ul>
-<li><p><strong>DELL</strong></p>
-<pre><code>racadm racreset
-</code></pre></li>
-<li><p><strong>Huawei</strong></p>
-<pre><code>ipmcset -d reset
-</code></pre></li>
-</ul>
-</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/10/29/photography/" class="post-link">摄影知识扫盲</a></h2><span class="post-time">Oct 29, 2015</span><div class="post-content"><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>三流的摄影师比器材，二流的摄影师比技术，一流的摄影师比思想。</p>
-<blockquote>
-<p>“照片从来不能解决问题，它总是在不断的提出问题：为什么会这样？如果你能不断的提出问题，你就会不断的按下快门，把你的思想和疑问传达出来。如果观众看过你的照片后也良久驻足，思考着你的思考，疑问着你的疑问，那您就快接近摄影的最高境界了”      Susan Sontag 《论摄影》</p>
-</blockquote>
-<h3 id="摄影名词"><a href="#摄影名词" class="headerlink" title="摄影名词"></a>摄影名词</h3><p>ISO，光圈，快门， 曝光，焦距，景深 ，RAW</p>
-<h4 id="ISO"><a href="#ISO" class="headerlink" title="ISO"></a>ISO</h4><p>ISO（感光度）是CCD（Charge Coupled Device，<strong>电子感光芯片</strong>）或是胶卷对光线的敏感程度。</p>
-<p>数码相机的主菜单里都有ISO选择，100，200，400或者800等，数字越大越敏感（感光度越高）。如果用ISO100的胶卷，相机2秒可以正确曝光的话，同样光线条件下用ISO200的胶卷只需要1秒即可，用ISO400则只要0.5秒。高ISO虽然速度快但图像颗粒粗，经不起精细放大。高ISO一般在万不得已的时候才用，<strong>高ISO图片质量是数码相机最重要的指标之一。</strong></p>
-<p>简单的来说，提高ISO就是提高电子放大倍数，微弱的光线只能产生微弱的电子信号，这个时候数码相机的放大电路工作，把信号放大来得到正确的曝光照片，但噪点多，细节丢失，颜色失真。</p>
-<p>同样像素的普通数码相机和单反相机的高ISO图片质量差别很大，主要原因是普通相机和单反相机的感光芯片大小（面积）不同。感光芯片CCD就是一个光电转换器，把光照转变为可记录的电子信号。假如CCD为1000万像素，要正确曝光，每个像素点必须要有一定的光照强度。同样的曝光时间，面积大的CCD接受的阳光多，分配到每个像素点的光照充分，这样图片的细节会更丰富，噪点少，颜色准确。<strong>在同等技术条件下，如像素相等，CCD面积越大，高ISO的成像质量越好。</strong></p>
-<h4 id="快门"><a href="#快门" class="headerlink" title="快门"></a>快门</h4><p><strong>快门是能够准确的控制曝光时间的装置。</strong></p>
-<p>快门有机械快门、电子快门以及电子机械联合快门。</p>
-<p>安全快门速度：安全速度是焦距的倒数，如果用50mm镜头，快门速度不要低于1/50秒，使用200mm镜头速度不低于1/200秒，以此类推，否则照片会糊。</p>
-<h4 id="光圈"><a href="#光圈" class="headerlink" title="光圈"></a>光圈</h4><p><strong>光圈就是镜头里调节进光孔大小的装置。</strong></p>
-<blockquote>
-<p>所有相机都是基于小孔成像原理：拿一个密封箱子，在任何一面钻个小圆孔，窗外的景象比如一棵树什么的，就会在圆孔对面的箱内壁生成此树的倒影。假如在箱子小孔对面的内壁涂上感光材料，这个有孔的箱子就是一台针孔相机。</p>
-<p>既然一台照相机可以不需要镜头，为什么现在的相机前面不是一个小圆孔而是几块玻璃呢？而且这几块玻璃还卖得那么贵。这是因为小孔要成像的话，孔必须很小，如果孔开得和门一样大，这个孔就成不了像。孔小进光量就小，针孔摄影一张照片曝光几小时到几十个小时都常见。我们要想办法加大进光量。凸镜有聚光功能。把玻璃凸镜装到大孔上，问题不就解决了？</p>
-<p>确实如此。镜头就是这样诞生的。今天的各种镜头都是几块凹凸镜的排列组合，然后用塑料或铁皮一包。有了镜头，小孔成像的这个孔（光圈）就不再是针孔了，它变成了洞。</p>
-<p>并不是任何时候都需要大洞。夏日沙滩上烈日当头，四处白花花一片，为了分清到底是人肉还是白沙，我们需要眯着眼睛仔细观察。镜头是照相机的眼睛，这时候相机也需要眯起眼睛。<strong>为了应付不同的光线强度，我们还需要给镜头装上能够调节这个洞大小的装置，以便在强光时缩小为针孔，弱光时开成大洞。这个装置就是光圈（Aperture）。一组凹凸镜再加上光圈就诞生了完整的镜头。</strong></p>
-</blockquote>
-<p>常见的光圈值如下：F1，F1.4，F2，F2.8，F4，F5.6，F8，F11，F16，F22，F32，F44，F64。<strong>每两挡相邻光圈值之间进光量相差一倍。例如光圈从F4调到F2.8，进光量便多一倍；从F2.8到F2又多一倍。光圈值和光圈实际大小是相反的，进光量最大时光圈为F1，最小时为F64。</strong></p>
-<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/4DE51689-1AA4-45FD-9F68-3B310CDA0887.png" alt=""></p>
-<p><strong>镜头在中等光圈的时候成像最好，</strong>如果是135数码单反，中等光圈为F8或F11。小数码DC要看具体机型，如果可选光圈值在F2.5到F8之间，中间的F4.6为最佳光圈。</p>
-<h4 id="曝光"><a href="#曝光" class="headerlink" title="曝光"></a>曝光</h4><blockquote>
-<p>假设一个黑乎乎的密闭房间，一面墙壁上开了个小圆窗户，在窗对面的内壁上安上感光材料就是一台大型房式照相机。在没有打开小窗之前，房间里是黑乎乎的。上帝说：要有光。我们打开小窗，光线从小孔而入，射到对面墙壁的胶卷上，产生光化反应（或CCD光电反应），图像就诞生了。此过程就叫曝光。<strong>要正确曝光必须精确决定曝光量，也就是让多少光进入房间。光圈和快门都可以控制曝光量。曝光就是光圈和快门的组合。光圈大小其实就是小圆窗户开多大，快门（速度）就是窗户开多久。</strong>若窗户开1/4，时间4秒能正确曝光，很显然窗户打开1/2，时间2秒钟也能正确曝光，1/4<em>4=1/2</em>2=1。如果窗户全开，曝光时间就只要1秒了。</p>
-</blockquote>
-<p>一张正确曝光的图片可以有N种不同的光圈和快门组合。</p>
-<p>有三个因素能影响一张图片是否正确曝光：光圈，快门速度，ISO。其中光圈和速度联合决定进光量，ISO决定CCD感光速度。进光量不够则可开大光圈或者增加曝光时间，还不够就提高ISO。大光圈的解像度不好，快门速度低则图片可能会糊，高ISO图片质量也差。</p>
-<h4 id="测光与测光模式"><a href="#测光与测光模式" class="headerlink" title="测光与测光模式"></a>测光与测光模式</h4><p>曝光和测光是一对双胞胎，不测定光照强度正确曝光就无从谈起。所有的数码相机都内置测光表，它能测量光线的强度，自动给出正确曝光的光圈和快门。数码相机里都有一个光敏电阻（光照不同时电阻不同），相机内根据电阻的变化就能确定光线强度，进而确定曝光值。</p>
-<p><strong>测光模式主要有点测光，中央重点测光，区域（平均）测光三种。</strong>点测光只测取景框内中央小点的光线强度。区域（平均）测光则把取景框分为很多小块，分别对每块测光再加权平均得到光照强度。中央重点测光只把取景框分为中央圆圈和四周两块分别测光。大多数情况下用区域平均测光即可，在明暗反差很大时多采用点测光。</p>
-<h4 id="曝光补偿"><a href="#曝光补偿" class="headerlink" title="曝光补偿"></a>曝光补偿</h4><p>曝光是否准确是根据经验判断的。总原则：<strong>照片要真实反映拍摄时的环境亮度。</strong>如果正午阳光户外被拍得昏暗如夜，这就是曝光不足；夜景拍得跟白天一样则是曝光过度。相机自动确定的曝光值90%以上是正确的，但也有不准的，如雪景应该纯白拍出来却是灰色，或纯黑的煤球拍出来却是灰煤。</p>
-<blockquote>
-<p>假设两个极端，纯黑物体反射率为零，纯白物体反射率是100%。在这两个极端取中间值就是不黑也不白的灰色，称柯达灰，也称18度中间灰。</p>
-<p>以客厅为例，墙壁又白又亮，电视机屏幕又黑又暗，家具等亮度居中。要以谁的亮度来确定曝光？相机自动测光就是取平均数，最后给出一个让图片达到中间灰的曝光值。</p>
-<p>相机的自动测光是个死脑筋，它认为全世界所有场景的平均亮度都是18度中间灰。好在大部分生活场景平均起来差不多也是灰色。但在雪景或者煤球等纯色场景，相机依然给出中间灰的曝光值，拍出来就会白雪成灰雪，煤球成灰球。<strong>此时我们就要对自动曝光予以修正，对雪景增加曝光，煤球减少曝光，这样才能拍出亮度正确的照片。增减曝光值就叫曝光补偿。</strong></p>
-</blockquote>
-<p><strong>曝光补偿原则：白加黑减。如果有大片白色物体或有强灯等特别明亮的物体就要增加曝光量；有大片黑色物体则要减少曝光量。</strong></p>
-<h4 id="焦距与焦距转换系数"><a href="#焦距与焦距转换系数" class="headerlink" title="焦距与焦距转换系数"></a>焦距与焦距转换系数</h4><blockquote>
-<p><strong>镜头的焦距就是从镜片（或镜片组）的中心到底片(CCD)的距离，单位毫米（mm）。</strong>对全幅135数码单反来说，50mm镜头为标准镜头，简称标头。<strong>标头严格的定义：焦距等于底片（或CCD）对角线长度的镜头。</strong>单张135底片对角线长度为43mm，我们把焦距40-60mm的都称为标头。请注意：一个镜头是不是标头不是看焦距而是看视角，视角45度左右就是标准镜头。对120相机来说80-110mm焦距的镜头才是标头。对Nikon D5000等非全幅数码单反，35mm才是标头。</p>
-</blockquote>
-<p><strong>广角镜头（焦距小于35mm）</strong>能够让照相机“看得更宽广”，因为它视角大；<strong>长焦镜头（焦距大于70mm）</strong>能让照相机“看得更远”，但视角窄。长焦镜头也称远摄镜头或望远镜头。广角镜头都身材矮小，长焦镜头都高大威猛。</p>
-<h4 id="光学变焦与数码变焦"><a href="#光学变焦与数码变焦" class="headerlink" title="光学变焦与数码变焦"></a>光学变焦与数码变焦</h4><blockquote>
-<p>数码相机上都写着XX倍光学变焦（Optical Zoom）。<strong>变焦倍数＝最大焦距/最小焦距。</strong>一个28-280mm镜头的光学变焦倍数是280mm/28mm=10倍。倍数越大镜片越多，体积相应较大，画质相对较低，光圈相对较小。如Nikon P90光学变焦为26-624mm（24倍），但实测镜头边缘解像度差，看来24倍已经接近光学变焦目前的技术极限了。</p>
-</blockquote>
-<p>数码变焦只是电子放大，软件稍作改动就可以从一倍到一万倍变焦任君自取。光学变焦才是真正的变焦。</p>
-<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/B4563A21-000E-4167-9039-32DA8217E2FA.png" alt=""><br><img src="http://7vzmp5.com1.z0.glb.clouddn.com/76932658-4595-4202-885F-C3168528800D.png" alt=""></p>
-<blockquote>
-<p>CANON ZOOM LENS：佳能变焦镜头</p>
-<p>EF是佳能镜头卡口名称。EF-S是小CCD数码单反专用镜头。EFS镜头不能用在佳能全幅数码单反上。</p>
-<p>18-55mm代表变焦范围18-55毫米（乘以焦距转换系数1.6后相当于全幅单反焦距28-88mm）</p>
-<p>1:3.5 - 5.6：在最小焦距18mm时最大光圈为F3.5,最长焦距时最大光圈为F5.6。</p>
-<p>Ø58mm镜头滤色镜口径为58毫米</p>
-</blockquote>
-<h4 id="景深与光圈优先"><a href="#景深与光圈优先" class="headerlink" title="景深与光圈优先"></a>景深与光圈优先</h4><blockquote>
-<p><strong>景深就是照片焦点前后延伸出来的“可接受清晰区域”。</strong>它只是一个概念，相机上并没有一个开关叫景深。清晰与否也没有绝对标准。<strong>一张合影若人脸很清晰，前面的鲜花和后面建筑物都模糊，清晰区域只限于人，我们就称此照片景深较浅（小）。若人鲜花和建筑物都清晰，照片的清晰区域很广，就称景深很大。风光摄影一般需要大景深，前后景物都要清楚。</strong></p>
-</blockquote>
-<p>有三个因素决定景深：1，光圈大小；2，焦距长短；3，被摄物体的远近。</p>
-<p>景深的确定原则是：</p>
-<p>1，光圈越大，景深越小；</p>
-<p>2，焦距越长，景深越小；</p>
-<p>3，离被摄物体越近，景深越小。</p>
-<blockquote>
-<p>若镜头的最小光圈为F22，这时候景深最大，在F2.8的时候景深最小（如果此镜头最大光圈是F2.8）。焦距越长景深越小这个好理解，广角镜头景深大，长焦镜头景深小。实际上17mm的超广角镜头如果使用F11以下的中小光圈，随便你朝何处对焦，前后景物都清晰。200mm或更长的镜头景深很小，一定要仔细小心对焦，最好在三角架上拍。离被摄物体越近，景深越小。所以在超近距离拍摄时要特别小心对焦，例如用微距镜头拍花花草草或小狗脸部特写。</p>
-</blockquote>
-<p>光圈有三个作用：</p>
-<p>1，控制进光量。这是拍摄成功与否的关键；</p>
-<p>2，控制景深。光圈越小，景深越大。虽然焦距和拍摄远近都影响景深，但焦距和被摄物远近的改变同时也会改变构图。当构图确定，能控制景深的武器就只剩下光圈了；</p>
-<p>3，光圈影响图片的清晰度。任何一个镜头都是中等光圈时成像最好（最清晰），最大光圈和最小光圈时解像度差。</p>
-<p><strong>光圈优先（Aperture Priority）：手动确定光圈的大小，相机会根据这个光圈值确定能正确曝光的快门速度。大写的A或者Av就代表光圈优先模式。</strong></p>
-<p>曝光是光圈和快门的组合，光圈优先对应的概念是<strong>快门优先或速度优先：手动确定快门速度，相机会根据这个快门速度确定能正确曝光的光圈大小。简写为T或Tv。</strong>在某些时候快门速度很重要，要定格运动员冲刺撞线，快门速度最好在1/500秒甚至更快；如果要把流水拍得如丝般柔滑，快门速度要在0.5秒或者更慢。</p>
-<h4 id="白平衡与RAW"><a href="#白平衡与RAW" class="headerlink" title="白平衡与RAW"></a>白平衡与RAW</h4><blockquote>
-<p>要了解白平衡white balance就必须先了解另一个概念：色温color temperature。所谓色温就是以开尔文温度表示光线的色彩，单位是K。物体被加热到一定的温度时就会发出光线，此光线不仅含有亮度的成份，也含有颜色的成份。温度越高，蓝色的成份越多，图像就会偏蓝；温度越低，红色的成份就越多，图像就会偏红。</p>
-</blockquote>
-<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/C29FE7F7-3998-4623-A871-8FB56382E865.png" alt=""></p>
-<h4 id="光线色温"><a href="#光线色温" class="headerlink" title="光线色温"></a>光线色温</h4><p>不同色温的光源下物体会呈现不同的色调，在日光灯下整体偏白，在普通白炽灯下整体偏黄。<strong>白平衡就是相机在不同光源下对白色的还原。</strong>有时候相机对色温判断错误，严重偏蓝或发黄。这时我们就要手动设置白平衡。万一人脑也判断错误怎么办？要彻底解决白平衡和色温准确性只有一个方案：选择RAW存储格式。</p>
-<p>常用的图片压缩存储格式为JPEG或JPG。但JPEG是一种有损压缩，某些细节丢失。大部分相机都有图片质量选择，也就是JPEG压缩比选择，压缩得越厉害，文件越小，一张卡能存储更多照片，但细节丢失更多。</p>
-<blockquote>
-<p>数码相机CCD经曝光产生电子信号，相机把电子信号进行处理，再传给存储卡。这些处理包括白平衡配置，颜色饱和度的增减，锐度和对比度增减，降噪等，最后压缩为JPEG格式存储。</p>
-</blockquote>
-<p>RAW英文是原始的意思，这很好地说明了RAW图片的特点：<strong>它是原始的，CCD产生的电子信号直接传给存储卡，没有经过相机的任何处理，没有一点细节丢失。</strong>我们回家后在电脑上可以给RAW图片任意配置色温（彻底解决白平衡问题），调整颜色，锐度，对比度，曝光等等。桌面电脑比相机内的小电脑强大得多，后期精心处理RAW转换成的JPEG图片肯定漂亮。</p>
-<p>RAW的问题还是文件太大，而且处理费时间。如果旅行十天拍了上千张RAW，后期处理会让人头变得巨大。还好很多相机可以同时存储JPEG和RAW，如果JPEG图片还不错就不用处理RAW了。重要的拍摄存JPEG+RAW，一般图片存JPEG.</p>
-<h3 id="基本摄影思想"><a href="#基本摄影思想" class="headerlink" title="基本摄影思想"></a>基本摄影思想</h3><p>一张好照片必须有一个鲜明的主题，并且能正确的表达主题。</p>
-<p>主要需从两方面努力：</p>
-<p><strong>1，精心构图；</strong></p>
-<p><strong>2，熟练掌握光圈快门等技术活。</strong></p>
-<h4 id="构图的原则和方法"><a href="#构图的原则和方法" class="headerlink" title="构图的原则和方法"></a>构图的原则和方法</h4><blockquote>
-<p>摄影最重要的是：和主题无关的事物一律排除在取景框之外。在按下快门前一定要想想：能否继续减少取景框内的事物？如果再排除一个那我想表达的意思就不完整了，这时才可以按下快门。<strong>摄影是做减法。</strong></p>
-<p>综上所述，<strong>简洁二字是摄影构图最基本的原则。</strong>只有在完全贯彻了这个原则，确定一张图片里绝对不能缺少的事物之后，才谈得上如何在取景框里如何摆放这些事物。</p>
-</blockquote>
-<h4 id="构图法"><a href="#构图法" class="headerlink" title="构图法"></a>构图法</h4><p><strong>最重要的有三个：黄金分割法，对称法，满框法。</strong></p>
-<p><strong>黄金分割法</strong></p>
-<p><strong>把一条线分割为两部分，使其中一部分与全长之比等于另一部分与这部分之比，其比值是0.618，这个分割点就是黄金分割点。</strong>黄金分割在所有的构图原则里是最重要的一个，很多数码相机在菜单里都有是否打开构图线的选择，打开后液晶屏就会出现九宫格，四条线把取景框长宽各作三等分。<strong>构图时我们应该把照片中的主体（视觉焦点）摆在三等分线上或者三等分线的交点上。</strong>通俗的说，不要把主体放在正中间，那样照片显得很呆板，要靠左右/上下一些才好看。实际拍摄中并没有必要严格遵守0.618比1或者1比3，多一点少一点均可，只要看起来舒服就好。</p>
-<p><strong>图片的视觉焦点。</strong>视觉焦点就是一张图片最吸引人的地方。在看一张有明显视觉焦点的照片时，第一眼我们肯定会被图片最醒目的点所吸引，然后我们会看看图片的四周有些什么，最后目光还是会集中到视觉焦点上。这就是我们看图片的视觉习惯：集中-分散-再集中。</p>
-<h4 id="对称法"><a href="#对称法" class="headerlink" title="对称法"></a>对称法</h4><p>一般来说，70%以上的图片可以用黄金分割构图法，但对有些图片黄金分割并不是最佳选择。典型的例子是建筑。大多数建筑都是对称结构，强行按照黄金分割来构图反而破坏了原有的美感。水面倒影也是一例。对倒影和建筑等本来对称的景物显然我们应该顺其自然采用对称构图法，一半对一半。对称可以是左右，上下，也可以斜着对称。</p>
-<p><strong>对称并不一定要是同一类型物体（建筑或倒影），不同的事物也可以对称，或称之为对比。</strong></p>
-<h4 id="满框与留白"><a href="#满框与留白" class="headerlink" title="满框与留白"></a>满框与留白</h4><p>黄金分割加上对称构图能搞定85%以上的图片，但还是有一些图片让人左右为难。那就干脆把主体充满取景框，排除任何其他物体（简洁到极限）。这就是满框构图原则。</p>
-<p>满框往往意味着构图只取局部，并不一定要把主体拍全，观众能根据局部想象全局。这是一种极端构图，它最大限度地突出主题。它的优点也是它的缺点：太满了，让人感觉堵得慌。大多数情况下还是要给画面留点空出气，这就是构图时的留白。留多少合适？一般来说留1/4或者1/5。留在图片的什么地方？可以是任何位置。留白四分之一原则也要灵活掌握，多一点少一点看具体需要。</p>
-<p>留白也可以走极端，这就是与满框相反的留白构图法：主体只在取景框内占一个小角落，其他地方大量空白。这是一种反向衬托，大量空白把观众的注意力吸引到非空白处-照片角落的主体上。 留白另外一个好处是方便编辑排版，空白处可供写字。如果你的照片日后要给杂志社，大量留白需要重点考虑。</p>
-<h3 id="其他构图注意事项"><a href="#其他构图注意事项" class="headerlink" title="其他构图注意事项"></a>其他构图注意事项</h3><p>1.寻找有趣的形状</p>
-<blockquote>
-<p>这可以从宏观和微观两方面去找。宏观就是从大场景找。通常这意味着在一大片景观中取局部。摄影就要充分发挥这种宏观想象力。</p>
-<p>微观找形状就是要视力好，眼光毒，从几英寸几厘米的小面积上发现有趣的形状。这通常也是物体的微小局部。寻找有趣形状还是意味着追求简洁，不要贪多是构图的总原则。</p>
-</blockquote>
-<p>2.前景与背景</p>
-<blockquote>
-<p>前景指照片中位于主体前面、靠近镜头的任何景物。它的作用是增强画面的空间感，提高画面的感染力，也能起到交待拍摄地点（环境）的作用。这一点很重要，它使照片能传达尽可能多的信息。好的前景还兼有引导视线的作用。</p>
-</blockquote>
-<p>3.包围构图</p>
-<blockquote>
-<p>构图简洁第一重要，但凡事没有绝对，如果全景与局部难以决定，或不能确定是否应该包含某一物体，那就包含与否都拍，回家再仔细分析哪张效果好。反正数码片子不用花钱买胶卷。分析多了就知道以后如何取舍了。包围构图这个词是我自己发明的，和包围曝光相对应。</p>
-</blockquote>
-<p>4.横拍与竖拍</p>
-<p><strong>总之，规则是死的，人是活的，局限于条条框框没有必要。一张照片可能毫无构图法则可言，也可能是好几条构图法的综合。</strong></p>
-<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>以上摄影知识均摘录于 新浪微博@长沙杨飞 <a href="http://www.midphoto.com/chinese/essays/essays.htm" target="_blank" rel="external">《数码时代旅游摄影快速指南》</a>一书，杨飞老师此书是我看过摄影入门书籍中最通俗易懂的。书中有很多优秀的作品我没有一一列出，书中关于相机的选购、后期处理、不同场景的摄影基本技巧我也没有详细摘录。有兴趣的可以阅读书籍，杨飞老师的网站上提供了免费的电子版。</p>
-</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/10/21/dmidecode/" class="post-link">利用dmidecode查看服务器硬件信息</a></h2><span class="post-time">Oct 21, 2015</span><div class="post-content"><h3 id="Dmidecode"><a href="#Dmidecode" class="headerlink" title="Dmidecode"></a>Dmidecode</h3><blockquote>
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/10/21/dmidecode/" class="post-link">利用dmidecode查看服务器硬件信息</a></h2><span class="post-time">Oct 21, 2015</span><div class="post-content"><h3 id="Dmidecode"><a href="#Dmidecode" class="headerlink" title="Dmidecode"></a>Dmidecode</h3><blockquote>
 <p>Dmidecode reports information about your system’s hardware as described in your system BIOS according to the SMBIOS/DMI standard (see a sample output). This information typically includes system manufacturer, model name, serial number, BIOS version, asset tag as well as a lot of other details of varying level of interest and reliability depending on the manufacturer. This will often include usage status for the CPU sockets, expansion slots (e.g. AGP, PCI, ISA) and memory module slots, and the list of I/O ports (e.g. serial, parallel, USB).</p>
 </blockquote>
 <p> dmidecode 遵循 SMBIOS/DMI 标准，其输出的信息包括 BIOS、系统、主板、处理器、内存、缓存等等。</p>
@@ -772,4 +164,90 @@ Drive Write Cache: Enabled
 </ul>
 <p>如果BBU出问题，依然启用Write Cache. 这是不推荐的设置，BBU出问题将无法保证断电情况下数据的正常，如果此时依然采用WriteBack模式，遇到断电将发生数据丢失。除非有UPS作额外保证，不然不推荐采用这个设置。</p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.inetmail.ca/Wiki/index.php/HP_Smart_Array_CLI_commands_on_ESXi" target="_blank" rel="external">HP_Smart_Array_CLI_commands</a><br><a href="http://zh.community.dell.com/techcenter/b/weblog/archive/2013/03/07/megacli-command-share" target="_blank" rel="external">MegaCli常用管理命令汇总</a></p>
-</div></article></li></ul><div class="paginator"><a href="/page/3/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/page/5/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2017<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>
+</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/10/05/ks/" class="post-link">kickstart服务器网卡设置</a></h2><span class="post-time">Oct 5, 2015</span><div class="post-content"><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>使用kickstart给DELL服务器安装操作系统时，有些DELL服务器的默认网卡名为em0、em1导致我们在自动安装过程报错，无法自动选择网卡配置。</p>
+<h3 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h3><p>首先修改tftp配置文件  /var/lib/tftp/pxelinux.cfg/default，在APPEND 这行末尾添加 <code>biosdevname=0</code></p>
+<pre><code>KERNEL rhel/6.4/x86_64/vmlinuz
+APPEND initrd=rhel/6.4/x86_64/initrd.gz  ksdevice=eth0
+ks=http://10.10.5.3/netboot/kickstart/rhel/6/db.ks biosdevname=0
+</code></pre><p>然后再修改kickstart文件，在bootloader这行末尾添加<code>--append=&quot;biosdevname=0&quot;</code></p>
+<pre><code>bootloader --location=mbr --append=&quot;biosdevname=0&quot;
+</code></pre></div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/10/03/cisco/" class="post-link">思科交换机光模块兼容设置</a></h2><span class="post-time">Oct 3, 2015</span><div class="post-content"><h4 id="在思科交换机上使用华三的光模块，出现以下问题："><a href="#在思科交换机上使用华三的光模块，出现以下问题：" class="headerlink" title="在思科交换机上使用华三的光模块，出现以下问题："></a>在思科交换机上使用华三的光模块，出现以下问题：</h4><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/16.png" alt=""></p>
+<p>原因：思科网络设备是不允许使用非思科标配的光模块，所以这里是不兼容报错。</p>
+<h4 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h4><p>进入<strong>端口配置模式</strong>，输入三条命令即可解决：</p>
+<pre><code>CISCO（int-conf）service unsupported-transceiver
+CISCO（int-conf）no errdisable detect cause gbic-invalid
+CISCO（int-conf）speed nonegotiate
+</code></pre><p>保存配置，重新插入光模块即可。</p>
+</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/09/15/ipmitool/" class="post-link">ipmitool智能平台管理工具</a></h2><span class="post-time">Sep 15, 2015</span><div class="post-content"><h3 id="IPMI"><a href="#IPMI" class="headerlink" title="IPMI"></a>IPMI</h3><p>Intelligent Platform Management Interface</p>
+<p>IPMI是一个开放的标准，监控，记录，回收，库存和硬件实现独立于主CPU，BIOS，以及操作系统的控制权。无论在开机还是关机的状态下，只要接通电源就可以实现对服务器的监控。</p>
+<p>The service processor (or Baseboard Management Controller, BMC) is the brain behind platform management and its primary purpose is to handle the autonomous sensor monitoring and event logging features.</p>
+<p>IPMI是一种规范的标准，其中最重要的物理部件就是BMC(Baseboard Management Controller)一种嵌入式管理微控制器，它相当于整个平台管理的“大脑”，通过它ipmi可以监控各个传感器的数据并记录各种事件的日志。</p>
+<p>利用 IPMI可以监视服务器的物理特征，如温度、电压、电扇工作状态、电源供应以及机箱入侵等。</p>
+<h3 id="ipmitool"><a href="#ipmitool" class="headerlink" title="ipmitool"></a>ipmitool</h3><p><strong>ipmitool - utility for controlling IPMI-enabled devices</strong></p>
+<p>ipmitool 用于管理和配置，支持智能平台管理接口(IPMI)1.5版和2.0版规范的设备的命令行工具</p>
+<h3 id="ipmitool常用选项"><a href="#ipmitool常用选项" class="headerlink" title="ipmitool常用选项"></a>ipmitool常用选项</h3><p>Ipmitool本地监控命令：</p>
+<pre><code>ipmitool –I open command
+</code></pre><p>其中-I open表示使用OpenIPMI接口，command有以下项：</p>
+<ul>
+<li>raw：发送一个原始的IPMI请求，并且打印回复信息。</li>
+</ul>
+<ul>
+<li><p><code>Lan</code>：配置网络（lan）信道(channel)</p>
+</li>
+<li><p>chassis ：查看底盘的状态和设置电源</p>
+</li>
+<li><p>event：向BMC发送一个已经定义的事件（event），可用于测试配置的SNMP是否成功</p>
+</li>
+</ul>
+<ul>
+<li><p>mc：  查看MC（Management Contollor）状态和各种允许的项</p>
+</li>
+<li><p>sdr：打印传感器仓库中的所有监控项和从传感器读取到的值。</p>
+</li>
+<li><p><code>Sensor</code>：打印详细的传感器信息。</p>
+</li>
+<li><p>Fru：打印内建的Field Replaceable Unit (FRU)信息</p>
+</li>
+<li><p>Sel： 打印 System Event Log (SEL)</p>
+</li>
+<li><p>Pef： 设置 Platform Event Filtering(PEF)，事件过滤平台用于在监控系统发现有event时候，用PEF中的策略进行事件过滤，然后看是否需要报警。</p>
+</li>
+<li><p>Sol/isol：用于配置通过串口的Lan进行监控</p>
+</li>
+<li><p>User：设置BMC中用户的信息 。</p>
+</li>
+<li><p>Channel：设置Management Controller信道。</p>
+</li>
+</ul>
+<h3 id="ipmitool-常用命令举例"><a href="#ipmitool-常用命令举例" class="headerlink" title="ipmitool 常用命令举例"></a>ipmitool 常用命令举例</h3><p>查看传感器中的各种监测值和该值的监测阈值，包括CPU温度，电压，风扇转速，电源调制模块温度，电源电压等信息。</p>
+<pre><code>ipmitool -I open sensor list
+</code></pre><p>查看idrac卡相关信息，包括IP、MAC地址等</p>
+<pre><code>ipmitool -I open lan print
+</code></pre><p><strong>通过ipmitool重置idrac登陆密码</strong></p>
+<p>1.加载内核模块</p>
+<pre><code>modprobe ipmi_msghandler
+modprobe ipmi_devintf
+modprobe ipmi_si
+</code></pre><p>2.查看idrac用户</p>
+<pre><code>ipmitool user list &lt;channel_no&gt;
+</code></pre><p>DELL的<channel_no>是1，HP的是2</channel_no></p>
+<p>如果不知道机器的型号可以通过如下命令获取通道号,获取到的通道号代表管理员id</p>
+<pre><code>for i in {1..14}; do ipmitool lan print $i 2&gt;/dev/null | grep -q ^Set &amp;&amp; echo $i; done
+</code></pre><p>3.重置管理员密码</p>
+<pre><code>ipmitool lan set &lt;channel_no&gt; password  xxxxxx
+ipmitool lan set 2 password  xxxxxx
+</code></pre><h3 id="推荐阅读"><a href="#推荐阅读" class="headerlink" title="推荐阅读"></a>推荐阅读</h3><p><a href="http://openipmi.sourceforge.net/IPMI.pdf" target="_blank" rel="external">http://openipmi.sourceforge.net/IPMI.pdf</a><br><a href="http://www.openfusion.net/tags/ipmi/" target="_blank" rel="external">http://www.openfusion.net/tags/ipmi/</a></p>
+</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/06/19/goodbye/" class="post-link">再见，青春</a></h2><span class="post-time">Jun 19, 2015</span><div class="post-content"><h5 id="那时的你，很年轻"><a href="#那时的你，很年轻" class="headerlink" title="那时的你，很年轻"></a>那时的你，很年轻</h5><p>上海的夏夜凉风袭袭，一个人在出租房里惴惴不安。三天假期的小欢喜无法弥补青葱岁月别离的忧伤。今天发毕业证，而我却在上班。没有亲自去领，一方面是工作的原因，还有一方面可能是自己不想目睹那真切的别离吧~毕业证和毕业照已经邮寄在路上，株洲到上海。像是从故乡寄给在外游子的一封信，里面有你故乡的味道和曾经的记忆。尽管你已经知道一切都已经回不去了，但是你还是很期待那封信，还是想一次又一次的去读它。<strong>怀念，不是因为那个时候有多美好，而是因为那个时候你很年轻。</strong></p>
+<p>大学四年，的确没有什么好称道的。平淡之中偶尔精彩。很可惜四年了都没能够认清自己，没有想明白今后的道路要怎么走。既没独善其身，也没随波逐流。过着自己认为理所当然的日子，不去理会那些自己认为毫无价值与意义的人和事。自己总是自以为是，性格上也有些小问题，也不能算是缺陷，反正就是喜欢一个人独自生活，自己安排自己的时间，不想别人打扰，也很少去关心朋友，基本上好友不主动联系我，我是不会打电话去操心他的。反正朋友也不多，也只能怪自己不够坦诚。也说不清缘由吧，不知道是自己太吝啬时间还是不想去打扰别人，空间、朋友圈默默关注及时点赞就好啦。</p>
+<p>四年，给我的感觉并没有四年，回忆里最清晰深刻地只有两个暑假。一个在滇藏线，一个在工大西街。依稀记得当初不明白穷游的真正含义，和一群和我一样不明不白的人在路上定义着穷游。大理的雨夜，丽江的酒吧，虎跳峡的历险，香格里拉的离别与抉择，进藏路上的无助和美景。成为我们永远珍藏的回忆。记得即将离开学校时，和那群虽是不明不白但是历经生死的人还笑谈我们傻逼的曾经。只怪当时太年轻。还好年轻，所以才会有那些美好。工大西街，田径场的夜晚，台球桌上的小憩，闷热机房里的神曲，夜宵摊的喧闹，还有那些年刷过的美团。最努力，最自律，收获最多的那个夏天。或许真的只有涅槃才能重生。一切的付出都是值得的，不会有作废的努力。</p>
+<h5 id="不知如何和青春道别，只知江湖身不由己。"><a href="#不知如何和青春道别，只知江湖身不由己。" class="headerlink" title="不知如何和青春道别，只知江湖身不由己。"></a>不知如何和青春道别，只知江湖身不由己。</h5><blockquote>
+<p> 既自以心为形役，奚惆怅而独悲？悟已往之不谏，知来者之可追。实迷途其未远，觉今是而昨非。</p>
+</blockquote>
+<p>以前自己怎么也不会想到现在的我会在上海，朝九晚五的工作。那时的我特别想去北京，想亲自体验北漂的生活，也特别佩服那些心怀梦想在北京打拼的人，尽管现实不会如理想中那么美好，但是依然坚持着，因为这里很热闹，你并不会觉得孤单。这里很公平，你并不会缺少机会。只身来到上海，魔都并不如我想象般高贵冷艳，这里有太多的人和我一样，一样年轻，一样憧憬这美好的未来。尽管这里精英荟萃，尽管自己很渺小，我们都坚信：<strong>世界是美好的，是值得我们去奋斗的。</strong></p>
+<p>工作其实挺考验一个人的能力，如何把工作八小时效率提高，如何合理的管理安排自己的时间，工作、学习、健身、阅读、娱乐等。工作后尽管有各种限制，并不如你想象般自由有趣。但是依然可以过的很有趣，生活是自己的，你说要有趣就可以有乐趣。</p>
+<p>我只想做一个不安分的人。骑着自行车穿过魔都的每个角落，用相机留住这里的过往，夜晚奔跑在阵阵花香的锦绣大道，或是沉浸在安静的浦图。希望自己的不安分能够给生活带来一些精彩。看着周围的同事，有时会让我很焦虑。房贷、车贷，或许这些我都需要经历吧~不谈也罢。还是喜欢现在一无所有的自己。拥有的越多或许烦恼也就越多。</p>
+<p>最后也不知道想说什么了，只想告诉自己，出了校园入了社会，要做一个成熟理智的男人，学着承担更多的责任。在快节奏和重复的生活里给自己一点惊喜和乐趣。</p>
+<blockquote>
+<p>要有最朴素的生活和最遥远的梦想，即使明天天寒地冻路远马亡。——海子</p>
+</blockquote>
+</div></article></li></ul><div class="paginator"><a href="/page/3/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a></div></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2017<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>

@@ -9,13 +9,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/12/29/2016%E5%B0%8F%E7%BB%93/</loc>
-    
-    <lastmod>2016-12-29T15:05:27.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2016/11/27/python-excel/</loc>
     
     <lastmod>2016-12-08T09:02:57.000Z</lastmod>
@@ -26,13 +19,6 @@
     <loc>http://yoursite.com/2016/09/18/python-dict-list-sort/</loc>
     
     <lastmod>2016-11-23T10:07:44.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/11/20/django-web-framework/</loc>
-    
-    <lastmod>2016-11-21T02:58:54.000Z</lastmod>
     
   </url>
   
@@ -61,13 +47,6 @@
     <loc>http://yoursite.com/2016/11/11/pdb/</loc>
     
     <lastmod>2016-11-11T10:51:29.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/05/20/opennebula-life-cycle/</loc>
-    
-    <lastmod>2016-11-07T08:44:29.000Z</lastmod>
     
   </url>
   
@@ -135,13 +114,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2015/09/15/ipmitool/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2015/10/05/ks/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
@@ -177,20 +149,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/05/20/ansible/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/04/23/opennebula/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2016/02/24/network-command/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
@@ -205,7 +163,14 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/03/05/Feb_tips/</loc>
+    <loc>http://yoursite.com/2016/05/20/ansible/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/03/08/Create-A-deb-Package-Repository/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
@@ -220,13 +185,6 @@
   
   <url>
     <loc>http://yoursite.com/2015/10/21/dmidecode/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/03/08/Create-A-deb-Package-Repository/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
@@ -261,13 +219,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2015/12/25/idrac/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2016/02/23/cacit/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
@@ -275,14 +226,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/01/12/sysstart/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/01/10/ubuntu_deb/</loc>
+    <loc>http://yoursite.com/2015/09/15/ipmitool/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
