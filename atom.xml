@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-03-05T09:27:17.000Z</updated>
+  <updated>2017-03-05T09:31:09.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,20 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>low_level_discovery</title>
+    <link href="http://yoursite.com/2017/03/05/low-level-discovery/"/>
+    <id>http://yoursite.com/2017/03/05/low-level-discovery/</id>
+    <published>2017-03-05T09:31:09.000Z</published>
+    <updated>2017-03-05T09:31:09.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Python正则表达式</title>
@@ -2098,96 +2112,6 @@ $ apt-get install (packagename)
     
     
       <category term="摄影" scheme="http://yoursite.com/tags/%E6%91%84%E5%BD%B1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>dmidecode查看服务器硬件信息</title>
-    <link href="http://yoursite.com/2015/10/21/dmidecode/"/>
-    <id>http://yoursite.com/2015/10/21/dmidecode/</id>
-    <published>2015-10-21T12:43:03.000Z</published>
-    <updated>2017-02-15T12:51:52.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="Dmidecode"><a href="#Dmidecode" class="headerlink" title="Dmidecode"></a>Dmidecode</h3><blockquote>
-<p>Dmidecode reports information about your system’s hardware as described in your system BIOS according to the SMBIOS/DMI standard (see a sample output). This information typically includes system manufacturer, model name, serial number, BIOS version, asset tag as well as a lot of other details of varying level of interest and reliability depending on the manufacturer. This will often include usage status for the CPU sockets, expansion slots (e.g. AGP, PCI, ISA) and memory module slots, and the list of I/O ports (e.g. serial, parallel, USB).</p>
-</blockquote>
-<p> dmidecode 遵循 SMBIOS/DMI 标准，其输出的信息包括 BIOS、系统、主板、处理器、内存、缓存等等。</p>
-<h4 id="DMI"><a href="#DMI" class="headerlink" title="DMI"></a>DMI</h4><p>Desktop Management Interface</p>
-<p>电脑系统信息的管理系统,DMI的主要组成部分是Management Information Format(MIF)数据库。这个数据库包括了所有有关电脑系统和配件的信息。通过DMI，用户可以获取序列号、电脑厂商、串口信息以及其它系统配件信息</p>
-<h4 id="SMBIOS"><a href="#SMBIOS" class="headerlink" title="SMBIOS"></a>SMBIOS</h4><p>System Management BIOS</p>
-<p>主板或系统制造者以标准格式显示产品管理信息所需遵循的统一规范</p>
-<h3 id="Dmidecode的作用"><a href="#Dmidecode的作用" class="headerlink" title="Dmidecode的作用"></a>Dmidecode的作用</h3><p>将DMI数据库中的信息解码，以可读的文本方式显示。由于DMI信息可以人为修改，因此里面的信息不一定是系统准确的信息。</p>
-<h3 id="Dmidecode的使用"><a href="#Dmidecode的使用" class="headerlink" title="Dmidecode的使用"></a>Dmidecode的使用</h3><p>Usage: dmidecode [OPTIONS]</p>
-<p>Options are:</p>
-<p>-q, –quiet Less verbose output     //显示更少的简化信息</p>
-<p>-s, –string KEYWORD Only display the value of the given DMI string  //只显示指定DMI字符串的信息</p>
-<p>-t, –type TYPE Only display the entries of given type  //只显示指定条目的信息</p>
-<pre><code>dmidecode: option requires an argument -- &apos;s&apos;
-String keyword expected
-Valid string keywords are:
-    bios-vendor
-    bios-version
-    bios-release-date
-    system-manufacturer
-    system-product-name
-    system-version
-    system-serial-number
-    system-uuid
-    baseboard-manufacturer
-    baseboard-product-name
-    baseboard-version
-    baseboard-serial-number
-    baseboard-asset-tag
-    chassis-manufacturer
-    chassis-type
-    chassis-version
-    chassis-serial-number
-    chassis-asset-tag
-    processor-family
-    processor-manufacturer
-    processor-version
-    processor-frequency
-
----
-dmidecode: option requires an argument -- &apos;t&apos;
-Type number or keyword expected
-Valid type keywords are:
-    bios
-    system
-    baseboard
-    chassis
-    processor
-    memory
-    cache
-    connector
-    slot
-</code></pre><h3 id="Dmidecode常用命令"><a href="#Dmidecode常用命令" class="headerlink" title="Dmidecode常用命令"></a>Dmidecode常用命令</h3><p>查看内存槽数、那个槽位插了内存，大小是多少</p>
-<pre><code>dmidecode|grep -P -A5 &quot;Memory\s+Device&quot;|grep Size|grep -v Range
-</code></pre><p>查看最大支持内存数</p>
-<pre><code>dmidecode|grep -P &apos;Maximum\s+Capacity&apos;
-</code></pre><p>查看服务器型号</p>
-<pre><code>dmidecode | grep &apos;Product Name&apos;
-</code></pre><p>查看主板的序列号</p>
-<pre><code>dmidecode |grep &apos;Serial Number&apos;
-</code></pre><p>查看系统序列号</p>
-<pre><code>dmidecode -s system-serial-number
-</code></pre><p>查看内存信息</p>
-<pre><code>dmidecode -t memory
-</code></pre><p>查看OEM信息</p>
-<pre><code>dmidecode -t 11
-</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;Dmidecode&quot;&gt;&lt;a href=&quot;#Dmidecode&quot; class=&quot;headerlink&quot; title=&quot;Dmidecode&quot;&gt;&lt;/a&gt;Dmidecode&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;Dmidecode reports information
-    
-    </summary>
-    
-      <category term="Cmd" scheme="http://yoursite.com/categories/Cmd/"/>
-    
-    
-      <category term="dmidecode" scheme="http://yoursite.com/tags/dmidecode/"/>
     
   </entry>
   

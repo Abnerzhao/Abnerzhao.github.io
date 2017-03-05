@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2017/03/05/low-level-discovery/</loc>
+    
+    <lastmod>2017-03-05T09:31:09.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/about/index.html</loc>
     
     <lastmod>2017-03-05T09:29:44.000Z</lastmod>
@@ -100,28 +107,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/05/20/ansible/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2016/05/05/nc/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/03/03/free/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/01/01/command/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
@@ -135,21 +121,21 @@
   </url>
   
   <url>
+    <loc>http://yoursite.com/2016/05/20/ansible/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/03/03/free/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2015/06/19/goodbye/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/02/25/ulimit/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/03/08/Create-A-deb-Package-Repository/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
@@ -163,7 +149,28 @@
   </url>
   
   <url>
+    <loc>http://yoursite.com/2016/03/08/Create-A-deb-Package-Repository/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2015/09/15/ipmitool/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/02/25/ulimit/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/01/01/command/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
