@@ -4,7 +4,7 @@
   <url>
     <loc>http://yoursite.com/about/index.html</loc>
     
-    <lastmod>2017-02-15T12:57:11.000Z</lastmod>
+    <lastmod>2017-03-05T06:33:38.000Z</lastmod>
     
   </url>
   
@@ -30,13 +30,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2015/12/29/zabbix/</loc>
-    
-    <lastmod>2017-02-15T12:52:47.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2015/10/21/dmidecode/</loc>
     
     <lastmod>2017-02-15T12:51:52.000Z</lastmod>
@@ -51,30 +44,9 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/11/13/hangzhou/</loc>
-    
-    <lastmod>2016-11-13T04:05:28.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/11/11/pdb/</loc>
-    
-    <lastmod>2016-11-11T10:51:29.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2016/05/23/screen/</loc>
     
     <lastmod>2016-11-07T08:44:10.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/05/26/sar/</loc>
-    
-    <lastmod>2016-11-07T08:43:42.000Z</lastmod>
     
   </url>
   
@@ -89,20 +61,6 @@
     <loc>http://yoursite.com/2016/06/07/cpuinfo/</loc>
     
     <lastmod>2016-11-07T08:43:00.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/06/12/raid_states/</loc>
-    
-    <lastmod>2016-11-07T08:42:36.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/06/16/ss/</loc>
-    
-    <lastmod>2016-11-07T08:42:14.000Z</lastmod>
     
   </url>
   
@@ -128,7 +86,14 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/01/15/mysql-duplicate/</loc>
+    <loc>http://yoursite.com/2015/09/15/ipmitool/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/05/05/nc/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
@@ -136,6 +101,13 @@
   
   <url>
     <loc>http://yoursite.com/2016/03/08/Create-A-deb-Package-Repository/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/01/15/mysql-duplicate/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
@@ -170,21 +142,14 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2015/06/19/goodbye/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/02/23/cacit/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2015/10/11/raid/</loc>
+    
+    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/06/19/goodbye/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     
@@ -198,27 +163,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2015/09/15/ipmitool/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/05/05/nc/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/01/08/make_deb/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2016/02/25/ulimit/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
@@ -226,21 +170,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/05/18/zabbix-agent/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2016/02/28/minicom/</loc>
-    
-    <lastmod>2016-11-07T05:14:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/02/24/network-command/</loc>
     
     <lastmod>2016-11-07T05:14:48.000Z</lastmod>
     

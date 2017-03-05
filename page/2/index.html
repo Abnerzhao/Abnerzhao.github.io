@@ -11,31 +11,7 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'Your Google Analytics ID', 'auto');
-ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/06/12/raid_states/" class="post-link">raid磁盘状态备忘</a></h2><span class="post-time">Jun 12, 2016</span><div class="post-content"><h3 id="Physical-Drive-States"><a href="#Physical-Drive-States" class="headerlink" title="Physical Drive States"></a>Physical Drive States</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/54211F71-8626-4FEE-A37D-91E5F1464B74.png" alt=""></p></div><a href="/2016/06/12/raid_states/" class="read-more">Read more..</a></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/06/07/cpuinfo/" class="post-link">cpuinfo</a></h2><span class="post-time">Jun 7, 2016</span><div class="post-content"><h3 id="proc-cpuinfo"><a href="#proc-cpuinfo" class="headerlink" title="/proc/cpuinfo"></a>/proc/cpuinfo</h3><blockquote>
-<p> Information about the processor, such as its type, make, model, and performance.</p>
-</blockquote>
-<h3 id="信息查看"><a href="#信息查看" class="headerlink" title="信息查看"></a>信息查看</h3><h4 id="CPU型号"><a href="#CPU型号" class="headerlink" title="CPU型号"></a>CPU型号</h4><pre><code># cat /proc/cpuinfo | grep vendor | uniq
-vendor_id   : GenuineIntel
-#  cat /proc/cpuinfo | grep &apos;model name&apos; | uniq
-model name  : Intel(R) Xeon(R) CPU E5-2630 v3 @ 2.40GHz
-</code></pre><h4 id="CPU-架构"><a href="#CPU-架构" class="headerlink" title="CPU 架构"></a>CPU 架构</h4><pre><code># lscpu
-Architecture:          x86_64
-CPU op-mode(s):        32-bit, 64-bit
-Byte Order:            Little Endian
-......
-</code></pre></div><a href="/2016/06/07/cpuinfo/" class="read-more">Read more..</a></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/05/27/iostat/" class="post-link">iostat查看磁盘IO信息</a></h2><span class="post-time">May 27, 2016</span><div class="post-content"><h3 id="一、iostat简介"><a href="#一、iostat简介" class="headerlink" title="一、iostat简介"></a>一、iostat简介</h3><blockquote>
-<p>iostat - Report Central Processing Unit (CPU) statistics and input/out-put statistics for devices and partitions.</p>
-</blockquote>
-<p>iostat 用于输出CPU和磁盘I/O相关的统计信息。</p></div><a href="/2016/05/27/iostat/" class="read-more">Read more..</a></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/05/26/sar/" class="post-link">sar系统状态信息统计</a></h2><span class="post-time">May 26, 2016</span><div class="post-content"><h3 id="一、sar-简介"><a href="#一、sar-简介" class="headerlink" title="一、sar 简介"></a>一、sar 简介</h3><blockquote>
-<p>sar - Collect, report, or save system activity information.</p>
-<p>Usage: sar [ options ] [ interval  count  ]    </p>
-<p> sar 选项 [输出间隔时间] [输出次数(默认为1)]</p>
-</blockquote>
-<p>sar命令是Linux下系统运行状态统计工具，它将指定的操作系统状态计数器显示到标准输出设备。</p>
-<p>sar工具将对系统当前的状态进行取样，然后通过计算数据和比例来表达系统的当前运行状态。它的特点是可以连续对系统取样，获得大量的取样数据。取样数据和分析的结果都可以存入文件，使用它时消耗的系统资源很小。</p></div><a href="/2016/05/26/sar/" class="read-more">Read more..</a></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/05/23/screen/" class="post-link">Screen会话管理</a></h2><span class="post-time">May 23, 2016</span><div class="post-content"><h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><p>GNU Screen是一款由GNU计划开发的用于命令行终端切换的自由软件。用户可以通过该软件同时连接多个本地或远程的命令行会话，并在其间自由切换。</p>
-<p><a href="http://www.gnu.org/software/screen/">GNU’s Screen 官方站点</a></p>
-<h3 id="二、功能"><a href="#二、功能" class="headerlink" title="二、功能"></a>二、功能</h3><h4 id="会话恢复"><a href="#会话恢复" class="headerlink" title="会话恢复"></a>会话恢复</h4><p>只要Screen本身没有终止，在其内部运行的会话都可以恢复。对于远程登录的用户即使网络连接中断，用户也不会失去对已经打开的命令行会话的控制。</p>
-<h4 id="多窗口"><a href="#多窗口" class="headerlink" title="多窗口"></a>多窗口</h4><p>在Screen环境下，所有的会话都独立的运行，并拥有各自的编号、输入、输出和窗口缓存。用户可以通过快捷键在不同的窗口下切换，并可以自由的重定向各个窗口的输入和输出。</p></div><a href="/2016/05/23/screen/" class="read-more">Read more..</a></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/05/20/ansible/" class="post-link">Ansible基础知识备忘</a></h2><span class="post-time">May 20, 2016</span><div class="post-content"><h3 id="一、体系结构"><a href="#一、体系结构" class="headerlink" title="一、体系结构"></a>一、体系结构</h3><p>ansible是一款基于python开发，揉合了众多自动化运维工具功能的轻量级自动化运维工具，目前实现了除系统安装以外的批量系统配置、批量任务执行及批量程序部署等功能。</p>
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/05/20/ansible/" class="post-link">Ansible基础知识备忘</a></h2><span class="post-time">May 20, 2016</span><div class="post-content"><h3 id="一、体系结构"><a href="#一、体系结构" class="headerlink" title="一、体系结构"></a>一、体系结构</h3><p>ansible是一款基于python开发，揉合了众多自动化运维工具功能的轻量级自动化运维工具，目前实现了除系统安装以外的批量系统配置、批量任务执行及批量程序部署等功能。</p>
 <p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/25.png" alt=""></p>
 <ul>
 <li>Inventory：主机库，定义可控制的主机</li>
@@ -450,53 +426,6 @@ db_init   init    raid
 </ul>
 <h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><p><a href="http://9124573.blog.51cto.com/9114573/1769887" target="_blank" rel="external">轻量级自动化运维工具ansible</a></p>
 <p><a href="http://docs.ansible.com/ansible/intro.html" target="_blank" rel="external">ansible doc</a></p>
-</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/05/18/zabbix-agent/" class="post-link">Zabbix工作模式</a></h2><span class="post-time">May 18, 2016</span><div class="post-content"><blockquote>
-<p>Zabbix uses a JSON based communication protocol for communicating with Zabbix agent.</p>
-</blockquote>
-<p>zabbix agent通信过程中的协议均基于json格式。主动模式和被动模式是相对于agent来说的。agent主动发送数据给server即为主动模式。</p>
-<h3 id="被动模式"><a href="#被动模式" class="headerlink" title="被动模式"></a>被动模式</h3><p>server向agent请求获取监控项的数据，agent返回数据。</p>
-<blockquote>
-<p>A passive check is a simple data request. Zabbix server or proxy asks for some data (for example, CPU load) and Zabbix agent sends back the result to the server.</p>
-</blockquote>
-<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p>Server 发起请求：</p>
-<pre><code>&lt;item key&gt;\n
-</code></pre><p>Agent 返回响应数据：</p>
-<pre><code>&lt;HEADER&gt;&lt;DATALEN&gt;&lt;DATA&gt;
-</code></pre><p>server发送request给agent，agent收到request后本地执行相关检测收集到数据之后，发送数据到server端， 以agent.ping key 值为例具体工作流程如下：</p>
-<p>1.Server opens a TCP connection</p>
-<p>2.Server sends agent.ping\n</p>
-<p>3.Agent reads the request and responds with <header><datalen></datalen></header></p>
-<p>4.Server processes data to get the value, ‘1’ in our case</p>
-<p>5.TCP connection is closed</p>
-<h3 id="主动模式"><a href="#主动模式" class="headerlink" title="主动模式"></a>主动模式</h3><blockquote>
-<p>Active checks require more complex processing. The agent must first retrieve from the server(s) a list of items for independent processing.</p>
-<p>The servers to get the active checks from are listed in the ‘ServerActive’ parameter of the agent configuration file. The frequency of asking for these checks is set by the ‘RefreshActiveChecks’ parameter in the same configuration file. However, if refreshing active checks fails, it is retried after hardcoded 60 seconds. The agent then periodically sends the new values to the server(s).</p>
-</blockquote>
-<p>主动模式的工作流程要比被动模式的复杂一些，zabbix客户端代理（Agent）首先必须从服务器获取监控项列表来进行独立处理，然后它将定期发送新数据给服务器。</p>
-<p>Part1: Getting the list of items</p>
-<ol>
-<li><p>Agent opens a TCP connection</p>
-</li>
-<li><p>Agent asks for the list of checks</p>
-</li>
-<li><p>Server responds with a list of items (item key, delay)</p>
-</li>
-<li><p>Agent parses the response</p>
-</li>
-<li><p>TCP connection is closed</p>
-</li>
-<li><p>Agent starts periodical collection of data</p>
-</li>
-</ol>
-<p>Part2: agent send values</p>
-<ol>
-<li>Agent opens a TCP connection</li>
-<li>Agent sends a list of values</li>
-<li>Server processes the data and sends the status back</li>
-<li>TCP connection is closed</li>
-</ol>
-<p>当使用被动式的时候，server和agent之间需要对每个item的检测建立一次tcp连接。 如果检测的item和agent过多的时候，对server端的性能是一个很大的考验，所以当agent 和items 数量增多时可以根据实际情况设置工作模式。</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.zabbix.com/documentation/2.2/manual/appendix/items/activepassive#passive_checks" target="_blank" rel="external">zabbix doc </a></p>
 </div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/05/05/nc/" class="post-link">nc小知识</a></h2><span class="post-time">May 5, 2016</span><div class="post-content"><h3 id="远程拷贝文件"><a href="#远程拷贝文件" class="headerlink" title="远程拷贝文件"></a>远程拷贝文件</h3><p>server1: 10.48.156.8</p>
 <p>server2: 10.249.6.43</p>
 <p><strong>从server1拷贝文件到server2</strong></p>
@@ -665,4 +594,359 @@ Swap:         4092          0       4092
 </li>
 </ul>
 <h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="http://www.cnblogs.com/coldplayerest/archive/2010/02/20/1669949.html" target="_blank" rel="external">Linux上的free命令详解</a><br><a href="http://www.freelinuxconsole.info/understanding-free-command-in-linuxunix-2/" target="_blank" rel="external">Understanding free command in Linux/Unix</a></p>
+</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/02/28/minicom/" class="post-link">minicom的使用</a></h2><span class="post-time">Feb 28, 2016</span><div class="post-content"><h3 id="minicom的介绍"><a href="#minicom的介绍" class="headerlink" title="minicom的介绍"></a>minicom的介绍</h3><p>Linux下的Minicom的功能与Windows下的超级终端功能相似，<strong>可以通过串口控制外部的硬件设备</strong>，适于在linux通过超级终端对嵌入式设备行管理。</p>
+<h3 id="minicom的安装配置和使用"><a href="#minicom的安装配置和使用" class="headerlink" title="minicom的安装配置和使用"></a>minicom的安装配置和使用</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><pre><code># apt-get install minicom
+</code></pre><h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p> 实际案例：交换机的consle转usb口连接到服务器，通过minicom对交换机进行配置</p>
+<pre><code># lsusb   //查看USB的状态
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 002 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+Bus 002 Device 002: ID 0e0f:0003 VMware, Inc. Virtual Mouse
+Bus 002 Device 003: ID 0e0f:0002 VMware, Inc. Virtual USB Hub
+Bus 002 Device 004: ID 0e0f:0008 VMware, Inc.
+Bus 002 Device 005: ID 067b:2303 Prolific Technology, Inc. PL2303 Serial Port
+
+# dmesg |grep ttyUSB  //USB已经连接
+[11991.918691] usb 2-2.2: pl2303 converter now attached to ttyUSB0
+
+# minicom -s   //进行配置
+
++-----[configuration]------+
+| Filenames and paths      |
+| File transfer protocols  |
+| Serial port setup        |
+| Modem and dialing        |
+| Screen and keyboard      |
+| Save setup as dfl        |
+| Save setup as..          |
+| Exit                     |
+| Exit from Minicom        |
++--------------------------+
+
+#选择进入Serial port setup，按照之前查看的信息进行配置
+
++-----------------------------------------------------------------------+
+| A -    Serial Device      : /dev/ttyUSB0                              |
+| B - Lockfile Location     : /var/lock                                 |
+| C -   Callin Program      :                                           |
+| D -  Callout Program      :                                           |
+| E -    Bps/Par/Bits       : 115200 8N1                                |
+| F - Hardware Flow Control : Yes                                       |
+| G - Software Flow Control : No                                        |
+|                                                                       |
+|    Change which setting?                                              |
++-----------------------------------------------------------------------+
+    | Screen and keyboard      |
+    | Save setup as dfl        |
+    | Save setup as..          |
+    | Exit                     |
+    | Exit from Minicom        |
+    +--------------------------+
+
+#Enter退出，选择Save setup as dfl  保存为默认配置
+</code></pre><p>  然后进入终端输入minicom 就能连接进入交换机配置</p>
+</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/02/25/ulimit/" class="post-link">ulimit小记</a></h2><span class="post-time">Feb 25, 2016</span><div class="post-content"><h3 id="ulimit简介"><a href="#ulimit简介" class="headerlink" title="ulimit简介"></a>ulimit简介</h3><p>ulimit 用于限制 shell 启动进程所占用的资源，支持以下各种类型的限制：所创建的内核文件的大小、进程数据块的大小、Shell 进程创建文件的大小、内存锁住的大小、常驻内存集的大小、打开文件描述符的数量、分配堆栈的最大大小、CPU 时间、单个用户的最大线程数、Shell 进程所能使用的最大虚拟内存。同时，它支持硬资源和软资源的限制。</p>
+<p>作为临时限制，ulimit 可以作用于通过使用其命令登录的 shell 会话，在会话终止时便结束限制，并不影响于其他 shell 会话。而对于长期的固定限制，ulimit 命令语句又可以被添加到由登录 shell 读取的文件中，作用于特定的 shell 用户。</p>
+<h3 id="ulimit的设置"><a href="#ulimit的设置" class="headerlink" title="ulimit的设置"></a>ulimit的设置</h3><pre><code>[root@Mr-zhao ~]# ulimit  -a    //查看当前配置文件ulimit全局系数
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 7389
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 10240
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 10240
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 10240
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+</code></pre><p>对于线上环境的机器一般要对<code>open files</code>和<code>max user processes</code>进行修改。</p>
+<h4 id="临时性的修改，只对当前shell生效。"><a href="#临时性的修改，只对当前shell生效。" class="headerlink" title="临时性的修改，只对当前shell生效。"></a>临时性的修改，只对当前shell生效。</h4><pre><code>ulimit  -n 65535
+ulimit  -u 65535
+</code></pre><h4 id="想要ulimit的设置永久性生效，需要修改-etc-security-limits-conf文件。"><a href="#想要ulimit的设置永久性生效，需要修改-etc-security-limits-conf文件。" class="headerlink" title="想要ulimit的设置永久性生效，需要修改/etc/security/limits.conf文件。"></a>想要ulimit的设置永久性生效，需要修改/etc/security/limits.conf文件。</h4><p>对于centos系统/etc/security/limits.d/90-nproc.conf文件的优先级高于/etc/security/limits.conf，所以对全局的设定需修改90-nproc.conf文件。对于单个用户的ulimit的设置并不受etc/security/limits.d/90-nproc.conf影响。</p>
+<p>对于ubuntu系统，只需对/etc/security/limits.conf文件进行修改，ubuntu系统没有引入90-nproc.conf文件。但是ubuntux系统也会存在一个问题，就是对全局的设置其实对于root用户是没有效果的。所以ubuntu系统下的设置如下：</p>
+<pre><code>root@Mr-zhao:~# grep -Ev &quot;^$|^#&quot; /etc/security/limits.conf
+root - nofile 65535
+root - nproc  65535
+* - nofile 65535
+* - nproc 65535
+</code></pre><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.ibm.com/developerworks/cn/linux/l-cn-ulimit/" target="_blank" rel="external">通过 ulimit 改善系统性能</a><br><a href="http://ss64.com/bash/limits.conf.html" target="_blank" rel="external">limits.conf - configuration file</a></p>
+</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/01/15/mysql-duplicate/" class="post-link">MySQL主从复制备忘</a></h2><span class="post-time">Jan 15, 2016</span><div class="post-content"><h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><ul>
+<li><p>Master:10.249.17.38</p>
+</li>
+<li><p>Slave:10.249.17.45</p>
+</li>
+</ul>
+<h3 id="主从复制的原理"><a href="#主从复制的原理" class="headerlink" title="主从复制的原理"></a>主从复制的原理</h3><ul>
+<li>主从复制的步骤</li>
+</ul>
+<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/94D51A80-A0DB-4189-8F30-673260AC6FCC.png" alt=""></p>
+<p>1.master将改变记录到二进制日志(binary log)</p>
+<p>2.slave将master的binary log events(二进制日志事件)拷贝到它的中继日志(relay log)</p>
+<p>3.slave重做中继日志中的事件，将改变反映它自己的数据。</p>
+<h3 id="主从复制类型"><a href="#主从复制类型" class="headerlink" title="主从复制类型"></a>主从复制类型</h3><ul>
+<li>基于语句的复制：</li>
+</ul>
+<p>在主服务器上执行的SQL语句，在从服务器上执行同样的语句。MySQL默认采用基于语句的复制，效率比较高。一旦发现没法精确复制时，会自动选着基于行的复制。</p>
+<ul>
+<li>基于行的复制：</li>
+</ul>
+<p>把改变的内容复制过去，而不是把命令在从服务器上执行一遍. 从mysql5.0开始支持。</p>
+<ul>
+<li>混合类型的复制:</li>
+</ul>
+<p>默认采用基于语句的复制，一旦发现基于语句的无法精确的复制时，就会采用基于行的复制。</p>
+<h3 id="配置Master和Slave"><a href="#配置Master和Slave" class="headerlink" title="配置Master和Slave"></a>配置Master和Slave</h3><h4 id="Master"><a href="#Master" class="headerlink" title="Master"></a>Master</h4><pre><code>mysqladmin -u root -p password 123  // 修改密码
+mysql&gt; grant replication slave,replication client on *.* to  zzf@10.249.17.45 identified by &quot;zzf&quot;;  //建立内部复制用户
+
+编辑/etc/my.cnf 文件
+server_id=1
+log-bin=mysql-bin
+
+重启服务
+</code></pre><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/BAC-9068-D8174D803F18.png" alt=""></p>
+<h4 id="Slave"><a href="#Slave" class="headerlink" title="Slave"></a>Slave</h4><pre><code>mysqladmin -u root -p password 123  // 修改密码
+编辑/etc/my.cnf 文件
+server_id=2
+log-bin=mysql-bin
+log_slave_updates=1
+
+mysql&gt; change master to master_host=&apos;10.249.17.38&apos;,master_user=&apos;zzf&apos;,master_password=&apos;zzf&apos;,master_log_file=&apos;mysql-bin.000002&apos;,master_log_pos=106;
+mysql&gt; start slave;
+</code></pre><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/F2D3964D-8081-4F27-ACFF-39ADF603CCDB.png" alt=""></p>
+<p>Slave_IO_Running: Yes</p>
+<p>Slave_SQL_Running: Yes</p>
+<h3 id="简单测试"><a href="#简单测试" class="headerlink" title="简单测试"></a>简单测试</h3><h4 id="Master-1"><a href="#Master-1" class="headerlink" title="Master"></a>Master</h4><pre><code>mysql&gt;
+mysql&gt; create database zzf;
+Query OK, 1 row affected (0.01 sec)
+mysql&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| test               |
+| zzf                |
++--------------------+
+4 rows in set (0.00 sec)
+</code></pre><h4 id="Slave-1"><a href="#Slave-1" class="headerlink" title="Slave"></a>Slave</h4><pre><code>mysql&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| test               |
+| zzf                |
++--------------------+
+4 rows in set (0.00 sec)
+</code></pre><p>已经同步成功</p>
+</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/01/09/Create-A-Local-Debian-Ubuntu-Mirror-With-apt-mirror/" class="post-link">Create A Local Debian/Ubuntu Mirror With apt-mirror</a></h2><span class="post-time">Jan 9, 2016</span><div class="post-content"><h3 id="Install-and-Configure-apt-mirror"><a href="#Install-and-Configure-apt-mirror" class="headerlink" title="Install and Configure apt-mirror"></a>Install and Configure apt-mirror</h3><p>Install apt-mirror</p>
+<pre><code>$ sudo apt-get install apt-mirror
+</code></pre><p>Configure apt-mirror</p>
+<p>编辑配置文件/etc/apt/mirror.list，以ubuntu 14.04 为例：</p>
+<pre><code>############# config ##################
+
+#
+
+set base_path      /var/spool/apt-mirror
+
+#
+
+set mirror_path    /data/mirror
+
+set skel_path   $base_path/skel
+
+set var_path   $base_path/var
+
+set cleanscript  $var_path/clean.sh      #这个脚本会记录每次同步后那些需要删除的文件
+
+# set defaultarch
+
+# set postmirror_script $var_path/postmirror.sh
+
+# set run_postmirror 0
+
+set nthreads20#用20个线程去wget镜像
+
+set _tilde 0
+
+#
+
+############# end config ##############
+
+deb http://cn.archive.ubuntu.com/ubuntu trusty main restricted universe multiverse
+
+deb http://cn.archive.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
+
+deb http://cn.archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse
+
+deb http://cn.archive.ubuntu.com/ubuntu trusty-proposed main restricted universe multiverse
+
+deb http://cn.archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse
+
+deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty main restricted universe multiverse
+
+deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
+
+deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse
+
+deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty-proposed main restricted universe multiverse
+
+deb-i386 http://cn.archive.ubuntu.com/ubun trustytu-backports main restricted universe multiverse
+
+# 如果这个源是要用来做pxe启动的话需要添加(因为默认没有将这几个文件同步过来)
+
+deb http://cn.archive.ubuntu.com/ubuntu trusty main/debian-installer restricted/debian-installer universe/debian-installer multiverse/debian-installer
+
+deb-i386 ttp://cn.archive.ubuntu.com/ubuntu trusty main/debian-installer restricted/debian-installer universe/debian-installer multiverse/debian-installer
+</code></pre><p>镜像官方仓库所有软件</p>
+<pre><code>$ sudo apt-mirror          
+//apt-mirror成功后会执行/var/spool/apt-mirror/var/clean.sh完成同步后的清理工作
+</code></pre><h3 id="源的升级与更新"><a href="#源的升级与更新" class="headerlink" title="源的升级与更新"></a>源的升级与更新</h3><p>日常升级</p>
+<pre><code>$ sudo apt-mirror
+</code></pre><p>计划任务自动更新</p>
+<pre><code>0 4 * * * /usr/bin/apt-mirror &gt;&gt; /var/spool/apt-mirror/var/cron.log
+</code></pre><h3 id="使用nginx搭建本地镜像源"><a href="#使用nginx搭建本地镜像源" class="headerlink" title="使用nginx搭建本地镜像源"></a>使用nginx搭建本地镜像源</h3><h4 id="nginx-安装配置"><a href="#nginx-安装配置" class="headerlink" title="nginx 安装配置"></a>nginx 安装配置</h4><p>nginx 安装</p>
+<p>参考：<a href="http://nginx.org/en/docs/install.html" target="_blank" rel="external">官方文档</a></p>
+<p>nginx 基本配置</p>
+<p>编辑配置文件 /usr/local/nginx/conf/sites-enabled/mirror.conf</p>
+<pre><code>server {
+listen       80;
+server_name  _;
+root         /data/mirror/web;
+autoindex    on;
+}
+</code></pre><p>在<code>/data/mirror/web</code>目录做一个镜像目录的软连接</p>
+<pre><code>$ ln -s /data/mirror/archive.ubuntu.com/ubuntu/ /data/mirror/web/ubuntu
+</code></pre><p>启动nginx服务</p>
+<pre><code>$ sudo /usr/local/nginx/sbin/nginx -t
+$ sudo /usr/local/nginx/sbin/nginx
+</code></pre><p>本地测试</p>
+<p>在浏览器输入搭建nginx机器IP，也可以配置域名访问</p>
+<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/26720CDE-B91E-40F3-8D46-CAC92FAE90F2.png" alt=""></p>
+<h3 id="客户端使用测试"><a href="#客户端使用测试" class="headerlink" title="客户端使用测试"></a>客户端使用测试</h3><p>编辑配置文件 /etc/apt/sources.list 或在/etc/apt/sources.list.d/ 目录下新建文件，并在文件最前面写入如下字段：</p>
+<pre><code>deb http://10.249.17.26/ubuntu precise main universe
+</code></pre><p>使用</p>
+<pre><code>$ apt-get update
+$ apt-get install (packagename)
+</code></pre></div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/01/01/command/" class="post-link">运维必备之Linux命令概览</a></h2><span class="post-time">Jan 1, 2016</span><div class="post-content"><h3 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/C3EB9F70-7F51-4B46-8B14-825CD9B8C11B.png" alt=""></p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/BF852F66-2D8E-42D8-A4EB-2826A98C354C.png" alt=""></p>
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/429014F3-442B-4115-A97D-32D62E6BEE7F.png" alt=""></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.brendangregg.com/linuxperf.html" target="_blank" rel="external">Linux Performance</a></p>
+</div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2015/10/29/photography/" class="post-link">摄影知识扫盲</a></h2><span class="post-time">Oct 29, 2015</span><div class="post-content"><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>三流的摄影师比器材，二流的摄影师比技术，一流的摄影师比思想。</p>
+<blockquote>
+<p>“照片从来不能解决问题，它总是在不断的提出问题：为什么会这样？如果你能不断的提出问题，你就会不断的按下快门，把你的思想和疑问传达出来。如果观众看过你的照片后也良久驻足，思考着你的思考，疑问着你的疑问，那您就快接近摄影的最高境界了”      Susan Sontag 《论摄影》</p>
+</blockquote>
+<h3 id="摄影名词"><a href="#摄影名词" class="headerlink" title="摄影名词"></a>摄影名词</h3><p>ISO，光圈，快门， 曝光，焦距，景深 ，RAW</p>
+<h4 id="ISO"><a href="#ISO" class="headerlink" title="ISO"></a>ISO</h4><p>ISO（感光度）是CCD（Charge Coupled Device，<strong>电子感光芯片</strong>）或是胶卷对光线的敏感程度。</p>
+<p>数码相机的主菜单里都有ISO选择，100，200，400或者800等，数字越大越敏感（感光度越高）。如果用ISO100的胶卷，相机2秒可以正确曝光的话，同样光线条件下用ISO200的胶卷只需要1秒即可，用ISO400则只要0.5秒。高ISO虽然速度快但图像颗粒粗，经不起精细放大。高ISO一般在万不得已的时候才用，<strong>高ISO图片质量是数码相机最重要的指标之一。</strong></p>
+<p>简单的来说，提高ISO就是提高电子放大倍数，微弱的光线只能产生微弱的电子信号，这个时候数码相机的放大电路工作，把信号放大来得到正确的曝光照片，但噪点多，细节丢失，颜色失真。</p>
+<p>同样像素的普通数码相机和单反相机的高ISO图片质量差别很大，主要原因是普通相机和单反相机的感光芯片大小（面积）不同。感光芯片CCD就是一个光电转换器，把光照转变为可记录的电子信号。假如CCD为1000万像素，要正确曝光，每个像素点必须要有一定的光照强度。同样的曝光时间，面积大的CCD接受的阳光多，分配到每个像素点的光照充分，这样图片的细节会更丰富，噪点少，颜色准确。<strong>在同等技术条件下，如像素相等，CCD面积越大，高ISO的成像质量越好。</strong></p>
+<h4 id="快门"><a href="#快门" class="headerlink" title="快门"></a>快门</h4><p><strong>快门是能够准确的控制曝光时间的装置。</strong></p>
+<p>快门有机械快门、电子快门以及电子机械联合快门。</p>
+<p>安全快门速度：安全速度是焦距的倒数，如果用50mm镜头，快门速度不要低于1/50秒，使用200mm镜头速度不低于1/200秒，以此类推，否则照片会糊。</p>
+<h4 id="光圈"><a href="#光圈" class="headerlink" title="光圈"></a>光圈</h4><p><strong>光圈就是镜头里调节进光孔大小的装置。</strong></p>
+<blockquote>
+<p>所有相机都是基于小孔成像原理：拿一个密封箱子，在任何一面钻个小圆孔，窗外的景象比如一棵树什么的，就会在圆孔对面的箱内壁生成此树的倒影。假如在箱子小孔对面的内壁涂上感光材料，这个有孔的箱子就是一台针孔相机。</p>
+<p>既然一台照相机可以不需要镜头，为什么现在的相机前面不是一个小圆孔而是几块玻璃呢？而且这几块玻璃还卖得那么贵。这是因为小孔要成像的话，孔必须很小，如果孔开得和门一样大，这个孔就成不了像。孔小进光量就小，针孔摄影一张照片曝光几小时到几十个小时都常见。我们要想办法加大进光量。凸镜有聚光功能。把玻璃凸镜装到大孔上，问题不就解决了？</p>
+<p>确实如此。镜头就是这样诞生的。今天的各种镜头都是几块凹凸镜的排列组合，然后用塑料或铁皮一包。有了镜头，小孔成像的这个孔（光圈）就不再是针孔了，它变成了洞。</p>
+<p>并不是任何时候都需要大洞。夏日沙滩上烈日当头，四处白花花一片，为了分清到底是人肉还是白沙，我们需要眯着眼睛仔细观察。镜头是照相机的眼睛，这时候相机也需要眯起眼睛。<strong>为了应付不同的光线强度，我们还需要给镜头装上能够调节这个洞大小的装置，以便在强光时缩小为针孔，弱光时开成大洞。这个装置就是光圈（Aperture）。一组凹凸镜再加上光圈就诞生了完整的镜头。</strong></p>
+</blockquote>
+<p>常见的光圈值如下：F1，F1.4，F2，F2.8，F4，F5.6，F8，F11，F16，F22，F32，F44，F64。<strong>每两挡相邻光圈值之间进光量相差一倍。例如光圈从F4调到F2.8，进光量便多一倍；从F2.8到F2又多一倍。光圈值和光圈实际大小是相反的，进光量最大时光圈为F1，最小时为F64。</strong></p>
+<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/4DE51689-1AA4-45FD-9F68-3B310CDA0887.png" alt=""></p>
+<p><strong>镜头在中等光圈的时候成像最好，</strong>如果是135数码单反，中等光圈为F8或F11。小数码DC要看具体机型，如果可选光圈值在F2.5到F8之间，中间的F4.6为最佳光圈。</p>
+<h4 id="曝光"><a href="#曝光" class="headerlink" title="曝光"></a>曝光</h4><blockquote>
+<p>假设一个黑乎乎的密闭房间，一面墙壁上开了个小圆窗户，在窗对面的内壁上安上感光材料就是一台大型房式照相机。在没有打开小窗之前，房间里是黑乎乎的。上帝说：要有光。我们打开小窗，光线从小孔而入，射到对面墙壁的胶卷上，产生光化反应（或CCD光电反应），图像就诞生了。此过程就叫曝光。<strong>要正确曝光必须精确决定曝光量，也就是让多少光进入房间。光圈和快门都可以控制曝光量。曝光就是光圈和快门的组合。光圈大小其实就是小圆窗户开多大，快门（速度）就是窗户开多久。</strong>若窗户开1/4，时间4秒能正确曝光，很显然窗户打开1/2，时间2秒钟也能正确曝光，1/4<em>4=1/2</em>2=1。如果窗户全开，曝光时间就只要1秒了。</p>
+</blockquote>
+<p>一张正确曝光的图片可以有N种不同的光圈和快门组合。</p>
+<p>有三个因素能影响一张图片是否正确曝光：光圈，快门速度，ISO。其中光圈和速度联合决定进光量，ISO决定CCD感光速度。进光量不够则可开大光圈或者增加曝光时间，还不够就提高ISO。大光圈的解像度不好，快门速度低则图片可能会糊，高ISO图片质量也差。</p>
+<h4 id="测光与测光模式"><a href="#测光与测光模式" class="headerlink" title="测光与测光模式"></a>测光与测光模式</h4><p>曝光和测光是一对双胞胎，不测定光照强度正确曝光就无从谈起。所有的数码相机都内置测光表，它能测量光线的强度，自动给出正确曝光的光圈和快门。数码相机里都有一个光敏电阻（光照不同时电阻不同），相机内根据电阻的变化就能确定光线强度，进而确定曝光值。</p>
+<p><strong>测光模式主要有点测光，中央重点测光，区域（平均）测光三种。</strong>点测光只测取景框内中央小点的光线强度。区域（平均）测光则把取景框分为很多小块，分别对每块测光再加权平均得到光照强度。中央重点测光只把取景框分为中央圆圈和四周两块分别测光。大多数情况下用区域平均测光即可，在明暗反差很大时多采用点测光。</p>
+<h4 id="曝光补偿"><a href="#曝光补偿" class="headerlink" title="曝光补偿"></a>曝光补偿</h4><p>曝光是否准确是根据经验判断的。总原则：<strong>照片要真实反映拍摄时的环境亮度。</strong>如果正午阳光户外被拍得昏暗如夜，这就是曝光不足；夜景拍得跟白天一样则是曝光过度。相机自动确定的曝光值90%以上是正确的，但也有不准的，如雪景应该纯白拍出来却是灰色，或纯黑的煤球拍出来却是灰煤。</p>
+<blockquote>
+<p>假设两个极端，纯黑物体反射率为零，纯白物体反射率是100%。在这两个极端取中间值就是不黑也不白的灰色，称柯达灰，也称18度中间灰。</p>
+<p>以客厅为例，墙壁又白又亮，电视机屏幕又黑又暗，家具等亮度居中。要以谁的亮度来确定曝光？相机自动测光就是取平均数，最后给出一个让图片达到中间灰的曝光值。</p>
+<p>相机的自动测光是个死脑筋，它认为全世界所有场景的平均亮度都是18度中间灰。好在大部分生活场景平均起来差不多也是灰色。但在雪景或者煤球等纯色场景，相机依然给出中间灰的曝光值，拍出来就会白雪成灰雪，煤球成灰球。<strong>此时我们就要对自动曝光予以修正，对雪景增加曝光，煤球减少曝光，这样才能拍出亮度正确的照片。增减曝光值就叫曝光补偿。</strong></p>
+</blockquote>
+<p><strong>曝光补偿原则：白加黑减。如果有大片白色物体或有强灯等特别明亮的物体就要增加曝光量；有大片黑色物体则要减少曝光量。</strong></p>
+<h4 id="焦距与焦距转换系数"><a href="#焦距与焦距转换系数" class="headerlink" title="焦距与焦距转换系数"></a>焦距与焦距转换系数</h4><blockquote>
+<p><strong>镜头的焦距就是从镜片（或镜片组）的中心到底片(CCD)的距离，单位毫米（mm）。</strong>对全幅135数码单反来说，50mm镜头为标准镜头，简称标头。<strong>标头严格的定义：焦距等于底片（或CCD）对角线长度的镜头。</strong>单张135底片对角线长度为43mm，我们把焦距40-60mm的都称为标头。请注意：一个镜头是不是标头不是看焦距而是看视角，视角45度左右就是标准镜头。对120相机来说80-110mm焦距的镜头才是标头。对Nikon D5000等非全幅数码单反，35mm才是标头。</p>
+</blockquote>
+<p><strong>广角镜头（焦距小于35mm）</strong>能够让照相机“看得更宽广”，因为它视角大；<strong>长焦镜头（焦距大于70mm）</strong>能让照相机“看得更远”，但视角窄。长焦镜头也称远摄镜头或望远镜头。广角镜头都身材矮小，长焦镜头都高大威猛。</p>
+<h4 id="光学变焦与数码变焦"><a href="#光学变焦与数码变焦" class="headerlink" title="光学变焦与数码变焦"></a>光学变焦与数码变焦</h4><blockquote>
+<p>数码相机上都写着XX倍光学变焦（Optical Zoom）。<strong>变焦倍数＝最大焦距/最小焦距。</strong>一个28-280mm镜头的光学变焦倍数是280mm/28mm=10倍。倍数越大镜片越多，体积相应较大，画质相对较低，光圈相对较小。如Nikon P90光学变焦为26-624mm（24倍），但实测镜头边缘解像度差，看来24倍已经接近光学变焦目前的技术极限了。</p>
+</blockquote>
+<p>数码变焦只是电子放大，软件稍作改动就可以从一倍到一万倍变焦任君自取。光学变焦才是真正的变焦。</p>
+<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/B4563A21-000E-4167-9039-32DA8217E2FA.png" alt=""><br><img src="http://7vzmp5.com1.z0.glb.clouddn.com/76932658-4595-4202-885F-C3168528800D.png" alt=""></p>
+<blockquote>
+<p>CANON ZOOM LENS：佳能变焦镜头</p>
+<p>EF是佳能镜头卡口名称。EF-S是小CCD数码单反专用镜头。EFS镜头不能用在佳能全幅数码单反上。</p>
+<p>18-55mm代表变焦范围18-55毫米（乘以焦距转换系数1.6后相当于全幅单反焦距28-88mm）</p>
+<p>1:3.5 - 5.6：在最小焦距18mm时最大光圈为F3.5,最长焦距时最大光圈为F5.6。</p>
+<p>Ø58mm镜头滤色镜口径为58毫米</p>
+</blockquote>
+<h4 id="景深与光圈优先"><a href="#景深与光圈优先" class="headerlink" title="景深与光圈优先"></a>景深与光圈优先</h4><blockquote>
+<p><strong>景深就是照片焦点前后延伸出来的“可接受清晰区域”。</strong>它只是一个概念，相机上并没有一个开关叫景深。清晰与否也没有绝对标准。<strong>一张合影若人脸很清晰，前面的鲜花和后面建筑物都模糊，清晰区域只限于人，我们就称此照片景深较浅（小）。若人鲜花和建筑物都清晰，照片的清晰区域很广，就称景深很大。风光摄影一般需要大景深，前后景物都要清楚。</strong></p>
+</blockquote>
+<p>有三个因素决定景深：1，光圈大小；2，焦距长短；3，被摄物体的远近。</p>
+<p>景深的确定原则是：</p>
+<p>1，光圈越大，景深越小；</p>
+<p>2，焦距越长，景深越小；</p>
+<p>3，离被摄物体越近，景深越小。</p>
+<blockquote>
+<p>若镜头的最小光圈为F22，这时候景深最大，在F2.8的时候景深最小（如果此镜头最大光圈是F2.8）。焦距越长景深越小这个好理解，广角镜头景深大，长焦镜头景深小。实际上17mm的超广角镜头如果使用F11以下的中小光圈，随便你朝何处对焦，前后景物都清晰。200mm或更长的镜头景深很小，一定要仔细小心对焦，最好在三角架上拍。离被摄物体越近，景深越小。所以在超近距离拍摄时要特别小心对焦，例如用微距镜头拍花花草草或小狗脸部特写。</p>
+</blockquote>
+<p>光圈有三个作用：</p>
+<p>1，控制进光量。这是拍摄成功与否的关键；</p>
+<p>2，控制景深。光圈越小，景深越大。虽然焦距和拍摄远近都影响景深，但焦距和被摄物远近的改变同时也会改变构图。当构图确定，能控制景深的武器就只剩下光圈了；</p>
+<p>3，光圈影响图片的清晰度。任何一个镜头都是中等光圈时成像最好（最清晰），最大光圈和最小光圈时解像度差。</p>
+<p><strong>光圈优先（Aperture Priority）：手动确定光圈的大小，相机会根据这个光圈值确定能正确曝光的快门速度。大写的A或者Av就代表光圈优先模式。</strong></p>
+<p>曝光是光圈和快门的组合，光圈优先对应的概念是<strong>快门优先或速度优先：手动确定快门速度，相机会根据这个快门速度确定能正确曝光的光圈大小。简写为T或Tv。</strong>在某些时候快门速度很重要，要定格运动员冲刺撞线，快门速度最好在1/500秒甚至更快；如果要把流水拍得如丝般柔滑，快门速度要在0.5秒或者更慢。</p>
+<h4 id="白平衡与RAW"><a href="#白平衡与RAW" class="headerlink" title="白平衡与RAW"></a>白平衡与RAW</h4><blockquote>
+<p>要了解白平衡white balance就必须先了解另一个概念：色温color temperature。所谓色温就是以开尔文温度表示光线的色彩，单位是K。物体被加热到一定的温度时就会发出光线，此光线不仅含有亮度的成份，也含有颜色的成份。温度越高，蓝色的成份越多，图像就会偏蓝；温度越低，红色的成份就越多，图像就会偏红。</p>
+</blockquote>
+<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/C29FE7F7-3998-4623-A871-8FB56382E865.png" alt=""></p>
+<h4 id="光线色温"><a href="#光线色温" class="headerlink" title="光线色温"></a>光线色温</h4><p>不同色温的光源下物体会呈现不同的色调，在日光灯下整体偏白，在普通白炽灯下整体偏黄。<strong>白平衡就是相机在不同光源下对白色的还原。</strong>有时候相机对色温判断错误，严重偏蓝或发黄。这时我们就要手动设置白平衡。万一人脑也判断错误怎么办？要彻底解决白平衡和色温准确性只有一个方案：选择RAW存储格式。</p>
+<p>常用的图片压缩存储格式为JPEG或JPG。但JPEG是一种有损压缩，某些细节丢失。大部分相机都有图片质量选择，也就是JPEG压缩比选择，压缩得越厉害，文件越小，一张卡能存储更多照片，但细节丢失更多。</p>
+<blockquote>
+<p>数码相机CCD经曝光产生电子信号，相机把电子信号进行处理，再传给存储卡。这些处理包括白平衡配置，颜色饱和度的增减，锐度和对比度增减，降噪等，最后压缩为JPEG格式存储。</p>
+</blockquote>
+<p>RAW英文是原始的意思，这很好地说明了RAW图片的特点：<strong>它是原始的，CCD产生的电子信号直接传给存储卡，没有经过相机的任何处理，没有一点细节丢失。</strong>我们回家后在电脑上可以给RAW图片任意配置色温（彻底解决白平衡问题），调整颜色，锐度，对比度，曝光等等。桌面电脑比相机内的小电脑强大得多，后期精心处理RAW转换成的JPEG图片肯定漂亮。</p>
+<p>RAW的问题还是文件太大，而且处理费时间。如果旅行十天拍了上千张RAW，后期处理会让人头变得巨大。还好很多相机可以同时存储JPEG和RAW，如果JPEG图片还不错就不用处理RAW了。重要的拍摄存JPEG+RAW，一般图片存JPEG.</p>
+<h3 id="基本摄影思想"><a href="#基本摄影思想" class="headerlink" title="基本摄影思想"></a>基本摄影思想</h3><p>一张好照片必须有一个鲜明的主题，并且能正确的表达主题。</p>
+<p>主要需从两方面努力：</p>
+<p><strong>1，精心构图；</strong></p>
+<p><strong>2，熟练掌握光圈快门等技术活。</strong></p>
+<h4 id="构图的原则和方法"><a href="#构图的原则和方法" class="headerlink" title="构图的原则和方法"></a>构图的原则和方法</h4><blockquote>
+<p>摄影最重要的是：和主题无关的事物一律排除在取景框之外。在按下快门前一定要想想：能否继续减少取景框内的事物？如果再排除一个那我想表达的意思就不完整了，这时才可以按下快门。<strong>摄影是做减法。</strong></p>
+<p>综上所述，<strong>简洁二字是摄影构图最基本的原则。</strong>只有在完全贯彻了这个原则，确定一张图片里绝对不能缺少的事物之后，才谈得上如何在取景框里如何摆放这些事物。</p>
+</blockquote>
+<h4 id="构图法"><a href="#构图法" class="headerlink" title="构图法"></a>构图法</h4><p><strong>最重要的有三个：黄金分割法，对称法，满框法。</strong></p>
+<p><strong>黄金分割法</strong></p>
+<p><strong>把一条线分割为两部分，使其中一部分与全长之比等于另一部分与这部分之比，其比值是0.618，这个分割点就是黄金分割点。</strong>黄金分割在所有的构图原则里是最重要的一个，很多数码相机在菜单里都有是否打开构图线的选择，打开后液晶屏就会出现九宫格，四条线把取景框长宽各作三等分。<strong>构图时我们应该把照片中的主体（视觉焦点）摆在三等分线上或者三等分线的交点上。</strong>通俗的说，不要把主体放在正中间，那样照片显得很呆板，要靠左右/上下一些才好看。实际拍摄中并没有必要严格遵守0.618比1或者1比3，多一点少一点均可，只要看起来舒服就好。</p>
+<p><strong>图片的视觉焦点。</strong>视觉焦点就是一张图片最吸引人的地方。在看一张有明显视觉焦点的照片时，第一眼我们肯定会被图片最醒目的点所吸引，然后我们会看看图片的四周有些什么，最后目光还是会集中到视觉焦点上。这就是我们看图片的视觉习惯：集中-分散-再集中。</p>
+<h4 id="对称法"><a href="#对称法" class="headerlink" title="对称法"></a>对称法</h4><p>一般来说，70%以上的图片可以用黄金分割构图法，但对有些图片黄金分割并不是最佳选择。典型的例子是建筑。大多数建筑都是对称结构，强行按照黄金分割来构图反而破坏了原有的美感。水面倒影也是一例。对倒影和建筑等本来对称的景物显然我们应该顺其自然采用对称构图法，一半对一半。对称可以是左右，上下，也可以斜着对称。</p>
+<p><strong>对称并不一定要是同一类型物体（建筑或倒影），不同的事物也可以对称，或称之为对比。</strong></p>
+<h4 id="满框与留白"><a href="#满框与留白" class="headerlink" title="满框与留白"></a>满框与留白</h4><p>黄金分割加上对称构图能搞定85%以上的图片，但还是有一些图片让人左右为难。那就干脆把主体充满取景框，排除任何其他物体（简洁到极限）。这就是满框构图原则。</p>
+<p>满框往往意味着构图只取局部，并不一定要把主体拍全，观众能根据局部想象全局。这是一种极端构图，它最大限度地突出主题。它的优点也是它的缺点：太满了，让人感觉堵得慌。大多数情况下还是要给画面留点空出气，这就是构图时的留白。留多少合适？一般来说留1/4或者1/5。留在图片的什么地方？可以是任何位置。留白四分之一原则也要灵活掌握，多一点少一点看具体需要。</p>
+<p>留白也可以走极端，这就是与满框相反的留白构图法：主体只在取景框内占一个小角落，其他地方大量空白。这是一种反向衬托，大量空白把观众的注意力吸引到非空白处-照片角落的主体上。 留白另外一个好处是方便编辑排版，空白处可供写字。如果你的照片日后要给杂志社，大量留白需要重点考虑。</p>
+<h3 id="其他构图注意事项"><a href="#其他构图注意事项" class="headerlink" title="其他构图注意事项"></a>其他构图注意事项</h3><p>1.寻找有趣的形状</p>
+<blockquote>
+<p>这可以从宏观和微观两方面去找。宏观就是从大场景找。通常这意味着在一大片景观中取局部。摄影就要充分发挥这种宏观想象力。</p>
+<p>微观找形状就是要视力好，眼光毒，从几英寸几厘米的小面积上发现有趣的形状。这通常也是物体的微小局部。寻找有趣形状还是意味着追求简洁，不要贪多是构图的总原则。</p>
+</blockquote>
+<p>2.前景与背景</p>
+<blockquote>
+<p>前景指照片中位于主体前面、靠近镜头的任何景物。它的作用是增强画面的空间感，提高画面的感染力，也能起到交待拍摄地点（环境）的作用。这一点很重要，它使照片能传达尽可能多的信息。好的前景还兼有引导视线的作用。</p>
+</blockquote>
+<p>3.包围构图</p>
+<blockquote>
+<p>构图简洁第一重要，但凡事没有绝对，如果全景与局部难以决定，或不能确定是否应该包含某一物体，那就包含与否都拍，回家再仔细分析哪张效果好。反正数码片子不用花钱买胶卷。分析多了就知道以后如何取舍了。包围构图这个词是我自己发明的，和包围曝光相对应。</p>
+</blockquote>
+<p>4.横拍与竖拍</p>
+<p><strong>总之，规则是死的，人是活的，局限于条条框框没有必要。一张照片可能毫无构图法则可言，也可能是好几条构图法的综合。</strong></p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>以上摄影知识均摘录于 新浪微博@长沙杨飞 <a href="http://www.midphoto.com/chinese/essays/essays.htm" target="_blank" rel="external">《数码时代旅游摄影快速指南》</a>一书，杨飞老师此书是我看过摄影入门书籍中最通俗易懂的。书中有很多优秀的作品我没有一一列出，书中关于相机的选购、后期处理、不同场景的摄影基本技巧我也没有详细摘录。有兴趣的可以阅读书籍，杨飞老师的网站上提供了免费的电子版。</p>
 </div></article></li></ul><div class="paginator"><a href="/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a><a href="/page/3/" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div></section><footer><div class="social"><a href="https://github.com/Abnerzhao" title="github" class="iconfont icon-github"></a><a href="mailto:opsabnerzhao@gmail.com" title="email" class="iconfont icon-email"></a><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" title="weibo" class="iconfont icon-weibo"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2015-2017<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Abnerzhao</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>
