@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-03-05T09:23:34.000Z</updated>
+  <updated>2017-03-05T09:27:17.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/03/05/Python%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/03/05/Python正则表达式/</id>
     <published>2017-03-05T09:13:36.000Z</published>
-    <updated>2017-03-05T09:23:34.000Z</updated>
+    <updated>2017-03-05T09:27:17.000Z</updated>
     
     <content type="html"><![CDATA[<p><strong>正则表达式是一些由字符和特殊符号组成的字符串，它们描􏰀述了这些字符和字符的某种重复方式，因此能按某种模式匹配一个有相似特征的字符串的集合。</strong>正则表达式为高级文本模式匹配，以及搜索-替代等功能􏰁供了基础。</p>
 <h2 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h2><p>元字符是正则表达式中规定的特殊代码，有特定的含义和匹配效果</p>
@@ -105,7 +105,41 @@
 </tbody>
 </table>
 <p><strong>示例：</strong><br>Windows\d+: 匹配Windows后面跟1个或更多数字<br>^\w+: 匹配一行的第一个单词</p>
-<h3 id="反义"><a href="#反义" class="headerlink" title="反义"></a>反义</h3><p><strong>常用的反义代码</strong><br>|代码|说明|<br>|:—-|:—-|<br>|\W|匹配任意不是字母，数字，下划线，汉字的字符|<br>|\S|匹配任意不是空白符的字符|<br>|\D|匹配任意非数字的字符|<br>|\B|匹配不是单词开头或结束的位置|<br>|[^x]|匹配除了x以外的任意字符|<br>|[^aeiou]|匹配除了aeiou这几个字母以外的任意字符|</p>
+<h3 id="反义"><a href="#反义" class="headerlink" title="反义"></a>反义</h3><p><strong>常用的反义代码</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">代码</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">\W</td>
+<td style="text-align:left">匹配任意不是字母，数字，下划线，汉字的字符</td>
+</tr>
+<tr>
+<td style="text-align:left">\S</td>
+<td style="text-align:left">匹配任意不是空白符的字符</td>
+</tr>
+<tr>
+<td style="text-align:left">\D</td>
+<td style="text-align:left">匹配任意非数字的字符</td>
+</tr>
+<tr>
+<td style="text-align:left">\B</td>
+<td style="text-align:left">匹配不是单词开头或结束的位置</td>
+</tr>
+<tr>
+<td style="text-align:left">[^x]</td>
+<td style="text-align:left">匹配除了x以外的任意字符</td>
+</tr>
+<tr>
+<td style="text-align:left">[^aeiou]</td>
+<td style="text-align:left">匹配除了aeiou这几个字母以外的任意字符</td>
+</tr>
+</tbody>
+</table>
 <h2 id="字符类"><a href="#字符类" class="headerlink" title="字符类"></a>字符类</h2><p>我们要想查找数字，字母或数字，空白这些很简单，直接使用元字符对应的字符集合即可实现。但是如果想要匹配没有预定义元字符的字符集合(比如元音字母a,e,i,o,u),应该怎么办？</p>
 <p>这时我们需要在方括号<code>[]</code>中列出想要匹配的字符集合。如[aeiou]就匹配任何一个英文元音字母，[.?!]匹配标点符号(.或?或!)。</p>
 <p>[0-9]代表的含意与\d就是完全一致的：一位数字；同理[a-z0-9A-Z_]也完全等同于\w（如果只考虑英文的话）</p>
