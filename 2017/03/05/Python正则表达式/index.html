@@ -13,15 +13,88 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', 'Your Google Analytics ID', 'auto');
 ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">Python正则表达式</h1><span class="post-time">Mar 5, 2017</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#元字符"><span class="toc-text">元字符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#重复"><span class="toc-text">重复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反义"><span class="toc-text">反义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符类"><span class="toc-text">字符类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#分枝条件"><span class="toc-text">分枝条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分组"><span class="toc-text">分组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符转义"><span class="toc-text">字符转义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#re模块"><span class="toc-text">re模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#匹配对象和方法"><span class="toc-text">匹配对象和方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#re-match和re-search"><span class="toc-text">re.match和re.search</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#切分和替换"><span class="toc-text">切分和替换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol></div><div class="post-content"><p><strong>正则表达式是一些由字符和特殊符号组成的字符串，它们描􏰀述了这些字符和字符的某种重复方式，因此能按某种模式匹配一个有相似特征的字符串的集合。</strong>正则表达式为高级文本模式匹配，以及搜索-替代等功能􏰁供了基础。</p>
 <h2 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h2><p>元字符是正则表达式中规定的特殊代码，有特定的含义和匹配效果</p>
-<p><strong>常用的元字符</strong><br>|代码|说明|<br>|—-|—-|<br>|.|匹配除换行符以外的任意字符|<br>|\w |匹配字母或数字或下划线或汉字|<br>|\s|匹配任意的空白符(包括空格，制表符(Tab)，换行符，中文全角空格等)|<br>|\d|匹配数字|<br>|\b|匹配单词的开始或结束(空格、标点、换行都算是单词的分割)|<br>|^|匹配字符串的开始|<br>|$|匹配字符串的结束|</p>
+<p><strong>常用的元字符</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">代码</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">.</td>
+<td style="text-align:left">匹配除换行符以外的任意字符</td>
+</tr>
+<tr>
+<td style="text-align:left">\w</td>
+<td style="text-align:left">匹配字母或数字或下划线或汉字</td>
+</tr>
+<tr>
+<td style="text-align:left">\s</td>
+<td style="text-align:left">匹配任意的空白符(包括空格，制表符(Tab)，换行符，中文全角空格等)</td>
+</tr>
+<tr>
+<td style="text-align:left">\d</td>
+<td style="text-align:left">匹配数字</td>
+</tr>
+<tr>
+<td style="text-align:left">\b</td>
+<td style="text-align:left">匹配单词的开始或结束(空格、标点、换行都算是单词的分割)</td>
+</tr>
+<tr>
+<td style="text-align:left">^</td>
+<td style="text-align:left">匹配字符串的开始</td>
+</tr>
+<tr>
+<td style="text-align:left">$</td>
+<td style="text-align:left">匹配字符串的结束</td>
+</tr>
+</tbody>
+</table>
+<a id="more"></a>
 <p><strong>示例：</strong></p>
 <p><code>\ba\w*\b</code>: 匹配以字母a开头的单词——先是某个单词开始处(\b)，然后是字母a,然后是任意数量的字母或数字(\w*)，最后是单词结束处(\b)</p>
 <p><code>\d+</code>: 匹配1个或更多连续的数字。这里的+是和<em>类似的元字符，不同的是\</em>匹配重复任意次(可能是0次)，而+则匹配重复1次或更多次</p>
 <p><code>\b\w{6}\b</code>: 匹配刚好6个字符的单词</p>
 <p><code>^\d{5,12}$</code>: 匹配5位到12位数字</p>
-<h3 id="重复"><a href="#重复" class="headerlink" title="重复"></a>重复</h3><p><strong>常用的限定符(指定数量的代码)</strong><br>|代码|说明|<br>|—-|—-|<br>|*|重复零次或更多次|<br>|+|重复一次或更多次|<br>|?|重复零次或一次|<br>|{n}|重复n次|<br>|{n,}|重复n次或更多次|<br>|{n,m}|重复n到m次|</p>
+<h3 id="重复"><a href="#重复" class="headerlink" title="重复"></a>重复</h3><p><strong>常用的限定符(指定数量的代码)</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">代码</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">*</td>
+<td style="text-align:left">重复零次或更多次</td>
+</tr>
+<tr>
+<td style="text-align:left">+</td>
+<td style="text-align:left">重复一次或更多次</td>
+</tr>
+<tr>
+<td style="text-align:left">?</td>
+<td style="text-align:left">重复零次或一次</td>
+</tr>
+<tr>
+<td style="text-align:left">{n}</td>
+<td style="text-align:left">重复n次</td>
+</tr>
+<tr>
+<td style="text-align:left">{n,}</td>
+<td style="text-align:left">重复n次或更多次</td>
+</tr>
+<tr>
+<td style="text-align:left">{n,m}</td>
+<td style="text-align:left">重复n到m次</td>
+</tr>
+</tbody>
+</table>
 <p><strong>示例：</strong><br>Windows\d+: 匹配Windows后面跟1个或更多数字<br>^\w+: 匹配一行的第一个单词</p>
-<h3 id="反义"><a href="#反义" class="headerlink" title="反义"></a>反义</h3><p><strong>常用的反义代码</strong><br>|代码|说明|<br>|—-|—-|<br>|\W|匹配任意不是字母，数字，下划线，汉字的字符|<br>|\S|匹配任意不是空白符的字符|<br>|\D|匹配任意非数字的字符|<br>|\B|匹配不是单词开头或结束的位置|<br>|[^x]|匹配除了x以外的任意字符|<br>|[^aeiou]|匹配除了aeiou这几个字母以外的任意字符|</p>
+<h3 id="反义"><a href="#反义" class="headerlink" title="反义"></a>反义</h3><p><strong>常用的反义代码</strong><br>|代码|说明|<br>|:—-|:—-|<br>|\W|匹配任意不是字母，数字，下划线，汉字的字符|<br>|\S|匹配任意不是空白符的字符|<br>|\D|匹配任意非数字的字符|<br>|\B|匹配不是单词开头或结束的位置|<br>|[^x]|匹配除了x以外的任意字符|<br>|[^aeiou]|匹配除了aeiou这几个字母以外的任意字符|</p>
 <h2 id="字符类"><a href="#字符类" class="headerlink" title="字符类"></a>字符类</h2><p>我们要想查找数字，字母或数字，空白这些很简单，直接使用元字符对应的字符集合即可实现。但是如果想要匹配没有预定义元字符的字符集合(比如元音字母a,e,i,o,u),应该怎么办？</p>
 <p>这时我们需要在方括号<code>[]</code>中列出想要匹配的字符集合。如[aeiou]就匹配任何一个英文元音字母，[.?!]匹配标点符号(.或?或!)。</p>
 <p>[0-9]代表的含意与\d就是完全一致的：一位数字；同理[a-z0-9A-Z_]也完全等同于\w（如果只考虑英文的话）</p>
@@ -34,7 +107,65 @@ ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/."
 <h3 id="字符转义"><a href="#字符转义" class="headerlink" title="字符转义"></a>字符转义</h3><p>使用反斜杠<code>\</code>来取消元字符的特殊含义</p>
 <p>例如：deerchao\.net匹配deerchao.net，C:\\Windows匹配C:\Windows</p>
 <h2 id="re模块"><a href="#re模块" class="headerlink" title="re模块"></a>re模块</h2><p>Python 通过标准库的 re 模块支持正则表达式。</p>
-<p><strong>常见的正则表达式函数与方法</strong><br>|函数/方法|描述|<br>|—-|—-|<br>|re 模块的函数||<br>|compile(pattern,flags=0)|对正则表达式模式 pattern 进行编译,flags是可选标志符,并返回一个 regex 对象|<br>|re 模块的函数和 regex 对象的方法||<br>|match(pattern,string, flags=0)|尝试用正则表达式模式 pattern 匹配字符串 string,flags 是可选标志符,如果匹配成功,则返回一个匹配对象;否则返回 None|<br>|search(pattern,string, flags=0)|在字符串 string 中查找正则表达式模式 pattern 的第一次出现,flags 是可选标志符,如果匹配成功,则返回一个匹配对象;否则返回 None|<br>|findall(pattern,string[,flags])|在字符串 string 中查找正则表达式模式 pattern 的所有出现;返回一个匹配对象的列表|<br>|finditer(pattern,string[, flags])|和 findall()相同,但返回的不是列表而是迭代器;对 于每个匹配,该迭代器返回一个匹配对象|<br>|匹配对象的方法||<br>|split(pattern,string, max=0)|根据正则表达式 pattern 中的分隔符把字符 string 分割为一个列表,返回成功匹配的列表,最多分割 max 次(默认是分割所有匹配的地方)|<br>|sub(pattern, repl, string, max=0)|把字符串 string 中所有匹配正则表达式 pattern 的地方替换成字符串 repl,如果 max 的值没有给出,则对所有匹配的地方进行替换|<br>|group(num=0)|返回全部匹配对象(或指定编号是 num 的子组)|<br>|groups()|返回一个包含全部匹配的子组的元组(如果没有成功匹配,就返回一个空元组)|</p>
+<p><strong>常见的正则表达式函数与方法</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">函数/方法</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">re 模块的函数</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">compile(pattern,flags=0)</td>
+<td style="text-align:left">对正则表达式模式 pattern 进行编译,flags是可选标志符,并返回一个 regex 对象</td>
+</tr>
+<tr>
+<td style="text-align:left">re 模块的函数和 regex 对象的方法</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">match(pattern,string, flags=0)</td>
+<td style="text-align:left">尝试用正则表达式模式 pattern 匹配字符串 string,flags 是可选标志符,如果匹配成功,则返回一个匹配对象;否则返回 None</td>
+</tr>
+<tr>
+<td style="text-align:left">search(pattern,string, flags=0)</td>
+<td style="text-align:left">在字符串 string 中查找正则表达式模式 pattern 的第一次出现,flags 是可选标志符,如果匹配成功,则返回一个匹配对象;否则返回 None</td>
+</tr>
+<tr>
+<td style="text-align:left">findall(pattern,string[,flags])</td>
+<td style="text-align:left">在字符串 string 中查找正则表达式模式 pattern 的所有出现;返回一个匹配对象的列表</td>
+</tr>
+<tr>
+<td style="text-align:left">finditer(pattern,string[, flags])</td>
+<td style="text-align:left">和 findall()相同,但返回的不是列表而是迭代器;对 于每个匹配,该迭代器返回一个匹配对象</td>
+</tr>
+<tr>
+<td style="text-align:left">匹配对象的方法</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">split(pattern,string, max=0)</td>
+<td style="text-align:left">根据正则表达式 pattern 中的分隔符把字符 string 分割为一个列表,返回成功匹配的列表,最多分割 max 次(默认是分割所有匹配的地方)</td>
+</tr>
+<tr>
+<td style="text-align:left">sub(pattern, repl, string, max=0)</td>
+<td style="text-align:left">把字符串 string 中所有匹配正则表达式 pattern 的地方替换成字符串 repl,如果 max 的值没有给出,则对所有匹配的地方进行替换</td>
+</tr>
+<tr>
+<td style="text-align:left">group(num=0)</td>
+<td style="text-align:left">返回全部匹配对象(或指定编号是 num 的子组)</td>
+</tr>
+<tr>
+<td style="text-align:left">groups()</td>
+<td style="text-align:left">返回一个包含全部匹配的子组的元组(如果没有成功匹配,就返回一个空元组)</td>
+</tr>
+</tbody>
+</table>
 <p>将一个正则表达式的样式编译为Python中正则表达式对象。由于正则表达式在执行过程中被多次用于比较，通过re.compile()进行预编译可以提升性能。􏰁</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&gt;&gt;&gt; import re</div><div class="line">&gt;&gt;&gt; p = re.compile(&apos;[a-z]+&apos;)</div><div class="line">&gt;&gt;&gt; p</div><div class="line">&lt;_sre.SRE_Pattern object at 0x108174df0&gt;</div><div class="line">&gt;&gt;&gt; a = p.match(&apos;abc&apos;)</div><div class="line">&gt;&gt;&gt; a</div><div class="line">&lt;_sre.SRE_Match object at 0x10823c9f0&gt;</div><div class="line">&gt;&gt;&gt; re.match(p,&apos;abc&apos;)</div><div class="line">&lt;_sre.SRE_Match object at 0x10823ca58&gt;</div><div class="line">&gt;&gt;&gt; re.match(p,&apos;123&apos;)  #匹配失败返回None</div><div class="line">&gt;&gt;&gt;</div><div class="line">#不使用compile同样可以</div><div class="line">&gt;&gt;&gt; re.match(r&apos;[a-z]+&apos;,&apos;abc&apos;)</div><div class="line">&lt;_sre.SRE_Match object at 0x10823c988&gt;</div><div class="line">&gt;&gt;&gt; re.match(r&apos;[a-z]+&apos;,&apos;123&apos;)</div></pre></td></tr></table></figure>
 <h3 id="匹配对象和方法"><a href="#匹配对象和方法" class="headerlink" title="匹配对象和方法"></a>匹配对象和方法</h3><p>在处理正则表达式时，除regex对象外，还有另一种对象类型-匹配对象。这些对象是在match() 或 search()被成功调用之后所返回的结果。匹配对象有两个主要方法:<strong>group() 和 groups()</strong></p>
