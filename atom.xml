@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-11T12:22:38.000Z</updated>
+  <updated>2017-04-11T12:27:58.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,33 +20,20 @@
     <link href="http://yoursite.com/2017/04/11/ansible-callback-plugins/"/>
     <id>http://yoursite.com/2017/04/11/ansible-callback-plugins/</id>
     <published>2017-04-11T12:20:44.000Z</published>
-    <updated>2017-04-11T12:22:38.000Z</updated>
+    <updated>2017-04-11T12:27:58.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Developing-Plugins"><a href="#Developing-Plugins" class="headerlink" title="Developing Plugins"></a>Developing Plugins</h2><p>插件是增强ansible核心功能的代码片段，我们可以很方便的使用插件，编写插件代码。如果我们想要对ansible的执行结果进行分析，根据返回结果发送邮件，写入日志等都可以通过插件实现。</p>
 <h3 id="插件列表"><a href="#插件列表" class="headerlink" title="插件列表"></a>插件列表</h3><ul>
-<li><p><strong>Action plugins</strong> are front ends to modules and can execute actions on the controller before calling the modules themselves.（操作插件，调用模块之前执行操作）</p>
-</li>
-<li><p><strong>Cache plugins</strong> are used to keep a cache of ‘facts’ to avoid costly fact-gathering operations.（缓存插件，缓存主机facts变量）</p>
-</li>
-<li><p><strong>Callback plugins</strong> enable you to hook into Ansible events for display or logging purposes.（回调插件，对事件进行显示和记录，这个常用）</p>
-</li>
-</ul>
-<a id="more"></a>
-<ul>
-<li><p><strong>Connection plugins</strong> define how to communicate with inventory hosts.（连接插件，定义如何与节点主机通信）</p>
-</li>
-<li><p><strong>Filters plugins</strong> allow you to manipulate data inside Ansible plays and/or templates. This is a Jinja2 feature; Ansible ships extra filter plugins.（过滤插件，Jinja2功能）</p>
-</li>
-<li><p><strong>Lookup plugins</strong> are used to pull data from an external source. These are implemented using a custom Jinja2 function.（查找插件用于从外部源提取数据）</p>
-</li>
-<li><p><strong>Strategy plugins</strong> control the flow of a play and execution logic.（策略插件）</p>
-</li>
-<li><p><strong>Shell plugins</strong> deal with low-level commands and formatting for the different shells Ansible can encounter on remote hosts.（shell插件处理低级别命令和格式化）</p>
-</li>
-<li><p><strong>Test plugins</strong> allow you to validate data inside Ansible plays and/or templates. This is a Jinja2 feature; Ansible ships extra test plugins.（测试插件）</p>
-</li>
-<li><p><strong>Vars plugins</strong> inject additional variable data into Ansible runs that did not come from an inventory, playbook, or the command line.（Vars插件）</p>
-</li>
+<li><strong>Action plugins</strong> are front ends to modules and can execute actions on the controller before calling the modules themselves.（操作插件，调用模块之前执行操作）</li>
+<li><strong>Cache plugins</strong> are used to keep a cache of ‘facts’ to avoid costly fact-gathering operations.（缓存插件，缓存主机facts变量）</li>
+<li><strong>Callback plugins</strong> enable you to hook into Ansible events for display or logging purposes.（回调插件，对事件进行显示和记录，这个常用）<a id="more"></a></li>
+<li><strong>Connection plugins</strong> define how to communicate with inventory hosts.（连接插件，定义如何与节点主机通信）</li>
+<li><strong>Filters plugins</strong> allow you to manipulate data inside Ansible plays and/or templates. This is a Jinja2 feature; Ansible ships extra filter plugins.（过滤插件，Jinja2功能）</li>
+<li><strong>Lookup plugins</strong> are used to pull data from an external source. These are implemented using a custom Jinja2 function.（查找插件用于从外部源提取数据）</li>
+<li><strong>Strategy plugins</strong> control the flow of a play and execution logic.（策略插件）</li>
+<li><strong>Shell plugins</strong> deal with low-level commands and formatting for the different shells Ansible can encounter on remote hosts.（shell插件处理低级别命令和格式化）</li>
+<li><strong>Test plugins</strong> allow you to validate data inside Ansible plays and/or templates. This is a Jinja2 feature; Ansible ships extra test plugins.（测试插件）</li>
+<li><strong>Vars plugins</strong> inject additional variable data into Ansible runs that did not come from an inventory, playbook, or the command line.（Vars插件）</li>
 </ul>
 <h2 id="Callback-plugins"><a href="#Callback-plugins" class="headerlink" title="Callback plugins"></a>Callback plugins</h2><p>在日常开发中使用回调插件比较多一点，通过callback插件，可以实现回调功能，里面定义了若干场景，如主机不可达，执行任务失败，执行任务成功等，分别对应不同的方法，这样就可以实现在不同的场景触发不同的操作。</p>
 <h3 id="设置回调功能参数"><a href="#设置回调功能参数" class="headerlink" title="设置回调功能参数"></a>设置回调功能参数</h3><p>该功能ansible默认是关闭的</p>
@@ -69,13 +56,9 @@
     
       &lt;h2 id=&quot;Developing-Plugins&quot;&gt;&lt;a href=&quot;#Developing-Plugins&quot; class=&quot;headerlink&quot; title=&quot;Developing Plugins&quot;&gt;&lt;/a&gt;Developing Plugins&lt;/h2&gt;&lt;p&gt;插件是增强ansible核心功能的代码片段，我们可以很方便的使用插件，编写插件代码。如果我们想要对ansible的执行结果进行分析，根据返回结果发送邮件，写入日志等都可以通过插件实现。&lt;/p&gt;
 &lt;h3 id=&quot;插件列表&quot;&gt;&lt;a href=&quot;#插件列表&quot; class=&quot;headerlink&quot; title=&quot;插件列表&quot;&gt;&lt;/a&gt;插件列表&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Action plugins&lt;/strong&gt; are front ends to modules and can execute actions on the controller before calling the modules themselves.（操作插件，调用模块之前执行操作）&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Cache plugins&lt;/strong&gt; are used to keep a cache of ‘facts’ to avoid costly fact-gathering operations.（缓存插件，缓存主机facts变量）&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Callback plugins&lt;/strong&gt; enable you to hook into Ansible events for display or logging purposes.（回调插件，对事件进行显示和记录，这个常用）&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;&lt;strong&gt;Action plugins&lt;/strong&gt; are front ends to modules and can execute actions on the controller before calling the modules themselves.（操作插件，调用模块之前执行操作）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cache plugins&lt;/strong&gt; are used to keep a cache of ‘facts’ to avoid costly fact-gathering operations.（缓存插件，缓存主机facts变量）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Callback plugins&lt;/strong&gt; enable you to hook into Ansible events for display or logging purposes.（回调插件，对事件进行显示和记录，这个常用）
     
     </summary>
     
