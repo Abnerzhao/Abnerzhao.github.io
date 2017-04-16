@@ -332,6 +332,39 @@
   </entry>
   
   <entry>
+    <title>ansible vars变量和templates jinja2渲染</title>
+    <link href="http://yoursite.com/2017/02/16/ansilbe-vars-and-template/"/>
+    <id>http://yoursite.com/2017/02/16/ansilbe-vars-and-template/</id>
+    <published>2017-02-16T09:38:10.000Z</published>
+    <updated>2017-04-16T09:40:23.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="Ansible-roles"><a href="#Ansible-roles" class="headerlink" title="Ansible roles"></a>Ansible roles</h3><p>Ansible roles用于层次性、结构化地组织playbook，简单介绍一下ansible playbook中关于变量的两个roles内的目录。</p>
+<ul>
+<li>vars目录：用于定义此角色用到的变量</li>
+<li>templates目录：template模块会自动在此目录中寻找Jinja2模板文件</li>
+</ul>
+<h3 id="vars目录"><a href="#vars目录" class="headerlink" title="vars目录"></a>vars目录</h3><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">$ cat vars/main.yml</div><div class="line">---</div><div class="line">filepath: /tmp</div><div class="line">user: ubuntu</div><div class="line">group: ubuntu</div><div class="line"></div><div class="line">$ cat task/main.yml</div><div class="line">- name: copy test script</div><div class="line">  copy: src=test.sh dest=&#123;&#123;filepath&#125;&#125;/test.sh owner=&#123;&#123;user&#125;&#125; group=&#123;&#123;group&#125;&#125; mode=<span class="number">0755</span></div><div class="line"></div><div class="line">$ ansible-playbook  -i hosts  test.yml</div><div class="line"></div><div class="line">PLAY [default_group] **********************************************************</div><div class="line"></div><div class="line">TASK: [test | copy test script] ***********************************************</div><div class="line">changed: [<span class="number">172.31</span><span class="number">.30</span><span class="number">.178</span>]</div><div class="line"></div><div class="line">PLAY RECAP ********************************************************************</div><div class="line"><span class="number">172.31</span><span class="number">.30</span><span class="number">.178</span>              : ok=<span class="number">1</span>    changed=<span class="number">1</span>    unreachable=<span class="number">0</span>    failed=<span class="number">0</span></div><div class="line"></div><div class="line">$ ll  /tmp/mytest.sh</div><div class="line">-rwxr-xr-x <span class="number">1</span> ubuntu ubuntu <span class="number">58</span> Apr <span class="number">14</span> <span class="number">12</span>:<span class="number">21</span> /tmp/mytest.sh</div></pre></td></tr></table></figure>
+<h3 id="templates目录"><a href="#templates目录" class="headerlink" title="templates目录"></a>templates目录</h3><p>单个变量值</p>
+<figure class="highlight"><table><tr><td class="code"><pre><div class="line">$ cat templates/test.j2</div><div class="line">&#123;&#123; item &#125;&#125;</div><div class="line"></div><div class="line">$ cat vars/main.yml</div><div class="line">---</div><div class="line">var_a: a</div><div class="line">var_b: b</div><div class="line"></div><div class="line">$ cat tasks/main.yml</div><div class="line">- name: parametrized template - a</div><div class="line">  template: src=test.j2 dest=/tmp/template_A</div><div class="line">  with_items: var_a</div><div class="line"></div><div class="line">- name: parametrized template - b</div><div class="line">  template: src=test.j2 dest=/tmp/template_B</div><div class="line">  with_items: var_b</div><div class="line"></div><div class="line">$ ansible-playbook  -i hosts  startoftwares.yml</div><div class="line"></div><div class="line">PLAY [default_group] **********************************************************</div><div class="line"></div><div class="line">TASK: [test | parametrized template - a] **************************************</div><div class="line">changed: [172.31.30.178] =&gt; (item=a)</div><div class="line"></div><div class="line">TASK: [test | parametrized template - b] **************************************</div><div class="line">changed: [172.31.30.178] =&gt; (item=b)</div><div class="line"></div><div class="line">PLAY RECAP ********************************************************************</div><div class="line">172.31.30.178              : ok=2    changed=2    unreachable=0    failed=0</div><div class="line"></div><div class="line">$ cat /tmp/template_A</div><div class="line">a</div><div class="line">$ cat /tmp/template_B</div><div class="line">b</div></pre></td></tr></table></figure>
+<p>一个变量对应多个值</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat templates/test.conf.j2</div><div class="line">some_var_&#123;&#123; item.var_1 &#125;&#125; = &#123;&#123; item.var_1 &#125;&#125;</div><div class="line">some_var_&#123;&#123; item.var_2 &#125;&#125; = &#123;&#123; item.var_2 &#125;&#125;</div><div class="line"></div><div class="line">$ cat vars/main.yml</div><div class="line">---</div><div class="line">var_a:</div><div class="line">  -</div><div class="line">    var_1: a1</div><div class="line">    var_2: a2</div><div class="line">var_b:</div><div class="line">  -</div><div class="line">    var_1: b1</div><div class="line">    var_2: b2</div><div class="line"></div><div class="line">$ cat tasks/main.yml</div><div class="line">- name: parametrized template - a</div><div class="line">  template: src=test.conf.j2 dest=/tmp/template_A</div><div class="line">  with_items: var_a</div><div class="line"></div><div class="line">- name: parametrized template - b</div><div class="line">  template: src=test.conf.j2 dest=/tmp/template_B</div><div class="line">  with_items: var_b    </div><div class="line"></div><div class="line">$ ansible-playbook  -i hosts  test.yml</div><div class="line"></div><div class="line">PLAY [default_group] **********************************************************</div><div class="line"></div><div class="line">TASK: [test | parametrized template - a] **************************************</div><div class="line">changed: [172.31.30.178] =&gt; (item=&#123;&apos;var_2&apos;: &apos;a2&apos;, &apos;var_1&apos;: &apos;a1&apos;&#125;)</div><div class="line"></div><div class="line">TASK: [test | parametrized template - b] **************************************</div><div class="line">changed: [172.31.30.178] =&gt; (item=&#123;&apos;var_2&apos;: &apos;b2&apos;, &apos;var_1&apos;: &apos;b1&apos;&#125;)</div><div class="line"></div><div class="line">PLAY RECAP ********************************************************************</div><div class="line">172.31.30.178              : ok=2    changed=2    unreachable=0    failed=0</div><div class="line"></div><div class="line">$ cat /tmp/template_A</div><div class="line">some_var_a1 = a1</div><div class="line">some_var_a2 = a2</div><div class="line">$ cat /tmp/template_B</div><div class="line">some_var_b1 = b1</div><div class="line">some_var_b2 = b2</div></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://docs.ansible.com/ansible/template_module.html" target="_blank" rel="external">ansible template_module</a><br><a href="http://stackoverflow.com/questions/31142369/how-to-use-template-module-with-different-set-of-variables" target="_blank" rel="external">how-to-use-template-module-with-different-set-of-variables</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;Ansible-roles&quot;&gt;&lt;a href=&quot;#Ansible-roles&quot; class=&quot;headerlink&quot; title=&quot;Ansible roles&quot;&gt;&lt;/a&gt;Ansible roles&lt;/h3&gt;&lt;p&gt;Ansible roles用于层次性、结构化地组织p
+    
+    </summary>
+    
+      <category term="Tools" scheme="http://yoursite.com/categories/Tools/"/>
+    
+    
+      <category term="ansible" scheme="http://yoursite.com/tags/ansible/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Zabbix Low-level discovery</title>
     <link href="http://yoursite.com/2017/01/21/low-level-discovery/"/>
     <id>http://yoursite.com/2017/01/21/low-level-discovery/</id>
@@ -2041,32 +2074,6 @@ $ apt-get install (packagename)
       <category term="ubuntu" scheme="http://yoursite.com/tags/ubuntu/"/>
     
       <category term="apt" scheme="http://yoursite.com/tags/apt/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>运维必备之Linux命令概览</title>
-    <link href="http://yoursite.com/2016/01/01/command/"/>
-    <id>http://yoursite.com/2016/01/01/command/</id>
-    <published>2016-01-01T12:48:46.000Z</published>
-    <updated>2016-11-07T05:14:48.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/C3EB9F70-7F51-4B46-8B14-825CD9B8C11B.png" alt=""></p>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/BF852F66-2D8E-42D8-A4EB-2826A98C354C.png" alt=""></p>
-<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/429014F3-442B-4115-A97D-32D62E6BEE7F.png" alt=""></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.brendangregg.com/linuxperf.html" target="_blank" rel="external">Linux Performance</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;监控&quot;&gt;&lt;a href=&quot;#监控&quot; class=&quot;headerlink&quot; title=&quot;监控&quot;&gt;&lt;/a&gt;监控&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;http://7vzmp5.com1.z0.glb.clouddn.com/C3EB9F70-7F51-4B46-8B1
-    
-    </summary>
-    
-      <category term="Cmd" scheme="http://yoursite.com/categories/Cmd/"/>
-    
-    
-      <category term="命令汇总" scheme="http://yoursite.com/tags/%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB/"/>
     
   </entry>
   
