@@ -336,9 +336,9 @@
     <link href="http://yoursite.com/2017/02/16/ansilbe-vars-and-template/"/>
     <id>http://yoursite.com/2017/02/16/ansilbe-vars-and-template/</id>
     <published>2017-02-16T09:38:10.000Z</published>
-    <updated>2017-04-16T09:43:25.000Z</updated>
+    <updated>2017-04-16T09:46:04.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="Ansible-roles"><a href="#Ansible-roles" class="headerlink" title="Ansible roles"></a>Ansible roles</h3><p>Ansible roles用于层次性、结构化地组织playbook，简单介绍一下ansible playbook中关于变量的两个roles内的目录。</p>
+    <content type="html"><![CDATA[<h3 id="Ansible-roles"><a href="#Ansible-roles" class="headerlink" title="Ansible roles"></a>Ansible roles</h3><p>Ansible roles用于层次性、结构化地组织playbook，简单介绍一下ansible playbook中关于变量的两个roles目录。</p>
 <ul>
 <li>vars目录：用于定义此角色用到的变量</li>
 <li>templates目录：template模块会自动在此目录中寻找Jinja2模板文件</li>
@@ -354,7 +354,7 @@
     
     <summary type="html">
     
-      &lt;h3 id=&quot;Ansible-roles&quot;&gt;&lt;a href=&quot;#Ansible-roles&quot; class=&quot;headerlink&quot; title=&quot;Ansible roles&quot;&gt;&lt;/a&gt;Ansible roles&lt;/h3&gt;&lt;p&gt;Ansible roles用于层次性、结构化地组织playbook，简单介绍一下ansible playbook中关于变量的两个roles内的目录。&lt;/p&gt;
+      &lt;h3 id=&quot;Ansible-roles&quot;&gt;&lt;a href=&quot;#Ansible-roles&quot; class=&quot;headerlink&quot; title=&quot;Ansible roles&quot;&gt;&lt;/a&gt;Ansible roles&lt;/h3&gt;&lt;p&gt;Ansible roles用于层次性、结构化地组织playbook，简单介绍一下ansible playbook中关于变量的两个roles目录。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;vars目录：用于定义此角色用到的变量&lt;/li&gt;
 &lt;li&gt;templates目录：template模块会自动在此目录中寻找Jinja2模板文件&lt;/li&gt;
