@@ -18,6 +18,7 @@ ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/."
 <li>user’s configuration file (~/.ssh/config)</li>
 <li>system-wide configuration file (/etc/ssh/ssh_config)</li>
 </ul>
+<a id="more"></a>
 <p>~/.ssh/config这个文件是针对某个用户，/etc/ssh/ssh_config是针对所有系统用户。两者配置语法结构相同。</p>
 <p>简单编辑~/.ssh/config文件<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat .ssh/config</div><div class="line">Host myaws</div><div class="line">    User ubuntu</div><div class="line">    HostName ec2-xx-xxx-xxx-xx.ap-southeast-1.compute.amazonaws.com</div><div class="line">    IdentityFile  ~/.ssh/my.pem</div></pre></td></tr></table></figure></p>
 <p>登陆主机<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ ssh myaws</div><div class="line">之前的登录方式：</div><div class="line">$ ssh -i ~/.ssh/my.pem ubuntu@ec2-xx-xxx-xxx-xx.ap-southeast-1.compute.amazonaws.com</div></pre></td></tr></table></figure></p>

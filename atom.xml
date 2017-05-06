@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-05-06T08:04:51.000Z</updated>
+  <updated>2017-05-06T08:06:56.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/05/06/ssh-config/"/>
     <id>http://yoursite.com/2017/05/06/ssh-config/</id>
     <published>2017-05-06T08:01:31.000Z</published>
-    <updated>2017-05-06T08:04:51.000Z</updated>
+    <updated>2017-05-06T08:06:56.000Z</updated>
     
     <content type="html"><![CDATA[<p>自己弄了台aws云主机，每次登陆需要指定pem文件，用户名和主机名(或ip)，感觉挺麻烦的。通过ssh配置文件可以偷个懒。</p>
 <h3 id="ssh-config"><a href="#ssh-config" class="headerlink" title="ssh_config"></a>ssh_config</h3><p>通过 ssh_config man手册我们知道对于ssh client进行远程连接可以用命令行指定参数也可以通过配置文件来设置。</p>
@@ -29,6 +29,7 @@
 <li>user’s configuration file (~/.ssh/config)</li>
 <li>system-wide configuration file (/etc/ssh/ssh_config)</li>
 </ul>
+<a id="more"></a>
 <p>~/.ssh/config这个文件是针对某个用户，/etc/ssh/ssh_config是针对所有系统用户。两者配置语法结构相同。</p>
 <p>简单编辑~/.ssh/config文件<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat .ssh/config</div><div class="line">Host myaws</div><div class="line">    User ubuntu</div><div class="line">    HostName ec2-xx-xxx-xxx-xx.ap-southeast-1.compute.amazonaws.com</div><div class="line">    IdentityFile  ~/.ssh/my.pem</div></pre></td></tr></table></figure></p>
 <p>登陆主机<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ ssh myaws</div><div class="line">之前的登录方式：</div><div class="line">$ ssh -i ~/.ssh/my.pem ubuntu@ec2-xx-xxx-xxx-xx.ap-southeast-1.compute.amazonaws.com</div></pre></td></tr></table></figure></p>
@@ -41,7 +42,12 @@
     <summary type="html">
     
       &lt;p&gt;自己弄了台aws云主机，每次登陆需要指定pem文件，用户名和主机名(或ip)，感觉挺麻烦的。通过ssh配置文件可以偷个懒。&lt;/p&gt;
-&lt;h3 id=&quot;ssh-config&quot;&gt;&lt;a href=&quot;#ssh-config&quot; class=&quot;headerlink&quot; title=&quot;ssh
+&lt;h3 id=&quot;ssh-config&quot;&gt;&lt;a href=&quot;#ssh-config&quot; class=&quot;headerlink&quot; title=&quot;ssh_config&quot;&gt;&lt;/a&gt;ssh_config&lt;/h3&gt;&lt;p&gt;通过 ssh_config man手册我们知道对于ssh client进行远程连接可以用命令行指定参数也可以通过配置文件来设置。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;command-line options&lt;/li&gt;
+&lt;li&gt;user’s configuration file (~/.ssh/config)&lt;/li&gt;
+&lt;li&gt;system-wide configuration file (/etc/ssh/ssh_config)&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
