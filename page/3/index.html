@@ -11,7 +11,96 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'Your Google Analytics ID', 'auto');
-ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/01/01/command/" class="post-link">运维必备之Linux命令概览</a></h2><span class="post-time">Jan 1, 2016</span><div class="post-content"><h3 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/C3EB9F70-7F51-4B46-8B14-825CD9B8C11B.png" alt=""></p>
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Abner</a><ul class="nav"><li class="nav-link"><a href="/" class="active">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><ul class="home"><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/01/09/Create-A-Local-Debian-Ubuntu-Mirror-With-apt-mirror/" class="post-link">Create A Local Debian/Ubuntu Mirror With apt-mirror</a></h2><span class="post-time">Jan 9, 2016</span><div class="post-content"><h3 id="Install-and-Configure-apt-mirror"><a href="#Install-and-Configure-apt-mirror" class="headerlink" title="Install and Configure apt-mirror"></a>Install and Configure apt-mirror</h3><p>Install apt-mirror</p>
+<pre><code>$ sudo apt-get install apt-mirror
+</code></pre><p>Configure apt-mirror</p>
+<p>编辑配置文件/etc/apt/mirror.list，以ubuntu 14.04 为例：</p>
+<pre><code>############# config ##################
+
+#
+
+set base_path      /var/spool/apt-mirror
+
+#
+
+set mirror_path    /data/mirror
+
+set skel_path   $base_path/skel
+
+set var_path   $base_path/var
+
+set cleanscript  $var_path/clean.sh      #这个脚本会记录每次同步后那些需要删除的文件
+
+# set defaultarch
+
+# set postmirror_script $var_path/postmirror.sh
+
+# set run_postmirror 0
+
+set nthreads20#用20个线程去wget镜像
+
+set _tilde 0
+
+#
+
+############# end config ##############
+
+deb http://cn.archive.ubuntu.com/ubuntu trusty main restricted universe multiverse
+
+deb http://cn.archive.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
+
+deb http://cn.archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse
+
+deb http://cn.archive.ubuntu.com/ubuntu trusty-proposed main restricted universe multiverse
+
+deb http://cn.archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse
+
+deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty main restricted universe multiverse
+
+deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
+
+deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse
+
+deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty-proposed main restricted universe multiverse
+
+deb-i386 http://cn.archive.ubuntu.com/ubun trustytu-backports main restricted universe multiverse
+
+# 如果这个源是要用来做pxe启动的话需要添加(因为默认没有将这几个文件同步过来)
+
+deb http://cn.archive.ubuntu.com/ubuntu trusty main/debian-installer restricted/debian-installer universe/debian-installer multiverse/debian-installer
+
+deb-i386 ttp://cn.archive.ubuntu.com/ubuntu trusty main/debian-installer restricted/debian-installer universe/debian-installer multiverse/debian-installer
+</code></pre><p>镜像官方仓库所有软件</p>
+<pre><code>$ sudo apt-mirror          
+//apt-mirror成功后会执行/var/spool/apt-mirror/var/clean.sh完成同步后的清理工作
+</code></pre><h3 id="源的升级与更新"><a href="#源的升级与更新" class="headerlink" title="源的升级与更新"></a>源的升级与更新</h3><p>日常升级</p>
+<pre><code>$ sudo apt-mirror
+</code></pre><p>计划任务自动更新</p>
+<pre><code>0 4 * * * /usr/bin/apt-mirror &gt;&gt; /var/spool/apt-mirror/var/cron.log
+</code></pre><h3 id="使用nginx搭建本地镜像源"><a href="#使用nginx搭建本地镜像源" class="headerlink" title="使用nginx搭建本地镜像源"></a>使用nginx搭建本地镜像源</h3><h4 id="nginx-安装配置"><a href="#nginx-安装配置" class="headerlink" title="nginx 安装配置"></a>nginx 安装配置</h4><p>nginx 安装</p>
+<p>参考：<a href="http://nginx.org/en/docs/install.html" target="_blank" rel="external">官方文档</a></p>
+<p>nginx 基本配置</p>
+<p>编辑配置文件 /usr/local/nginx/conf/sites-enabled/mirror.conf</p>
+<pre><code>server {
+listen       80;
+server_name  _;
+root         /data/mirror/web;
+autoindex    on;
+}
+</code></pre><p>在<code>/data/mirror/web</code>目录做一个镜像目录的软连接</p>
+<pre><code>$ ln -s /data/mirror/archive.ubuntu.com/ubuntu/ /data/mirror/web/ubuntu
+</code></pre><p>启动nginx服务</p>
+<pre><code>$ sudo /usr/local/nginx/sbin/nginx -t
+$ sudo /usr/local/nginx/sbin/nginx
+</code></pre><p>本地测试</p>
+<p>在浏览器输入搭建nginx机器IP，也可以配置域名访问</p>
+<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/26720CDE-B91E-40F3-8D46-CAC92FAE90F2.png" alt=""></p>
+<h3 id="客户端使用测试"><a href="#客户端使用测试" class="headerlink" title="客户端使用测试"></a>客户端使用测试</h3><p>编辑配置文件 /etc/apt/sources.list 或在/etc/apt/sources.list.d/ 目录下新建文件，并在文件最前面写入如下字段：</p>
+<pre><code>deb http://10.249.17.26/ubuntu precise main universe
+</code></pre><p>使用</p>
+<pre><code>$ apt-get update
+$ apt-get install (packagename)
+</code></pre></div></article></li><li class="post-item"><article class="post"><h2 class="post-title"><a href="/2016/01/01/command/" class="post-link">运维必备之Linux命令概览</a></h2><span class="post-time">Jan 1, 2016</span><div class="post-content"><h3 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/C3EB9F70-7F51-4B46-8B14-825CD9B8C11B.png" alt=""></p>
 <h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/BF852F66-2D8E-42D8-A4EB-2826A98C354C.png" alt=""></p>
 <h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/429014F3-442B-4115-A97D-32D62E6BEE7F.png" alt=""></p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.brendangregg.com/linuxperf.html" target="_blank" rel="external">Linux Performance</a></p>

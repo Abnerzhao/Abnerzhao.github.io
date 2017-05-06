@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-12T02:13:31.000Z</updated>
+  <updated>2017-05-06T08:04:51.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,43 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ssh config 配置小技巧</title>
+    <link href="http://yoursite.com/2017/05/06/ssh-config/"/>
+    <id>http://yoursite.com/2017/05/06/ssh-config/</id>
+    <published>2017-05-06T08:01:31.000Z</published>
+    <updated>2017-05-06T08:04:51.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>自己弄了台aws云主机，每次登陆需要指定pem文件，用户名和主机名(或ip)，感觉挺麻烦的。通过ssh配置文件可以偷个懒。</p>
+<h3 id="ssh-config"><a href="#ssh-config" class="headerlink" title="ssh_config"></a>ssh_config</h3><p>通过 ssh_config man手册我们知道对于ssh client进行远程连接可以用命令行指定参数也可以通过配置文件来设置。</p>
+<ul>
+<li>command-line options</li>
+<li>user’s configuration file (~/.ssh/config)</li>
+<li>system-wide configuration file (/etc/ssh/ssh_config)</li>
+</ul>
+<p>~/.ssh/config这个文件是针对某个用户，/etc/ssh/ssh_config是针对所有系统用户。两者配置语法结构相同。</p>
+<p>简单编辑~/.ssh/config文件<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat .ssh/config</div><div class="line">Host myaws</div><div class="line">    User ubuntu</div><div class="line">    HostName ec2-xx-xxx-xxx-xx.ap-southeast-1.compute.amazonaws.com</div><div class="line">    IdentityFile  ~/.ssh/my.pem</div></pre></td></tr></table></figure></p>
+<p>登陆主机<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ ssh myaws</div><div class="line">之前的登录方式：</div><div class="line">$ ssh -i ~/.ssh/my.pem ubuntu@ec2-xx-xxx-xxx-xx.ap-southeast-1.compute.amazonaws.com</div></pre></td></tr></table></figure></p>
+<p>除了基本的用户名、主机、key文件，在~/.ssh/config文件当中我们还可以指定端口，配置ProxyCommand等</p>
+<h3 id="ProxyCommand"><a href="#ProxyCommand" class="headerlink" title="ProxyCommand"></a>ProxyCommand</h3><p>ProxyCommand指定一个命令通过shell来执行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat .ssh/config</div><div class="line">Host 172.31.*.*</div><div class="line">    User ubuntu</div><div class="line">    ProxyCommand ssh proxyuser@proxyip -p 22 nc %h %p 2&gt; /dev/null</div><div class="line">    StrictHostKeyChecking no</div><div class="line">    ServerAliveInterval    60</div><div class="line">    TCPKeepAlive           yes</div><div class="line">    ControlPersist         30m</div><div class="line">Host 10.10.0.*</div><div class="line">    User ubuntu</div><div class="line">    ProxyCommand ssh -p 55552 proxyuser@proxyip nc %h %p 2&gt; /dev/null</div><div class="line">    StrictHostKeyChecking no</div><div class="line">    ServerAliveInterval    60</div><div class="line">    TCPKeepAlive           yes</div></pre></td></tr></table></figure>
+<p>当我们ssh连接 173.31.x.x和10.10.0.x时，实际上是通过proxy去连接的。通过nc命令进行通信，%h表示远程主机，%p表示端口。ProxyCommand还可以实现https代理更多信息请参考ssh_config man帮助。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;自己弄了台aws云主机，每次登陆需要指定pem文件，用户名和主机名(或ip)，感觉挺麻烦的。通过ssh配置文件可以偷个懒。&lt;/p&gt;
+&lt;h3 id=&quot;ssh-config&quot;&gt;&lt;a href=&quot;#ssh-config&quot; class=&quot;headerlink&quot; title=&quot;ssh
+    
+    </summary>
+    
+      <category term="Ops" scheme="http://yoursite.com/categories/Ops/"/>
+    
+    
+      <category term="ssh_config" scheme="http://yoursite.com/tags/ssh-config/"/>
+    
+  </entry>
   
   <entry>
     <title>Ansible 回调插件简单使用</title>
@@ -1966,119 +2003,6 @@ mysql&gt; show databases;
     
     
       <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Create A Local Debian/Ubuntu Mirror With apt-mirror</title>
-    <link href="http://yoursite.com/2016/01/09/Create-A-Local-Debian-Ubuntu-Mirror-With-apt-mirror/"/>
-    <id>http://yoursite.com/2016/01/09/Create-A-Local-Debian-Ubuntu-Mirror-With-apt-mirror/</id>
-    <published>2016-01-09T14:18:45.000Z</published>
-    <updated>2016-11-07T05:14:48.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="Install-and-Configure-apt-mirror"><a href="#Install-and-Configure-apt-mirror" class="headerlink" title="Install and Configure apt-mirror"></a>Install and Configure apt-mirror</h3><p>Install apt-mirror</p>
-<pre><code>$ sudo apt-get install apt-mirror
-</code></pre><p>Configure apt-mirror</p>
-<p>编辑配置文件/etc/apt/mirror.list，以ubuntu 14.04 为例：</p>
-<pre><code>############# config ##################
-
-#
-
-set base_path      /var/spool/apt-mirror
-
-#
-
-set mirror_path    /data/mirror
-
-set skel_path   $base_path/skel
-
-set var_path   $base_path/var
-
-set cleanscript  $var_path/clean.sh      #这个脚本会记录每次同步后那些需要删除的文件
-
-# set defaultarch
-
-# set postmirror_script $var_path/postmirror.sh
-
-# set run_postmirror 0
-
-set nthreads20#用20个线程去wget镜像
-
-set _tilde 0
-
-#
-
-############# end config ##############
-
-deb http://cn.archive.ubuntu.com/ubuntu trusty main restricted universe multiverse
-
-deb http://cn.archive.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
-
-deb http://cn.archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse
-
-deb http://cn.archive.ubuntu.com/ubuntu trusty-proposed main restricted universe multiverse
-
-deb http://cn.archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse
-
-deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty main restricted universe multiverse
-
-deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
-
-deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse
-
-deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty-proposed main restricted universe multiverse
-
-deb-i386 http://cn.archive.ubuntu.com/ubun trustytu-backports main restricted universe multiverse
-
-# 如果这个源是要用来做pxe启动的话需要添加(因为默认没有将这几个文件同步过来)
-
-deb http://cn.archive.ubuntu.com/ubuntu trusty main/debian-installer restricted/debian-installer universe/debian-installer multiverse/debian-installer
-
-deb-i386 ttp://cn.archive.ubuntu.com/ubuntu trusty main/debian-installer restricted/debian-installer universe/debian-installer multiverse/debian-installer
-</code></pre><p>镜像官方仓库所有软件</p>
-<pre><code>$ sudo apt-mirror          
-//apt-mirror成功后会执行/var/spool/apt-mirror/var/clean.sh完成同步后的清理工作
-</code></pre><h3 id="源的升级与更新"><a href="#源的升级与更新" class="headerlink" title="源的升级与更新"></a>源的升级与更新</h3><p>日常升级</p>
-<pre><code>$ sudo apt-mirror
-</code></pre><p>计划任务自动更新</p>
-<pre><code>0 4 * * * /usr/bin/apt-mirror &gt;&gt; /var/spool/apt-mirror/var/cron.log
-</code></pre><h3 id="使用nginx搭建本地镜像源"><a href="#使用nginx搭建本地镜像源" class="headerlink" title="使用nginx搭建本地镜像源"></a>使用nginx搭建本地镜像源</h3><h4 id="nginx-安装配置"><a href="#nginx-安装配置" class="headerlink" title="nginx 安装配置"></a>nginx 安装配置</h4><p>nginx 安装</p>
-<p>参考：<a href="http://nginx.org/en/docs/install.html" target="_blank" rel="external">官方文档</a></p>
-<p>nginx 基本配置</p>
-<p>编辑配置文件 /usr/local/nginx/conf/sites-enabled/mirror.conf</p>
-<pre><code>server {
-listen       80;
-server_name  _;
-root         /data/mirror/web;
-autoindex    on;
-}
-</code></pre><p>在<code>/data/mirror/web</code>目录做一个镜像目录的软连接</p>
-<pre><code>$ ln -s /data/mirror/archive.ubuntu.com/ubuntu/ /data/mirror/web/ubuntu
-</code></pre><p>启动nginx服务</p>
-<pre><code>$ sudo /usr/local/nginx/sbin/nginx -t
-$ sudo /usr/local/nginx/sbin/nginx
-</code></pre><p>本地测试</p>
-<p>在浏览器输入搭建nginx机器IP，也可以配置域名访问</p>
-<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/26720CDE-B91E-40F3-8D46-CAC92FAE90F2.png" alt=""></p>
-<h3 id="客户端使用测试"><a href="#客户端使用测试" class="headerlink" title="客户端使用测试"></a>客户端使用测试</h3><p>编辑配置文件 /etc/apt/sources.list 或在/etc/apt/sources.list.d/ 目录下新建文件，并在文件最前面写入如下字段：</p>
-<pre><code>deb http://10.249.17.26/ubuntu precise main universe
-</code></pre><p>使用</p>
-<pre><code>$ apt-get update
-$ apt-get install (packagename)
-</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;Install-and-Configure-apt-mirror&quot;&gt;&lt;a href=&quot;#Install-and-Configure-apt-mirror&quot; class=&quot;headerlink&quot; title=&quot;Install and Configure apt-mi
-    
-    </summary>
-    
-      <category term="Ops" scheme="http://yoursite.com/categories/Ops/"/>
-    
-    
-      <category term="ubuntu" scheme="http://yoursite.com/tags/ubuntu/"/>
-    
-      <category term="apt" scheme="http://yoursite.com/tags/apt/"/>
     
   </entry>
   
