@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-05-06T08:06:56.000Z</updated>
+  <updated>2017-04-12T02:13:31.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,49 +14,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>ssh config 配置小技巧</title>
-    <link href="http://yoursite.com/2017/05/06/ssh-config/"/>
-    <id>http://yoursite.com/2017/05/06/ssh-config/</id>
-    <published>2017-05-06T08:01:31.000Z</published>
-    <updated>2017-05-06T08:06:56.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>自己弄了台aws云主机，每次登陆需要指定pem文件，用户名和主机名(或ip)，感觉挺麻烦的。通过ssh配置文件可以偷个懒。</p>
-<h3 id="ssh-config"><a href="#ssh-config" class="headerlink" title="ssh_config"></a>ssh_config</h3><p>通过 ssh_config man手册我们知道对于ssh client进行远程连接可以用命令行指定参数也可以通过配置文件来设置。</p>
-<ul>
-<li>command-line options</li>
-<li>user’s configuration file (~/.ssh/config)</li>
-<li>system-wide configuration file (/etc/ssh/ssh_config)</li>
-</ul>
-<a id="more"></a>
-<p>~/.ssh/config这个文件是针对某个用户，/etc/ssh/ssh_config是针对所有系统用户。两者配置语法结构相同。</p>
-<p>简单编辑~/.ssh/config文件<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat .ssh/config</div><div class="line">Host myaws</div><div class="line">    User ubuntu</div><div class="line">    HostName ec2-xx-xxx-xxx-xx.ap-southeast-1.compute.amazonaws.com</div><div class="line">    IdentityFile  ~/.ssh/my.pem</div></pre></td></tr></table></figure></p>
-<p>登陆主机<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ ssh myaws</div><div class="line">之前的登录方式：</div><div class="line">$ ssh -i ~/.ssh/my.pem ubuntu@ec2-xx-xxx-xxx-xx.ap-southeast-1.compute.amazonaws.com</div></pre></td></tr></table></figure></p>
-<p>除了基本的用户名、主机、key文件，在~/.ssh/config文件当中我们还可以指定端口，配置ProxyCommand等</p>
-<h3 id="ProxyCommand"><a href="#ProxyCommand" class="headerlink" title="ProxyCommand"></a>ProxyCommand</h3><p>ProxyCommand指定一个命令通过shell来执行</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat .ssh/config</div><div class="line">Host 172.31.*.*</div><div class="line">    User ubuntu</div><div class="line">    ProxyCommand ssh proxyuser@proxyip -p 22 nc %h %p 2&gt; /dev/null</div><div class="line">    StrictHostKeyChecking no</div><div class="line">    ServerAliveInterval    60</div><div class="line">    TCPKeepAlive           yes</div><div class="line">    ControlPersist         30m</div><div class="line">Host 10.10.0.*</div><div class="line">    User ubuntu</div><div class="line">    ProxyCommand ssh -p 55552 proxyuser@proxyip nc %h %p 2&gt; /dev/null</div><div class="line">    StrictHostKeyChecking no</div><div class="line">    ServerAliveInterval    60</div><div class="line">    TCPKeepAlive           yes</div></pre></td></tr></table></figure>
-<p>当我们ssh连接 173.31.x.x和10.10.0.x时，实际上是通过proxy去连接的。通过nc命令进行通信，%h表示远程主机，%p表示端口。ProxyCommand还可以实现https代理更多信息请参考ssh_config man帮助。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;自己弄了台aws云主机，每次登陆需要指定pem文件，用户名和主机名(或ip)，感觉挺麻烦的。通过ssh配置文件可以偷个懒。&lt;/p&gt;
-&lt;h3 id=&quot;ssh-config&quot;&gt;&lt;a href=&quot;#ssh-config&quot; class=&quot;headerlink&quot; title=&quot;ssh_config&quot;&gt;&lt;/a&gt;ssh_config&lt;/h3&gt;&lt;p&gt;通过 ssh_config man手册我们知道对于ssh client进行远程连接可以用命令行指定参数也可以通过配置文件来设置。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;command-line options&lt;/li&gt;
-&lt;li&gt;user’s configuration file (~/.ssh/config)&lt;/li&gt;
-&lt;li&gt;system-wide configuration file (/etc/ssh/ssh_config)&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="Ops" scheme="http://yoursite.com/categories/Ops/"/>
-    
-    
-      <category term="ssh_config" scheme="http://yoursite.com/tags/ssh-config/"/>
-    
-  </entry>
   
   <entry>
     <title>Ansible 回调插件简单使用</title>
@@ -375,44 +332,6 @@
   </entry>
   
   <entry>
-    <title>ansible vars变量和templates jinja2渲染</title>
-    <link href="http://yoursite.com/2017/02/16/ansilbe-vars-and-template/"/>
-    <id>http://yoursite.com/2017/02/16/ansilbe-vars-and-template/</id>
-    <published>2017-02-16T09:38:10.000Z</published>
-    <updated>2017-04-16T09:46:04.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="Ansible-roles"><a href="#Ansible-roles" class="headerlink" title="Ansible roles"></a>Ansible roles</h3><p>Ansible roles用于层次性、结构化地组织playbook，简单介绍一下ansible playbook中关于变量的两个roles目录。</p>
-<ul>
-<li>vars目录：用于定义此角色用到的变量</li>
-<li>templates目录：template模块会自动在此目录中寻找Jinja2模板文件</li>
-</ul>
-<a id="more"></a>
-<h3 id="vars目录"><a href="#vars目录" class="headerlink" title="vars目录"></a>vars目录</h3><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">$ cat vars/main.yml</div><div class="line">---</div><div class="line">filepath: /tmp</div><div class="line">user: ubuntu</div><div class="line">group: ubuntu</div><div class="line"></div><div class="line">$ cat task/main.yml</div><div class="line">- name: copy test script</div><div class="line">  copy: src=test.sh dest=&#123;&#123;filepath&#125;&#125;/test.sh owner=&#123;&#123;user&#125;&#125; group=&#123;&#123;group&#125;&#125; mode=<span class="number">0755</span></div><div class="line"></div><div class="line">$ ansible-playbook  -i hosts  test.yml</div><div class="line"></div><div class="line">PLAY [default_group] **********************************************************</div><div class="line"></div><div class="line">TASK: [test | copy test script] ***********************************************</div><div class="line">changed: [<span class="number">172.31</span><span class="number">.30</span><span class="number">.178</span>]</div><div class="line"></div><div class="line">PLAY RECAP ********************************************************************</div><div class="line"><span class="number">172.31</span><span class="number">.30</span><span class="number">.178</span>              : ok=<span class="number">1</span>    changed=<span class="number">1</span>    unreachable=<span class="number">0</span>    failed=<span class="number">0</span></div><div class="line"></div><div class="line">$ ll  /tmp/mytest.sh</div><div class="line">-rwxr-xr-x <span class="number">1</span> ubuntu ubuntu <span class="number">58</span> Apr <span class="number">14</span> <span class="number">12</span>:<span class="number">21</span> /tmp/mytest.sh</div></pre></td></tr></table></figure>
-<h3 id="templates目录"><a href="#templates目录" class="headerlink" title="templates目录"></a>templates目录</h3><p>单个变量值</p>
-<figure class="highlight"><table><tr><td class="code"><pre><div class="line">$ cat templates/test.j2</div><div class="line">&#123;&#123; item &#125;&#125;</div><div class="line"></div><div class="line">$ cat vars/main.yml</div><div class="line">---</div><div class="line">var_a: a</div><div class="line">var_b: b</div><div class="line"></div><div class="line">$ cat tasks/main.yml</div><div class="line">- name: parametrized template - a</div><div class="line">  template: src=test.j2 dest=/tmp/template_A</div><div class="line">  with_items: var_a</div><div class="line"></div><div class="line">- name: parametrized template - b</div><div class="line">  template: src=test.j2 dest=/tmp/template_B</div><div class="line">  with_items: var_b</div><div class="line"></div><div class="line">$ ansible-playbook  -i hosts  startoftwares.yml</div><div class="line"></div><div class="line">PLAY [default_group] **********************************************************</div><div class="line"></div><div class="line">TASK: [test | parametrized template - a] **************************************</div><div class="line">changed: [172.31.30.178] =&gt; (item=a)</div><div class="line"></div><div class="line">TASK: [test | parametrized template - b] **************************************</div><div class="line">changed: [172.31.30.178] =&gt; (item=b)</div><div class="line"></div><div class="line">PLAY RECAP ********************************************************************</div><div class="line">172.31.30.178              : ok=2    changed=2    unreachable=0    failed=0</div><div class="line"></div><div class="line">$ cat /tmp/template_A</div><div class="line">a</div><div class="line">$ cat /tmp/template_B</div><div class="line">b</div></pre></td></tr></table></figure>
-<p>一个变量对应多个值</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat templates/test.conf.j2</div><div class="line">some_var_&#123;&#123; item.var_1 &#125;&#125; = &#123;&#123; item.var_1 &#125;&#125;</div><div class="line">some_var_&#123;&#123; item.var_2 &#125;&#125; = &#123;&#123; item.var_2 &#125;&#125;</div><div class="line"></div><div class="line">$ cat vars/main.yml</div><div class="line">---</div><div class="line">var_a:</div><div class="line">  -</div><div class="line">    var_1: a1</div><div class="line">    var_2: a2</div><div class="line">var_b:</div><div class="line">  -</div><div class="line">    var_1: b1</div><div class="line">    var_2: b2</div><div class="line"></div><div class="line">$ cat tasks/main.yml</div><div class="line">- name: parametrized template - a</div><div class="line">  template: src=test.conf.j2 dest=/tmp/template_A</div><div class="line">  with_items: var_a</div><div class="line"></div><div class="line">- name: parametrized template - b</div><div class="line">  template: src=test.conf.j2 dest=/tmp/template_B</div><div class="line">  with_items: var_b    </div><div class="line"></div><div class="line">$ ansible-playbook  -i hosts  test.yml</div><div class="line"></div><div class="line">PLAY [default_group] **********************************************************</div><div class="line"></div><div class="line">TASK: [test | parametrized template - a] **************************************</div><div class="line">changed: [172.31.30.178] =&gt; (item=&#123;&apos;var_2&apos;: &apos;a2&apos;, &apos;var_1&apos;: &apos;a1&apos;&#125;)</div><div class="line"></div><div class="line">TASK: [test | parametrized template - b] **************************************</div><div class="line">changed: [172.31.30.178] =&gt; (item=&#123;&apos;var_2&apos;: &apos;b2&apos;, &apos;var_1&apos;: &apos;b1&apos;&#125;)</div><div class="line"></div><div class="line">PLAY RECAP ********************************************************************</div><div class="line">172.31.30.178              : ok=2    changed=2    unreachable=0    failed=0</div><div class="line"></div><div class="line">$ cat /tmp/template_A</div><div class="line">some_var_a1 = a1</div><div class="line">some_var_a2 = a2</div><div class="line">$ cat /tmp/template_B</div><div class="line">some_var_b1 = b1</div><div class="line">some_var_b2 = b2</div></pre></td></tr></table></figure>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://docs.ansible.com/ansible/template_module.html" target="_blank" rel="external">ansible template_module</a><br><a href="http://stackoverflow.com/questions/31142369/how-to-use-template-module-with-different-set-of-variables" target="_blank" rel="external">how-to-use-template-module-with-different-set-of-variables</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;Ansible-roles&quot;&gt;&lt;a href=&quot;#Ansible-roles&quot; class=&quot;headerlink&quot; title=&quot;Ansible roles&quot;&gt;&lt;/a&gt;Ansible roles&lt;/h3&gt;&lt;p&gt;Ansible roles用于层次性、结构化地组织playbook，简单介绍一下ansible playbook中关于变量的两个roles目录。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;vars目录：用于定义此角色用到的变量&lt;/li&gt;
-&lt;li&gt;templates目录：template模块会自动在此目录中寻找Jinja2模板文件&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="Tools" scheme="http://yoursite.com/categories/Tools/"/>
-    
-    
-      <category term="ansible" scheme="http://yoursite.com/tags/ansible/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Zabbix Low-level discovery</title>
     <link href="http://yoursite.com/2017/01/21/low-level-discovery/"/>
     <id>http://yoursite.com/2017/01/21/low-level-discovery/</id>
@@ -463,53 +382,6 @@
     
     
       <category term="zabbix" scheme="http://yoursite.com/tags/zabbix/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python xlrd和xlwt表格处理</title>
-    <link href="http://yoursite.com/2016/11/27/python-excel/"/>
-    <id>http://yoursite.com/2016/11/27/python-excel/</id>
-    <published>2016-11-27T11:51:03.000Z</published>
-    <updated>2017-02-15T12:53:55.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="表格处理模块"><a href="#表格处理模块" class="headerlink" title="表格处理模块"></a>表格处理模块</h2><ul>
-<li>xlwt (writing xls files)</li>
-<li>xlrd (reading xls/xlsx files)</li>
-<li>openpyxl (reading/writing xlsx files)</li>
-<li>xlsxwriter (writing xlsx files)</li>
-</ul>
-<h2 id="xlrd"><a href="#xlrd" class="headerlink" title="xlrd"></a>xlrd</h2><h3 id="excel表格示例"><a href="#excel表格示例" class="headerlink" title="excel表格示例"></a>excel表格示例</h3><p>示例表格2016-11-27.xlsx 内容如下：</p>
-<a id="more"></a>
-<p>Info工作表：<br><img src="http://7vzmp5.com1.z0.glb.clouddn.com/01522E0B-78EE-40A5-9217-DD68656485A0.png" alt=""></p>
-<p>Grade工作表：<br><img src="http://7vzmp5.com1.z0.glb.clouddn.com/81E0B26F-2120-41BC-A268-B44903D76A55.png" alt=""></p>
-<h3 id="显示工作表"><a href="#显示工作表" class="headerlink" title="显示工作表"></a>显示工作表</h3><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> xlrd</div><div class="line"></div><div class="line">dir_path = os.path.dirname(os.path.dirname(__file__))</div><div class="line">file_path = os.path.join(dir_path,<span class="string">'2016-11-27.xlsx'</span>)</div><div class="line"></div><div class="line"><span class="comment"># 打开excel</span></div><div class="line">data = xlrd.open_workbook(file_path)</div><div class="line"></div><div class="line"><span class="comment"># 显示工作表</span></div><div class="line">sheets = data.sheet_names()</div><div class="line"><span class="keyword">print</span> sheets </div><div class="line"></div><div class="line">//stdout</div><div class="line">[<span class="string">u'Info'</span>, <span class="string">u'Grade'</span>]</div></pre></td></tr></table></figure>
-<h3 id="获取工作表的内容"><a href="#获取工作表的内容" class="headerlink" title="获取工作表的内容"></a>获取工作表的内容</h3><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> xlrd</div><div class="line"></div><div class="line">dir_path = os.path.dirname(os.path.dirname(__file__))</div><div class="line">file_path = os.path.join(dir_path,<span class="string">'2016-11-27.xlsx'</span>)</div><div class="line"></div><div class="line"><span class="comment"># 打开excel</span></div><div class="line">data = xlrd.open_workbook(file_path)</div><div class="line"></div><div class="line"><span class="comment">#获取工作表</span></div><div class="line">table = data.sheets()[<span class="number">0</span>] //list索引获取到Info工作表</div><div class="line"><span class="keyword">or</span></div><div class="line"><span class="comment">#table = data.sheet_by_index(1) //索引方法获取Grade工作表</span></div><div class="line"><span class="comment">#table = data.sheet_by_name('Info') //根据工作表名</span></div><div class="line"></div><div class="line"><span class="comment"># 获取行数和列数</span></div><div class="line">nrows = table.nrows <span class="comment">#行数</span></div><div class="line"><span class="keyword">print</span> nrows</div><div class="line">cols = table.ncols <span class="comment">#列数</span></div><div class="line"><span class="keyword">print</span> cols</div><div class="line"></div><div class="line"><span class="comment"># 获取整行或整列的值</span></div><div class="line">row_content = table.row_values(<span class="number">1</span>) <span class="comment">#获取第二行的值</span></div><div class="line"><span class="keyword">print</span> row_content</div><div class="line">col_content = table.col_values(<span class="number">1</span>) <span class="comment">#获取第二列的值</span></div><div class="line"><span class="keyword">print</span> col_content</div><div class="line"></div><div class="line">//stdout</div><div class="line"><span class="number">4</span></div><div class="line"><span class="number">4</span></div><div class="line">[<span class="string">u'mike'</span>, <span class="number">23.0</span>, <span class="string">u'male'</span>, <span class="string">u'shanghai'</span>]</div><div class="line">[<span class="string">u'Age'</span>, <span class="number">23.0</span>, <span class="number">20.0</span>, <span class="number">30.0</span>]</div></pre></td></tr></table></figure>
-<h3 id="遍历表格数据"><a href="#遍历表格数据" class="headerlink" title="遍历表格数据"></a>遍历表格数据</h3><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> xlrd</div><div class="line"></div><div class="line">dir_path = os.path.dirname(os.path.dirname(__file__))</div><div class="line">file_path = os.path.join(dir_path,<span class="string">'2016-11-27.xlsx'</span>)</div><div class="line"></div><div class="line"><span class="comment"># 打开excel</span></div><div class="line">data = xlrd.open_workbook(file_path)</div><div class="line"></div><div class="line"><span class="comment">#获取工作表</span></div><div class="line">table = data.sheets()[<span class="number">0</span>] //list索引获取到Info工作表</div><div class="line"></div><div class="line"><span class="comment"># 获取行数和列数</span></div><div class="line">nrows = table.nrows <span class="comment">#行数</span></div><div class="line">cols = table.ncols <span class="comment">#列数</span></div><div class="line"></div><div class="line"><span class="comment"># 遍历行数据</span></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(nrows):</div><div class="line">    <span class="keyword">if</span> i == <span class="number">0</span>:</div><div class="line">        <span class="keyword">continue</span></div><div class="line">    row = table.row_values(i)</div><div class="line">    <span class="keyword">print</span> row</div><div class="line"></div><div class="line"><span class="comment">#遍历列数据</span></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(cols):</div><div class="line">    <span class="keyword">if</span> i == <span class="number">0</span>:</div><div class="line">        <span class="keyword">continue</span></div><div class="line">    col = table.col_values(i)</div><div class="line">    <span class="keyword">print</span> col</div><div class="line"></div><div class="line">//stdout</div><div class="line">[<span class="string">u'mike'</span>, <span class="number">23.0</span>, <span class="string">u'male'</span>, <span class="string">u'shanghai'</span>]</div><div class="line">[<span class="string">u'marry'</span>, <span class="number">20.0</span>, <span class="string">u'female'</span>, <span class="string">u'beijing'</span>]</div><div class="line">[<span class="string">u'abner'</span>, <span class="number">30.0</span>, <span class="string">u'male'</span>, <span class="string">u'changsha'</span>]</div><div class="line"></div><div class="line">[<span class="string">u'Age'</span>, <span class="number">23.0</span>, <span class="number">20.0</span>, <span class="number">30.0</span>]</div><div class="line">[<span class="string">u'Sex'</span>, <span class="string">u'male'</span>, <span class="string">u'female'</span>, <span class="string">u'male'</span>]</div><div class="line">[<span class="string">u'City'</span>, <span class="string">u'shanghai'</span>, <span class="string">u'beijing'</span>, <span class="string">u'changsha'</span>]</div></pre></td></tr></table></figure>
-<h3 id="获取单元格数据"><a href="#获取单元格数据" class="headerlink" title="获取单元格数据"></a>获取单元格数据</h3><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> xlrd</div><div class="line"></div><div class="line">dir_path = os.path.dirname(os.path.dirname(__file__))</div><div class="line">file_path = os.path.join(dir_path,<span class="string">'2016-11-27.xlsx'</span>)</div><div class="line"></div><div class="line"><span class="comment"># 打开excel</span></div><div class="line">data = xlrd.open_workbook(file_path)</div><div class="line"></div><div class="line"><span class="comment">#获取工作表</span></div><div class="line">table = data.sheets()[<span class="number">0</span>] //list索引获取到Info工作表</div><div class="line"></div><div class="line"><span class="comment"># 通过单元格获取数据</span></div><div class="line">cell_A = table.row(<span class="number">0</span>)[<span class="number">0</span>].value //第一行的第一列的数据</div><div class="line">cell_B = table.col(<span class="number">1</span>)[<span class="number">1</span>].value //第二行第二列的数据</div><div class="line"><span class="keyword">print</span> cell_A</div><div class="line"><span class="keyword">print</span> cell_B</div><div class="line"></div><div class="line">//stdout</div><div class="line">Name</div><div class="line"><span class="number">23.0</span></div></pre></td></tr></table></figure>
-<h2 id="xlwt"><a href="#xlwt" class="headerlink" title="xlwt"></a>xlwt</h2><h3 id="简单写入"><a href="#简单写入" class="headerlink" title="简单写入"></a>简单写入</h3><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> xlwt</div><div class="line"></div><div class="line">dir_path = os.path.dirname(os.path.dirname(__file__))</div><div class="line">file_path = os.path.join(dir_path,<span class="string">'2016-11-27.xlsx'</span>)</div><div class="line"></div><div class="line">workbook = xlwt.Workbook(encoding = <span class="string">'utf-8'</span>)</div><div class="line">worksheet = workbook.add_sheet(<span class="string">'My sheet'</span>) //新建一个工作表,默认单元格不能被覆盖</div><div class="line"><span class="comment">#worksheet = workbook.add_sheet('My sheet',cell_overwrite_ok=True) //新建一个工作表,单元格可以被覆盖</span></div><div class="line"></div><div class="line"><span class="comment"># 简单写入</span></div><div class="line">worksheet.write(<span class="number">0</span>, <span class="number">0</span>, <span class="string">'foo'</span>) <span class="comment"># row, column, value</span></div><div class="line">workbook.save(file_path)</div></pre></td></tr></table></figure>
-<h3 id="设置样式"><a href="#设置样式" class="headerlink" title="设置样式"></a>设置样式</h3><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> xlwt</div><div class="line"></div><div class="line">dir_path = os.path.dirname(os.path.dirname(__file__))</div><div class="line">file_path = os.path.join(dir_path,<span class="string">'2016-11-27.xlsx'</span>)</div><div class="line"></div><div class="line">workbook = xlwt.Workbook(encoding = <span class="string">'utf-8'</span>)</div><div class="line">worksheet = workbook.add_sheet(<span class="string">'My sheet'</span>) //新建一个工作表,默认单元格不能被覆盖</div><div class="line"></div><div class="line"><span class="comment"># 设置样式</span></div><div class="line">style1 = xlwt.easyxf(<span class="string">'font: bold 1'</span>) //字体加粗</div><div class="line">style2 = xlwt.easyxf(<span class="string">'font:bold 1,color red;'</span>) //字体加粗,字体颜色为红色</div><div class="line"></div><div class="line"><span class="comment"># 写入并应用样式</span></div><div class="line">worksheet.write(<span class="number">0</span>,<span class="number">1</span>,<span class="string">'bar'</span>,style1)</div><div class="line">worksheet.write(<span class="number">0</span>,<span class="number">2</span>,<span class="string">'foobar'</span>,style2)</div><div class="line">worksheet.write(<span class="number">0</span>,<span class="number">3</span>,<span class="string">'中文'</span>,style2)</div><div class="line"></div><div class="line"><span class="comment"># 设置列的宽度</span></div><div class="line">worksheet.col(<span class="number">0</span>).width = <span class="number">256</span> * <span class="number">7</span>  //<span class="number">256</span> = <span class="number">1</span> width of <span class="number">0</span> character(<span class="number">256</span>可以理解为一个字符的宽度)</div><div class="line"></div><div class="line"><span class="comment"># 设置超链接</span></div><div class="line">worksheet.write(<span class="number">1</span>, <span class="number">0</span>, xlwt.Formula(<span class="string">'HYPERLINK("http://yujitomita.com"; "click me")'</span>)) //设置超链接</div><div class="line"></div><div class="line">workbook.save(file_path)</div></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.python-excel.org/" target="_blank" rel="external">python-excel</a><br><a href="http://www.programering.com/a/MzN2QjMwATA.html" target="_blank" rel="external">python xlrd example</a><br><a href="http://www.lexicon.net/sjmachin/xlrd.html" target="_blank" rel="external">xlrd Module docs</a><br><a href="https://yuji.wordpress.com/2012/04/19/python-xlwt-writing-excel-files/" target="_blank" rel="external">python-xlwt-writing-excel-files</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;表格处理模块&quot;&gt;&lt;a href=&quot;#表格处理模块&quot; class=&quot;headerlink&quot; title=&quot;表格处理模块&quot;&gt;&lt;/a&gt;表格处理模块&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;xlwt (writing xls files)&lt;/li&gt;
-&lt;li&gt;xlrd (reading xls/xlsx files)&lt;/li&gt;
-&lt;li&gt;openpyxl (reading/writing xlsx files)&lt;/li&gt;
-&lt;li&gt;xlsxwriter (writing xlsx files)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;xlrd&quot;&gt;&lt;a href=&quot;#xlrd&quot; class=&quot;headerlink&quot; title=&quot;xlrd&quot;&gt;&lt;/a&gt;xlrd&lt;/h2&gt;&lt;h3 id=&quot;excel表格示例&quot;&gt;&lt;a href=&quot;#excel表格示例&quot; class=&quot;headerlink&quot; title=&quot;excel表格示例&quot;&gt;&lt;/a&gt;excel表格示例&lt;/h3&gt;&lt;p&gt;示例表格2016-11-27.xlsx 内容如下：&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Dev" scheme="http://yoursite.com/categories/Dev/"/>
-    
-    
-      <category term="xlrd" scheme="http://yoursite.com/tags/xlrd/"/>
-    
-      <category term="xlwt" scheme="http://yoursite.com/tags/xlwt/"/>
     
   </entry>
   
@@ -741,77 +613,6 @@ $ cat exp.yml
     
     
       <category term="Ansible" scheme="http://yoursite.com/tags/Ansible/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>跨仓库转移SVN代码目录</title>
-    <link href="http://yoursite.com/2016/11/01/svn-code-transfer/"/>
-    <id>http://yoursite.com/2016/11/01/svn-code-transfer/</id>
-    <published>2016-11-01T10:59:38.000Z</published>
-    <updated>2016-11-07T08:41:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>由于公司先前代码管理比较混乱，不同部门之间的代码有放在同一个仓库的，抽空转移了部分并记录备忘。</p>
-<p><strong>project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支</strong></p>
-<blockquote>
-<p>old svn: <a href="http://svnserver/svn/dev/trunk/project/" target="_blank" rel="external">http://svnserver/svn/dev/trunk/project/</a></p>
-<p>new svn:<a href="http://svnserver/svn/ops/trunk/" target="_blank" rel="external">http://svnserver/svn/ops/trunk/</a></p>
-</blockquote>
-<p><strong>直接svn move 报错：</strong></p>
-<pre><code>$ svn move  http://svnserver/svn/dev/trunk/project/  http://svnserver/svn/ops/trunk/
-svn: E200007: Source and destination URLs appear not to point to the same repository.
-</code></pre><blockquote>
-<p>svn: E200007: Source and destination URLs appear not to point to the same repository. </p>
-<p>不同的仓库之间无法直接move或cp项目代码</p>
-</blockquote>
-<a id="more"></a>
-<h3 id="转移方法："><a href="#转移方法：" class="headerlink" title="转移方法："></a>转移方法：</h3><p><strong>方法一：</strong></p>
-<p>先将old svn项目代码check到本地然后import到new svn中</p>
-<ul>
-<li><p>缺点：old svn的代码的历史记录都会清空</p>
-</li>
-<li><p>优点：在客户端本地就能完成</p>
-</li>
-</ul>
-<p>操作如下：</p>
-<pre><code>$ svn --username=abner.zhao checkout http://svnserver/svn/dev/trunk/project/ project
-$ svn import project  svn:http://svnserver/svn/ops/trunk/  -m &apos;import project to trunk&apos;
-</code></pre><p><strong>方法二：</strong></p>
-<p>将old svn中要迁移的项目代码dump出来，然后load 到new svn中</p>
-<ul>
-<li><p>优点：保留历史记录</p>
-</li>
-<li><p>缺点：要到svn服务端上操作</p>
-</li>
-</ul>
-<p>操作如下：</p>
-<pre><code>$ svnadmin dump dev | svndumpfilter include /trunk/UDPServer/ --drop-empty-revs --renumber-revs --preserve-revprops &gt; /tmp/project.dump
-$ svnadmin load ops &lt; /tmp/project.dump
-</code></pre><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://falstaff.agner.ch/2011/11/12/subversion-move-folder-from-one-repository-to-another/" target="_blank" rel="external">subversion-move-folder-from-one-repository-to-another</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;由于公司先前代码管理比较混乱，不同部门之间的代码有放在同一个仓库的，抽空转移了部分并记录备忘。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;project项目位于dev仓库的主分支，现需要将他转移到ops仓库主分支&lt;/strong&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;old svn: &lt;a href=&quot;http://svnserver/svn/dev/trunk/project/&quot;&gt;http://svnserver/svn/dev/trunk/project/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;new svn:&lt;a href=&quot;http://svnserver/svn/ops/trunk/&quot;&gt;http://svnserver/svn/ops/trunk/&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;直接svn move 报错：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ svn move  http://svnserver/svn/dev/trunk/project/  http://svnserver/svn/ops/trunk/
-svn: E200007: Source and destination URLs appear not to point to the same repository.
-&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
-&lt;p&gt;svn: E200007: Source and destination URLs appear not to point to the same repository. &lt;/p&gt;
-&lt;p&gt;不同的仓库之间无法直接move或cp项目代码&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="Ops" scheme="http://yoursite.com/categories/Ops/"/>
-    
-    
-      <category term="svn" scheme="http://yoursite.com/tags/svn/"/>
     
   </entry>
   
@@ -1794,78 +1595,6 @@ Swap:         4092          0       4092
   </entry>
   
   <entry>
-    <title>minicom的使用</title>
-    <link href="http://yoursite.com/2016/02/28/minicom/"/>
-    <id>http://yoursite.com/2016/02/28/minicom/</id>
-    <published>2016-02-28T13:21:34.000Z</published>
-    <updated>2016-11-07T05:14:48.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="minicom的介绍"><a href="#minicom的介绍" class="headerlink" title="minicom的介绍"></a>minicom的介绍</h3><p>Linux下的Minicom的功能与Windows下的超级终端功能相似，<strong>可以通过串口控制外部的硬件设备</strong>，适于在linux通过超级终端对嵌入式设备行管理。</p>
-<h3 id="minicom的安装配置和使用"><a href="#minicom的安装配置和使用" class="headerlink" title="minicom的安装配置和使用"></a>minicom的安装配置和使用</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><pre><code># apt-get install minicom
-</code></pre><h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p> 实际案例：交换机的consle转usb口连接到服务器，通过minicom对交换机进行配置</p>
-<pre><code># lsusb   //查看USB的状态
-Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
-Bus 002 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
-Bus 002 Device 002: ID 0e0f:0003 VMware, Inc. Virtual Mouse
-Bus 002 Device 003: ID 0e0f:0002 VMware, Inc. Virtual USB Hub
-Bus 002 Device 004: ID 0e0f:0008 VMware, Inc.
-Bus 002 Device 005: ID 067b:2303 Prolific Technology, Inc. PL2303 Serial Port
-
-# dmesg |grep ttyUSB  //USB已经连接
-[11991.918691] usb 2-2.2: pl2303 converter now attached to ttyUSB0
-
-# minicom -s   //进行配置
-
-+-----[configuration]------+
-| Filenames and paths      |
-| File transfer protocols  |
-| Serial port setup        |
-| Modem and dialing        |
-| Screen and keyboard      |
-| Save setup as dfl        |
-| Save setup as..          |
-| Exit                     |
-| Exit from Minicom        |
-+--------------------------+
-
-#选择进入Serial port setup，按照之前查看的信息进行配置
-
-+-----------------------------------------------------------------------+
-| A -    Serial Device      : /dev/ttyUSB0                              |
-| B - Lockfile Location     : /var/lock                                 |
-| C -   Callin Program      :                                           |
-| D -  Callout Program      :                                           |
-| E -    Bps/Par/Bits       : 115200 8N1                                |
-| F - Hardware Flow Control : Yes                                       |
-| G - Software Flow Control : No                                        |
-|                                                                       |
-|    Change which setting?                                              |
-+-----------------------------------------------------------------------+
-    | Screen and keyboard      |
-    | Save setup as dfl        |
-    | Save setup as..          |
-    | Exit                     |
-    | Exit from Minicom        |
-    +--------------------------+
-
-#Enter退出，选择Save setup as dfl  保存为默认配置
-</code></pre><p>  然后进入终端输入minicom 就能连接进入交换机配置</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;minicom的介绍&quot;&gt;&lt;a href=&quot;#minicom的介绍&quot; class=&quot;headerlink&quot; title=&quot;minicom的介绍&quot;&gt;&lt;/a&gt;minicom的介绍&lt;/h3&gt;&lt;p&gt;Linux下的Minicom的功能与Windows下的超级终端功能相似，&lt;s
-    
-    </summary>
-    
-      <category term="Tools" scheme="http://yoursite.com/categories/Tools/"/>
-    
-    
-      <category term="minicom" scheme="http://yoursite.com/tags/minicom/"/>
-    
-  </entry>
-  
-  <entry>
     <title>ulimit小记</title>
     <link href="http://yoursite.com/2016/02/25/ulimit/"/>
     <id>http://yoursite.com/2016/02/25/ulimit/</id>
@@ -2009,6 +1738,484 @@ mysql&gt; show databases;
     
     
       <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Create A Local Debian/Ubuntu Mirror With apt-mirror</title>
+    <link href="http://yoursite.com/2016/01/09/Create-A-Local-Debian-Ubuntu-Mirror-With-apt-mirror/"/>
+    <id>http://yoursite.com/2016/01/09/Create-A-Local-Debian-Ubuntu-Mirror-With-apt-mirror/</id>
+    <published>2016-01-09T14:18:45.000Z</published>
+    <updated>2016-11-07T05:14:48.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="Install-and-Configure-apt-mirror"><a href="#Install-and-Configure-apt-mirror" class="headerlink" title="Install and Configure apt-mirror"></a>Install and Configure apt-mirror</h3><p>Install apt-mirror</p>
+<pre><code>$ sudo apt-get install apt-mirror
+</code></pre><p>Configure apt-mirror</p>
+<p>编辑配置文件/etc/apt/mirror.list，以ubuntu 14.04 为例：</p>
+<pre><code>############# config ##################
+
+#
+
+set base_path      /var/spool/apt-mirror
+
+#
+
+set mirror_path    /data/mirror
+
+set skel_path   $base_path/skel
+
+set var_path   $base_path/var
+
+set cleanscript  $var_path/clean.sh      #这个脚本会记录每次同步后那些需要删除的文件
+
+# set defaultarch
+
+# set postmirror_script $var_path/postmirror.sh
+
+# set run_postmirror 0
+
+set nthreads20#用20个线程去wget镜像
+
+set _tilde 0
+
+#
+
+############# end config ##############
+
+deb http://cn.archive.ubuntu.com/ubuntu trusty main restricted universe multiverse
+
+deb http://cn.archive.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
+
+deb http://cn.archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse
+
+deb http://cn.archive.ubuntu.com/ubuntu trusty-proposed main restricted universe multiverse
+
+deb http://cn.archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse
+
+deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty main restricted universe multiverse
+
+deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
+
+deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse
+
+deb-i386 http://cn.archive.ubuntu.com/ubuntu trusty-proposed main restricted universe multiverse
+
+deb-i386 http://cn.archive.ubuntu.com/ubun trustytu-backports main restricted universe multiverse
+
+# 如果这个源是要用来做pxe启动的话需要添加(因为默认没有将这几个文件同步过来)
+
+deb http://cn.archive.ubuntu.com/ubuntu trusty main/debian-installer restricted/debian-installer universe/debian-installer multiverse/debian-installer
+
+deb-i386 ttp://cn.archive.ubuntu.com/ubuntu trusty main/debian-installer restricted/debian-installer universe/debian-installer multiverse/debian-installer
+</code></pre><p>镜像官方仓库所有软件</p>
+<pre><code>$ sudo apt-mirror          
+//apt-mirror成功后会执行/var/spool/apt-mirror/var/clean.sh完成同步后的清理工作
+</code></pre><h3 id="源的升级与更新"><a href="#源的升级与更新" class="headerlink" title="源的升级与更新"></a>源的升级与更新</h3><p>日常升级</p>
+<pre><code>$ sudo apt-mirror
+</code></pre><p>计划任务自动更新</p>
+<pre><code>0 4 * * * /usr/bin/apt-mirror &gt;&gt; /var/spool/apt-mirror/var/cron.log
+</code></pre><h3 id="使用nginx搭建本地镜像源"><a href="#使用nginx搭建本地镜像源" class="headerlink" title="使用nginx搭建本地镜像源"></a>使用nginx搭建本地镜像源</h3><h4 id="nginx-安装配置"><a href="#nginx-安装配置" class="headerlink" title="nginx 安装配置"></a>nginx 安装配置</h4><p>nginx 安装</p>
+<p>参考：<a href="http://nginx.org/en/docs/install.html" target="_blank" rel="external">官方文档</a></p>
+<p>nginx 基本配置</p>
+<p>编辑配置文件 /usr/local/nginx/conf/sites-enabled/mirror.conf</p>
+<pre><code>server {
+listen       80;
+server_name  _;
+root         /data/mirror/web;
+autoindex    on;
+}
+</code></pre><p>在<code>/data/mirror/web</code>目录做一个镜像目录的软连接</p>
+<pre><code>$ ln -s /data/mirror/archive.ubuntu.com/ubuntu/ /data/mirror/web/ubuntu
+</code></pre><p>启动nginx服务</p>
+<pre><code>$ sudo /usr/local/nginx/sbin/nginx -t
+$ sudo /usr/local/nginx/sbin/nginx
+</code></pre><p>本地测试</p>
+<p>在浏览器输入搭建nginx机器IP，也可以配置域名访问</p>
+<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/26720CDE-B91E-40F3-8D46-CAC92FAE90F2.png" alt=""></p>
+<h3 id="客户端使用测试"><a href="#客户端使用测试" class="headerlink" title="客户端使用测试"></a>客户端使用测试</h3><p>编辑配置文件 /etc/apt/sources.list 或在/etc/apt/sources.list.d/ 目录下新建文件，并在文件最前面写入如下字段：</p>
+<pre><code>deb http://10.249.17.26/ubuntu precise main universe
+</code></pre><p>使用</p>
+<pre><code>$ apt-get update
+$ apt-get install (packagename)
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;Install-and-Configure-apt-mirror&quot;&gt;&lt;a href=&quot;#Install-and-Configure-apt-mirror&quot; class=&quot;headerlink&quot; title=&quot;Install and Configure apt-mi
+    
+    </summary>
+    
+      <category term="Ops" scheme="http://yoursite.com/categories/Ops/"/>
+    
+    
+      <category term="ubuntu" scheme="http://yoursite.com/tags/ubuntu/"/>
+    
+      <category term="apt" scheme="http://yoursite.com/tags/apt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>运维必备之Linux命令概览</title>
+    <link href="http://yoursite.com/2016/01/01/command/"/>
+    <id>http://yoursite.com/2016/01/01/command/</id>
+    <published>2016-01-01T12:48:46.000Z</published>
+    <updated>2016-11-07T05:14:48.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/C3EB9F70-7F51-4B46-8B14-825CD9B8C11B.png" alt=""></p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/BF852F66-2D8E-42D8-A4EB-2826A98C354C.png" alt=""></p>
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/429014F3-442B-4115-A97D-32D62E6BEE7F.png" alt=""></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.brendangregg.com/linuxperf.html" target="_blank" rel="external">Linux Performance</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;监控&quot;&gt;&lt;a href=&quot;#监控&quot; class=&quot;headerlink&quot; title=&quot;监控&quot;&gt;&lt;/a&gt;监控&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;http://7vzmp5.com1.z0.glb.clouddn.com/C3EB9F70-7F51-4B46-8B1
+    
+    </summary>
+    
+      <category term="Cmd" scheme="http://yoursite.com/categories/Cmd/"/>
+    
+    
+      <category term="命令汇总" scheme="http://yoursite.com/tags/%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>摄影知识扫盲</title>
+    <link href="http://yoursite.com/2015/10/29/photography/"/>
+    <id>http://yoursite.com/2015/10/29/photography/</id>
+    <published>2015-10-29T11:50:54.000Z</published>
+    <updated>2016-11-07T05:14:48.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>三流的摄影师比器材，二流的摄影师比技术，一流的摄影师比思想。</p>
+<blockquote>
+<p>“照片从来不能解决问题，它总是在不断的提出问题：为什么会这样？如果你能不断的提出问题，你就会不断的按下快门，把你的思想和疑问传达出来。如果观众看过你的照片后也良久驻足，思考着你的思考，疑问着你的疑问，那您就快接近摄影的最高境界了”      Susan Sontag 《论摄影》</p>
+</blockquote>
+<h3 id="摄影名词"><a href="#摄影名词" class="headerlink" title="摄影名词"></a>摄影名词</h3><p>ISO，光圈，快门， 曝光，焦距，景深 ，RAW</p>
+<h4 id="ISO"><a href="#ISO" class="headerlink" title="ISO"></a>ISO</h4><p>ISO（感光度）是CCD（Charge Coupled Device，<strong>电子感光芯片</strong>）或是胶卷对光线的敏感程度。</p>
+<p>数码相机的主菜单里都有ISO选择，100，200，400或者800等，数字越大越敏感（感光度越高）。如果用ISO100的胶卷，相机2秒可以正确曝光的话，同样光线条件下用ISO200的胶卷只需要1秒即可，用ISO400则只要0.5秒。高ISO虽然速度快但图像颗粒粗，经不起精细放大。高ISO一般在万不得已的时候才用，<strong>高ISO图片质量是数码相机最重要的指标之一。</strong></p>
+<p>简单的来说，提高ISO就是提高电子放大倍数，微弱的光线只能产生微弱的电子信号，这个时候数码相机的放大电路工作，把信号放大来得到正确的曝光照片，但噪点多，细节丢失，颜色失真。</p>
+<p>同样像素的普通数码相机和单反相机的高ISO图片质量差别很大，主要原因是普通相机和单反相机的感光芯片大小（面积）不同。感光芯片CCD就是一个光电转换器，把光照转变为可记录的电子信号。假如CCD为1000万像素，要正确曝光，每个像素点必须要有一定的光照强度。同样的曝光时间，面积大的CCD接受的阳光多，分配到每个像素点的光照充分，这样图片的细节会更丰富，噪点少，颜色准确。<strong>在同等技术条件下，如像素相等，CCD面积越大，高ISO的成像质量越好。</strong></p>
+<h4 id="快门"><a href="#快门" class="headerlink" title="快门"></a>快门</h4><p><strong>快门是能够准确的控制曝光时间的装置。</strong></p>
+<p>快门有机械快门、电子快门以及电子机械联合快门。</p>
+<p>安全快门速度：安全速度是焦距的倒数，如果用50mm镜头，快门速度不要低于1/50秒，使用200mm镜头速度不低于1/200秒，以此类推，否则照片会糊。</p>
+<h4 id="光圈"><a href="#光圈" class="headerlink" title="光圈"></a>光圈</h4><p><strong>光圈就是镜头里调节进光孔大小的装置。</strong></p>
+<blockquote>
+<p>所有相机都是基于小孔成像原理：拿一个密封箱子，在任何一面钻个小圆孔，窗外的景象比如一棵树什么的，就会在圆孔对面的箱内壁生成此树的倒影。假如在箱子小孔对面的内壁涂上感光材料，这个有孔的箱子就是一台针孔相机。</p>
+<p>既然一台照相机可以不需要镜头，为什么现在的相机前面不是一个小圆孔而是几块玻璃呢？而且这几块玻璃还卖得那么贵。这是因为小孔要成像的话，孔必须很小，如果孔开得和门一样大，这个孔就成不了像。孔小进光量就小，针孔摄影一张照片曝光几小时到几十个小时都常见。我们要想办法加大进光量。凸镜有聚光功能。把玻璃凸镜装到大孔上，问题不就解决了？</p>
+<p>确实如此。镜头就是这样诞生的。今天的各种镜头都是几块凹凸镜的排列组合，然后用塑料或铁皮一包。有了镜头，小孔成像的这个孔（光圈）就不再是针孔了，它变成了洞。</p>
+<p>并不是任何时候都需要大洞。夏日沙滩上烈日当头，四处白花花一片，为了分清到底是人肉还是白沙，我们需要眯着眼睛仔细观察。镜头是照相机的眼睛，这时候相机也需要眯起眼睛。<strong>为了应付不同的光线强度，我们还需要给镜头装上能够调节这个洞大小的装置，以便在强光时缩小为针孔，弱光时开成大洞。这个装置就是光圈（Aperture）。一组凹凸镜再加上光圈就诞生了完整的镜头。</strong></p>
+</blockquote>
+<p>常见的光圈值如下：F1，F1.4，F2，F2.8，F4，F5.6，F8，F11，F16，F22，F32，F44，F64。<strong>每两挡相邻光圈值之间进光量相差一倍。例如光圈从F4调到F2.8，进光量便多一倍；从F2.8到F2又多一倍。光圈值和光圈实际大小是相反的，进光量最大时光圈为F1，最小时为F64。</strong></p>
+<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/4DE51689-1AA4-45FD-9F68-3B310CDA0887.png" alt=""></p>
+<p><strong>镜头在中等光圈的时候成像最好，</strong>如果是135数码单反，中等光圈为F8或F11。小数码DC要看具体机型，如果可选光圈值在F2.5到F8之间，中间的F4.6为最佳光圈。</p>
+<h4 id="曝光"><a href="#曝光" class="headerlink" title="曝光"></a>曝光</h4><blockquote>
+<p>假设一个黑乎乎的密闭房间，一面墙壁上开了个小圆窗户，在窗对面的内壁上安上感光材料就是一台大型房式照相机。在没有打开小窗之前，房间里是黑乎乎的。上帝说：要有光。我们打开小窗，光线从小孔而入，射到对面墙壁的胶卷上，产生光化反应（或CCD光电反应），图像就诞生了。此过程就叫曝光。<strong>要正确曝光必须精确决定曝光量，也就是让多少光进入房间。光圈和快门都可以控制曝光量。曝光就是光圈和快门的组合。光圈大小其实就是小圆窗户开多大，快门（速度）就是窗户开多久。</strong>若窗户开1/4，时间4秒能正确曝光，很显然窗户打开1/2，时间2秒钟也能正确曝光，1/4<em>4=1/2</em>2=1。如果窗户全开，曝光时间就只要1秒了。</p>
+</blockquote>
+<p>一张正确曝光的图片可以有N种不同的光圈和快门组合。</p>
+<p>有三个因素能影响一张图片是否正确曝光：光圈，快门速度，ISO。其中光圈和速度联合决定进光量，ISO决定CCD感光速度。进光量不够则可开大光圈或者增加曝光时间，还不够就提高ISO。大光圈的解像度不好，快门速度低则图片可能会糊，高ISO图片质量也差。</p>
+<h4 id="测光与测光模式"><a href="#测光与测光模式" class="headerlink" title="测光与测光模式"></a>测光与测光模式</h4><p>曝光和测光是一对双胞胎，不测定光照强度正确曝光就无从谈起。所有的数码相机都内置测光表，它能测量光线的强度，自动给出正确曝光的光圈和快门。数码相机里都有一个光敏电阻（光照不同时电阻不同），相机内根据电阻的变化就能确定光线强度，进而确定曝光值。</p>
+<p><strong>测光模式主要有点测光，中央重点测光，区域（平均）测光三种。</strong>点测光只测取景框内中央小点的光线强度。区域（平均）测光则把取景框分为很多小块，分别对每块测光再加权平均得到光照强度。中央重点测光只把取景框分为中央圆圈和四周两块分别测光。大多数情况下用区域平均测光即可，在明暗反差很大时多采用点测光。</p>
+<h4 id="曝光补偿"><a href="#曝光补偿" class="headerlink" title="曝光补偿"></a>曝光补偿</h4><p>曝光是否准确是根据经验判断的。总原则：<strong>照片要真实反映拍摄时的环境亮度。</strong>如果正午阳光户外被拍得昏暗如夜，这就是曝光不足；夜景拍得跟白天一样则是曝光过度。相机自动确定的曝光值90%以上是正确的，但也有不准的，如雪景应该纯白拍出来却是灰色，或纯黑的煤球拍出来却是灰煤。</p>
+<blockquote>
+<p>假设两个极端，纯黑物体反射率为零，纯白物体反射率是100%。在这两个极端取中间值就是不黑也不白的灰色，称柯达灰，也称18度中间灰。</p>
+<p>以客厅为例，墙壁又白又亮，电视机屏幕又黑又暗，家具等亮度居中。要以谁的亮度来确定曝光？相机自动测光就是取平均数，最后给出一个让图片达到中间灰的曝光值。</p>
+<p>相机的自动测光是个死脑筋，它认为全世界所有场景的平均亮度都是18度中间灰。好在大部分生活场景平均起来差不多也是灰色。但在雪景或者煤球等纯色场景，相机依然给出中间灰的曝光值，拍出来就会白雪成灰雪，煤球成灰球。<strong>此时我们就要对自动曝光予以修正，对雪景增加曝光，煤球减少曝光，这样才能拍出亮度正确的照片。增减曝光值就叫曝光补偿。</strong></p>
+</blockquote>
+<p><strong>曝光补偿原则：白加黑减。如果有大片白色物体或有强灯等特别明亮的物体就要增加曝光量；有大片黑色物体则要减少曝光量。</strong></p>
+<h4 id="焦距与焦距转换系数"><a href="#焦距与焦距转换系数" class="headerlink" title="焦距与焦距转换系数"></a>焦距与焦距转换系数</h4><blockquote>
+<p><strong>镜头的焦距就是从镜片（或镜片组）的中心到底片(CCD)的距离，单位毫米（mm）。</strong>对全幅135数码单反来说，50mm镜头为标准镜头，简称标头。<strong>标头严格的定义：焦距等于底片（或CCD）对角线长度的镜头。</strong>单张135底片对角线长度为43mm，我们把焦距40-60mm的都称为标头。请注意：一个镜头是不是标头不是看焦距而是看视角，视角45度左右就是标准镜头。对120相机来说80-110mm焦距的镜头才是标头。对Nikon D5000等非全幅数码单反，35mm才是标头。</p>
+</blockquote>
+<p><strong>广角镜头（焦距小于35mm）</strong>能够让照相机“看得更宽广”，因为它视角大；<strong>长焦镜头（焦距大于70mm）</strong>能让照相机“看得更远”，但视角窄。长焦镜头也称远摄镜头或望远镜头。广角镜头都身材矮小，长焦镜头都高大威猛。</p>
+<h4 id="光学变焦与数码变焦"><a href="#光学变焦与数码变焦" class="headerlink" title="光学变焦与数码变焦"></a>光学变焦与数码变焦</h4><blockquote>
+<p>数码相机上都写着XX倍光学变焦（Optical Zoom）。<strong>变焦倍数＝最大焦距/最小焦距。</strong>一个28-280mm镜头的光学变焦倍数是280mm/28mm=10倍。倍数越大镜片越多，体积相应较大，画质相对较低，光圈相对较小。如Nikon P90光学变焦为26-624mm（24倍），但实测镜头边缘解像度差，看来24倍已经接近光学变焦目前的技术极限了。</p>
+</blockquote>
+<p>数码变焦只是电子放大，软件稍作改动就可以从一倍到一万倍变焦任君自取。光学变焦才是真正的变焦。</p>
+<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/B4563A21-000E-4167-9039-32DA8217E2FA.png" alt=""><br><img src="http://7vzmp5.com1.z0.glb.clouddn.com/76932658-4595-4202-885F-C3168528800D.png" alt=""></p>
+<blockquote>
+<p>CANON ZOOM LENS：佳能变焦镜头</p>
+<p>EF是佳能镜头卡口名称。EF-S是小CCD数码单反专用镜头。EFS镜头不能用在佳能全幅数码单反上。</p>
+<p>18-55mm代表变焦范围18-55毫米（乘以焦距转换系数1.6后相当于全幅单反焦距28-88mm）</p>
+<p>1:3.5 - 5.6：在最小焦距18mm时最大光圈为F3.5,最长焦距时最大光圈为F5.6。</p>
+<p>Ø58mm镜头滤色镜口径为58毫米</p>
+</blockquote>
+<h4 id="景深与光圈优先"><a href="#景深与光圈优先" class="headerlink" title="景深与光圈优先"></a>景深与光圈优先</h4><blockquote>
+<p><strong>景深就是照片焦点前后延伸出来的“可接受清晰区域”。</strong>它只是一个概念，相机上并没有一个开关叫景深。清晰与否也没有绝对标准。<strong>一张合影若人脸很清晰，前面的鲜花和后面建筑物都模糊，清晰区域只限于人，我们就称此照片景深较浅（小）。若人鲜花和建筑物都清晰，照片的清晰区域很广，就称景深很大。风光摄影一般需要大景深，前后景物都要清楚。</strong></p>
+</blockquote>
+<p>有三个因素决定景深：1，光圈大小；2，焦距长短；3，被摄物体的远近。</p>
+<p>景深的确定原则是：</p>
+<p>1，光圈越大，景深越小；</p>
+<p>2，焦距越长，景深越小；</p>
+<p>3，离被摄物体越近，景深越小。</p>
+<blockquote>
+<p>若镜头的最小光圈为F22，这时候景深最大，在F2.8的时候景深最小（如果此镜头最大光圈是F2.8）。焦距越长景深越小这个好理解，广角镜头景深大，长焦镜头景深小。实际上17mm的超广角镜头如果使用F11以下的中小光圈，随便你朝何处对焦，前后景物都清晰。200mm或更长的镜头景深很小，一定要仔细小心对焦，最好在三角架上拍。离被摄物体越近，景深越小。所以在超近距离拍摄时要特别小心对焦，例如用微距镜头拍花花草草或小狗脸部特写。</p>
+</blockquote>
+<p>光圈有三个作用：</p>
+<p>1，控制进光量。这是拍摄成功与否的关键；</p>
+<p>2，控制景深。光圈越小，景深越大。虽然焦距和拍摄远近都影响景深，但焦距和被摄物远近的改变同时也会改变构图。当构图确定，能控制景深的武器就只剩下光圈了；</p>
+<p>3，光圈影响图片的清晰度。任何一个镜头都是中等光圈时成像最好（最清晰），最大光圈和最小光圈时解像度差。</p>
+<p><strong>光圈优先（Aperture Priority）：手动确定光圈的大小，相机会根据这个光圈值确定能正确曝光的快门速度。大写的A或者Av就代表光圈优先模式。</strong></p>
+<p>曝光是光圈和快门的组合，光圈优先对应的概念是<strong>快门优先或速度优先：手动确定快门速度，相机会根据这个快门速度确定能正确曝光的光圈大小。简写为T或Tv。</strong>在某些时候快门速度很重要，要定格运动员冲刺撞线，快门速度最好在1/500秒甚至更快；如果要把流水拍得如丝般柔滑，快门速度要在0.5秒或者更慢。</p>
+<h4 id="白平衡与RAW"><a href="#白平衡与RAW" class="headerlink" title="白平衡与RAW"></a>白平衡与RAW</h4><blockquote>
+<p>要了解白平衡white balance就必须先了解另一个概念：色温color temperature。所谓色温就是以开尔文温度表示光线的色彩，单位是K。物体被加热到一定的温度时就会发出光线，此光线不仅含有亮度的成份，也含有颜色的成份。温度越高，蓝色的成份越多，图像就会偏蓝；温度越低，红色的成份就越多，图像就会偏红。</p>
+</blockquote>
+<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/C29FE7F7-3998-4623-A871-8FB56382E865.png" alt=""></p>
+<h4 id="光线色温"><a href="#光线色温" class="headerlink" title="光线色温"></a>光线色温</h4><p>不同色温的光源下物体会呈现不同的色调，在日光灯下整体偏白，在普通白炽灯下整体偏黄。<strong>白平衡就是相机在不同光源下对白色的还原。</strong>有时候相机对色温判断错误，严重偏蓝或发黄。这时我们就要手动设置白平衡。万一人脑也判断错误怎么办？要彻底解决白平衡和色温准确性只有一个方案：选择RAW存储格式。</p>
+<p>常用的图片压缩存储格式为JPEG或JPG。但JPEG是一种有损压缩，某些细节丢失。大部分相机都有图片质量选择，也就是JPEG压缩比选择，压缩得越厉害，文件越小，一张卡能存储更多照片，但细节丢失更多。</p>
+<blockquote>
+<p>数码相机CCD经曝光产生电子信号，相机把电子信号进行处理，再传给存储卡。这些处理包括白平衡配置，颜色饱和度的增减，锐度和对比度增减，降噪等，最后压缩为JPEG格式存储。</p>
+</blockquote>
+<p>RAW英文是原始的意思，这很好地说明了RAW图片的特点：<strong>它是原始的，CCD产生的电子信号直接传给存储卡，没有经过相机的任何处理，没有一点细节丢失。</strong>我们回家后在电脑上可以给RAW图片任意配置色温（彻底解决白平衡问题），调整颜色，锐度，对比度，曝光等等。桌面电脑比相机内的小电脑强大得多，后期精心处理RAW转换成的JPEG图片肯定漂亮。</p>
+<p>RAW的问题还是文件太大，而且处理费时间。如果旅行十天拍了上千张RAW，后期处理会让人头变得巨大。还好很多相机可以同时存储JPEG和RAW，如果JPEG图片还不错就不用处理RAW了。重要的拍摄存JPEG+RAW，一般图片存JPEG.</p>
+<h3 id="基本摄影思想"><a href="#基本摄影思想" class="headerlink" title="基本摄影思想"></a>基本摄影思想</h3><p>一张好照片必须有一个鲜明的主题，并且能正确的表达主题。</p>
+<p>主要需从两方面努力：</p>
+<p><strong>1，精心构图；</strong></p>
+<p><strong>2，熟练掌握光圈快门等技术活。</strong></p>
+<h4 id="构图的原则和方法"><a href="#构图的原则和方法" class="headerlink" title="构图的原则和方法"></a>构图的原则和方法</h4><blockquote>
+<p>摄影最重要的是：和主题无关的事物一律排除在取景框之外。在按下快门前一定要想想：能否继续减少取景框内的事物？如果再排除一个那我想表达的意思就不完整了，这时才可以按下快门。<strong>摄影是做减法。</strong></p>
+<p>综上所述，<strong>简洁二字是摄影构图最基本的原则。</strong>只有在完全贯彻了这个原则，确定一张图片里绝对不能缺少的事物之后，才谈得上如何在取景框里如何摆放这些事物。</p>
+</blockquote>
+<h4 id="构图法"><a href="#构图法" class="headerlink" title="构图法"></a>构图法</h4><p><strong>最重要的有三个：黄金分割法，对称法，满框法。</strong></p>
+<p><strong>黄金分割法</strong></p>
+<p><strong>把一条线分割为两部分，使其中一部分与全长之比等于另一部分与这部分之比，其比值是0.618，这个分割点就是黄金分割点。</strong>黄金分割在所有的构图原则里是最重要的一个，很多数码相机在菜单里都有是否打开构图线的选择，打开后液晶屏就会出现九宫格，四条线把取景框长宽各作三等分。<strong>构图时我们应该把照片中的主体（视觉焦点）摆在三等分线上或者三等分线的交点上。</strong>通俗的说，不要把主体放在正中间，那样照片显得很呆板，要靠左右/上下一些才好看。实际拍摄中并没有必要严格遵守0.618比1或者1比3，多一点少一点均可，只要看起来舒服就好。</p>
+<p><strong>图片的视觉焦点。</strong>视觉焦点就是一张图片最吸引人的地方。在看一张有明显视觉焦点的照片时，第一眼我们肯定会被图片最醒目的点所吸引，然后我们会看看图片的四周有些什么，最后目光还是会集中到视觉焦点上。这就是我们看图片的视觉习惯：集中-分散-再集中。</p>
+<h4 id="对称法"><a href="#对称法" class="headerlink" title="对称法"></a>对称法</h4><p>一般来说，70%以上的图片可以用黄金分割构图法，但对有些图片黄金分割并不是最佳选择。典型的例子是建筑。大多数建筑都是对称结构，强行按照黄金分割来构图反而破坏了原有的美感。水面倒影也是一例。对倒影和建筑等本来对称的景物显然我们应该顺其自然采用对称构图法，一半对一半。对称可以是左右，上下，也可以斜着对称。</p>
+<p><strong>对称并不一定要是同一类型物体（建筑或倒影），不同的事物也可以对称，或称之为对比。</strong></p>
+<h4 id="满框与留白"><a href="#满框与留白" class="headerlink" title="满框与留白"></a>满框与留白</h4><p>黄金分割加上对称构图能搞定85%以上的图片，但还是有一些图片让人左右为难。那就干脆把主体充满取景框，排除任何其他物体（简洁到极限）。这就是满框构图原则。</p>
+<p>满框往往意味着构图只取局部，并不一定要把主体拍全，观众能根据局部想象全局。这是一种极端构图，它最大限度地突出主题。它的优点也是它的缺点：太满了，让人感觉堵得慌。大多数情况下还是要给画面留点空出气，这就是构图时的留白。留多少合适？一般来说留1/4或者1/5。留在图片的什么地方？可以是任何位置。留白四分之一原则也要灵活掌握，多一点少一点看具体需要。</p>
+<p>留白也可以走极端，这就是与满框相反的留白构图法：主体只在取景框内占一个小角落，其他地方大量空白。这是一种反向衬托，大量空白把观众的注意力吸引到非空白处-照片角落的主体上。 留白另外一个好处是方便编辑排版，空白处可供写字。如果你的照片日后要给杂志社，大量留白需要重点考虑。</p>
+<h3 id="其他构图注意事项"><a href="#其他构图注意事项" class="headerlink" title="其他构图注意事项"></a>其他构图注意事项</h3><p>1.寻找有趣的形状</p>
+<blockquote>
+<p>这可以从宏观和微观两方面去找。宏观就是从大场景找。通常这意味着在一大片景观中取局部。摄影就要充分发挥这种宏观想象力。</p>
+<p>微观找形状就是要视力好，眼光毒，从几英寸几厘米的小面积上发现有趣的形状。这通常也是物体的微小局部。寻找有趣形状还是意味着追求简洁，不要贪多是构图的总原则。</p>
+</blockquote>
+<p>2.前景与背景</p>
+<blockquote>
+<p>前景指照片中位于主体前面、靠近镜头的任何景物。它的作用是增强画面的空间感，提高画面的感染力，也能起到交待拍摄地点（环境）的作用。这一点很重要，它使照片能传达尽可能多的信息。好的前景还兼有引导视线的作用。</p>
+</blockquote>
+<p>3.包围构图</p>
+<blockquote>
+<p>构图简洁第一重要，但凡事没有绝对，如果全景与局部难以决定，或不能确定是否应该包含某一物体，那就包含与否都拍，回家再仔细分析哪张效果好。反正数码片子不用花钱买胶卷。分析多了就知道以后如何取舍了。包围构图这个词是我自己发明的，和包围曝光相对应。</p>
+</blockquote>
+<p>4.横拍与竖拍</p>
+<p><strong>总之，规则是死的，人是活的，局限于条条框框没有必要。一张照片可能毫无构图法则可言，也可能是好几条构图法的综合。</strong></p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>以上摄影知识均摘录于 新浪微博@长沙杨飞 <a href="http://www.midphoto.com/chinese/essays/essays.htm" target="_blank" rel="external">《数码时代旅游摄影快速指南》</a>一书，杨飞老师此书是我看过摄影入门书籍中最通俗易懂的。书中有很多优秀的作品我没有一一列出，书中关于相机的选购、后期处理、不同场景的摄影基本技巧我也没有详细摘录。有兴趣的可以阅读书籍，杨飞老师的网站上提供了免费的电子版。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;三流的摄影师比器材，二流的摄影师比技术，一流的摄影师比思想。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“照片从来不能解决问题，它总是在不断的
+    
+    </summary>
+    
+      <category term="Others" scheme="http://yoursite.com/categories/Others/"/>
+    
+    
+      <category term="摄影" scheme="http://yoursite.com/tags/%E6%91%84%E5%BD%B1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>dmidecode查看服务器硬件信息</title>
+    <link href="http://yoursite.com/2015/10/21/dmidecode/"/>
+    <id>http://yoursite.com/2015/10/21/dmidecode/</id>
+    <published>2015-10-21T12:43:03.000Z</published>
+    <updated>2017-02-15T12:51:52.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="Dmidecode"><a href="#Dmidecode" class="headerlink" title="Dmidecode"></a>Dmidecode</h3><blockquote>
+<p>Dmidecode reports information about your system’s hardware as described in your system BIOS according to the SMBIOS/DMI standard (see a sample output). This information typically includes system manufacturer, model name, serial number, BIOS version, asset tag as well as a lot of other details of varying level of interest and reliability depending on the manufacturer. This will often include usage status for the CPU sockets, expansion slots (e.g. AGP, PCI, ISA) and memory module slots, and the list of I/O ports (e.g. serial, parallel, USB).</p>
+</blockquote>
+<p> dmidecode 遵循 SMBIOS/DMI 标准，其输出的信息包括 BIOS、系统、主板、处理器、内存、缓存等等。</p>
+<h4 id="DMI"><a href="#DMI" class="headerlink" title="DMI"></a>DMI</h4><p>Desktop Management Interface</p>
+<p>电脑系统信息的管理系统,DMI的主要组成部分是Management Information Format(MIF)数据库。这个数据库包括了所有有关电脑系统和配件的信息。通过DMI，用户可以获取序列号、电脑厂商、串口信息以及其它系统配件信息</p>
+<h4 id="SMBIOS"><a href="#SMBIOS" class="headerlink" title="SMBIOS"></a>SMBIOS</h4><p>System Management BIOS</p>
+<p>主板或系统制造者以标准格式显示产品管理信息所需遵循的统一规范</p>
+<h3 id="Dmidecode的作用"><a href="#Dmidecode的作用" class="headerlink" title="Dmidecode的作用"></a>Dmidecode的作用</h3><p>将DMI数据库中的信息解码，以可读的文本方式显示。由于DMI信息可以人为修改，因此里面的信息不一定是系统准确的信息。</p>
+<h3 id="Dmidecode的使用"><a href="#Dmidecode的使用" class="headerlink" title="Dmidecode的使用"></a>Dmidecode的使用</h3><p>Usage: dmidecode [OPTIONS]</p>
+<p>Options are:</p>
+<p>-q, –quiet Less verbose output     //显示更少的简化信息</p>
+<p>-s, –string KEYWORD Only display the value of the given DMI string  //只显示指定DMI字符串的信息</p>
+<p>-t, –type TYPE Only display the entries of given type  //只显示指定条目的信息</p>
+<pre><code>dmidecode: option requires an argument -- &apos;s&apos;
+String keyword expected
+Valid string keywords are:
+    bios-vendor
+    bios-version
+    bios-release-date
+    system-manufacturer
+    system-product-name
+    system-version
+    system-serial-number
+    system-uuid
+    baseboard-manufacturer
+    baseboard-product-name
+    baseboard-version
+    baseboard-serial-number
+    baseboard-asset-tag
+    chassis-manufacturer
+    chassis-type
+    chassis-version
+    chassis-serial-number
+    chassis-asset-tag
+    processor-family
+    processor-manufacturer
+    processor-version
+    processor-frequency
+
+---
+dmidecode: option requires an argument -- &apos;t&apos;
+Type number or keyword expected
+Valid type keywords are:
+    bios
+    system
+    baseboard
+    chassis
+    processor
+    memory
+    cache
+    connector
+    slot
+</code></pre><h3 id="Dmidecode常用命令"><a href="#Dmidecode常用命令" class="headerlink" title="Dmidecode常用命令"></a>Dmidecode常用命令</h3><p>查看内存槽数、那个槽位插了内存，大小是多少</p>
+<pre><code>dmidecode|grep -P -A5 &quot;Memory\s+Device&quot;|grep Size|grep -v Range
+</code></pre><p>查看最大支持内存数</p>
+<pre><code>dmidecode|grep -P &apos;Maximum\s+Capacity&apos;
+</code></pre><p>查看服务器型号</p>
+<pre><code>dmidecode | grep &apos;Product Name&apos;
+</code></pre><p>查看主板的序列号</p>
+<pre><code>dmidecode |grep &apos;Serial Number&apos;
+</code></pre><p>查看系统序列号</p>
+<pre><code>dmidecode -s system-serial-number
+</code></pre><p>查看内存信息</p>
+<pre><code>dmidecode -t memory
+</code></pre><p>查看OEM信息</p>
+<pre><code>dmidecode -t 11
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;Dmidecode&quot;&gt;&lt;a href=&quot;#Dmidecode&quot; class=&quot;headerlink&quot; title=&quot;Dmidecode&quot;&gt;&lt;/a&gt;Dmidecode&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;Dmidecode reports information
+    
+    </summary>
+    
+      <category term="Cmd" scheme="http://yoursite.com/categories/Cmd/"/>
+    
+    
+      <category term="dmidecode" scheme="http://yoursite.com/tags/dmidecode/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>RAID阵列卡系列命令备忘</title>
+    <link href="http://yoursite.com/2015/10/11/raid/"/>
+    <id>http://yoursite.com/2015/10/11/raid/</id>
+    <published>2015-10-11T12:27:51.000Z</published>
+    <updated>2016-11-07T05:14:48.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="阵列卡的常见类型"><a href="#阵列卡的常见类型" class="headerlink" title="阵列卡的常见类型"></a>阵列卡的常见类型</h3><h4 id="查看阵列卡的类型"><a href="#查看阵列卡的类型" class="headerlink" title="查看阵列卡的类型"></a>查看阵列卡的类型</h4><pre><code>lspci | grep -i raid
+</code></pre><p>一般有lsi和hp的两种，对应的管理命令为 MegaCli 和 hpssacli</p>
+<p>LSI官方网站和驱动下载 <a href="http://www.avagotech.com" target="_blank" rel="external">avagotech</a></p>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><h4 id="LSI的MegaSAS-RAID卡系列命令"><a href="#LSI的MegaSAS-RAID卡系列命令" class="headerlink" title="LSI的MegaSAS RAID卡系列命令"></a>LSI的MegaSAS RAID卡系列命令</h4><p><strong>显示所有逻辑磁盘组信息</strong></p>
+<pre><code>MegaCli -LDInfo -Lall -aALL
+MegaCli -LDInfo -Lall -aALL | grep State
+// 过滤State， 正常情况为：&quot;State : Optimal&quot;，否则为异常，例如 &quot;State : Degraded&quot;
+</code></pre><p><strong>查看所有物理磁盘信息</strong></p>
+<pre><code>MegaCli -PDList -aAll -NoLog
+MegaCli -PDList -aAll -NoLog | grep   &quot;Firmware state&quot;
+//如果 &quot;Firmware state&quot; 显示为非 Online，则表示该磁盘有问题。
+</code></pre><p><strong>显示 RAID 卡型号，RAID 设置及物理磁盘的相关信息</strong></p>
+<pre><code>MegaCli -cfgdsply -aALL -NoLog
+</code></pre><p><strong>查看磁盘总数和磁盘类型</strong></p>
+<pre><code>MegaCli -cfgdsply -aALL -NoLog | grep &quot;Media Type:&quot;
+</code></pre><p><strong>查看磁盘的rebuild 进度</strong></p>
+<pre><code># MegaCli -PDRbld -ShowProg -PhysDrv [32:3] -a0
+Rebuild Progress on Device at Enclosure 32, Slot 3 Completed 95% in 50 Minutes.
+</code></pre><p>显示 RAID 卡信息</p>
+<pre><code>MegaCli -AdpAllInfo -aALL -NoLog
+</code></pre><p>查看 RAID 卡日志</p>
+<pre><code>MegaCli -FwTermLog -Dsply -aALL -NoLog
+</code></pre><p>查看电池信息</p>
+<pre><code>MegaCli -AdpBbuCmd -aAll -NoLog
+</code></pre><p>显示适配器个数</p>
+<pre><code>MegaCli -adpCount -NoLog
+</code></pre><p>显示适配器时间</p>
+<pre><code>MegaCli -AdpGetTime –aALL -NoLog
+</code></pre><p><strong>常见设置</strong></p>
+<pre><code>MegaCli -LDSetProp WB -LALL -aALL
+MegaCli -LDSetProp ADRA -LALL-aALL
+MegaCli -LDSetProp disDskCache -LALL-aALL
+MegaCli -LDSetProp CachedBadBBU -Lall -aALL
+</code></pre><h4 id="HP-Smart-Array-CLI-命令"><a href="#HP-Smart-Array-CLI-命令" class="headerlink" title="HP Smart Array CLI 命令"></a>HP Smart Array CLI 命令</h4><p><strong>显示raid卡信息</strong></p>
+<pre><code>hpssacli ctrl all show  config
+hpssacli ctrl all show detail config   //查看raid卡详细信息
+</code></pre><p><strong>显示所有物理磁盘信息</strong></p>
+<pre><code>hpssacli ctrl slot=0 pd all show status
+hpssacli ctrl slot=0 pd all show detail   //查看所有物理磁盘详细信息
+hpssacli ctrl all show config | grep physicaldrive  //查看磁盘总数和磁盘类型
+</code></pre><p><strong>查看电池状态</strong></p>
+<pre><code>hpssacli ctrl all show status | grep Battery
+</code></pre><p><strong>查看raid缓存策略</strong></p>
+<pre><code>hpssacli ctrl all show detail config | grep &quot;Drive Write Cache:&quot;
+Drive Write Cache: Enabled
+
+// Drive Write Cache 有两种状态：Disable和Enable。
+// Disable代表将数据直接写入磁盘，Enable代表先将数据写入缓存然后在写入磁盘。
+</code></pre><p><strong>常见设置</strong></p>
+<p>开启阵列逻辑盘cache加速策略</p>
+<pre><code>hpssacli ctrl slot=1 logicaldrive 1 modify arrayaccelerator=enable
+</code></pre><p>没有电池的情况下开启raid写缓存</p>
+<pre><code>hpssacli ctrl slot=1 modify nobatterywritecache=enable forced
+</code></pre><p>启用物理磁盘cache功能</p>
+<pre><code>hpssacli ctrl slot=1 modify drivewritecache=enable
+</code></pre><p>设置读写百分比</p>
+<pre><code>hpssacli ctrl slot=1 modify cacheratio=25/75
+</code></pre><h3 id="raid电池策略"><a href="#raid电池策略" class="headerlink" title="raid电池策略"></a>raid电池策略</h3><p><strong>电池作用</strong></p>
+<p>保护数据：当服务器掉电时，raid电池提供电量保证raid卡缓存的数据写入磁盘。</p>
+<p><strong>电池的充放电</strong></p>
+<p>由于电池是可充电电池，在空闲时候会有微弱的放电。当电量低于一定的阀值，raid卡程序会进行一次放电，将剩余电量放掉然后再充电。在充放电的过程，raid的缓存策略会发生改变，当电池电量低于阀值时，raid卡程序会认为电池不可用，从而禁用了缓存策略，这时数据会直接写入磁盘，raid IO性能会下降，系统的IO的负载会升高。对于高IO的应用，IO性能下降的影响还是比较大。</p>
+<p><strong>电池充放电对IO影响的解决方案</strong></p>
+<p>1.检测电池的状态，掌握电池充放电的周期，在机器负载低的情况下手动强制放电。</p>
+<pre><code>MegaCli -AdpBbuCmd -BbuLearn -aALL
+</code></pre><p>电池在放电过程策略会从WriteBack变成WriteThrough</p>
+<p>2.强制改变raid策略，使其在充放电过程不禁用raid卡缓存</p>
+<pre><code>MegaCli -LDSetProp CachedBadBBU -lall -a0
+</code></pre><p>raid缓存策略从No Write Cache if Bad BBU变成Write Cache OK if Bad BBU，这样在充放电的过程IO性能也不下降。</p>
+<p><strong>简单介绍四种raid cache策略</strong></p>
+<ul>
+<li>WriteBack</li>
+</ul>
+<p>进行写操作时，将数据写入RAID卡缓存，并直接返回，RAID卡控制器将在系统负载低或者Cache满了的情况下把数据写入硬盘。该设置会大大提升RAID卡写性能，绝大多数的情况下会降低系统IO负载。数据的可靠性由RAID卡的BBU(Battery Backup Unit)进行保证。</p>
+<ul>
+<li>WriteThrough</li>
+</ul>
+<p>数据写操作不使用缓存，数据直接写入磁盘。RAID卡写性能下降，在大多数情况下该设置会造成系统IO负载上升。</p>
+<ul>
+<li>No Write Cache if Bad BBU</li>
+</ul>
+<p>如果BBU出问题，则关闭Write Cache。由WriteBack自动切换到WriteThrough模式。如果没有特殊要求，强烈建议采用该设置，以确保数据的安全。</p>
+<ul>
+<li>Write Cache OK if Bad BBU</li>
+</ul>
+<p>如果BBU出问题，依然启用Write Cache. 这是不推荐的设置，BBU出问题将无法保证断电情况下数据的正常，如果此时依然采用WriteBack模式，遇到断电将发生数据丢失。除非有UPS作额外保证，不然不推荐采用这个设置。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.inetmail.ca/Wiki/index.php/HP_Smart_Array_CLI_commands_on_ESXi" target="_blank" rel="external">HP_Smart_Array_CLI_commands</a><br><a href="http://zh.community.dell.com/techcenter/b/weblog/archive/2013/03/07/megacli-command-share" target="_blank" rel="external">MegaCli常用管理命令汇总</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;阵列卡的常见类型&quot;&gt;&lt;a href=&quot;#阵列卡的常见类型&quot; class=&quot;headerlink&quot; title=&quot;阵列卡的常见类型&quot;&gt;&lt;/a&gt;阵列卡的常见类型&lt;/h3&gt;&lt;h4 id=&quot;查看阵列卡的类型&quot;&gt;&lt;a href=&quot;#查看阵列卡的类型&quot; class=&quot;head
+    
+    </summary>
+    
+      <category term="Cmd" scheme="http://yoursite.com/categories/Cmd/"/>
+    
+    
+      <category term="raid" scheme="http://yoursite.com/tags/raid/"/>
+    
+      <category term="MegaCli" scheme="http://yoursite.com/tags/MegaCli/"/>
+    
+      <category term="hpssacli" scheme="http://yoursite.com/tags/hpssacli/"/>
     
   </entry>
   
