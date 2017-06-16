@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-12T02:13:31.000Z</updated>
+  <updated>2017-06-16T14:31:38.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,40 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>读《白鹿原》</title>
+    <link href="http://yoursite.com/2017/06/16/bailuyuan/"/>
+    <id>http://yoursite.com/2017/06/16/bailuyuan/</id>
+    <published>2017-06-16T14:29:06.000Z</published>
+    <updated>2017-06-16T14:31:38.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>中规中矩，没有预想的精彩。</p>
+<h3 id="摘录"><a href="#摘录" class="headerlink" title="摘录"></a>摘录</h3><blockquote>
+<p>朋友之交，宜得删繁就简。</p>
+<p>活着就要记住，人生最痛苦最绝望的那一刻是最难熬的一刻，但不是生命结束的最后一刻;熬过去挣过去就会开始一个重要的转折开始一个新的辉煌历程;心软一下熬不过去就死了，死了一切就都完了。好好活着，活着就有希望。</p>
+<p>好饭耐不得三顿吃，好衣架不住半月穿，好书却经得住一辈子读。</p>
+<p>我一生没做过见不得人的事。凡是怕人知道的事就不该做，应该做的事就不怕人知道，甚或知道的人越多越显得这事该做……你俩记住这个分寸。</p>
+<p>人往往就是这样，一个人的时候是一种样子，好多人聚到一起时完全变成另外一种样子。</p>
+<p>凡人们绝对信服圣人的圣言，但是却不真心实意的施行，这并不是圣人的悲剧，而是凡人永远也成不了圣人的缘故。</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;中规中矩，没有预想的精彩。&lt;/p&gt;
+&lt;h3 id=&quot;摘录&quot;&gt;&lt;a href=&quot;#摘录&quot; class=&quot;headerlink&quot; title=&quot;摘录&quot;&gt;&lt;/a&gt;摘录&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;朋友之交，宜得删繁就简。&lt;/p&gt;
+&lt;p&gt;活着就要记住，人生最痛苦最绝望的
+    
+    </summary>
+    
+      <category term="Others" scheme="http://yoursite.com/categories/Others/"/>
+    
+    
+      <category term="读书" scheme="http://yoursite.com/tags/%E8%AF%BB%E4%B9%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>Ansible 回调插件简单使用</title>
@@ -2104,118 +2138,6 @@ Valid type keywords are:
     
     
       <category term="dmidecode" scheme="http://yoursite.com/tags/dmidecode/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>RAID阵列卡系列命令备忘</title>
-    <link href="http://yoursite.com/2015/10/11/raid/"/>
-    <id>http://yoursite.com/2015/10/11/raid/</id>
-    <published>2015-10-11T12:27:51.000Z</published>
-    <updated>2016-11-07T05:14:48.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="阵列卡的常见类型"><a href="#阵列卡的常见类型" class="headerlink" title="阵列卡的常见类型"></a>阵列卡的常见类型</h3><h4 id="查看阵列卡的类型"><a href="#查看阵列卡的类型" class="headerlink" title="查看阵列卡的类型"></a>查看阵列卡的类型</h4><pre><code>lspci | grep -i raid
-</code></pre><p>一般有lsi和hp的两种，对应的管理命令为 MegaCli 和 hpssacli</p>
-<p>LSI官方网站和驱动下载 <a href="http://www.avagotech.com" target="_blank" rel="external">avagotech</a></p>
-<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><h4 id="LSI的MegaSAS-RAID卡系列命令"><a href="#LSI的MegaSAS-RAID卡系列命令" class="headerlink" title="LSI的MegaSAS RAID卡系列命令"></a>LSI的MegaSAS RAID卡系列命令</h4><p><strong>显示所有逻辑磁盘组信息</strong></p>
-<pre><code>MegaCli -LDInfo -Lall -aALL
-MegaCli -LDInfo -Lall -aALL | grep State
-// 过滤State， 正常情况为：&quot;State : Optimal&quot;，否则为异常，例如 &quot;State : Degraded&quot;
-</code></pre><p><strong>查看所有物理磁盘信息</strong></p>
-<pre><code>MegaCli -PDList -aAll -NoLog
-MegaCli -PDList -aAll -NoLog | grep   &quot;Firmware state&quot;
-//如果 &quot;Firmware state&quot; 显示为非 Online，则表示该磁盘有问题。
-</code></pre><p><strong>显示 RAID 卡型号，RAID 设置及物理磁盘的相关信息</strong></p>
-<pre><code>MegaCli -cfgdsply -aALL -NoLog
-</code></pre><p><strong>查看磁盘总数和磁盘类型</strong></p>
-<pre><code>MegaCli -cfgdsply -aALL -NoLog | grep &quot;Media Type:&quot;
-</code></pre><p><strong>查看磁盘的rebuild 进度</strong></p>
-<pre><code># MegaCli -PDRbld -ShowProg -PhysDrv [32:3] -a0
-Rebuild Progress on Device at Enclosure 32, Slot 3 Completed 95% in 50 Minutes.
-</code></pre><p>显示 RAID 卡信息</p>
-<pre><code>MegaCli -AdpAllInfo -aALL -NoLog
-</code></pre><p>查看 RAID 卡日志</p>
-<pre><code>MegaCli -FwTermLog -Dsply -aALL -NoLog
-</code></pre><p>查看电池信息</p>
-<pre><code>MegaCli -AdpBbuCmd -aAll -NoLog
-</code></pre><p>显示适配器个数</p>
-<pre><code>MegaCli -adpCount -NoLog
-</code></pre><p>显示适配器时间</p>
-<pre><code>MegaCli -AdpGetTime –aALL -NoLog
-</code></pre><p><strong>常见设置</strong></p>
-<pre><code>MegaCli -LDSetProp WB -LALL -aALL
-MegaCli -LDSetProp ADRA -LALL-aALL
-MegaCli -LDSetProp disDskCache -LALL-aALL
-MegaCli -LDSetProp CachedBadBBU -Lall -aALL
-</code></pre><h4 id="HP-Smart-Array-CLI-命令"><a href="#HP-Smart-Array-CLI-命令" class="headerlink" title="HP Smart Array CLI 命令"></a>HP Smart Array CLI 命令</h4><p><strong>显示raid卡信息</strong></p>
-<pre><code>hpssacli ctrl all show  config
-hpssacli ctrl all show detail config   //查看raid卡详细信息
-</code></pre><p><strong>显示所有物理磁盘信息</strong></p>
-<pre><code>hpssacli ctrl slot=0 pd all show status
-hpssacli ctrl slot=0 pd all show detail   //查看所有物理磁盘详细信息
-hpssacli ctrl all show config | grep physicaldrive  //查看磁盘总数和磁盘类型
-</code></pre><p><strong>查看电池状态</strong></p>
-<pre><code>hpssacli ctrl all show status | grep Battery
-</code></pre><p><strong>查看raid缓存策略</strong></p>
-<pre><code>hpssacli ctrl all show detail config | grep &quot;Drive Write Cache:&quot;
-Drive Write Cache: Enabled
-
-// Drive Write Cache 有两种状态：Disable和Enable。
-// Disable代表将数据直接写入磁盘，Enable代表先将数据写入缓存然后在写入磁盘。
-</code></pre><p><strong>常见设置</strong></p>
-<p>开启阵列逻辑盘cache加速策略</p>
-<pre><code>hpssacli ctrl slot=1 logicaldrive 1 modify arrayaccelerator=enable
-</code></pre><p>没有电池的情况下开启raid写缓存</p>
-<pre><code>hpssacli ctrl slot=1 modify nobatterywritecache=enable forced
-</code></pre><p>启用物理磁盘cache功能</p>
-<pre><code>hpssacli ctrl slot=1 modify drivewritecache=enable
-</code></pre><p>设置读写百分比</p>
-<pre><code>hpssacli ctrl slot=1 modify cacheratio=25/75
-</code></pre><h3 id="raid电池策略"><a href="#raid电池策略" class="headerlink" title="raid电池策略"></a>raid电池策略</h3><p><strong>电池作用</strong></p>
-<p>保护数据：当服务器掉电时，raid电池提供电量保证raid卡缓存的数据写入磁盘。</p>
-<p><strong>电池的充放电</strong></p>
-<p>由于电池是可充电电池，在空闲时候会有微弱的放电。当电量低于一定的阀值，raid卡程序会进行一次放电，将剩余电量放掉然后再充电。在充放电的过程，raid的缓存策略会发生改变，当电池电量低于阀值时，raid卡程序会认为电池不可用，从而禁用了缓存策略，这时数据会直接写入磁盘，raid IO性能会下降，系统的IO的负载会升高。对于高IO的应用，IO性能下降的影响还是比较大。</p>
-<p><strong>电池充放电对IO影响的解决方案</strong></p>
-<p>1.检测电池的状态，掌握电池充放电的周期，在机器负载低的情况下手动强制放电。</p>
-<pre><code>MegaCli -AdpBbuCmd -BbuLearn -aALL
-</code></pre><p>电池在放电过程策略会从WriteBack变成WriteThrough</p>
-<p>2.强制改变raid策略，使其在充放电过程不禁用raid卡缓存</p>
-<pre><code>MegaCli -LDSetProp CachedBadBBU -lall -a0
-</code></pre><p>raid缓存策略从No Write Cache if Bad BBU变成Write Cache OK if Bad BBU，这样在充放电的过程IO性能也不下降。</p>
-<p><strong>简单介绍四种raid cache策略</strong></p>
-<ul>
-<li>WriteBack</li>
-</ul>
-<p>进行写操作时，将数据写入RAID卡缓存，并直接返回，RAID卡控制器将在系统负载低或者Cache满了的情况下把数据写入硬盘。该设置会大大提升RAID卡写性能，绝大多数的情况下会降低系统IO负载。数据的可靠性由RAID卡的BBU(Battery Backup Unit)进行保证。</p>
-<ul>
-<li>WriteThrough</li>
-</ul>
-<p>数据写操作不使用缓存，数据直接写入磁盘。RAID卡写性能下降，在大多数情况下该设置会造成系统IO负载上升。</p>
-<ul>
-<li>No Write Cache if Bad BBU</li>
-</ul>
-<p>如果BBU出问题，则关闭Write Cache。由WriteBack自动切换到WriteThrough模式。如果没有特殊要求，强烈建议采用该设置，以确保数据的安全。</p>
-<ul>
-<li>Write Cache OK if Bad BBU</li>
-</ul>
-<p>如果BBU出问题，依然启用Write Cache. 这是不推荐的设置，BBU出问题将无法保证断电情况下数据的正常，如果此时依然采用WriteBack模式，遇到断电将发生数据丢失。除非有UPS作额外保证，不然不推荐采用这个设置。</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.inetmail.ca/Wiki/index.php/HP_Smart_Array_CLI_commands_on_ESXi" target="_blank" rel="external">HP_Smart_Array_CLI_commands</a><br><a href="http://zh.community.dell.com/techcenter/b/weblog/archive/2013/03/07/megacli-command-share" target="_blank" rel="external">MegaCli常用管理命令汇总</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;阵列卡的常见类型&quot;&gt;&lt;a href=&quot;#阵列卡的常见类型&quot; class=&quot;headerlink&quot; title=&quot;阵列卡的常见类型&quot;&gt;&lt;/a&gt;阵列卡的常见类型&lt;/h3&gt;&lt;h4 id=&quot;查看阵列卡的类型&quot;&gt;&lt;a href=&quot;#查看阵列卡的类型&quot; class=&quot;head
-    
-    </summary>
-    
-      <category term="Cmd" scheme="http://yoursite.com/categories/Cmd/"/>
-    
-    
-      <category term="raid" scheme="http://yoursite.com/tags/raid/"/>
-    
-      <category term="MegaCli" scheme="http://yoursite.com/tags/MegaCli/"/>
-    
-      <category term="hpssacli" scheme="http://yoursite.com/tags/hpssacli/"/>
     
   </entry>
   
