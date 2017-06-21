@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-06-21T13:58:06.000Z</updated>
+  <updated>2017-06-21T14:13:04.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,60 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Zabbix Low-level discovery</title>
+    <link href="http://yoursite.com/2017/01/21/low-level-discovery/"/>
+    <id>http://yoursite.com/2017/01/21/low-level-discovery/</id>
+    <published>2017-01-21T14:13:32.000Z</published>
+    <updated>2017-06-21T14:13:04.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>Low-level discovery provides a way to automatically create items, triggers, and graphs for different entities on a computer. For instance, Zabbix can automatically start monitoring file systems or network interfaces on your machine, without the need to create items for each file system or network interface manually. </p>
+<p>In Zabbix, four types of item discovery are supported out of the box:</p>
+<ul>
+<li>discovery of file systems;</li>
+<li>discovery of network interfaces;</li>
+<li>discovery of CPUs and CPU cores;</li>
+<li>discovery of SNMP OIDs.</li>
+</ul>
+<p>A user can define their own types of discovery, provided they follow a particular JSON protocol.</p>
+</blockquote>
+<a id="more"></a>
+<p>简而言之，zabbix的低水平发现就是减少我们的重复操作，能够根据不同的监控实例自动添加监控项、触发器和图形。<br><code>vfs.fs.discovery</code>和<code>net.if.discovery</code>就是zabbix自带的自动发现键值，能够自动识别agent端的文件挂载情况和网卡信息。还有基于SNMP OID的自动发现键值，能够自动识别交换机的所有端口信息。<br>当我们的一个服务有多个端口需要监控时，我通常是先在agent端写好监控脚本，定义键值，然后再为每个端口新建监控项、触发器和图形（当然你可以直接克隆），但还是免不了一些重复操作。下面就通过一个例子看一下Low-level discovery是如何工作的：</p>
+<h3 id="监控需求："><a href="#监控需求：" class="headerlink" title="监控需求："></a>监控需求：</h3><p>监控udp端口12222-12229的端口状态</p>
+<h3 id="实现步骤："><a href="#实现步骤：" class="headerlink" title="实现步骤："></a>实现步骤：</h3><h4 id="1-以json格式自定义发现类型"><a href="#1-以json格式自定义发现类型" class="headerlink" title="1.以json格式自定义发现类型"></a>1.以json格式自定义发现类型</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat udpport_discovery.py</div><div class="line">#!/usr/bin/env python</div><div class="line">import sys,datetime,socket</div><div class="line"></div><div class="line">if __name__ == &quot;__main__&quot;:</div><div class="line">    zbxkey = sys.argv[1]</div><div class="line">    zbx_d = &#123;&#125;</div><div class="line">    zbx_d[&quot;data&quot;] = []</div><div class="line">    host_name = socket.gethostname().lower()</div><div class="line"></div><div class="line">    res = [&apos;12222&apos;, &apos;12223&apos;, &apos;12224&apos;, &apos;12225&apos;, &apos;12226&apos;, &apos;12227&apos;, &apos;12228&apos;, &apos;12229&apos;]</div><div class="line">    for line in res:</div><div class="line">        d = &#123;&#125;</div><div class="line">        d[&quot;&#123;#%s&#125;&quot; % zbxkey] = line</div><div class="line">        zbx_d[&quot;data&quot;].append(d)</div><div class="line">    print str(zbx_d).replace(&quot;&apos;&quot;,&apos;&quot;&apos;)</div></pre></td></tr></table></figure>
+<h4 id="2-定义配置文件"><a href="#2-定义配置文件" class="headerlink" title="2.定义配置文件"></a>2.定义配置文件</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat udp_port.conf</div><div class="line">#############Template_Udp#############</div><div class="line">UserParameter=status[*],/home/prod/softwares/zabbix/etc/zabbix_agentd.conf.d/udp_port.sh $1</div><div class="line">UserParameter=discovery.udpport,/home/prod/softwares/zabbix/etc/zabbix_agentd.conf.d/udpport_discovery.py PORT</div></pre></td></tr></table></figure>
+<h4 id="3-检测自定义键值"><a href="#3-检测自定义键值" class="headerlink" title="3.检测自定义键值"></a>3.检测自定义键值</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ python udpport_discovery.py PORT</div><div class="line">&#123;&quot;data&quot;: [&#123;&quot;&#123;#PORT&#125;&quot;: &quot;12222&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12223&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12224&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12225&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12226&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12227&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12228&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12229&quot;&#125;]&#125;</div></pre></td></tr></table></figure>
+<p>zabbix server端测试：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ ./zabbix_get -s 10.0.0.206 -k discovery.udpport</div><div class="line">&#123;&quot;data&quot;: [&#123;&quot;&#123;#PORT&#125;&quot;: &quot;12222&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12223&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12224&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12225&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12226&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12227&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12228&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12229&quot;&#125;]&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="4-编写监控脚本"><a href="#4-编写监控脚本" class="headerlink" title="4.编写监控脚本"></a>4.编写监控脚本</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat udp_port.sh</div><div class="line">Port=$1</div><div class="line">case $Port in</div><div class="line">        12222)   netstat -nupl | grep 12222 |wc -l;;</div><div class="line">        12223)   netstat -nupl | grep 12223 |wc -l;;</div><div class="line">        12224)   netstat -nupl | grep 12224 |wc -l;;</div><div class="line">        12225)   netstat -nupl | grep 12225 |wc -l;;</div><div class="line">        12226)   netstat -nupl | grep 12226 |wc -l;;</div><div class="line">        12227)   netstat -nupl | grep 12227 |wc -l;;</div><div class="line">        12228)   netstat -nupl | grep 12228 |wc -l;;</div><div class="line">        12229)   netstat -nupl | grep 12229 |wc -l;;</div><div class="line">        *) echo Error; exit 1;;</div><div class="line">esac</div></pre></td></tr></table></figure>
+<h4 id="5-web添加模板"><a href="#5-web添加模板" class="headerlink" title="5.web添加模板"></a>5.web添加模板</h4><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/01256527-8987-40C4-9C65-2FC6D1D8610F.png" alt=""></p>
+<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/E604037B-096A-4789-9AB3-A47B14020FB2.png" alt=""></p>
+<h4 id="6-将模板关联对应机器"><a href="#6-将模板关联对应机器" class="headerlink" title="6.将模板关联对应机器"></a>6.将模板关联对应机器</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.zabbix.com/documentation/2.4/manual/discovery/low_level_discovery" target="_blank" rel="external">LDD官方文档</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Low-level discovery provides a way to automatically create items, triggers, and graphs for different entities on a computer. For instance, Zabbix can automatically start monitoring file systems or network interfaces on your machine, without the need to create items for each file system or network interface manually. &lt;/p&gt;
+&lt;p&gt;In Zabbix, four types of item discovery are supported out of the box:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;discovery of file systems;&lt;/li&gt;
+&lt;li&gt;discovery of network interfaces;&lt;/li&gt;
+&lt;li&gt;discovery of CPUs and CPU cores;&lt;/li&gt;
+&lt;li&gt;discovery of SNMP OIDs.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A user can define their own types of discovery, provided they follow a particular JSON protocol.&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="Tools" scheme="http://yoursite.com/categories/Tools/"/>
+    
+    
+      <category term="zabbix" scheme="http://yoursite.com/tags/zabbix/"/>
+    
+  </entry>
   
   <entry>
     <title>Python datetime那点事</title>
@@ -132,6 +186,701 @@
     
     
       <category term="datetime" scheme="http://yoursite.com/tags/datetime/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>小试Ansible Python API</title>
+    <link href="http://yoursite.com/2016/11/04/ansible-python-api/"/>
+    <id>http://yoursite.com/2016/11/04/ansible-python-api/</id>
+    <published>2016-11-04T10:49:12.000Z</published>
+    <updated>2017-06-21T14:13:04.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><h3 id="命令行"><a href="#命令行" class="headerlink" title="命令行"></a>命令行</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// ping 模块</div><div class="line">$ ansible localhost -m ping</div><div class="line">localhost | success &gt;&gt; &#123;</div><div class="line">    &quot;changed&quot;: false,</div><div class="line">    &quot;ping&quot;: &quot;pong&quot;</div><div class="line">&#125;</div><div class="line">// shell 模块</div><div class="line">$ ansible localhost -m shell -a &apos;uptime&apos;</div><div class="line">localhost | success | rc=0 &gt;&gt;</div><div class="line">11:00:11 up 66 days, 23:34,  1 user,  load average: 0.00, 0.01, 0.05</div></pre></td></tr></table></figure>
+<h3 id="Python-API"><a href="#Python-API" class="headerlink" title="Python API"></a>Python API</h3><p>通过ansible.runner模块来实现</p>
+<a id="more"></a>
+<h4 id="使用API实现ping模块功能："><a href="#使用API实现ping模块功能：" class="headerlink" title="使用API实现ping模块功能："></a>使用API实现ping模块功能：</h4><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="keyword">import</span> ansible.runner</div><div class="line"><span class="keyword">import</span> json</div><div class="line"></div><div class="line">runner = ansible.runner.Runner(</div><div class="line">    module_name=<span class="string">'ping'</span>,  //模块名</div><div class="line">    module_args=<span class="string">''</span>,  //模块参数</div><div class="line">    pattern=<span class="string">'localhost'</span>,  //匹配主机或主机组</div><div class="line">    forks=<span class="number">2</span> //多线程</div><div class="line">)</div><div class="line">data = runner.run()</div><div class="line"><span class="keyword">print</span> data  //打印输出结果默认json格式</div><div class="line"></div><div class="line">//stdout</div><div class="line">&#123;<span class="string">'dark'</span>: &#123;&#125;, <span class="string">'contacted'</span>: &#123;<span class="string">'localhost'</span>: &#123;<span class="string">'invocation'</span>: &#123;<span class="string">'module_name'</span>: <span class="string">'ping'</span>, <span class="string">'module_args'</span>: <span class="string">''</span>&#125;, <span class="string">u'changed'</span>: <span class="keyword">False</span>, <span class="string">u'ping'</span>: <span class="string">u'pong'</span>&#125;&#125;&#125;</div></pre></td></tr></table></figure>
+<p>由于输出结果默认是json格式，那么我们可以格式化一下，让它更美观</p>
+<blockquote>
+<p>sort_keys  <code>按key排序</code><br>indent <code>缩进</code><br>separators <code>指定分隔符(默认分隔符&#39;, &#39;,使用&#39;,&#39;,&#39;: &#39; 避免尾部空格)</code></p>
+</blockquote>
+<p>上例中的输出格式化：<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">print</span> json.dumps(data, sort_keys=<span class="keyword">True</span>, indent=<span class="number">4</span>, separators=(<span class="string">','</span>, <span class="string">': '</span>)) //对json格式化输出</div><div class="line">//stdout</div><div class="line">&#123;</div><div class="line">    <span class="string">"contacted"</span>: &#123;</div><div class="line">        <span class="string">"localhost"</span>: &#123;</div><div class="line">            <span class="string">"changed"</span>: false,</div><div class="line">            <span class="string">"invocation"</span>: &#123;</div><div class="line">                <span class="string">"module_args"</span>: <span class="string">""</span>,</div><div class="line">                <span class="string">"module_name"</span>: <span class="string">"ping"</span></div><div class="line">            &#125;,</div><div class="line">            <span class="string">"ping"</span>: <span class="string">"pong"</span></div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="string">"dark"</span>: &#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="使用API实现shell模块功能"><a href="#使用API实现shell模块功能" class="headerlink" title="使用API实现shell模块功能"></a>使用API实现shell模块功能</h4><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="keyword">import</span> ansible.runner</div><div class="line"><span class="keyword">import</span> json</div><div class="line"></div><div class="line">runner = ansible.runner.Runner(</div><div class="line">   module_name=<span class="string">'shell'</span>,</div><div class="line">   module_args=<span class="string">'uptime'</span>,</div><div class="line">   pattern=<span class="string">'localhost'</span>,</div><div class="line">   forks=<span class="number">2</span></div><div class="line">)</div><div class="line">data = runner.run()</div><div class="line"><span class="keyword">print</span> json.dumps(data, sort_keys=<span class="keyword">True</span>, indent=<span class="number">4</span>, separators=(<span class="string">','</span>, <span class="string">': '</span>))</div><div class="line"></div><div class="line">//stdout</div><div class="line">&#123;</div><div class="line">    <span class="string">"contacted"</span>: &#123;</div><div class="line">        <span class="string">"localhost"</span>: &#123;</div><div class="line">            <span class="string">"changed"</span>: true,</div><div class="line">            <span class="string">"cmd"</span>: <span class="string">"uptime"</span>,</div><div class="line">            <span class="string">"delta"</span>: <span class="string">"0:00:00.002573"</span>,</div><div class="line">            <span class="string">"end"</span>: <span class="string">"2016-11-04 14:57:26.549208"</span>,</div><div class="line">            <span class="string">"invocation"</span>: &#123;</div><div class="line">                <span class="string">"module_args"</span>: <span class="string">"uptime"</span>,</div><div class="line">                <span class="string">"module_name"</span>: <span class="string">"shell"</span></div><div class="line">            &#125;,</div><div class="line">            <span class="string">"rc"</span>: <span class="number">0</span>,</div><div class="line">            <span class="string">"start"</span>: <span class="string">"2016-11-04 14:57:26.546635"</span>,</div><div class="line">            <span class="string">"stderr"</span>: <span class="string">""</span>,</div><div class="line">            <span class="string">"stdout"</span>: <span class="string">" 14:57:26 up 67 days,  3:31,  1 user,  load average: 0.00, 0.06, 0.07"</span></div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="string">"dark"</span>: &#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="打印stdout"><a href="#打印stdout" class="headerlink" title="打印stdout"></a>打印stdout</h4><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="keyword">import</span> ansible.runner</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">result</span><span class="params">(contacted)</span>:</span></div><div class="line">    <span class="keyword">for</span> k,v <span class="keyword">in</span> contacted.items():</div><div class="line">        <span class="keyword">if</span> k == <span class="string">'stdout'</span>:</div><div class="line">            <span class="keyword">print</span> v</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">ping_module</span><span class="params">()</span>:</span></div><div class="line">    runner = ansible.runner.Runner(</div><div class="line">        module_name=<span class="string">'ping'</span>,</div><div class="line">        module_args=<span class="string">''</span>,</div><div class="line">        pattern=<span class="string">'localhost'</span>,</div><div class="line">        forks=<span class="number">2</span></div><div class="line">        )</div><div class="line">    data = runner.run()</div><div class="line">    <span class="keyword">print</span> data</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">shell_module</span><span class="params">()</span>:</span></div><div class="line">    runner = ansible.runner.Runner(</div><div class="line">        module_name=<span class="string">'shell'</span>,</div><div class="line">        module_args=<span class="string">'uptime'</span>,</div><div class="line">        pattern=<span class="string">'localhost'</span>,</div><div class="line">        forks=<span class="number">2</span></div><div class="line">        )</div><div class="line">    data = runner.run()</div><div class="line">    result(data[<span class="string">'contacted'</span>][<span class="string">'localhost'</span>])</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:  </div><div class="line">    shell_module()</div><div class="line">    </div><div class="line">//stdout</div><div class="line"><span class="number">15</span>:<span class="number">34</span>:<span class="number">09</span> up <span class="number">67</span> days,  <span class="number">4</span>:<span class="number">07</span>,  <span class="number">1</span> user,  load average: <span class="number">0.00</span>, <span class="number">0.01</span>, <span class="number">0.05</span></div></pre></td></tr></table></figure>
+<h2 id="playbook"><a href="#playbook" class="headerlink" title="playbook"></a>playbook</h2><p>playbook描述了在远程主机上执行的策略或一组任务</p>
+<p>一个playbook文件由一个或多个play组成，每个play定义了一系列的task，每个task通过ansible的模块来实现特定的功能</p>
+<p>exp.yml (<code>playbook使用YAML语言编写，文件名以.yaml或.yml结尾</code>)</p>
+<pre><code>- hosts: localhost_group   //主机组
+   tasks:
+    - name: kernel release info  //task1
+      command: uname -a
+
+    - name: memory info  //task2
+      shell: free -m
+</code></pre><p>这个playbook可以查看远程主机的内核版本信息和内存信息</p>
+<h3 id="ansible-playbook命令"><a href="#ansible-playbook命令" class="headerlink" title="ansible-playbook命令"></a>ansible-playbook命令</h3><p>命令行执行playbook</p>
+<pre><code>$ ansible-playbook  -i /etc/ansible/hosts  test.yml
+
+PLAY [localhost_group] ********************************************************
+
+GATHERING FACTS ***************************************************************
+ok: [localhost]
+
+TASK: [kernel info] ***********************************************************
+changed: [localhost]
+
+TASK: [memory info] ***********************************************************
+changed: [localhost]
+
+PLAY RECAP ********************************************************************
+localhost                  : ok=3    changed=2    unreachable=0    failed=0
+</code></pre><h3 id="Python-API-1"><a href="#Python-API-1" class="headerlink" title="Python API"></a>Python API</h3><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># encoding=utf8</span></div><div class="line"><span class="comment">#!/usr/bin/python</span></div><div class="line"><span class="keyword">import</span> ansible.runner</div><div class="line"><span class="keyword">import</span> ansible.playbook</div><div class="line"><span class="keyword">import</span> ansible.inventory</div><div class="line"><span class="keyword">from</span> ansible <span class="keyword">import</span> callbacks</div><div class="line"><span class="keyword">from</span> ansible <span class="keyword">import</span> utils</div><div class="line"><span class="keyword">import</span> json</div><div class="line"></div><div class="line">playbook_path = <span class="string">"/home/ubuntu/scripts/exp.yml"</span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">##添加主机信息</span></div><div class="line">host = ansible.inventory.host.Host(</div><div class="line">    name = <span class="string">'localhost'</span></div><div class="line">    )</div><div class="line"></div><div class="line"><span class="comment">##设置主机组并添加主机</span></div><div class="line">group = ansible.inventory.group.Group(</div><div class="line">    name = <span class="string">'localhost_group'</span></div><div class="line">    )</div><div class="line">group.add_host(host)</div><div class="line"></div><div class="line"><span class="comment">##主机列表</span></div><div class="line">example_inventory = ansible.inventory.Inventory()</div><div class="line">example_inventory.add_group(group)</div><div class="line"></div><div class="line"><span class="comment">#回调信息</span></div><div class="line">stats = callbacks.AggregateStats()</div><div class="line">playbook_cb = callbacks.PlaybookCallbacks(verbose=utils.VERBOSITY)</div><div class="line">runner_cb = callbacks.PlaybookRunnerCallbacks(stats, verbose=utils.VERBOSITY)</div><div class="line"></div><div class="line"><span class="comment">#创建实例，playbook位于playbook_path</span></div><div class="line">pb = ansible.playbook.PlayBook(</div><div class="line">    playbook = playbook_path,</div><div class="line">    stats = stats,</div><div class="line">    callbacks = playbook_cb,</div><div class="line">    runner_callbacks = runner_cb,</div><div class="line">    inventory = example_inventory,</div><div class="line">    subset = <span class="string">'all'</span>,</div><div class="line">    )</div><div class="line"></div><div class="line"><span class="comment">#运行playbook</span></div><div class="line">pr = pb.run()</div><div class="line"></div><div class="line"><span class="comment">#打印结果</span></div><div class="line"><span class="keyword">print</span> json.dumps(pr, sort_keys=<span class="keyword">True</span>, indent=<span class="number">4</span>, separators=(<span class="string">','</span>, <span class="string">': '</span>))</div></pre></td></tr></table></figure>
+<p>//stdout</p>
+<pre><code>PLAY [localhost_group] ********************************************************
+
+GATHERING FACTS ***************************************************************
+ok: [localhost]
+
+TASK: [kernel info] ***********************************************************
+changed: [localhost]
+
+TASK: [memory info] ***********************************************************
+changed: [localhost]
+{
+    &quot;localhost&quot;: {
+    &quot;changed&quot;: 2,
+    &quot;failures&quot;: 0,
+    &quot;ok&quot;: 3,
+    &quot;skipped&quot;: 0,
+    &quot;unreachable&quot;: 0
+    }
+}
+</code></pre><h4 id="ansible-runner更多信息"><a href="#ansible-runner更多信息" class="headerlink" title="ansible.runner更多信息"></a>ansible.runner更多信息</h4><pre><code>&gt;&gt;&gt; import ansible.runner
+&gt;&gt;&gt; dir(ansible.runner)
+[&apos;C&apos;, &apos;DefaultRunnerCallbacks&apos;, &apos;HAS_ATFORK&apos;, &apos;HostVars&apos;, &apos;ModuleReplacer&apos;, &apos;OUTPUT_LOCKFILE&apos;, &apos;PROCESS_LOCKFILE&apos;, &apos;Queue&apos;, &apos;ReturnData&apos;, &apos;Runner&apos;, &apos;__builtins__&apos;, &apos;__doc__&apos;, &apos;__file__&apos;, &apos;__name__&apos;, &apos;__package__&apos;, &apos;__path__&apos;, &apos;_executor_hook&apos;, &apos;ansible&apos;, &apos;atfork&apos;, &apos;base64&apos;, &apos;check_conditional&apos;, &apos;collections&apos;, &apos;connection&apos;, &apos;errors&apos;, &apos;getpass&apos;, &apos;jinja2&apos;, &apos;module_common&apos;, &apos;module_replacer&apos;, &apos;multiprocessing&apos;, &apos;multiprocessing_runner&apos;, &apos;os&apos;, &apos;pipes&apos;, &apos;poller&apos;, &apos;pwd&apos;, &apos;random&apos;, &apos;return_data&apos;, &apos;signal&apos;, &apos;socket&apos;, &apos;split_args&apos;, &apos;string_functions&apos;, &apos;subprocess&apos;, &apos;sys&apos;, &apos;tempfile&apos;, &apos;template&apos;, &apos;time&apos;, &apos;traceback&apos;, &apos;utils&apos;, &apos;vv&apos;]
+&gt;&gt;&gt; help(ansible.runner.Runner)    
+</code></pre><h4 id="Python-yaml-模块自定义playbook"><a href="#Python-yaml-模块自定义playbook" class="headerlink" title="Python yaml 模块自定义playbook"></a>Python yaml 模块自定义playbook</h4><p>define_yaml.py<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="keyword">import</span> yaml</div><div class="line"><span class="keyword">import</span> os</div><div class="line"></div><div class="line">playbook_path = <span class="string">'/home/ubuntu/scripts'</span></div><div class="line"></div><div class="line">Yml_args = &#123;&#125;</div><div class="line">Yml = []</div><div class="line">Yml_args[<span class="string">"gather_facts"</span>] = <span class="keyword">False</span></div><div class="line">Yml_args[<span class="string">"hosts"</span>] = <span class="string">"localhost_group"</span></div><div class="line">Yml_args[<span class="string">"remote_user"</span>] = <span class="string">"ubuntu"</span></div><div class="line">Yml_task = []</div><div class="line">Yml_task.append(&#123;<span class="string">'shell'</span>: <span class="string">'uptime'</span>, <span class="string">'name'</span>: <span class="string">'uptime info'</span>&#125;)</div><div class="line">Yml_task.append(&#123;<span class="string">'shell'</span>: <span class="string">'free -m'</span>, <span class="string">'name'</span>: <span class="string">'memory info'</span>&#125;)</div><div class="line">Yml_args[<span class="string">"tasks"</span>] = Yml_task</div><div class="line">Yml.append(Yml_args)</div><div class="line">Yml = yaml.dump(Yml)</div><div class="line">Yml_path = os.path.join(playbook_path, <span class="string">"exp.yml"</span>)</div><div class="line"><span class="keyword">with</span> open(Yml_path, <span class="string">'w'</span>) <span class="keyword">as</span> f:</div><div class="line">    f.write(Yml)</div></pre></td></tr></table></figure></p>
+<p>运行并检测：</p>
+<pre><code>$ python define_yaml.py
+
+$ ansible-playbook  -i /etc/ansible/hosts  exp.yml
+
+PLAY [localhost_group] ********************************************************
+
+TASK: [uptime info] ***********************************************************
+changed: [localhost]
+
+TASK: [memory info] ***********************************************************
+changed: [localhost]
+
+PLAY RECAP ********************************************************************
+localhost                  : ok=2    changed=2    unreachable=0    failed=0
+
+$ cat exp.yml
+- gather_facts: false
+  hosts: localhost_group
+  remote_user: ubuntu
+  tasks:
+  - {name: uptime info, shell: uptime}
+  - {name: memory info, shell: free -m}
+</code></pre><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://docs.ansible.com/ansible/dev_guide/developing_api.html" target="_blank" rel="external">Ansible Python API</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;模块&quot;&gt;&lt;a href=&quot;#模块&quot; class=&quot;headerlink&quot; title=&quot;模块&quot;&gt;&lt;/a&gt;模块&lt;/h2&gt;&lt;h3 id=&quot;命令行&quot;&gt;&lt;a href=&quot;#命令行&quot; class=&quot;headerlink&quot; title=&quot;命令行&quot;&gt;&lt;/a&gt;命令行&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;// ping 模块&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ ansible localhost -m ping&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;localhost | success &amp;gt;&amp;gt; &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &amp;quot;changed&amp;quot;: false,&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &amp;quot;ping&amp;quot;: &amp;quot;pong&amp;quot;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;// shell 模块&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ ansible localhost -m shell -a &amp;apos;uptime&amp;apos;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;localhost | success | rc=0 &amp;gt;&amp;gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11:00:11 up 66 days, 23:34,  1 user,  load average: 0.00, 0.01, 0.05&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;Python-API&quot;&gt;&lt;a href=&quot;#Python-API&quot; class=&quot;headerlink&quot; title=&quot;Python API&quot;&gt;&lt;/a&gt;Python API&lt;/h3&gt;&lt;p&gt;通过ansible.runner模块来实现&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Dev" scheme="http://yoursite.com/categories/Dev/"/>
+    
+    
+      <category term="Ansible" scheme="http://yoursite.com/tags/Ansible/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ansible基础知识备忘</title>
+    <link href="http://yoursite.com/2016/05/20/ansible/"/>
+    <id>http://yoursite.com/2016/05/20/ansible/</id>
+    <published>2016-05-20T08:25:38.000Z</published>
+    <updated>2017-06-21T14:13:04.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="一、体系结构"><a href="#一、体系结构" class="headerlink" title="一、体系结构"></a>一、体系结构</h3><p>ansible是一款基于python开发，揉合了众多自动化运维工具功能的轻量级自动化运维工具，目前实现了除系统安装以外的批量系统配置、批量任务执行及批量程序部署等功能。</p>
+<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/25.png" alt=""></p>
+<ul>
+<li>Inventory：主机库，定义可控制的主机</li>
+<li>Modules：基于模块化设计，通过模块来实现批量部署</li>
+<li>playbook：剧本，使用YAML编写的声明性的配置文件</li>
+<li>plugins: 插件，完成日志记录、邮件等功能</li>
+</ul>
+<h3 id="二、-特点"><a href="#二、-特点" class="headerlink" title="二、 特点"></a>二、 特点</h3><ul>
+<li>高度模块化，借助模块完成各种任务</li>
+<li>agentless，无需在被控制端安装agent</li>
+<li>默认基于ssh协议向被控制端发送操作指令<ul>
+<li>基于密钥认证</li>
+<li>在inventory文件中指定账号和密码</li>
+</ul>
+</li>
+<li>批量任务执行可写成剧本playbook</li>
+<li>幂等性：不会重复执行相同操作</li>
+</ul>
+<h3 id="三、简单使用"><a href="#三、简单使用" class="headerlink" title="三、简单使用"></a>三、简单使用</h3><h4 id="3-1-ssh免密钥登录"><a href="#3-1-ssh免密钥登录" class="headerlink" title="3.1 ssh免密钥登录"></a>3.1 ssh免密钥登录</h4><pre><code># ssh-keygen -t rsa -P &apos;&apos;  
+# ssh-copy-id  -i /root/.ssh/id_rsa.pub  10.249.6.64
+# ssh-copy-id  -i /root/.ssh/id_rsa.pub  10.48.156.8
+</code></pre><h4 id="3-2-常用命令"><a href="#3-2-常用命令" class="headerlink" title="3.2 常用命令"></a>3.2 常用命令</h4><p>ansible-doc</p>
+<pre><code>Options:
+
+-l, --list            List available modules  //列出所有模块
+-s, --snippet         Show playbook snippet for specified module(s) //查看指定模块用法
+
+更多信息请参考manual手册
+</code></pre><p>ansible</p>
+<p> ansible <host-pattern>  [-f forks][-m module_name] [-a args] [options]</host-pattern></p>
+<pre><code>Options:
+
+  -a MODULE_ARGS, --args=MODULE_ARGS
+                    module arguments   // 传递模块参数
+  -f FORKS, --forks=FORKS  // 指定并发数
+                    specify number of parallel processes to use
+                    (default=5)
+  -i INVENTORY, --inventory-file=INVENTORY 
+                    specify inventory host file
+                    (default=/etc/ansible/hosts)    
+  -m MODULE_NAME, --module-name=MODULE_NAME
+                    module name to execute (default=command)   
+
+ 更多信息请参考manual手册        
+</code></pre><p>ansible-playbook  </p>
+<p>ansible-playbook <filename.yml> … [options]             </filename.yml></p>
+<h3 id="四、模块"><a href="#四、模块" class="headerlink" title="四、模块"></a>四、模块</h3><h4 id="command"><a href="#command" class="headerlink" title="command"></a>command</h4><p>命令模块: ansible默认模块，用于在远程执行命令，command模块并不支持shell变量和管道等，若想使用shell来执行，应使用shell模块。</p>
+<pre><code># ansible-doc -l | grep ^command
+command              Executes a command on a remote node                        
+
+# ansible 10.249.6.64 -m command -a &quot;date&quot;
+10.249.6.64 | success | rc=0 &gt;&gt;
+Wed May 11 21:21:35 CST 2016                        
+</code></pre><h4 id="ping"><a href="#ping" class="headerlink" title="ping"></a>ping</h4><p>ping模块：测试指定主机是否能连接</p>
+<pre><code># ansible-doc -l | grep  -w ^ping
+ping                 Try to connect to host and return `pong&apos; on success.                  
+
+# ansible 10.249.6.64 -m ping
+10.249.6.64 | success &gt;&gt; {
+    &quot;changed&quot;: false,
+    &quot;ping&quot;: &quot;pong&quot;
+}
+</code></pre><h4 id="cron"><a href="#cron" class="headerlink" title="cron"></a>cron</h4><p>计划任务模块 ：管理计划任务</p>
+<pre><code># ansible-doc -l | grep  ^cron
+cron                 Manage cron.d and crontab entries.
+
+# ansible-doc  -s cron
+- name: Manage cron.d and crontab entries.
+action: cron
+  backup                 # If set, create a backup of the crontab before it is modified. The location of the backup is returned in the `backup&apos; variable by this module.
+  cron_file              # If specified, uses this file in cron.d instead of an individual user&apos;s crontab.
+  day                    # Day of the month the job should run ( 1-31, *, */2, etc )
+  hour                   # Hour when the job should run ( 0-23, *, */2, etc )
+  job                    # The command to execute. Required if state=present.
+  minute                 # Minute when the job should run ( 0-59, *, */2, etc )
+  month                  # Month of the year the job should run ( 1-12, *, */2, etc )
+  name                   # Description of a crontab entry.
+  reboot                 # If the job should be run at reboot. This option is deprecated. Users should use special_time.
+  special_time           # Special time specification nickname.
+  state                  # Whether to ensure the job is present or absent.
+  user                   # The specific user who&apos;s crontab should be modified.
+  weekday                # Day of the week that the job should run ( 0-7 for Sunday - Saturday, *, etc )        
+
+# ansible 10.249.6.64 -m cron -a &apos;name=&quot;sync time&quot; minute=&quot;*/10&quot; \ 
+job=&quot;/usr/sbin/ntpdate 0.centos.pool.ntp.org &amp;&amp; hwclock -w&quot; &apos;
+
+10.249.6.64 | success &gt;&gt; {
+    &quot;changed&quot;: true,
+    &quot;jobs&quot;: [
+    &quot;sync time&quot;
+    ]
+}                   
+</code></pre><h4 id="user"><a href="#user" class="headerlink" title="user"></a>user</h4><p>用户模块：管理用户账户</p>
+<pre><code># ansible-doc -l | grep ^user
+user                 Manage user accounts  
+
+# ansible 10.249.6.64 -m user -a &apos;name=work shell=/bin/bash home=/home/www&apos;   //添加用户
+10.249.6.64 | success &gt;&gt; {
+&quot;changed&quot;: true,
+&quot;comment&quot;: &quot;&quot;,
+&quot;createhome&quot;: true,
+&quot;group&quot;: 500,
+&quot;home&quot;: &quot;/home/www&quot;,
+&quot;name&quot;: &quot;work&quot;,
+&quot;shell&quot;: &quot;/bin/bash&quot;,
+&quot;state&quot;: &quot;present&quot;,
+&quot;system&quot;: false,
+&quot;uid&quot;: 500
+}        
+
+# ansible 10.249.6.64 -m user -a &apos;name=work state=absent&apos;  // 删除用户
+10.249.6.64 | success &gt;&gt; {
+&quot;changed&quot;: true,
+&quot;force&quot;: false,
+&quot;name&quot;: &quot;work&quot;,
+&quot;remove&quot;: false,
+&quot;state&quot;: &quot;absent&quot;
+}             
+</code></pre><h4 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h4><p>copy模块：文件复制</p>
+<pre><code>#  ansible-doc -l | grep ^copy
+copy                 Copies files to remote locations. 
+
+# ansible-doc -s copy
+- name: Copies files to remote locations.
+action: copy
+  backup                 # Create a backup file including the timestamp information so you can get the original file back if you somehow clobbered it incorrectly.
+  content                # When used instead of &apos;src&apos;, sets the contents of a file directly to the specified value.
+  dest=                  # Remote absolute path where the file should be copied to. If src is a directory, this must be a directory too.
+  directory_mode         # When doing a recursive copy set the mode for the directories. If this is not set we will default the system defaults.
+  force                  # the default is `yes&apos;, which will replace the remote file when contents are different than the source.  If `no&apos;, the file will only be transferred if the destination does not exist.
+  src                    # Local path to a file to copy to the remote server; can be absolute or relative. If path is a directory, it is copied recursively. In this case, if path ends with &quot;/&quot;, only inside contents of that directory are copied to destination. Otherwise, if it does not end with &quot;/&quot;, the directory itself with all contents is copied. This behavior is similar to Rsync.
+  validate               # The validation command to run before copying into place.  The path to the file to validate is passed in via &apos;%s&apos; which must be present as in the visudo example below. The command is passed securely so shell features like expansion and pipes won&apos;t work.
+
+# ansible 10.249.6.64 -m copy -a &quot;src=/root/test.txt dest=/tmp/&quot;
+10.249.6.64 | success &gt;&gt; {
+&quot;changed&quot;: true,
+&quot;dest&quot;: &quot;/tmp/test.txt&quot;,
+&quot;gid&quot;: 0,
+&quot;group&quot;: &quot;root&quot;,
+&quot;md5sum&quot;: &quot;d41d8cd98f00b204e9800998ecf8427e&quot;,
+&quot;mode&quot;: &quot;0644&quot;,
+&quot;owner&quot;: &quot;root&quot;,
+&quot;size&quot;: 0,
+&quot;src&quot;: &quot;/root/.ansible/tmp/ansible-tmp-1463662606.99-26627840524349/source&quot;,
+&quot;state&quot;: &quot;file&quot;,
+&quot;uid&quot;: 0
+}   
+# ansible 10.249.6.64 -m copy -a &quot;content=&apos;hello world&apos; dest=/tmp/test.txt&quot;
+# ansible 10.249.6.64 -m copy -a &apos;src=/root/test.txt dest=/tmp/test.txt owner=evans group=evans mode=600 backup=yes&apos;
+</code></pre><h4 id="file"><a href="#file" class="headerlink" title="file"></a>file</h4><p>file模块：文件模块，设置文件属性</p>
+<pre><code># ansible-doc -l | grep -w ^file
+file                 Sets attributes of files   
+# ansible 10.249.6.64 -m file -a &quot;src=/tmp/test.txt path=/tmp/test.link state=link&quot;
+# ansible 10.249.6.64 -m file -a &quot;owner=evans group=evans mode=600 path=/tmp/test.txt&quot;
+</code></pre><h4 id="service"><a href="#service" class="headerlink" title="service"></a>service</h4><p>service模块： 服务模块，管理系统服务</p>
+<pre><code># ansible-doc -l | grep ^service
+service              Manage services.
+# ansible-doc -s service
+ - name: Manage services.
+ action: service
+  arguments              # Additional arguments provided on the command line
+  enabled                # Whether the service should start on boot. *At least one of state and enabled are required.*
+  name=                  # Name of the service.
+  pattern                # If the service does not respond to the status command, name a substring to look for as would be found in the output of the `ps&apos; command as a stand-in for a status result.  If the string is found, the service will be assumed to be running.
+  runlevel               # For OpenRC init scripts (ex: Gentoo) only.  The runlevel that this service belongs to.
+  sleep                  # If the service is being `restarted&apos; then sleep this many seconds between the stop and start command. This helps to workaround badly behaving init scripts that exit immediately after signaling a process to stop.
+  state                  # `started&apos;/`stopped&apos; are idempotent actions that will not run commands unless necessary.  `restarted&apos; will always bounce the service.  `reloaded&apos; will always reload. *At least one of state and enabled are required.*
+  # ansible 10.249.6.64 -m service -a &quot;name=mysqld state=restarted enabled=true&quot;  //重启mysql服务并设置开机自启动
+</code></pre><h4 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h4><p>shell模块：远程执行命令</p>
+<pre><code># ansible 10.249.6.64 -m shell -a &apos;date&apos;
+10.249.6.64 | success | rc=0 &gt;&gt;
+Thu May 19 21:20:51 CST 2016    
+</code></pre><h4 id="script"><a href="#script" class="headerlink" title="script"></a>script</h4><p>script模块：脚本模块，远程主机运行脚本</p>
+<pre><code># ansible-doc  -l | grep ^script
+script               Runs a local script on a remote node after transferring it..
+# ansible 10.249.6.64 -m script -a &apos;/root/test.sh&apos;  //在远程主机上运行脚本，并没有拷贝到指定目录
+10.249.6.64 | success &gt;&gt; {
+&quot;changed&quot;: true,
+&quot;rc&quot;: 0,
+&quot;stderr&quot;: &quot;&quot;,
+&quot;stdout&quot;: &quot;&quot;
+}   
+</code></pre><h4 id="yum、apt"><a href="#yum、apt" class="headerlink" title="yum、apt"></a>yum、apt</h4><p>yum模块和apt模块：包管理模块</p>
+<pre><code>yum                  Manages packages with the `yum&apos; package manager
+apt                  Manages apt-packages
+# ansible 10.249.6.64 -m yum -a &quot;name=tree state=present&quot;
+# ansible 10.249.6.43 -m apt -a &quot;name=tree state=present&quot;
+# ansible 10.249.6.43 -m apt -a &quot;name=tree state=absent&quot;
+</code></pre><blockquote>
+<p> state<br> Whether to install (<code>present&#39;,</code>latest’), or remove (`absent’) a package.</p>
+</blockquote>
+<h4 id="setup"><a href="#setup" class="headerlink" title="setup"></a>setup</h4><p>setup模块：收集主机信息，playbook运行时，会自动调用setup模块收集远程主机的相关信息（称为facts，如操作系统版本、ip地址、cpu数量等），这些信息保存于变量中，可在playbook中引用</p>
+<pre><code># ansible-doc -l | grep  setup
+setup                Gathers facts about remote hosts
+# ansible-doc -s setup
+- name: Gathers facts about remote hosts
+ action: setup
+  fact_path              # path used for local ansible facts (*.fact) - files in this dir will be run (if executable) and their results be added to ansible_local facts if a file is not executable it is read. File/results format can be json or ini-format
+  filter                 # if supplied, only return facts that match this shell-style (fnmatch) wildcard.
+# ansible 10.249.6.43 -m setup
+# ansible 10.249.6.43 -m setup -a &apos;filter=ansible_eth0&apos;   //过滤信息
+# ansible 10.249.6.64 -m setup --tree /tmp/test.txt  //将收集的信息输出到本地文件
+</code></pre><p>更多模块信息请查看：<a href="http://docs.ansible.com/ansible/list_of_all_modules.html" target="_blank" rel="external">官方文档</a></p>
+<h3 id="五、playbook"><a href="#五、playbook" class="headerlink" title="五、playbook"></a>五、playbook</h3><h4 id="5-1-YAML"><a href="#5-1-YAML" class="headerlink" title="5.1 YAML"></a>5.1 YAML</h4><p>YAML是一种可读性高的用来表达资料序列的语言，其语法和其他高阶语言类似，并且可以简单表达清单、散列表、标量等数据结构。</p>
+<p>所有的yaml文件都以”—“开头表示开始一个document，所有的列表元素以”-“开头，键值对用”:”，后面必须有空格。YAML文件扩展名通常为.yaml或.yml</p>
+<h4 id="5-2-playbook简介"><a href="#5-2-playbook简介" class="headerlink" title="5.2 playbook简介"></a>5.2 playbook简介</h4><p>playbook是ansible管理配置、部署应用和编排的文件，可用来描述在远程主机上执行的策略或一组任务。</p>
+<p>一个playbook文件由一个或多个play组成，每个play定义了在一个或多个远程主机上执行的一系列的task，其中每个task一般就是调用一个ansible的模块。</p>
+<p>playbook使用YAML语言编写，文件名以.yaml或.yml结尾。此外playbook和模板文件（template）还可使用jinja2语法语法实现高级功能。</p>
+<p>5.2.1 playbook的基本组成</p>
+<ul>
+<li>targets：指定要执行playbook的远程主机组</li>
+<li>variables：定义playbook运行时需要使用的变量</li>
+<li>tasks：要执行的任务</li>
+<li>handlers：处理器，在某些条件下被触发的操作</li>
+</ul>
+<p>简单playbook示例：</p>
+<pre><code># cat nginx.yml
+---
+- hosts: 10.249.6.43
+  user: root
+  vars:
+    remote_conffile_path: /etc/nginx/sites-enabled/mirror.conf
+  tasks:
+  - name: install nginx
+    apt: name=nginx state=latest
+    when: ansible_distribution == &apos;Ubuntu&apos;
+
+  - name: configration file
+    tags: conf
+    copy: src=/root/mirror.conf dest={{remote_conffile_path}}
+    notify: restart nginx
+
+  - name: start nginx
+    service: name=nginx enabled=yes state=started
+
+  handlers:
+  - name: restart nginx
+    service: name=nginx state=restarted
+# ansible-playbook  nginx.yml   // 执行playbook
+</code></pre><ul>
+<li>hosts、user</li>
+</ul>
+<p>hosts用于指定要执行指定任务的主机，其可以是一个或多个由逗号分隔主机组；user则用于指定远程主机上的执行任务的用户，还能使用sudo</p>
+<ul>
+<li>task list、action</li>
+</ul>
+<p>task list中的各任务按次序逐个在hosts中指定的所有主机上执行，即在所有主机上完成第一个任务后再开始第二个。如果中途发生错误，所有已执行任务都将回滚，因此，在更正playbook后重新执行一次即可。</p>
+<p> task的目的是使用指定的参数执行模块，而在模块参数中可以使用变量。模块执行是幂等的，这意味着多次执行是安全的，因为其结果均一致。</p>
+<p> 每个task都应该有其name，用于playbook的执行结果输出，建议其内容尽可能清晰地描述任务执行步骤。如果未提供name，则action的结果将用于输出。</p>
+<p>定义task的可以使用“action: module options”或“module: options”的格式，推荐使用后者以实现向后兼容例如：</p>
+<pre><code>tasks:
+- name: make sure apache is running
+  service: name=httpd state=running
+</code></pre><p> 在众多模块中，只有command和shell模块仅需要给定一个列表而无需使用“key=value”格式，例如：</p>
+<pre><code>tasks:
+- name: disable selinux
+  command: /sbin/setenforce 0
+</code></pre><p>shell模块执行多条命令       </p>
+<pre><code>---
+- name: update zabbix agent conf
+shell: |     
+   sed  -i &quot;/Hostname/d&quot; /usr/local/zabbix-agent-ops/etc/zabbix_agentd.conf
+   wget -O /tmp/hostinfo.txt http://10.126.93.2/bak/hostinfo.txt
+   IP=`ifconfig | egrep -A1 eth[0-9] | egrep  -o  addr:[0-9]+.[0-9]+.[0-9]+.[0-9]+ | awk -F: &apos;{print $2}&apos;`
+   USE=`egrep -w  $IP /tmp/hostinfo.txt | awk &apos;{print $2}&apos;| uniq`
+   HOST=`hostname | awk -F . &apos;{print $1}&apos;`
+   echo &quot;Hostname=${USE}${HOST}&quot; &gt;&gt; /usr/local/zabbix-agent-ops/etc/zabbix_agentd.conf   
+</code></pre><p>如果模块执行返回值不为零，即表示执行失败，任务会立即中止，后续任务不再执行。可以使用ignore_errors来忽略错误信息确保后续任务的执行。</p>
+<pre><code>tasks:
+   - name: run this command and ignore the result
+     shell: /usr/bin/somecommand
+     ignore_errors: yes
+</code></pre><ul>
+<li>handlers</li>
+</ul>
+<p>当关注的资源发生变化时触发一定的操作。handler是task列表，这些task与前述的task并没有本质上的不同。</p>
+<p>“notify”这个action可用于在每个play的最后被触发，这样可以避免多次有改变发生时每次都执行指定的操作，取而代之，仅在所有的变化发生完成后一次性地执行指定操作。在notify中列出的操作称为handler，也即notify中调用handler中定义的操作。       </p>
+<pre><code>- name: template configuration file
+  template: src=/root/template.conf dest=/etc/template.conf
+
+notify:
+  - restart memcached
+  - restart apache
+
+handlers:
+- name: restart memcached
+  service: name=memcached state=restarted
+- name: restart apache
+  service: name=apache state=restarted
+</code></pre><ul>
+<li>vars</li>
+</ul>
+<p>变量名仅能由字母、数字和下划线组成，且只能以字母开头  </p>
+<ul>
+<li>when </li>
+</ul>
+<p>条件判断：如果需要根据变量、facts或此前任务的执行结果来做为某task执行与否的前提，这时就要用到条件判断。</p>
+<pre><code>when: ansible_distribution == &apos;Debian&apos; or ansible_distribution == &apos;Ubuntu&apos;
+
+when: ansible_distribution == &apos;CentOS&apos; or ansible_distribution == &apos;RedHat&apos; and ansible_distribution_version|int &gt;=6
+</code></pre><p>忽略此前某语句的错误并基于其结果（failed或者sucess）运行后面指定的语句:</p>
+<pre><code>---
+- hosts: 10.249.6.64
+  user: root
+  tasks:
+    - name: false test
+      command: /bin/false
+      register: result
+      ignore_errors: yes
+    - name: when false  to do
+      command: touch /tmp/1.txt
+      when: result | failed
+    - name: when success to do
+      command: touch /tmp/2.txt
+      when: result | success
+    - name: when skip to do
+      command: touch /tmp/3.txt
+      when: result | skipped
+</code></pre><ul>
+<li>item</li>
+</ul>
+<p>item 迭代：当有需要重复性执行的任务时，可以使用迭代机制。其使用格式为将需要迭代的内容定义为item变量引用，并通过with_items语句来指明迭代的元素列表即可</p>
+<pre><code>- name: install base software
+  apt: pkg={{ item }} state=present force=yes
+  with_items:
+    - gcc
+    - g++
+    - mysql-client-5.5
+    - libmcrypt-dev
+    - libmysqlclient-dev
+    - libgmp10
+    - vim
+    - openssh-client
+    - ethtool
+when: ansible_distribution == &apos;Debian&apos; or ansible_distribution == &apos;Ubuntu&apos;
+</code></pre><ul>
+<li>tag</li>
+</ul>
+<p>tag标签：让用户选择运行playbook中的某个或某些任务。虽然ansible具有幂等性，会跳过没有变化的部分，有些代码为测试其确实没有发生变化，也会耗费很长时间。我们将playbook中的指定任务打上标签，在运行playbook时指定标签名称，这样就不用运行全部代码了。</p>
+<pre><code>---
+- hosts: 10.249.6.43
+  user: root
+  vars:
+    remote_conffile_path: /etc/nginx/sites-enabled/mirror.conf
+  tasks:
+  - name: install nginx
+    apt: name=nginx state=latest
+    when: ansible_distribution == &apos;Ubuntu&apos;
+
+  - name: configration file
+    tags: conf
+    copy: src=/root/mirror.conf dest={{remote_conffile_path}}
+    notify: restart nginx
+
+  - name: start nginx
+    service: name=nginx enabled=yes state=started
+  handlers:
+  - name: restart nginx
+    service: name=nginx state=restarted
+    # ansible-playbook nginx.yml -t conf   // 只执行tags部分
+</code></pre><h3 id="六、roles"><a href="#六、roles" class="headerlink" title="六、roles"></a>六、roles</h3><p>roles 用于层次性、结构化地组织playbook。</p>
+<p>roles能够根据层次型结构自动装载变量文件、tasks以及handlers等。roles就是通过分别将变量、文件、任务、模块及处理器放置于单独的目录中，并可以便捷地include它们的一种机制。角色一般用于基于主机构建服务的场景中，但也可以是用于构建守护进程等场景中。</p>
+<pre><code># ls
+deploy_hosts  deploy.yml  roles  run.sh
+# cat deploy_hosts   //主机或主机组列表
+[web]
+10.126.83.30
+10.126.93.83
+[db]
+10.126.87.150
+10.126.92.89
+# cat deploy.yml  // 总的playbook 调用roles
+---
+- name: init for os
+  hosts: web
+  user: root
+  gather_facts: True
+  roles:
+    - init
+    - raid
+- name: init for os
+  hosts: db
+  user: root
+  gather_facts: True
+  roles:
+    - init
+    - raid
+    - db_init
+
+# cat run.sh  // 运行playbook脚本
+#!/bin/bash
+/usr/bin/ansible-playbook -i ./deploy_hosts deploy.yml
+# ls roles/
+db_init   init    raid 
+</code></pre><p>在每个角色命名的目录中分别创建files、handlers、meta、tasks、templates和vars目录，用不到的目录可以创建为空目录，也可以不创建。</p>
+<p>role内各目录中可用的文件:</p>
+<ul>
+<li><p>tasks目录：至少应该包含一个名为main.yml的文件，其定义了此角色的任务列表；此文件可以使用include包含其它的位于此目录中的task文件</p>
+</li>
+<li><p>files目录：存放由copy或script等模块调用的静态文件</p>
+</li>
+<li><p>templates目录：template模块会自动在此目录中寻找Jinja2模板文件</p>
+</li>
+<li><p>handlers目录：此目录中应当包含一个main.yml文件，用于定义此角色用到的各handler；此文件可以使用include包含其它的位于此目录中的handler文件</p>
+</li>
+<li><p>vars目录：至少有一个main.yml文件，用于定义此角色用到的变量</p>
+</li>
+<li><p>meta目录：至少有一个main.yml文件，用于定义此角色的特殊设定及其依赖关系；ansible 1.3及其以后的版本才支持</p>
+</li>
+<li><p>default目录：为当前角色设定默认变量时使用此目录；应当包含一个main.yml文件</p>
+</li>
+</ul>
+<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><p><a href="http://9124573.blog.51cto.com/9114573/1769887" target="_blank" rel="external">轻量级自动化运维工具ansible</a></p>
+<p><a href="http://docs.ansible.com/ansible/intro.html" target="_blank" rel="external">ansible doc</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;一、体系结构&quot;&gt;&lt;a href=&quot;#一、体系结构&quot; class=&quot;headerlink&quot; title=&quot;一、体系结构&quot;&gt;&lt;/a&gt;一、体系结构&lt;/h3&gt;&lt;p&gt;ansible是一款基于python开发，揉合了众多自动化运维工具功能的轻量级自动化运维工具，目前实现了除系
+    
+    </summary>
+    
+      <category term="Tools" scheme="http://yoursite.com/categories/Tools/"/>
+    
+    
+      <category term="ansible" scheme="http://yoursite.com/tags/ansible/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ulimit小记</title>
+    <link href="http://yoursite.com/2016/02/25/ulimit/"/>
+    <id>http://yoursite.com/2016/02/25/ulimit/</id>
+    <published>2016-02-25T11:11:45.000Z</published>
+    <updated>2017-06-21T14:13:04.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="ulimit简介"><a href="#ulimit简介" class="headerlink" title="ulimit简介"></a>ulimit简介</h3><p>ulimit 用于限制 shell 启动进程所占用的资源，支持以下各种类型的限制：所创建的内核文件的大小、进程数据块的大小、Shell 进程创建文件的大小、内存锁住的大小、常驻内存集的大小、打开文件描述符的数量、分配堆栈的最大大小、CPU 时间、单个用户的最大线程数、Shell 进程所能使用的最大虚拟内存。同时，它支持硬资源和软资源的限制。</p>
+<p>作为临时限制，ulimit 可以作用于通过使用其命令登录的 shell 会话，在会话终止时便结束限制，并不影响于其他 shell 会话。而对于长期的固定限制，ulimit 命令语句又可以被添加到由登录 shell 读取的文件中，作用于特定的 shell 用户。</p>
+<h3 id="ulimit的设置"><a href="#ulimit的设置" class="headerlink" title="ulimit的设置"></a>ulimit的设置</h3><pre><code>[root@Mr-zhao ~]# ulimit  -a    //查看当前配置文件ulimit全局系数
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 7389
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 10240
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 10240
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 10240
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+</code></pre><p>对于线上环境的机器一般要对<code>open files</code>和<code>max user processes</code>进行修改。</p>
+<h4 id="临时性的修改，只对当前shell生效。"><a href="#临时性的修改，只对当前shell生效。" class="headerlink" title="临时性的修改，只对当前shell生效。"></a>临时性的修改，只对当前shell生效。</h4><pre><code>ulimit  -n 65535
+ulimit  -u 65535
+</code></pre><h4 id="想要ulimit的设置永久性生效，需要修改-etc-security-limits-conf文件。"><a href="#想要ulimit的设置永久性生效，需要修改-etc-security-limits-conf文件。" class="headerlink" title="想要ulimit的设置永久性生效，需要修改/etc/security/limits.conf文件。"></a>想要ulimit的设置永久性生效，需要修改/etc/security/limits.conf文件。</h4><p>对于centos系统/etc/security/limits.d/90-nproc.conf文件的优先级高于/etc/security/limits.conf，所以对全局的设定需修改90-nproc.conf文件。对于单个用户的ulimit的设置并不受etc/security/limits.d/90-nproc.conf影响。</p>
+<p>对于ubuntu系统，只需对/etc/security/limits.conf文件进行修改，ubuntu系统没有引入90-nproc.conf文件。但是ubuntux系统也会存在一个问题，就是对全局的设置其实对于root用户是没有效果的。所以ubuntu系统下的设置如下：</p>
+<pre><code>root@Mr-zhao:~# grep -Ev &quot;^$|^#&quot; /etc/security/limits.conf
+root - nofile 65535
+root - nproc  65535
+* - nofile 65535
+* - nproc 65535
+</code></pre><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.ibm.com/developerworks/cn/linux/l-cn-ulimit/" target="_blank" rel="external">通过 ulimit 改善系统性能</a><br><a href="http://ss64.com/bash/limits.conf.html" target="_blank" rel="external">limits.conf - configuration file</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;ulimit简介&quot;&gt;&lt;a href=&quot;#ulimit简介&quot; class=&quot;headerlink&quot; title=&quot;ulimit简介&quot;&gt;&lt;/a&gt;ulimit简介&lt;/h3&gt;&lt;p&gt;ulimit 用于限制 shell 启动进程所占用的资源，支持以下各种类型的限制：所创建的内
+    
+    </summary>
+    
+      <category term="Ops" scheme="http://yoursite.com/categories/Ops/"/>
+    
+    
+      <category term="ulimit" scheme="http://yoursite.com/tags/ulimit/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL主从复制备忘</title>
+    <link href="http://yoursite.com/2016/01/15/mysql-duplicate/"/>
+    <id>http://yoursite.com/2016/01/15/mysql-duplicate/</id>
+    <published>2016-01-15T13:43:35.000Z</published>
+    <updated>2017-06-21T14:13:04.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><ul>
+<li><p>Master:10.249.17.38</p>
+</li>
+<li><p>Slave:10.249.17.45</p>
+</li>
+</ul>
+<h3 id="主从复制的原理"><a href="#主从复制的原理" class="headerlink" title="主从复制的原理"></a>主从复制的原理</h3><ul>
+<li>主从复制的步骤</li>
+</ul>
+<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/94D51A80-A0DB-4189-8F30-673260AC6FCC.png" alt=""></p>
+<p>1.master将改变记录到二进制日志(binary log)</p>
+<p>2.slave将master的binary log events(二进制日志事件)拷贝到它的中继日志(relay log)</p>
+<p>3.slave重做中继日志中的事件，将改变反映它自己的数据。</p>
+<h3 id="主从复制类型"><a href="#主从复制类型" class="headerlink" title="主从复制类型"></a>主从复制类型</h3><ul>
+<li>基于语句的复制：</li>
+</ul>
+<p>在主服务器上执行的SQL语句，在从服务器上执行同样的语句。MySQL默认采用基于语句的复制，效率比较高。一旦发现没法精确复制时，会自动选着基于行的复制。</p>
+<ul>
+<li>基于行的复制：</li>
+</ul>
+<p>把改变的内容复制过去，而不是把命令在从服务器上执行一遍. 从mysql5.0开始支持。</p>
+<ul>
+<li>混合类型的复制:</li>
+</ul>
+<p>默认采用基于语句的复制，一旦发现基于语句的无法精确的复制时，就会采用基于行的复制。</p>
+<h3 id="配置Master和Slave"><a href="#配置Master和Slave" class="headerlink" title="配置Master和Slave"></a>配置Master和Slave</h3><h4 id="Master"><a href="#Master" class="headerlink" title="Master"></a>Master</h4><pre><code>mysqladmin -u root -p password 123  // 修改密码
+mysql&gt; grant replication slave,replication client on *.* to  zzf@10.249.17.45 identified by &quot;zzf&quot;;  //建立内部复制用户
+
+编辑/etc/my.cnf 文件
+server_id=1
+log-bin=mysql-bin
+
+重启服务
+</code></pre><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/BAC-9068-D8174D803F18.png" alt=""></p>
+<h4 id="Slave"><a href="#Slave" class="headerlink" title="Slave"></a>Slave</h4><pre><code>mysqladmin -u root -p password 123  // 修改密码
+编辑/etc/my.cnf 文件
+server_id=2
+log-bin=mysql-bin
+log_slave_updates=1
+
+mysql&gt; change master to master_host=&apos;10.249.17.38&apos;,master_user=&apos;zzf&apos;,master_password=&apos;zzf&apos;,master_log_file=&apos;mysql-bin.000002&apos;,master_log_pos=106;
+mysql&gt; start slave;
+</code></pre><p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/F2D3964D-8081-4F27-ACFF-39ADF603CCDB.png" alt=""></p>
+<p>Slave_IO_Running: Yes</p>
+<p>Slave_SQL_Running: Yes</p>
+<h3 id="简单测试"><a href="#简单测试" class="headerlink" title="简单测试"></a>简单测试</h3><h4 id="Master-1"><a href="#Master-1" class="headerlink" title="Master"></a>Master</h4><pre><code>mysql&gt;
+mysql&gt; create database zzf;
+Query OK, 1 row affected (0.01 sec)
+mysql&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| test               |
+| zzf                |
++--------------------+
+4 rows in set (0.00 sec)
+</code></pre><h4 id="Slave-1"><a href="#Slave-1" class="headerlink" title="Slave"></a>Slave</h4><pre><code>mysql&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| test               |
+| zzf                |
++--------------------+
+4 rows in set (0.00 sec)
+</code></pre><p>已经同步成功</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;环境&quot;&gt;&lt;a href=&quot;#环境&quot; class=&quot;headerlink&quot; title=&quot;环境&quot;&gt;&lt;/a&gt;环境&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Master:10.249.17.38&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Slave:10.249.17.45&lt;/p&gt;
+&lt;
+    
+    </summary>
+    
+      <category term="SQL" scheme="http://yoursite.com/categories/SQL/"/>
+    
+    
+      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
     
   </entry>
   

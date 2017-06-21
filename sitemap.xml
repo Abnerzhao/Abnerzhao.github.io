@@ -2,6 +2,41 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2016/05/20/ansible/</loc>
+    
+    <lastmod>2017-06-21T14:13:04.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/01/21/low-level-discovery/</loc>
+    
+    <lastmod>2017-06-21T14:13:04.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/11/04/ansible-python-api/</loc>
+    
+    <lastmod>2017-06-21T14:13:04.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/01/15/mysql-duplicate/</loc>
+    
+    <lastmod>2017-06-21T14:13:04.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/02/25/ulimit/</loc>
+    
+    <lastmod>2017-06-21T14:13:04.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/about/index.html</loc>
     
     <lastmod>2017-06-21T14:05:04.000Z</lastmod>
