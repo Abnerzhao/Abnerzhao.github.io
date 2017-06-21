@@ -4,6 +4,41 @@
   <url>
     <loc>http://yoursite.com/2016/05/20/ansible/</loc>
     
+    <lastmod>2017-06-21T15:22:28.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/11/16/python-datetime/</loc>
+    
+    <lastmod>2017-06-21T14:46:17.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/01/15/mysql-duplicate/</loc>
+    
+    <lastmod>2017-06-21T14:46:09.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/02/25/ulimit/</loc>
+    
+    <lastmod>2017-06-21T14:38:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/10/11/raid/</loc>
+    
+    <lastmod>2017-06-21T14:38:19.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/11/04/ansible-python-api/</loc>
+    
     <lastmod>2017-06-21T14:13:04.000Z</lastmod>
     
   </url>
@@ -16,37 +51,9 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2016/11/04/ansible-python-api/</loc>
-    
-    <lastmod>2017-06-21T14:13:04.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/01/15/mysql-duplicate/</loc>
-    
-    <lastmod>2017-06-21T14:13:04.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/02/25/ulimit/</loc>
-    
-    <lastmod>2017-06-21T14:13:04.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/about/index.html</loc>
     
     <lastmod>2017-06-21T14:05:04.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/11/16/python-datetime/</loc>
-    
-    <lastmod>2017-06-21T13:58:06.000Z</lastmod>
     
   </url>
   

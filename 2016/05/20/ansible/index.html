@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Ansible基础知识备忘 · Abner</title><meta name="description" content="Ansible基础知识备忘 - Abnerzhao"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Abner"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/Abnerzhao" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Ansible基础知识备忘</h1><div class="post-info">May 20, 2016</div><div class="post-content"><h3 id="一、体系结构"><a href="#一、体系结构" class="headerlink" title="一、体系结构"></a>一、体系结构</h3><p>ansible是一款基于python开发，揉合了众多自动化运维工具功能的轻量级自动化运维工具，目前实现了除系统安装以外的批量系统配置、批量任务执行及批量程序部署等功能。</p>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Ansible基础知识备忘 · Abner</title><meta name="description" content="Ansible基础知识备忘 - Abnerzhao"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Abner"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/Abnerzhao" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Ansible基础知识备忘</h1><div class="post-info">May 20, 2016</div><div class="post-content"><h2 id="一、体系结构"><a href="#一、体系结构" class="headerlink" title="一、体系结构"></a>一、体系结构</h2><p>ansible是一款基于python开发，揉合了众多自动化运维工具功能的轻量级自动化运维工具，目前实现了除系统安装以外的批量系统配置、批量任务执行及批量程序部署等功能。</p>
 <p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/25.png" alt=""></p>
 <ul>
 <li>Inventory：主机库，定义可控制的主机</li>
@@ -6,7 +6,7 @@
 <li>playbook：剧本，使用YAML编写的声明性的配置文件</li>
 <li>plugins: 插件，完成日志记录、邮件等功能</li>
 </ul>
-<h3 id="二、-特点"><a href="#二、-特点" class="headerlink" title="二、 特点"></a>二、 特点</h3><ul>
+<h2 id="二、-特点"><a href="#二、-特点" class="headerlink" title="二、 特点"></a>二、 特点</h2><ul>
 <li>高度模块化，借助模块完成各种任务</li>
 <li>agentless，无需在被控制端安装agent</li>
 <li>默认基于ssh协议向被控制端发送操作指令<ul>
@@ -17,194 +17,43 @@
 <li>批量任务执行可写成剧本playbook</li>
 <li>幂等性：不会重复执行相同操作</li>
 </ul>
-<h3 id="三、简单使用"><a href="#三、简单使用" class="headerlink" title="三、简单使用"></a>三、简单使用</h3><h4 id="3-1-ssh免密钥登录"><a href="#3-1-ssh免密钥登录" class="headerlink" title="3.1 ssh免密钥登录"></a>3.1 ssh免密钥登录</h4><pre><code># ssh-keygen -t rsa -P &apos;&apos;  
-# ssh-copy-id  -i /root/.ssh/id_rsa.pub  10.249.6.64
-# ssh-copy-id  -i /root/.ssh/id_rsa.pub  10.48.156.8
-</code></pre><h4 id="3-2-常用命令"><a href="#3-2-常用命令" class="headerlink" title="3.2 常用命令"></a>3.2 常用命令</h4><p>ansible-doc</p>
-<pre><code>Options:
-
--l, --list            List available modules  //列出所有模块
--s, --snippet         Show playbook snippet for specified module(s) //查看指定模块用法
-
-更多信息请参考manual手册
-</code></pre><p>ansible</p>
-<p> ansible <host-pattern>  [-f forks][-m module_name] [-a args] [options]</host-pattern></p>
-<pre><code>Options:
-
-  -a MODULE_ARGS, --args=MODULE_ARGS
-                    module arguments   // 传递模块参数
-  -f FORKS, --forks=FORKS  // 指定并发数
-                    specify number of parallel processes to use
-                    (default=5)
-  -i INVENTORY, --inventory-file=INVENTORY 
-                    specify inventory host file
-                    (default=/etc/ansible/hosts)    
-  -m MODULE_NAME, --module-name=MODULE_NAME
-                    module name to execute (default=command)   
-
- 更多信息请参考manual手册        
-</code></pre><p>ansible-playbook  </p>
-<p>ansible-playbook <filename.yml> … [options]             </filename.yml></p>
-<h3 id="四、模块"><a href="#四、模块" class="headerlink" title="四、模块"></a>四、模块</h3><h4 id="command"><a href="#command" class="headerlink" title="command"></a>command</h4><p>命令模块: ansible默认模块，用于在远程执行命令，command模块并不支持shell变量和管道等，若想使用shell来执行，应使用shell模块。</p>
-<pre><code># ansible-doc -l | grep ^command
-command              Executes a command on a remote node                        
-
-# ansible 10.249.6.64 -m command -a &quot;date&quot;
-10.249.6.64 | success | rc=0 &gt;&gt;
-Wed May 11 21:21:35 CST 2016                        
-</code></pre><h4 id="ping"><a href="#ping" class="headerlink" title="ping"></a>ping</h4><p>ping模块：测试指定主机是否能连接</p>
-<pre><code># ansible-doc -l | grep  -w ^ping
-ping                 Try to connect to host and return `pong&apos; on success.                  
-
-# ansible 10.249.6.64 -m ping
-10.249.6.64 | success &gt;&gt; {
-    &quot;changed&quot;: false,
-    &quot;ping&quot;: &quot;pong&quot;
-}
-</code></pre><h4 id="cron"><a href="#cron" class="headerlink" title="cron"></a>cron</h4><p>计划任务模块 ：管理计划任务</p>
-<pre><code># ansible-doc -l | grep  ^cron
-cron                 Manage cron.d and crontab entries.
-
-# ansible-doc  -s cron
-- name: Manage cron.d and crontab entries.
-action: cron
-  backup                 # If set, create a backup of the crontab before it is modified. The location of the backup is returned in the `backup&apos; variable by this module.
-  cron_file              # If specified, uses this file in cron.d instead of an individual user&apos;s crontab.
-  day                    # Day of the month the job should run ( 1-31, *, */2, etc )
-  hour                   # Hour when the job should run ( 0-23, *, */2, etc )
-  job                    # The command to execute. Required if state=present.
-  minute                 # Minute when the job should run ( 0-59, *, */2, etc )
-  month                  # Month of the year the job should run ( 1-12, *, */2, etc )
-  name                   # Description of a crontab entry.
-  reboot                 # If the job should be run at reboot. This option is deprecated. Users should use special_time.
-  special_time           # Special time specification nickname.
-  state                  # Whether to ensure the job is present or absent.
-  user                   # The specific user who&apos;s crontab should be modified.
-  weekday                # Day of the week that the job should run ( 0-7 for Sunday - Saturday, *, etc )        
-
-# ansible 10.249.6.64 -m cron -a &apos;name=&quot;sync time&quot; minute=&quot;*/10&quot; \ 
-job=&quot;/usr/sbin/ntpdate 0.centos.pool.ntp.org &amp;&amp; hwclock -w&quot; &apos;
-
-10.249.6.64 | success &gt;&gt; {
-    &quot;changed&quot;: true,
-    &quot;jobs&quot;: [
-    &quot;sync time&quot;
-    ]
-}                   
-</code></pre><h4 id="user"><a href="#user" class="headerlink" title="user"></a>user</h4><p>用户模块：管理用户账户</p>
-<pre><code># ansible-doc -l | grep ^user
-user                 Manage user accounts  
-
-# ansible 10.249.6.64 -m user -a &apos;name=work shell=/bin/bash home=/home/www&apos;   //添加用户
-10.249.6.64 | success &gt;&gt; {
-&quot;changed&quot;: true,
-&quot;comment&quot;: &quot;&quot;,
-&quot;createhome&quot;: true,
-&quot;group&quot;: 500,
-&quot;home&quot;: &quot;/home/www&quot;,
-&quot;name&quot;: &quot;work&quot;,
-&quot;shell&quot;: &quot;/bin/bash&quot;,
-&quot;state&quot;: &quot;present&quot;,
-&quot;system&quot;: false,
-&quot;uid&quot;: 500
-}        
-
-# ansible 10.249.6.64 -m user -a &apos;name=work state=absent&apos;  // 删除用户
-10.249.6.64 | success &gt;&gt; {
-&quot;changed&quot;: true,
-&quot;force&quot;: false,
-&quot;name&quot;: &quot;work&quot;,
-&quot;remove&quot;: false,
-&quot;state&quot;: &quot;absent&quot;
-}             
-</code></pre><h4 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h4><p>copy模块：文件复制</p>
-<pre><code>#  ansible-doc -l | grep ^copy
-copy                 Copies files to remote locations. 
-
-# ansible-doc -s copy
-- name: Copies files to remote locations.
-action: copy
-  backup                 # Create a backup file including the timestamp information so you can get the original file back if you somehow clobbered it incorrectly.
-  content                # When used instead of &apos;src&apos;, sets the contents of a file directly to the specified value.
-  dest=                  # Remote absolute path where the file should be copied to. If src is a directory, this must be a directory too.
-  directory_mode         # When doing a recursive copy set the mode for the directories. If this is not set we will default the system defaults.
-  force                  # the default is `yes&apos;, which will replace the remote file when contents are different than the source.  If `no&apos;, the file will only be transferred if the destination does not exist.
-  src                    # Local path to a file to copy to the remote server; can be absolute or relative. If path is a directory, it is copied recursively. In this case, if path ends with &quot;/&quot;, only inside contents of that directory are copied to destination. Otherwise, if it does not end with &quot;/&quot;, the directory itself with all contents is copied. This behavior is similar to Rsync.
-  validate               # The validation command to run before copying into place.  The path to the file to validate is passed in via &apos;%s&apos; which must be present as in the visudo example below. The command is passed securely so shell features like expansion and pipes won&apos;t work.
-
-# ansible 10.249.6.64 -m copy -a &quot;src=/root/test.txt dest=/tmp/&quot;
-10.249.6.64 | success &gt;&gt; {
-&quot;changed&quot;: true,
-&quot;dest&quot;: &quot;/tmp/test.txt&quot;,
-&quot;gid&quot;: 0,
-&quot;group&quot;: &quot;root&quot;,
-&quot;md5sum&quot;: &quot;d41d8cd98f00b204e9800998ecf8427e&quot;,
-&quot;mode&quot;: &quot;0644&quot;,
-&quot;owner&quot;: &quot;root&quot;,
-&quot;size&quot;: 0,
-&quot;src&quot;: &quot;/root/.ansible/tmp/ansible-tmp-1463662606.99-26627840524349/source&quot;,
-&quot;state&quot;: &quot;file&quot;,
-&quot;uid&quot;: 0
-}   
-# ansible 10.249.6.64 -m copy -a &quot;content=&apos;hello world&apos; dest=/tmp/test.txt&quot;
-# ansible 10.249.6.64 -m copy -a &apos;src=/root/test.txt dest=/tmp/test.txt owner=evans group=evans mode=600 backup=yes&apos;
-</code></pre><h4 id="file"><a href="#file" class="headerlink" title="file"></a>file</h4><p>file模块：文件模块，设置文件属性</p>
-<pre><code># ansible-doc -l | grep -w ^file
-file                 Sets attributes of files   
-# ansible 10.249.6.64 -m file -a &quot;src=/tmp/test.txt path=/tmp/test.link state=link&quot;
-# ansible 10.249.6.64 -m file -a &quot;owner=evans group=evans mode=600 path=/tmp/test.txt&quot;
-</code></pre><h4 id="service"><a href="#service" class="headerlink" title="service"></a>service</h4><p>service模块： 服务模块，管理系统服务</p>
-<pre><code># ansible-doc -l | grep ^service
-service              Manage services.
-# ansible-doc -s service
- - name: Manage services.
- action: service
-  arguments              # Additional arguments provided on the command line
-  enabled                # Whether the service should start on boot. *At least one of state and enabled are required.*
-  name=                  # Name of the service.
-  pattern                # If the service does not respond to the status command, name a substring to look for as would be found in the output of the `ps&apos; command as a stand-in for a status result.  If the string is found, the service will be assumed to be running.
-  runlevel               # For OpenRC init scripts (ex: Gentoo) only.  The runlevel that this service belongs to.
-  sleep                  # If the service is being `restarted&apos; then sleep this many seconds between the stop and start command. This helps to workaround badly behaving init scripts that exit immediately after signaling a process to stop.
-  state                  # `started&apos;/`stopped&apos; are idempotent actions that will not run commands unless necessary.  `restarted&apos; will always bounce the service.  `reloaded&apos; will always reload. *At least one of state and enabled are required.*
-  # ansible 10.249.6.64 -m service -a &quot;name=mysqld state=restarted enabled=true&quot;  //重启mysql服务并设置开机自启动
-</code></pre><h4 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h4><p>shell模块：远程执行命令</p>
-<pre><code># ansible 10.249.6.64 -m shell -a &apos;date&apos;
-10.249.6.64 | success | rc=0 &gt;&gt;
-Thu May 19 21:20:51 CST 2016    
-</code></pre><h4 id="script"><a href="#script" class="headerlink" title="script"></a>script</h4><p>script模块：脚本模块，远程主机运行脚本</p>
-<pre><code># ansible-doc  -l | grep ^script
-script               Runs a local script on a remote node after transferring it..
-# ansible 10.249.6.64 -m script -a &apos;/root/test.sh&apos;  //在远程主机上运行脚本，并没有拷贝到指定目录
-10.249.6.64 | success &gt;&gt; {
-&quot;changed&quot;: true,
-&quot;rc&quot;: 0,
-&quot;stderr&quot;: &quot;&quot;,
-&quot;stdout&quot;: &quot;&quot;
-}   
-</code></pre><h4 id="yum、apt"><a href="#yum、apt" class="headerlink" title="yum、apt"></a>yum、apt</h4><p>yum模块和apt模块：包管理模块</p>
-<pre><code>yum                  Manages packages with the `yum&apos; package manager
-apt                  Manages apt-packages
-# ansible 10.249.6.64 -m yum -a &quot;name=tree state=present&quot;
-# ansible 10.249.6.43 -m apt -a &quot;name=tree state=present&quot;
-# ansible 10.249.6.43 -m apt -a &quot;name=tree state=absent&quot;
-</code></pre><blockquote>
-<p> state<br> Whether to install (<code>present&#39;,</code>latest’), or remove (`absent’) a package.</p>
+<h2 id="三、简单使用"><a href="#三、简单使用" class="headerlink" title="三、简单使用"></a>三、简单使用</h2><h3 id="3-1-ssh免密钥登录"><a href="#3-1-ssh免密钥登录" class="headerlink" title="3.1 ssh免密钥登录"></a>3.1 ssh免密钥登录</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ssh-keygen -t rsa -P &apos;&apos;</div><div class="line"># ssh-copy-id  -i /root/.ssh/id_rsa.pub  10.249.6.64</div><div class="line"># ssh-copy-id  -i /root/.ssh/id_rsa.pub  10.48.156.8</div></pre></td></tr></table></figure>
+<h3 id="3-2-常用命令"><a href="#3-2-常用命令" class="headerlink" title="3.2 常用命令"></a>3.2 常用命令</h3><h4 id="ansible-doc"><a href="#ansible-doc" class="headerlink" title="ansible-doc"></a>ansible-doc</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Options:</div><div class="line"></div><div class="line">   -l, --list            List available modules  //列出所有模块</div><div class="line">   -s, --snippet         Show playbook snippet for specified module(s) //查看指定模块用法</div><div class="line"></div><div class="line">// 更多信息请参考manual手册</div></pre></td></tr></table></figure>
+<h4 id="ansible"><a href="#ansible" class="headerlink" title="ansible"></a>ansible</h4><blockquote>
+<p>ansible <host-pattern>  [-f forks][-m module_name] [-a args] [options]</host-pattern></p>
 </blockquote>
-<h4 id="setup"><a href="#setup" class="headerlink" title="setup"></a>setup</h4><p>setup模块：收集主机信息，playbook运行时，会自动调用setup模块收集远程主机的相关信息（称为facts，如操作系统版本、ip地址、cpu数量等），这些信息保存于变量中，可在playbook中引用</p>
-<pre><code># ansible-doc -l | grep  setup
-setup                Gathers facts about remote hosts
-# ansible-doc -s setup
-- name: Gathers facts about remote hosts
- action: setup
-  fact_path              # path used for local ansible facts (*.fact) - files in this dir will be run (if executable) and their results be added to ansible_local facts if a file is not executable it is read. File/results format can be json or ini-format
-  filter                 # if supplied, only return facts that match this shell-style (fnmatch) wildcard.
-# ansible 10.249.6.43 -m setup
-# ansible 10.249.6.43 -m setup -a &apos;filter=ansible_eth0&apos;   //过滤信息
-# ansible 10.249.6.64 -m setup --tree /tmp/test.txt  //将收集的信息输出到本地文件
-</code></pre><p>更多模块信息请查看：<a href="http://docs.ansible.com/ansible/list_of_all_modules.html" target="_blank" rel="external">官方文档</a></p>
-<h3 id="五、playbook"><a href="#五、playbook" class="headerlink" title="五、playbook"></a>五、playbook</h3><h4 id="5-1-YAML"><a href="#5-1-YAML" class="headerlink" title="5.1 YAML"></a>5.1 YAML</h4><p>YAML是一种可读性高的用来表达资料序列的语言，其语法和其他高阶语言类似，并且可以简单表达清单、散列表、标量等数据结构。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Options:</div><div class="line"></div><div class="line">    -a MODULE_ARGS, --args=MODULE_ARGS</div><div class="line">                        module arguments   // 传递模块参数</div><div class="line">    -f FORKS, --forks=FORKS  // 指定并发数</div><div class="line">                        specify number of parallel processes to use</div><div class="line">                        (default=5)</div><div class="line">    -i INVENTORY, --inventory-file=INVENTORY</div><div class="line">                        specify inventory host file</div><div class="line">                        (default=/etc/ansible/hosts)</div><div class="line">    -m MODULE_NAME, --module-name=MODULE_NAME</div><div class="line">                        module name to execute (default=command)</div><div class="line">//更多信息请参考manual手册</div></pre></td></tr></table></figure>
+<h4 id="ansible-playbook"><a href="#ansible-playbook" class="headerlink" title="ansible-playbook"></a>ansible-playbook</h4><blockquote>
+<p>ansible-playbook <filename.yml> … [options]</filename.yml></p>
+</blockquote>
+<h2 id="四、模块"><a href="#四、模块" class="headerlink" title="四、模块"></a>四、模块</h2><h3 id="command"><a href="#command" class="headerlink" title="command"></a>command</h3><p>命令模块: ansible默认模块，用于在远程执行命令，command模块并不支持shell变量和管道等，若想使用shell来执行，应使用shell模块。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ansible-doc -l | grep ^command</div><div class="line">command              Executes a command on a remote node</div><div class="line"></div><div class="line"># ansible 10.249.6.64 -m command -a &quot;date&quot;</div><div class="line">10.249.6.64 | success | rc=0 &gt;&gt;</div><div class="line">Wed May 11 21:21:35 CST 2016</div></pre></td></tr></table></figure>
+<h3 id="ping"><a href="#ping" class="headerlink" title="ping"></a>ping</h3><p>ping模块：测试指定主机是否能连接</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ansible-doc -l | grep  -w ^ping</div><div class="line">ping                 Try to connect to host and return `pong&apos; on success.</div><div class="line"></div><div class="line"># ansible 10.249.6.64 -m ping</div><div class="line">10.249.6.64 | success &gt;&gt; &#123;</div><div class="line">    &quot;changed&quot;: false,</div><div class="line">    &quot;ping&quot;: &quot;pong&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="cron"><a href="#cron" class="headerlink" title="cron"></a>cron</h3><p>计划任务模块 ：管理计划任务</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ansible-doc -l | grep  ^cron</div><div class="line">cron                 Manage cron.d and crontab entries.</div><div class="line"></div><div class="line"># ansible-doc  -s cron</div><div class="line">- name: Manage cron.d and crontab entries.</div><div class="line">action: cron</div><div class="line">    backup                 # If set, create a backup of the crontab before it is modified. The location of the backup is returned in the `backup&apos; variable by this module.</div><div class="line">    cron_file              # If specified, uses this file in cron.d instead of an individual user&apos;s crontab.</div><div class="line">    day                    # Day of the month the job should run ( 1-31, *, */2, etc )</div><div class="line">    hour                   # Hour when the job should run ( 0-23, *, */2, etc )</div><div class="line">    job                    # The command to execute. Required if state=present.</div><div class="line">    minute                 # Minute when the job should run ( 0-59, *, */2, etc )</div><div class="line">    month                  # Month of the year the job should run ( 1-12, *, */2, etc )</div><div class="line">    name                   # Description of a crontab entry.</div><div class="line">    reboot                 # If the job should be run at reboot. This option is deprecated. Users should use special_time.</div><div class="line">    special_time           # Special time specification nickname.</div><div class="line">    state                  # Whether to ensure the job is present or absent.</div><div class="line">    user                   # The specific user who&apos;s crontab should be modified.</div><div class="line">    weekday                # Day of the week that the job should run ( 0-7 for Sunday - Saturday, *, etc )</div><div class="line"></div><div class="line"># ansible 10.249.6.64 -m cron -a &apos;name=&quot;sync time&quot; minute=&quot;*/10&quot; \</div><div class="line">  job=&quot;/usr/sbin/ntpdate 0.centos.pool.ntp.org &amp;&amp; hwclock -w&quot; &apos;</div><div class="line"></div><div class="line">10.249.6.64 | success &gt;&gt; &#123;</div><div class="line">    &quot;changed&quot;: true,</div><div class="line">    &quot;jobs&quot;: [</div><div class="line">    &quot;sync time&quot;</div><div class="line">    ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="user"><a href="#user" class="headerlink" title="user"></a>user</h3><p>用户模块：管理用户账户</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ansible-doc -l | grep ^user</div><div class="line">user                 Manage user accounts</div><div class="line"></div><div class="line"># ansible 10.249.6.64 -m user -a &apos;name=work shell=/bin/bash home=/home/www&apos;   //添加用户</div><div class="line">10.249.6.64 | success &gt;&gt; &#123;</div><div class="line">    &quot;changed&quot;: true,</div><div class="line">    &quot;comment&quot;: &quot;&quot;,</div><div class="line">    &quot;createhome&quot;: true,</div><div class="line">    &quot;group&quot;: 500,</div><div class="line">    &quot;home&quot;: &quot;/home/www&quot;,</div><div class="line">    &quot;name&quot;: &quot;work&quot;,</div><div class="line">    &quot;shell&quot;: &quot;/bin/bash&quot;,</div><div class="line">    &quot;state&quot;: &quot;present&quot;,</div><div class="line">    &quot;system&quot;: false,</div><div class="line">    &quot;uid&quot;: 500</div><div class="line">&#125;</div><div class="line"></div><div class="line"># ansible 10.249.6.64 -m user -a &apos;name=work state=absent&apos;  // 删除用户</div><div class="line">10.249.6.64 | success &gt;&gt; &#123;</div><div class="line">    &quot;changed&quot;: true,</div><div class="line">    &quot;force&quot;: false,</div><div class="line">    &quot;name&quot;: &quot;work&quot;,</div><div class="line">    &quot;remove&quot;: false,</div><div class="line">    &quot;state&quot;: &quot;absent&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h3><p>copy模块：文件复制</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">#  ansible-doc -l | grep ^copy</div><div class="line">copy                 Copies files to remote locations.</div><div class="line"></div><div class="line"># ansible-doc -s copy</div><div class="line">- name: Copies files to remote locations.</div><div class="line">action: copy</div><div class="line">    backup                 # Create a backup file including the timestamp information so you can get the original file back if you somehow clobbered it incorrectly.</div><div class="line">    content                # When used instead of &apos;src&apos;, sets the contents of a file directly to the specified value.</div><div class="line">    dest=                  # Remote absolute path where the file should be copied to. If src is a directory, this must be a directory too.</div><div class="line">    directory_mode         # When doing a recursive copy set the mode for the directories. If this is not set we will default the system defaults.</div><div class="line">    force                  # the default is `yes&apos;, which will replace the remote file when contents are different than the source.  If `no&apos;, the file will only be transferred if the destination does not exist.</div><div class="line">    src                    # Local path to a file to copy to the remote server; can be absolute or relative. If path is a directory, it is copied recursively. In this case, if path ends with &quot;/&quot;, only inside contents of that directory are copied to destination. Otherwise, if it does not end with &quot;/&quot;, the directory itself with all contents is copied. This behavior is similar to Rsync.</div><div class="line">    validate               # The validation command to run before copying into place.  The path to the file to validate is passed in via &apos;%s&apos; which must be present as in the visudo example below. The command is passed securely so shell features like expansion and pipes won&apos;t work.</div><div class="line"></div><div class="line"># ansible 10.249.6.64 -m copy -a &quot;src=/root/test.txt dest=/tmp/&quot;</div><div class="line">10.249.6.64 | success &gt;&gt; &#123;</div><div class="line">    &quot;changed&quot;: true,</div><div class="line">    &quot;dest&quot;: &quot;/tmp/test.txt&quot;,</div><div class="line">    &quot;gid&quot;: 0,</div><div class="line">    &quot;group&quot;: &quot;root&quot;,</div><div class="line">    &quot;md5sum&quot;: &quot;d41d8cd98f00b204e9800998ecf8427e&quot;,</div><div class="line">    &quot;mode&quot;: &quot;0644&quot;,</div><div class="line">    &quot;owner&quot;: &quot;root&quot;,</div><div class="line">    &quot;size&quot;: 0,</div><div class="line">    &quot;src&quot;: &quot;/root/.ansible/tmp/ansible-tmp-1463662606.99-26627840524349/source&quot;,</div><div class="line">    &quot;state&quot;: &quot;file&quot;,</div><div class="line">    &quot;uid&quot;: 0</div><div class="line">&#125;</div><div class="line"># ansible 10.249.6.64 -m copy -a &quot;content=&apos;hello world&apos; dest=/tmp/test.txt&quot;</div><div class="line"># ansible 10.249.6.64 -m copy -a &apos;src=/root/test.txt dest=/tmp/test.txt owner=evans group=evans mode=600 backup=yes&apos;</div></pre></td></tr></table></figure>
+<h3 id="file"><a href="#file" class="headerlink" title="file"></a>file</h3><p>file模块：文件模块，设置文件属性</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ansible-doc -l | grep -w ^file</div><div class="line">file                 Sets attributes of files</div><div class="line"># ansible 10.249.6.64 -m file -a &quot;src=/tmp/test.txt path=/tmp/test.link state=link&quot;</div><div class="line"># ansible 10.249.6.64 -m file -a &quot;owner=evans group=evans mode=600 path=/tmp/test.txt&quot;</div></pre></td></tr></table></figure>
+<h3 id="service"><a href="#service" class="headerlink" title="service"></a>service</h3><p>service模块： 服务模块，管理系统服务</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ansible-doc -l | grep ^service</div><div class="line">service              Manage services.</div><div class="line"># ansible-doc -s service</div><div class="line">- name: Manage services.</div><div class="line">  action: service</div><div class="line">    arguments              # Additional arguments provided on the command line</div><div class="line">    enabled                # Whether the service should start on boot. *At least one of state and enabled are required.*</div><div class="line">    name=                  # Name of the service.</div><div class="line">    pattern                # If the service does not respond to the status command, name a substring to look for as would be found in the output of the `ps&apos; command as a stand-in for a status result.  If the string is found, the service will be assumed to be running.</div><div class="line">    runlevel               # For OpenRC init scripts (ex: Gentoo) only.  The runlevel that this service belongs to.</div><div class="line">    sleep                  # If the service is being `restarted&apos; then sleep this many seconds between the stop and start command. This helps to workaround badly behaving init scripts that exit immediately after signaling a process to stop.</div><div class="line">    state                  # `started&apos;/`stopped&apos; are idempotent actions that will not run commands unless necessary.  `restarted&apos; will always bounce the service.  `reloaded&apos; will always reload. *At least one of state and enabled are required.*</div><div class="line"># ansible 10.249.6.64 -m service -a &quot;name=mysqld state=restarted enabled=true&quot;  //重启mysql服务并设置开机自启动</div></pre></td></tr></table></figure>
+<h3 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h3><p>shell模块：远程执行命令</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ansible 10.249.6.64 -m shell -a &apos;date&apos;</div><div class="line">10.249.6.64 | success | rc=0 &gt;&gt;</div><div class="line">Thu May 19 21:20:51 CST 2016</div></pre></td></tr></table></figure>
+<h3 id="script"><a href="#script" class="headerlink" title="script"></a>script</h3><p>script模块：脚本模块，远程主机运行脚本<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ansible-doc  -l | grep ^script</div><div class="line">script               Runs a local script on a remote node after transferring it..</div><div class="line"># ansible 10.249.6.64 -m script -a &apos;/root/test.sh&apos;  //在远程主机上运行脚本，并没有拷贝到指定目录</div><div class="line">10.249.6.64 | success &gt;&gt; &#123;</div><div class="line">    &quot;changed&quot;: true,</div><div class="line">    &quot;rc&quot;: 0,</div><div class="line">    &quot;stderr&quot;: &quot;&quot;,</div><div class="line">    &quot;stdout&quot;: &quot;&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="yum、apt"><a href="#yum、apt" class="headerlink" title="yum、apt"></a>yum、apt</h3><p>yum模块和apt模块：包管理模块</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">yum                  Manages packages with the `yum&apos; package manager</div><div class="line">apt                  Manages apt-packages</div><div class="line"># ansible 10.249.6.64 -m yum -a &quot;name=tree state=present&quot;</div><div class="line"># ansible 10.249.6.43 -m apt -a &quot;name=tree state=present&quot;</div><div class="line"># ansible 10.249.6.43 -m apt -a &quot;name=tree state=absent&quot;</div></pre></td></tr></table></figure>
+<blockquote>
+<p> state\<br>Whether to install (<code>present&#39;,</code>latest’), or remove (`absent’) a package.</p>
+</blockquote>
+<h3 id="setup"><a href="#setup" class="headerlink" title="setup"></a>setup</h3><p>setup模块：收集主机信息，playbook运行时，会自动调用setup模块收集远程主机的相关信息（称为facts，如操作系统版本、ip地址、cpu数量等），这些信息保存于变量中，可在playbook中引用</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ansible-doc -l | grep  setup</div><div class="line">setup                Gathers facts about remote hosts</div><div class="line"># ansible-doc -s setup</div><div class="line">- name: Gathers facts about remote hosts</div><div class="line">    action: setup</div><div class="line">    fact_path              # path used for local ansible facts (*.fact) - files in this dir will be run (if executable) and their results be added to ansible_local facts if a file is not executable it is read. File/results format can be json or ini-format</div><div class="line">    filter                 # if supplied, only return facts that match this shell-style (fnmatch) wildcard.</div><div class="line"># ansible 10.249.6.43 -m setup</div><div class="line"># ansible 10.249.6.43 -m setup -a &apos;filter=ansible_eth0&apos;   //过滤信息</div><div class="line"># ansible 10.249.6.64 -m setup --tree /tmp/test.txt  //将收集的信息输出到本地文件</div></pre></td></tr></table></figure>
+<p>更多模块信息请查看：<a href="http://docs.ansible.com/ansible/list_of_all_modules.html" target="_blank" rel="external">官方文档</a></p>
+<h2 id="五、playbook"><a href="#五、playbook" class="headerlink" title="五、playbook"></a>五、playbook</h2><h3 id="5-1-YAML"><a href="#5-1-YAML" class="headerlink" title="5.1 YAML"></a>5.1 YAML</h3><p>YAML是一种可读性高的用来表达资料序列的语言，其语法和其他高阶语言类似，并且可以简单表达清单、散列表、标量等数据结构。</p>
 <p>所有的yaml文件都以”—“开头表示开始一个document，所有的列表元素以”-“开头，键值对用”:”，后面必须有空格。YAML文件扩展名通常为.yaml或.yml</p>
-<h4 id="5-2-playbook简介"><a href="#5-2-playbook简介" class="headerlink" title="5.2 playbook简介"></a>5.2 playbook简介</h4><p>playbook是ansible管理配置、部署应用和编排的文件，可用来描述在远程主机上执行的策略或一组任务。</p>
+<h3 id="5-2-playbook简介"><a href="#5-2-playbook简介" class="headerlink" title="5.2 playbook简介"></a>5.2 playbook简介</h3><p>playbook是ansible管理配置、部署应用和编排的文件，可用来描述在远程主机上执行的策略或一组任务。</p>
 <p>一个playbook文件由一个或多个play组成，每个play定义了在一个或多个远程主机上执行的一系列的task，其中每个task一般就是调用一个ansible的模块。</p>
 <p>playbook使用YAML语言编写，文件名以.yaml或.yml结尾。此外playbook和模板文件（template）还可使用jinja2语法语法实现高级功能。</p>
 <p>5.2.1 playbook的基本组成</p>
@@ -215,30 +64,8 @@ setup                Gathers facts about remote hosts
 <li>handlers：处理器，在某些条件下被触发的操作</li>
 </ul>
 <p>简单playbook示例：</p>
-<pre><code># cat nginx.yml
----
-- hosts: 10.249.6.43
-  user: root
-  vars:
-    remote_conffile_path: /etc/nginx/sites-enabled/mirror.conf
-  tasks:
-  - name: install nginx
-    apt: name=nginx state=latest
-    when: ansible_distribution == &apos;Ubuntu&apos;
-
-  - name: configration file
-    tags: conf
-    copy: src=/root/mirror.conf dest={{remote_conffile_path}}
-    notify: restart nginx
-
-  - name: start nginx
-    service: name=nginx enabled=yes state=started
-
-  handlers:
-  - name: restart nginx
-    service: name=nginx state=restarted
-# ansible-playbook  nginx.yml   // 执行playbook
-</code></pre><ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># cat nginx.yml</div><div class="line">---</div><div class="line">- hosts: 10.249.6.43</div><div class="line">  user: root</div><div class="line">  vars:</div><div class="line">    remote_conffile_path: /etc/nginx/sites-enabled/mirror.conf</div><div class="line">  tasks:</div><div class="line">  - name: install nginx</div><div class="line">    apt: name=nginx state=latest</div><div class="line">    when: ansible_distribution == &apos;Ubuntu&apos;</div><div class="line"></div><div class="line">  - name: configration file</div><div class="line">    tags: conf</div><div class="line">    copy: src=/root/mirror.conf dest=&#123;&#123;remote_conffile_path&#125;&#125;</div><div class="line">    notify: restart nginx</div><div class="line"></div><div class="line">  - name: start nginx</div><div class="line">    service: name=nginx enabled=yes state=started</div><div class="line"></div><div class="line">  handlers:</div><div class="line">  - name: restart nginx</div><div class="line">    service: name=nginx state=restarted</div><div class="line"># ansible-playbook  nginx.yml   // 执行playbook</div></pre></td></tr></table></figure>
+<ul>
 <li>hosts、user</li>
 </ul>
 <p>hosts用于指定要执行指定任务的主机，其可以是一个或多个由逗号分隔主机组；user则用于指定远程主机上的执行任务的用户，还能使用sudo</p>
@@ -249,151 +76,44 @@ setup                Gathers facts about remote hosts
 <p> task的目的是使用指定的参数执行模块，而在模块参数中可以使用变量。模块执行是幂等的，这意味着多次执行是安全的，因为其结果均一致。</p>
 <p> 每个task都应该有其name，用于playbook的执行结果输出，建议其内容尽可能清晰地描述任务执行步骤。如果未提供name，则action的结果将用于输出。</p>
 <p>定义task的可以使用“action: module options”或“module: options”的格式，推荐使用后者以实现向后兼容例如：</p>
-<pre><code>tasks:
-- name: make sure apache is running
-  service: name=httpd state=running
-</code></pre><p> 在众多模块中，只有command和shell模块仅需要给定一个列表而无需使用“key=value”格式，例如：</p>
-<pre><code>tasks:
-- name: disable selinux
-  command: /sbin/setenforce 0
-</code></pre><p>shell模块执行多条命令       </p>
-<pre><code>---
-- name: update zabbix agent conf
-shell: |     
-   sed  -i &quot;/Hostname/d&quot; /usr/local/zabbix-agent-ops/etc/zabbix_agentd.conf
-   wget -O /tmp/hostinfo.txt http://10.126.93.2/bak/hostinfo.txt
-   IP=`ifconfig | egrep -A1 eth[0-9] | egrep  -o  addr:[0-9]+.[0-9]+.[0-9]+.[0-9]+ | awk -F: &apos;{print $2}&apos;`
-   USE=`egrep -w  $IP /tmp/hostinfo.txt | awk &apos;{print $2}&apos;| uniq`
-   HOST=`hostname | awk -F . &apos;{print $1}&apos;`
-   echo &quot;Hostname=${USE}${HOST}&quot; &gt;&gt; /usr/local/zabbix-agent-ops/etc/zabbix_agentd.conf   
-</code></pre><p>如果模块执行返回值不为零，即表示执行失败，任务会立即中止，后续任务不再执行。可以使用ignore_errors来忽略错误信息确保后续任务的执行。</p>
-<pre><code>tasks:
-   - name: run this command and ignore the result
-     shell: /usr/bin/somecommand
-     ignore_errors: yes
-</code></pre><ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">tasks:</div><div class="line">- name: make sure apache is running</div><div class="line">  service: name=httpd state=running</div></pre></td></tr></table></figure>
+<p>在众多模块中，只有command和shell模块仅需要给定一个列表而无需使用“key=value”格式，例如：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">tasks:</div><div class="line">- name: disable selinux</div><div class="line">  command: /sbin/setenforce 0</div></pre></td></tr></table></figure>
+<p>shell模块执行多条命令</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">---</div><div class="line">- name: update zabbix agent conf</div><div class="line">  shell: |</div><div class="line">       ...</div></pre></td></tr></table></figure>
+<p>如果模块执行返回值不为零，即表示执行失败，任务会立即中止，后续任务不再执行。可以使用ignore_errors来忽略错误信息确保后续任务的执行。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">tasks:</div><div class="line">    - name: run this command and ignore the result</div><div class="line">      shell: /usr/bin/somecommand</div><div class="line">      ignore_errors: yes</div></pre></td></tr></table></figure>
+<ul>
 <li>handlers</li>
 </ul>
 <p>当关注的资源发生变化时触发一定的操作。handler是task列表，这些task与前述的task并没有本质上的不同。</p>
-<p>“notify”这个action可用于在每个play的最后被触发，这样可以避免多次有改变发生时每次都执行指定的操作，取而代之，仅在所有的变化发生完成后一次性地执行指定操作。在notify中列出的操作称为handler，也即notify中调用handler中定义的操作。       </p>
-<pre><code>- name: template configuration file
-  template: src=/root/template.conf dest=/etc/template.conf
-
-notify:
-  - restart memcached
-  - restart apache
-
-handlers:
-- name: restart memcached
-  service: name=memcached state=restarted
-- name: restart apache
-  service: name=apache state=restarted
-</code></pre><ul>
+<p>“notify”这个action可用于在每个play的最后被触发，这样可以避免多次有改变发生时每次都执行指定的操作，取而代之，仅在所有的变化发生完成后一次性地执行指定操作。在notify中列出的操作称为handler，也即notify中调用handler中定义的操作。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">- name: template configuration file</div><div class="line">  template: src=/root/template.conf dest=/etc/template.conf</div><div class="line"></div><div class="line">notify:</div><div class="line">  - restart memcached</div><div class="line">  - restart apache</div><div class="line"></div><div class="line">handlers:</div><div class="line">  - name: restart memcached</div><div class="line">    service: name=memcached state=restarted</div><div class="line">  - name: restart apache</div><div class="line">    service: name=apache state=restarted</div></pre></td></tr></table></figure>
+<ul>
 <li>vars</li>
 </ul>
-<p>变量名仅能由字母、数字和下划线组成，且只能以字母开头  </p>
+<p>变量名仅能由字母、数字和下划线组成，且只能以字母开头</p>
 <ul>
-<li>when </li>
+<li>when</li>
 </ul>
 <p>条件判断：如果需要根据变量、facts或此前任务的执行结果来做为某task执行与否的前提，这时就要用到条件判断。</p>
-<pre><code>when: ansible_distribution == &apos;Debian&apos; or ansible_distribution == &apos;Ubuntu&apos;
-
-when: ansible_distribution == &apos;CentOS&apos; or ansible_distribution == &apos;RedHat&apos; and ansible_distribution_version|int &gt;=6
-</code></pre><p>忽略此前某语句的错误并基于其结果（failed或者sucess）运行后面指定的语句:</p>
-<pre><code>---
-- hosts: 10.249.6.64
-  user: root
-  tasks:
-    - name: false test
-      command: /bin/false
-      register: result
-      ignore_errors: yes
-    - name: when false  to do
-      command: touch /tmp/1.txt
-      when: result | failed
-    - name: when success to do
-      command: touch /tmp/2.txt
-      when: result | success
-    - name: when skip to do
-      command: touch /tmp/3.txt
-      when: result | skipped
-</code></pre><ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">when: ansible_distribution == &apos;Debian&apos; or ansible_distribution == &apos;Ubuntu&apos;</div><div class="line"></div><div class="line">when: ansible_distribution == &apos;CentOS&apos; or ansible_distribution == &apos;RedHat&apos; and ansible_distribution_version|int &gt;=6</div></pre></td></tr></table></figure>
+<p>忽略此前某语句的错误并基于其结果（failed或者sucess）运行后面指定的语句:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">---</div><div class="line">- hosts: 10.249.6.64</div><div class="line">  user: root</div><div class="line">  tasks:</div><div class="line">    - name: false test</div><div class="line">      command: /bin/false</div><div class="line">      register: result</div><div class="line">      ignore_errors: yes</div><div class="line">    - name: when false  to do</div><div class="line">      command: touch /tmp/1.txt</div><div class="line">      when: result | failed</div><div class="line">    - name: when success to do</div><div class="line">      command: touch /tmp/2.txt</div><div class="line">      when: result | success</div><div class="line">    - name: when skip to do</div><div class="line">      command: touch /tmp/3.txt</div><div class="line">      when: result | skipped</div></pre></td></tr></table></figure>
+<ul>
 <li>item</li>
 </ul>
 <p>item 迭代：当有需要重复性执行的任务时，可以使用迭代机制。其使用格式为将需要迭代的内容定义为item变量引用，并通过with_items语句来指明迭代的元素列表即可</p>
-<pre><code>- name: install base software
-  apt: pkg={{ item }} state=present force=yes
-  with_items:
-    - gcc
-    - g++
-    - mysql-client-5.5
-    - libmcrypt-dev
-    - libmysqlclient-dev
-    - libgmp10
-    - vim
-    - openssh-client
-    - ethtool
-when: ansible_distribution == &apos;Debian&apos; or ansible_distribution == &apos;Ubuntu&apos;
-</code></pre><ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">- name: install base software</div><div class="line">  apt: pkg=&#123;&#123; item &#125;&#125; state=present force=yes</div><div class="line">  with_items:</div><div class="line">    - gcc</div><div class="line">    - g++</div><div class="line">    - mysql-client-5.5</div><div class="line">    - libmcrypt-dev</div><div class="line">    - libmysqlclient-dev</div><div class="line">    - libgmp10</div><div class="line">    - vim</div><div class="line">    - openssh-client</div><div class="line">    - ethtool</div><div class="line">  when: ansible_distribution == &apos;Debian&apos; or ansible_distribution == &apos;Ubuntu&apos;</div></pre></td></tr></table></figure>
+<ul>
 <li>tag</li>
 </ul>
 <p>tag标签：让用户选择运行playbook中的某个或某些任务。虽然ansible具有幂等性，会跳过没有变化的部分，有些代码为测试其确实没有发生变化，也会耗费很长时间。我们将playbook中的指定任务打上标签，在运行playbook时指定标签名称，这样就不用运行全部代码了。</p>
-<pre><code>---
-- hosts: 10.249.6.43
-  user: root
-  vars:
-    remote_conffile_path: /etc/nginx/sites-enabled/mirror.conf
-  tasks:
-  - name: install nginx
-    apt: name=nginx state=latest
-    when: ansible_distribution == &apos;Ubuntu&apos;
-
-  - name: configration file
-    tags: conf
-    copy: src=/root/mirror.conf dest={{remote_conffile_path}}
-    notify: restart nginx
-
-  - name: start nginx
-    service: name=nginx enabled=yes state=started
-  handlers:
-  - name: restart nginx
-    service: name=nginx state=restarted
-    # ansible-playbook nginx.yml -t conf   // 只执行tags部分
-</code></pre><h3 id="六、roles"><a href="#六、roles" class="headerlink" title="六、roles"></a>六、roles</h3><p>roles 用于层次性、结构化地组织playbook。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">---</div><div class="line">- hosts: 10.249.6.43</div><div class="line">  user: root</div><div class="line">  vars:</div><div class="line">    remote_conffile_path: /etc/nginx/sites-enabled/mirror.conf</div><div class="line">  tasks:</div><div class="line">  - name: install nginx</div><div class="line">    apt: name=nginx state=latest</div><div class="line">    when: ansible_distribution == &apos;Ubuntu&apos;</div><div class="line">      </div><div class="line">  - name: configration file</div><div class="line">    tags: conf</div><div class="line">    copy: src=/root/mirror.conf dest=&#123;&#123;remote_conffile_path&#125;&#125;</div><div class="line">    notify: restart nginx</div><div class="line"></div><div class="line">  - name: start nginx</div><div class="line">    service: name=nginx enabled=yes state=started</div><div class="line">  handlers:</div><div class="line">  - name: restart nginx</div><div class="line">    service: name=nginx state=restarted</div><div class="line"># ansible-playbook nginx.yml -t conf   // 只执行tags部分</div></pre></td></tr></table></figure>
+<h2 id="六、roles"><a href="#六、roles" class="headerlink" title="六、roles"></a>六、roles</h2><p>roles 用于层次性、结构化地组织playbook。</p>
 <p>roles能够根据层次型结构自动装载变量文件、tasks以及handlers等。roles就是通过分别将变量、文件、任务、模块及处理器放置于单独的目录中，并可以便捷地include它们的一种机制。角色一般用于基于主机构建服务的场景中，但也可以是用于构建守护进程等场景中。</p>
-<pre><code># ls
-deploy_hosts  deploy.yml  roles  run.sh
-# cat deploy_hosts   //主机或主机组列表
-[web]
-10.126.83.30
-10.126.93.83
-[db]
-10.126.87.150
-10.126.92.89
-# cat deploy.yml  // 总的playbook 调用roles
----
-- name: init for os
-  hosts: web
-  user: root
-  gather_facts: True
-  roles:
-    - init
-    - raid
-- name: init for os
-  hosts: db
-  user: root
-  gather_facts: True
-  roles:
-    - init
-    - raid
-    - db_init
-
-# cat run.sh  // 运行playbook脚本
-#!/bin/bash
-/usr/bin/ansible-playbook -i ./deploy_hosts deploy.yml
-# ls roles/
-db_init   init    raid 
-</code></pre><p>在每个角色命名的目录中分别创建files、handlers、meta、tasks、templates和vars目录，用不到的目录可以创建为空目录，也可以不创建。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ls</div><div class="line">deploy_hosts  deploy.yml  roles  run.sh</div><div class="line"># cat deploy_hosts   //主机或主机组列表</div><div class="line">[web]</div><div class="line">10.126.83.30</div><div class="line">10.126.93.83</div><div class="line">[db]</div><div class="line">10.126.87.150</div><div class="line">10.126.92.89</div><div class="line"># cat deploy.yml  // 总的playbook 调用roles</div><div class="line">---</div><div class="line">- name: init for os</div><div class="line">  hosts: web</div><div class="line">  user: root</div><div class="line">  gather_facts: True</div><div class="line">  roles:</div><div class="line">    - init</div><div class="line">    - raid</div><div class="line">- name: init for os</div><div class="line">  hosts: db</div><div class="line">  user: root</div><div class="line">  gather_facts: True</div><div class="line">  roles:</div><div class="line">    - init</div><div class="line">    - raid</div><div class="line">    - db_init</div><div class="line"></div><div class="line"># cat run.sh  // 运行playbook脚本</div><div class="line">#!/bin/bash</div><div class="line">/usr/bin/ansible-playbook -i ./deploy_hosts deploy.yml</div><div class="line"># ls roles/</div><div class="line">db_init   init    raid</div></pre></td></tr></table></figure>
+<p>在每个角色命名的目录中分别创建files、handlers、meta、tasks、templates和vars目录，用不到的目录可以创建为空目录，也可以不创建。</p>
 <p>role内各目录中可用的文件:</p>
 <ul>
 <li><p>tasks目录：至少应该包含一个名为main.yml的文件，其定义了此角色的任务列表；此文件可以使用include包含其它的位于此目录中的task文件</p>
