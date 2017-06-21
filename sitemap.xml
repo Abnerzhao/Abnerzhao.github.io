@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2016/11/04/ansible-python-api/</loc>
+    
+    <lastmod>2017-06-21T15:37:19.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2016/05/20/ansible/</loc>
     
     <lastmod>2017-06-21T15:30:53.000Z</lastmod>
@@ -33,13 +40,6 @@
     <loc>http://yoursite.com/2016/11/16/python-datetime/</loc>
     
     <lastmod>2017-06-21T14:46:17.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/11/04/ansible-python-api/</loc>
-    
-    <lastmod>2017-06-21T14:13:04.000Z</lastmod>
     
   </url>
   
