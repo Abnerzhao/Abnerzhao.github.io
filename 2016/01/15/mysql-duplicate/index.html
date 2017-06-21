@@ -8,6 +8,7 @@
 <li>主从复制的步骤</li>
 </ul>
 <p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/94D51A80-A0DB-4189-8F30-673260AC6FCC.png" alt=""></p>
+<a id="more"></a>
 <p>1.master将改变记录到二进制日志(binary log)</p>
 <p>2.slave将master的binary log events(二进制日志事件)拷贝到它的中继日志(relay log)</p>
 <p>3.slave重做中继日志中的事件，将改变反映它自己的数据。</p>

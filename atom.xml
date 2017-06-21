@@ -303,7 +303,7 @@ $ cat exp.yml
     <link href="http://yoursite.com/2016/05/20/ansible/"/>
     <id>http://yoursite.com/2016/05/20/ansible/</id>
     <published>2016-05-20T08:25:38.000Z</published>
-    <updated>2017-06-21T15:22:28.000Z</updated>
+    <updated>2017-06-21T15:24:35.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="一、体系结构"><a href="#一、体系结构" class="headerlink" title="一、体系结构"></a>一、体系结构</h2><p>ansible是一款基于python开发，揉合了众多自动化运维工具功能的轻量级自动化运维工具，目前实现了除系统安装以外的批量系统配置、批量任务执行及批量程序部署等功能。</p>
 <p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/25.png" alt=""></p>
@@ -313,6 +313,7 @@ $ cat exp.yml
 <li>playbook：剧本，使用YAML编写的声明性的配置文件</li>
 <li>plugins: 插件，完成日志记录、邮件等功能</li>
 </ul>
+<a id="more"></a>
 <h2 id="二、-特点"><a href="#二、-特点" class="headerlink" title="二、 特点"></a>二、 特点</h2><ul>
 <li>高度模块化，借助模块完成各种任务</li>
 <li>agentless，无需在被控制端安装agent</li>
@@ -444,7 +445,14 @@ $ cat exp.yml
     
     <summary type="html">
     
-      &lt;h2 id=&quot;一、体系结构&quot;&gt;&lt;a href=&quot;#一、体系结构&quot; class=&quot;headerlink&quot; title=&quot;一、体系结构&quot;&gt;&lt;/a&gt;一、体系结构&lt;/h2&gt;&lt;p&gt;ansible是一款基于python开发，揉合了众多自动化运维工具功能的轻量级自动化运维工具，目前实现了除系
+      &lt;h2 id=&quot;一、体系结构&quot;&gt;&lt;a href=&quot;#一、体系结构&quot; class=&quot;headerlink&quot; title=&quot;一、体系结构&quot;&gt;&lt;/a&gt;一、体系结构&lt;/h2&gt;&lt;p&gt;ansible是一款基于python开发，揉合了众多自动化运维工具功能的轻量级自动化运维工具，目前实现了除系统安装以外的批量系统配置、批量任务执行及批量程序部署等功能。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7vzmp5.com1.z0.glb.clouddn.com/25.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Inventory：主机库，定义可控制的主机&lt;/li&gt;
+&lt;li&gt;Modules：基于模块化设计，通过模块来实现批量部署&lt;/li&gt;
+&lt;li&gt;playbook：剧本，使用YAML编写的声明性的配置文件&lt;/li&gt;
+&lt;li&gt;plugins: 插件，完成日志记录、邮件等功能&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -456,10 +464,11 @@ $ cat exp.yml
     <link href="http://yoursite.com/2016/02/25/ulimit/"/>
     <id>http://yoursite.com/2016/02/25/ulimit/</id>
     <published>2016-02-25T11:11:45.000Z</published>
-    <updated>2017-06-21T14:38:26.000Z</updated>
+    <updated>2017-06-21T15:24:24.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="ulimit简介"><a href="#ulimit简介" class="headerlink" title="ulimit简介"></a>ulimit简介</h2><p>ulimit 用于限制 shell 启动进程所占用的资源，支持以下各种类型的限制：所创建的内核文件的大小、进程数据块的大小、Shell 进程创建文件的大小、内存锁住的大小、常驻内存集的大小、打开文件描述符的数量、分配堆栈的最大大小、CPU 时间、单个用户的最大线程数、Shell 进程所能使用的最大虚拟内存。同时，它支持硬资源和软资源的限制。</p>
 <p>作为临时限制，ulimit 可以作用于通过使用其命令登录的 shell 会话，在会话终止时便结束限制，并不影响于其他 shell 会话。而对于长期的固定限制，ulimit 命令语句又可以被添加到由登录 shell 读取的文件中，作用于特定的 shell 用户。</p>
+<a id="more"></a>
 <h2 id="ulimit的设置"><a href="#ulimit的设置" class="headerlink" title="ulimit的设置"></a>ulimit的设置</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ulimit  -a    //查看当前配置文件ulimit全局系数</div><div class="line">core file size          (blocks, -c) 0</div><div class="line">data seg size           (kbytes, -d) unlimited</div><div class="line">scheduling priority             (-e) 0</div><div class="line">file size               (blocks, -f) unlimited</div><div class="line">pending signals                 (-i) 7389</div><div class="line">max locked memory       (kbytes, -l) 64</div><div class="line">max memory size         (kbytes, -m) unlimited</div><div class="line">open files                      (-n) 10240</div><div class="line">pipe size            (512 bytes, -p) 8</div><div class="line">POSIX message queues     (bytes, -q) 819200</div><div class="line">real-time priority              (-r) 0</div><div class="line">stack size              (kbytes, -s) 10240</div><div class="line">cpu time               (seconds, -t) unlimited</div><div class="line">max user processes              (-u) 10240</div><div class="line">virtual memory          (kbytes, -v) unlimited</div><div class="line">file locks                      (-x) unlimited</div></pre></td></tr></table></figure>
 <p>对于线上环境的机器一般要对<code>open files</code>和<code>max user processes</code>进行修改。</p>
 <h3 id="临时性的修改，只对当前shell生效。"><a href="#临时性的修改，只对当前shell生效。" class="headerlink" title="临时性的修改，只对当前shell生效。"></a>临时性的修改，只对当前shell生效。</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ulimit  -n 65535</div><div class="line"># ulimit  -u 65535</div></pre></td></tr></table></figure>
@@ -483,7 +492,8 @@ $ cat exp.yml
     
     <summary type="html">
     
-      &lt;h2 id=&quot;ulimit简介&quot;&gt;&lt;a href=&quot;#ulimit简介&quot; class=&quot;headerlink&quot; title=&quot;ulimit简介&quot;&gt;&lt;/a&gt;ulimit简介&lt;/h2&gt;&lt;p&gt;ulimit 用于限制 shell 启动进程所占用的资源，支持以下各种类型的限制：所创建的内
+      &lt;h2 id=&quot;ulimit简介&quot;&gt;&lt;a href=&quot;#ulimit简介&quot; class=&quot;headerlink&quot; title=&quot;ulimit简介&quot;&gt;&lt;/a&gt;ulimit简介&lt;/h2&gt;&lt;p&gt;ulimit 用于限制 shell 启动进程所占用的资源，支持以下各种类型的限制：所创建的内核文件的大小、进程数据块的大小、Shell 进程创建文件的大小、内存锁住的大小、常驻内存集的大小、打开文件描述符的数量、分配堆栈的最大大小、CPU 时间、单个用户的最大线程数、Shell 进程所能使用的最大虚拟内存。同时，它支持硬资源和软资源的限制。&lt;/p&gt;
+&lt;p&gt;作为临时限制，ulimit 可以作用于通过使用其命令登录的 shell 会话，在会话终止时便结束限制，并不影响于其他 shell 会话。而对于长期的固定限制，ulimit 命令语句又可以被添加到由登录 shell 读取的文件中，作用于特定的 shell 用户。&lt;/p&gt;
     
     </summary>
     
@@ -495,7 +505,7 @@ $ cat exp.yml
     <link href="http://yoursite.com/2016/01/15/mysql-duplicate/"/>
     <id>http://yoursite.com/2016/01/15/mysql-duplicate/</id>
     <published>2016-01-15T13:43:35.000Z</published>
-    <updated>2017-06-21T14:46:09.000Z</updated>
+    <updated>2017-06-21T15:24:15.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
 <li><p>Master:10.249.17.38</p>
@@ -507,6 +517,7 @@ $ cat exp.yml
 <li>主从复制的步骤</li>
 </ul>
 <p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/94D51A80-A0DB-4189-8F30-673260AC6FCC.png" alt=""></p>
+<a id="more"></a>
 <p>1.master将改变记录到二进制日志(binary log)</p>
 <p>2.slave将master的binary log events(二进制日志事件)拷贝到它的中继日志(relay log)</p>
 <p>3.slave重做中继日志中的事件，将改变反映它自己的数据。</p>
@@ -546,7 +557,12 @@ $ cat exp.yml
 &lt;li&gt;&lt;p&gt;Master:10.249.17.38&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Slave:10.249.17.45&lt;/p&gt;
-&lt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;主从复制的原理&quot;&gt;&lt;a href=&quot;#主从复制的原理&quot; class=&quot;headerlink&quot; title=&quot;主从复制的原理&quot;&gt;&lt;/a&gt;主从复制的原理&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;主从复制的步骤&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;http://7vzmp5.com1.z0.glb.clouddn.com/94D51A80-A0DB-4189-8F30-673260AC6FCC.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
     
     </summary>
     
