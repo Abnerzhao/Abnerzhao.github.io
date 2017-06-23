@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> free查看内存相关信息 · Abnerzhao</title><meta name="description" content="free查看内存相关信息 - Abnerzhao"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Abnerzhao"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/2863179107/profile?topnav=1&amp;wvr=6&amp;is_all=1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/Abnerzhao" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">free查看内存相关信息</h1><div class="post-info">Mar 3, 2016</div><div class="post-content"><h3 id="free"><a href="#free" class="headerlink" title="free"></a>free</h3><h4 id="manual-description"><a href="#manual-description" class="headerlink" title="manual description"></a>manual description</h4><blockquote>
+<p>free  displays  the total amount of free and used physical and swap memory in the system, as well as the buffers used bythe kernel.</p>
+<p>The shared memory column represents either the MemShared value (2.4 series kernels) or the Shmem value (2.6 series kernels and later) taken from the /proc/meminfo file. The value is zero if none of the entries is exported by the kernel.</p>
+</blockquote>
+<h4 id="buffers-and-cached"><a href="#buffers-and-cached" class="headerlink" title="buffers and cached"></a>buffers and cached</h4><blockquote>
+<p><strong>What is the difference between buffers and Cache?</strong></p>
+<p>A buffer is a temporary location to store data for a particular application and this data is not used by any other application. This is similar to bandwidth concept. When you try to send burst of data through network, if your network card is capable of sending less data, it will keep these huge amounts of data in buffer so that it can send data constantly in lesser speeds. In other hand Cache is a memory location to store frequently used data for faster access. Other difference between a buffer and a cache is that cache can be used multiple times where as buffer is used single time. And both are temporary store for your data processing.</p>
+</blockquote>
+<ul>
+<li>A buffer is something that has yet to be “written” to disk.</li>
+<li>A cache is something that has been “read” from the disk and stored for later use.</li>
+</ul>
+<p>buffer是用于存放要输出到disk（块设备）的数据的，而cache是存放从disk上读出的数据。   这二者是为了提高IO性能的。为了提高IO read的性能，总是要多cache一些数据，这也就是为什么cached memor比较大，而比较小的原因。</p>
+<pre><code>root@Mr-zhao:~# free -m
+             total       used       free     shared    buffers     cached
+Mem:          2001        979       1021          0         58        774
+-/+ buffers/cache:        146       1854
+Swap:         4092          0       4092
+</code></pre><p>当我们第一次读一个大文件时耗时可能会比第二次长，原因就是第二次读取时已有cache数据。</p>
+<ul>
+<li><p>-/+ buffers/cache(used): 表示一个应用程序认为系统被用掉多少内存；</p>
+<p>  -/+ buffers/cache(used) = Mem(used) – Mem(buffers) – Mem(cached)</p>
+</li>
+<li><p>-/+ buffers/cache(free)，表示一个应用程序认为系统还有多少内存；</p>
+<p>  -/+ buffers/cache(free) = Mem(free) + Mem(buffers) + Mem(cached)</p>
+</li>
+</ul>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="http://www.cnblogs.com/coldplayerest/archive/2010/02/20/1669949.html" target="_blank" rel="external">Linux上的free命令详解</a><br><a href="http://www.freelinuxconsole.info/understanding-free-command-in-linuxunix-2/" target="_blank" rel="external">Understanding free command in Linux/Unix</a></p>
+</div></article></div></main><footer><div class="paginator"><a href="/2016/05/18/zabbix-agent/" class="prev">PREV</a><a href="/2016/02/25/ulimit/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com">Abnerzhao</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
