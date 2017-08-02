@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2017/08/02/How-to-use-strings-to-call-functions-or-methods/</loc>
+    
+    <lastmod>2017-08-02T15:31:03.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2017/04/11/ansible-callback-plugins/</loc>
     
     <lastmod>2017-06-25T03:13:27.000Z</lastmod>
