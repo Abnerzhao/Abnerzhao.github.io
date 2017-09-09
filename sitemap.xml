@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/about/index.html</loc>
+    
+    <lastmod>2017-09-09T06:55:43.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2017/09/04/set-up-svn-server/</loc>
     
     <lastmod>2017-09-04T14:20:32.000Z</lastmod>
@@ -110,13 +117,6 @@
     <loc>http://yoursite.com/2016/11/16/python-datetime/</loc>
     
     <lastmod>2017-06-21T14:46:17.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/about/index.html</loc>
-    
-    <lastmod>2017-06-21T14:05:04.000Z</lastmod>
     
   </url>
   
