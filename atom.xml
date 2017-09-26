@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-09-26T10:02:31.000Z</updated>
+  <updated>2017-09-26T10:03:57.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/09/26/python-torndb/"/>
     <id>http://yoursite.com/2017/09/26/python-torndb/</id>
     <published>2017-09-26T09:54:46.000Z</published>
-    <updated>2017-09-26T10:02:31.000Z</updated>
+    <updated>2017-09-26T10:03:57.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><a href="http://torndb.readthedocs.io/en/latest/" target="_blank" rel="external">官方文档</a>释义：</p>
 <blockquote>
@@ -36,12 +36,12 @@
 <p>默认的字符集为 <code>utf8</code>，默认时区为 <code>time_zone=&#39;+0:00&#39;</code>，默认连接数据库的端口为 <code>3306</code>，如果非 3306 端口则将端口加在 host 后面。</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><div class="line">In [<span class="number">1</span>]: <span class="keyword">import</span> torndb</div><div class="line">In [<span class="number">2</span>]: db = torndb.Connection(<span class="string">'127.0.0.1:3808'</span>, <span class="string">'test'</span>, user=<span class="string">'root'</span>, password=<span class="string">'123123'</span>)</div></pre></td></tr></table></figure>
 <h4 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h4><p>torndb 对数据库增删查改的使用较 MySQLdb 要简洁些，把 commit、cursor 都隐藏了，查询返回的结果直接处理成字典，可直接通过字典的形式获取数据库表中对应字段内容。</p>
-<p>select操作常用方法：</p>
+<p>select 操作常用方法：</p>
 <ul>
 <li>get：返回一条查询结果，如有多条结果返回则抛出异常</li>
 <li>query：返回多条查询结果</li>
 </ul>
-<p>insert、update、delete操作一般都习惯使用execute方法，当然也可以使用其他方法：insert、insertmany、update、updatemany、delete。</p>
+<p>insert、update、delete 操作一般都习惯使用 execute 方法，当然也可以使用其他方法：insert、insertmany、update、updatemany、delete。</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><div class="line">In [<span class="number">1</span>]: <span class="keyword">import</span> torndb</div><div class="line">In [<span class="number">2</span>]: db = torndb.Connection(<span class="string">'127.0.0.1:3808'</span>, <span class="string">'test'</span>, user=<span class="string">'root'</span>, password=<span class="string">'123123'</span>)</div><div class="line"></div><div class="line"><span class="comment"># 建表</span></div><div class="line">In [<span class="number">3</span>]: sql = <span class="string">'create table userinfo(id int auto_increment, username varchar(30), email varchar(75), primary key (id))'</span></div><div class="line">In [<span class="number">4</span>]: db.execute(sql)</div><div class="line">Out[<span class="number">4</span>]: <span class="number">0L</span></div><div class="line"></div><div class="line"><span class="comment"># 插入数据</span></div><div class="line">In [<span class="number">5</span>]: sql = <span class="string">'insert into userinfo(username, email) values(%s,%s)'</span></div><div class="line">In [<span class="number">6</span>]: db.execute(sql, <span class="string">'abner.zhao'</span>, <span class="string">'opsanberzhao@163.com'</span>)</div><div class="line">Out[<span class="number">6</span>]: <span class="number">1L</span></div><div class="line"></div><div class="line">In [<span class="number">7</span>]: db.execute(sql, <span class="string">'mike.zhang'</span>, <span class="string">'mikezhang@gmail.com'</span>)</div><div class="line">Out[<span class="number">7</span>]: <span class="number">2L</span></div><div class="line"></div><div class="line"><span class="comment"># 查询多条记录</span></div><div class="line">In [<span class="number">8</span>]: sql = <span class="string">'select username,email from userinfo'</span></div><div class="line">In [<span class="number">9</span>]: db.query(sql)</div><div class="line">Out[<span class="number">9</span>]:</div><div class="line">[&#123;<span class="string">'email'</span>: <span class="string">u'opsanberzhao@163.com'</span>, <span class="string">'username'</span>: <span class="string">u'abner.zhao'</span>&#125;,</div><div class="line"> &#123;<span class="string">'email'</span>: <span class="string">u'mikezhang@gmail.com'</span>, <span class="string">'username'</span>: <span class="string">u'mike.zhang'</span>&#125;]</div><div class="line"></div><div class="line"><span class="comment"># 查询单条记录</span></div><div class="line">In [<span class="number">10</span>]: sql = <span class="string">'select email from userinfo where username=%s'</span></div><div class="line">In [<span class="number">11</span>]: db.get(sql,<span class="string">'abner.zhao'</span>)</div><div class="line">Out[<span class="number">11</span>]: &#123;<span class="string">'email'</span>: <span class="string">u'opsanberzhao@163.com'</span>&#125;</div><div class="line"></div><div class="line"><span class="comment"># 更新</span></div><div class="line">In [<span class="number">12</span>]: sql = <span class="string">'update userinfo set username="mike.zhao" where id=%s'</span></div><div class="line">In [<span class="number">13</span>]: db.execute(sql, <span class="number">2</span>)</div><div class="line">Out[<span class="number">13</span>]: <span class="number">0L</span></div><div class="line"></div><div class="line"><span class="comment"># 删除</span></div><div class="line">In [<span class="number">14</span>]: sql = <span class="string">'delete from userinfo  where id=%s'</span></div><div class="line">In [<span class="number">15</span>]: db.execute(sql, <span class="number">2</span>)</div><div class="line">Out[<span class="number">15</span>]: <span class="number">0L</span></div></pre></td></tr></table></figure>
 <h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>在使用 MySQLdb 过程中，有时会出现<code>2006，&#39;MySQL server has gone away&#39;</code>，torndb 能很好的解决该问题。</p>
 <p>torndb 每次获取 cursor 的时候会检查链接是否存在或链接的 idle_time 是否超过了 max_idle_time，超过了则会重新建立一个新的链接。而 MySQLdb 的获取 cursor 时却不会重新建立链接。不过 MySQLdb 提供了ping 方法来检查。</p>
