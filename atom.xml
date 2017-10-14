@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-10-14T07:56:39.000Z</updated>
+  <updated>2017-10-14T08:05:02.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,12 +20,12 @@
     <link href="http://yoursite.com/2017/10/14/quickstart-wiki/"/>
     <id>http://yoursite.com/2017/10/14/quickstart-wiki/</id>
     <published>2017-10-14T07:54:01.000Z</published>
-    <updated>2017-10-14T07:56:39.000Z</updated>
+    <updated>2017-10-14T08:05:02.000Z</updated>
     
     <content type="html"><![CDATA[<p>Sphinx 是一个基于 ReStructuredText 的文档生成工具，有很多开源工程都采用sphinx作为文档生成系统，最有名的就是 python 官方文档。</p>
 <p>Read the Docs是一个在线文档托管服务，可以从各种版本控制系统中导入文档。支持 webhooks，当你提交代码时，文档将被自动构建。</p>
 <p>Sphinx + GitHub + ReadtheDocs 作为一个文档写作工具， 用 Sphinx 生成文档，GitHub 托管文档，再导入到 ReadtheDocs。我们可以使用这个工具写文档、记笔记等。</p>
-<h3 id="搭建过程"><a href="#搭建过程" class="headerlink" title="搭建过程"></a>搭建过程</h3><h4 id="安装-Sphinx"><a href="#安装-Sphinx" class="headerlink" title="安装 Sphinx"></a>安装 Sphinx</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">e sudo pip install sphinx</div></pre></td></tr></table></figure>
+<h3 id="搭建过程"><a href="#搭建过程" class="headerlink" title="搭建过程"></a>搭建过程</h3><h4 id="安装-Sphinx"><a href="#安装-Sphinx" class="headerlink" title="安装 Sphinx"></a>安装 Sphinx</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ sudo pip install sphinx</div></pre></td></tr></table></figure>
 <a id="more"></a>
 <h4 id="创建wiki目录"><a href="#创建wiki目录" class="headerlink" title="创建wiki目录"></a>创建wiki目录</h4><p>使用 sphinx 自带的配置工具 <code>sphinx-quickstart</code> 快速创建工程。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ mkdir mywiki</div><div class="line">$ sphinx-quickstart  //大部分使用默认选项，直接按回车即可</div><div class="line">Welcome to the Sphinx 1.6.3 quickstart utility.</div><div class="line">...</div><div class="line"># 分离source和build目录，方便管理</div><div class="line">&gt; Separate source and build directories (y/n) [n]: y</div><div class="line"></div><div class="line"># 指定工程名、作者名、版本号、语言</div><div class="line">The project name will occur in several places in the built documentation.</div><div class="line">&gt; Project name: mywiki</div><div class="line">&gt; Author name(s): abnerzhao</div><div class="line">&gt; Project version []: 0.1</div><div class="line">&gt; Project release [0.1]:</div><div class="line">&gt; Project language [en]: zh_CN</div><div class="line">...</div><div class="line">Creating file ./source/conf.py.</div><div class="line">Creating file ./source/index.rst.</div><div class="line">Creating file ./Makefile.</div><div class="line">Creating file ./make.bat.</div><div class="line"></div><div class="line">Finished: An initial directory structure has been created.</div><div class="line">...</div><div class="line">$ ls</div><div class="line">Makefile build    make.bat source</div></pre></td></tr></table></figure>
@@ -66,7 +66,7 @@
       &lt;p&gt;Sphinx 是一个基于 ReStructuredText 的文档生成工具，有很多开源工程都采用sphinx作为文档生成系统，最有名的就是 python 官方文档。&lt;/p&gt;
 &lt;p&gt;Read the Docs是一个在线文档托管服务，可以从各种版本控制系统中导入文档。支持 webhooks，当你提交代码时，文档将被自动构建。&lt;/p&gt;
 &lt;p&gt;Sphinx + GitHub + ReadtheDocs 作为一个文档写作工具， 用 Sphinx 生成文档，GitHub 托管文档，再导入到 ReadtheDocs。我们可以使用这个工具写文档、记笔记等。&lt;/p&gt;
-&lt;h3 id=&quot;搭建过程&quot;&gt;&lt;a href=&quot;#搭建过程&quot; class=&quot;headerlink&quot; title=&quot;搭建过程&quot;&gt;&lt;/a&gt;搭建过程&lt;/h3&gt;&lt;h4 id=&quot;安装-Sphinx&quot;&gt;&lt;a href=&quot;#安装-Sphinx&quot; class=&quot;headerlink&quot; title=&quot;安装 Sphinx&quot;&gt;&lt;/a&gt;安装 Sphinx&lt;/h4&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;e sudo pip install sphinx&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;搭建过程&quot;&gt;&lt;a href=&quot;#搭建过程&quot; class=&quot;headerlink&quot; title=&quot;搭建过程&quot;&gt;&lt;/a&gt;搭建过程&lt;/h3&gt;&lt;h4 id=&quot;安装-Sphinx&quot;&gt;&lt;a href=&quot;#安装-Sphinx&quot; class=&quot;headerlink&quot; title=&quot;安装 Sphinx&quot;&gt;&lt;/a&gt;安装 Sphinx&lt;/h4&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ sudo pip install sphinx&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
