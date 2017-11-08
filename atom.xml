@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-10-14T08:05:02.000Z</updated>
+  <updated>2017-11-08T02:09:08.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>使用Sphinx + GitHub + Read the Docs快速搭建个人wiki</title>
+    <title>使用Sphinx + GitHub + Read the Docs搭建wiki</title>
     <link href="http://yoursite.com/2017/10/14/quickstart-wiki/"/>
     <id>http://yoursite.com/2017/10/14/quickstart-wiki/</id>
     <published>2017-10-14T07:54:01.000Z</published>
-    <updated>2017-10-14T08:05:02.000Z</updated>
+    <updated>2017-11-08T02:09:08.000Z</updated>
     
     <content type="html"><![CDATA[<p>Sphinx 是一个基于 ReStructuredText 的文档生成工具，有很多开源工程都采用sphinx作为文档生成系统，最有名的就是 python 官方文档。</p>
 <p>Read the Docs是一个在线文档托管服务，可以从各种版本控制系统中导入文档。支持 webhooks，当你提交代码时，文档将被自动构建。</p>
