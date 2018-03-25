@@ -2,16 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/about/index.html</loc>
+    <loc>http://yoursite.com/2018/02/25/django-celery-notes/</loc>
     
-    <lastmod>2018-03-25T09:52:09.000Z</lastmod>
+    <lastmod>2018-03-25T09:53:17.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2018/02/25/django-celery-notes/</loc>
+    <loc>http://yoursite.com/about/index.html</loc>
     
-    <lastmod>2018-03-25T09:51:19.000Z</lastmod>
+    <lastmod>2018-03-25T09:52:09.000Z</lastmod>
     
   </url>
   
