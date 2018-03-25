@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-12-02T08:46:52.000Z</updated>
+  <updated>2018-03-25T06:41:35.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,46 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>celery-background</title>
+    <link href="http://yoursite.com/2018/03/25/celery-background/"/>
+    <id>http://yoursite.com/2018/03/25/celery-background/</id>
+    <published>2018-03-25T06:40:10.000Z</published>
+    <updated>2018-03-25T06:41:35.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="init-script"><a href="#init-script" class="headerlink" title="init-script"></a>init-script</h3><p>1.先下载两个脚本文件 <a href="https://github.com/celery/celery/tree/3.1/extra/generic-init.d/" target="_blank" rel="external">generic-init.d</a>，我的项目里有定时任务，所以两个都需要用到</p>
+<p>2.创建配置文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat /etc/default/celeryd</div><div class="line"># Names of nodes to start</div><div class="line">#   most people will only start one node:</div><div class="line"></div><div class="line">CELERYD_NODES=&quot;worker1&quot; # work 任务节点</div><div class="line"></div><div class="line">#   but you can also start multiple and configure settings</div><div class="line">#   for each in CELERYD_OPTS</div><div class="line">#CELERYD_NODES=&quot;worker1 worker2 worker3&quot;</div><div class="line">#   alternatively, you can specify the number of nodes to start:</div><div class="line">#CELERYD_NODES=10</div><div class="line"></div><div class="line"># Absolute or relative path to the &apos;celery&apos; command:</div><div class="line"></div><div class="line">CELERY_BIN=&quot;/home/prod/softwares/python/bin/celery&quot; # celery 命令的绝对路径</div><div class="line"></div><div class="line"># App instance to use</div><div class="line"># comment out this line if you don&apos;t use an app</div><div class="line"></div><div class="line">CELERY_APP=&quot;wfstar&quot; # 应用实例</div><div class="line"></div><div class="line"># or fully qualified:</div><div class="line">#CELERY_APP=&quot;proj.tasks:app&quot;</div><div class="line"></div><div class="line"># Where to chdir at start.</div><div class="line">CELERYD_CHDIR=&quot;/home/prod/deploys/wfstar&quot; # 项目目录</div><div class="line"></div><div class="line"># Extra command-line arguments to the worker</div><div class="line"></div><div class="line">CELERYD_OPTS=&quot;--time-limit=300 --concurrency=8&quot; # 命令行参数，更多请参考 man 手册 </div><div class="line"></div><div class="line"># Configure node-specific settings by appending node name to arguments:</div><div class="line">#CELERYD_OPTS=&quot;--time-limit=300 -c 8 -c:worker2 4 -c:worker3 2 -Ofair:worker1&quot;</div><div class="line"># Set logging level to DEBUG</div><div class="line">#CELERYD_LOG_LEVEL=&quot;DEBUG&quot;</div><div class="line"></div><div class="line"># %n will be replaced with the first part of the nodename</div><div class="line"></div><div class="line">CELERYD_LOG_FILE=&quot;/var/log/celery/%n%I.log&quot;</div><div class="line">CELERYD_PID_FILE=&quot;/var/run/celery/%n.pid&quot;</div><div class="line"></div><div class="line"># Workers should run as an unprivileged user.</div><div class="line">#   You need to create this user manually (or you can choose</div><div class="line">#   a user/group combination that already exists (e.g., nobody).</div><div class="line"></div><div class="line">CELERYD_USER=&quot;prod&quot;</div><div class="line">CELERYD_GROUP=&quot;prod&quot;</div><div class="line"></div><div class="line"># If enabled pid and log directories will be created if missing,</div><div class="line"># and owned by the userid/group configured.</div><div class="line">CELERY_CREATE_DIRS=1  # 自动创建日志和 pid 文件</div></pre></td></tr></table></figure>
+<p>3.将下载的 <code>celeryd</code> 和 <code>celerybeat</code> 拷贝到 /etc/init.d 目录并赋予可执行权限</p>
+<blockquote>
+<p>注意部分内容的修改，如执行用户</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat /etc/init.d/celeryd</div><div class="line">...</div><div class="line">DEFAULT_USER=&quot;prod&quot;</div><div class="line">DEFAULT_PID_FILE=&quot;/var/run/celery/%n.pid&quot;</div><div class="line">DEFAULT_LOG_FILE=&quot;/var/log/celery/%n.log&quot;</div><div class="line">DEFAULT_LOG_LEVEL=&quot;INFO&quot;</div><div class="line">DEFAULT_NODES=&quot;celery&quot;</div><div class="line">DEFAULT_CELERYD=&quot;-m celery worker --detach&quot;</div><div class="line">...</div><div class="line">$ cat /etc/init.d/celerybeat</div><div class="line">...</div><div class="line">CELERY_BIN=$&#123;CELERY_BIN:-&quot;celery&quot;&#125;</div><div class="line">DEFAULT_USER=&quot;prod&quot;</div><div class="line">DEFAULT_PID_FILE=&quot;/var/run/celery/beat.pid&quot;</div><div class="line">DEFAULT_LOG_FILE=&quot;/var/log/celery/beat.log&quot;</div><div class="line">DEFAULT_LOG_LEVEL=&quot;INFO&quot;</div><div class="line">DEFAULT_CELERYBEAT=&quot;$CELERY_BIN beat&quot;</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>4.启动 work 和 beat</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ sudo /etc/init.d/celeryd start</div><div class="line">$ sudo /etc/init.d/celerybeat start</div></pre></td></tr></table></figure>
+<h3 id="supervisord"><a href="#supervisord" class="headerlink" title="supervisord"></a>supervisord</h3><p>1.安装</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ sudo apt-get install supervisor # 因为我这里的项目用的是 Python3，所以没有使用 pip 安装</div></pre></td></tr></table></figure>
+<p>2.配置</p>
+<p>在 <code>/etc/supervisor/conf.d</code> 新建配置文件 <code>celery_wfstar_worker.conf</code> 和 <code>celery_wfstar_beat.conf</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat /etc/supervisor/conf.d/celery_wfstar_worker.conf</div><div class="line">[program:wfstar_worker] </div><div class="line">command=/home/prod/deploys/wfstart_env/bin/celery -A wfstar worker -l info # 执行命令</div><div class="line">directory=/home/prod/deploys/wfstar  # 运行目录</div><div class="line">user=prod  # 执行用户</div><div class="line">numprocs=1 # 启动进程数</div><div class="line">stdout_logfile=/home/prod/deploys/wfstar/logs/celery.log # 标准输出日志</div><div class="line">redirect_stderr=true # 将 stderr 的日志会写入 stdout 日志文件中</div><div class="line">autostart=true # supervisor 启动，程序自动启动</div><div class="line">autorestart=true # 自动重启</div><div class="line">startsecs=10 # 进程启动 10s 后，状态为 running 则为启动成功</div><div class="line">stopwaitsecs = 600 </div><div class="line">killasgroup=true</div><div class="line">priority=998 # 优先级</div><div class="line">stopsignal=QUIT # 停止信号</div><div class="line"></div><div class="line">$ cat /etc/supervisor/conf.d/celery_wfstar_beat.conf</div><div class="line">[program:wfstar_beat]</div><div class="line">command=/home/prod/deploys/wfstart_env/bin/celery -A wfstar beat -l info</div><div class="line">directory=/home/prod/deploys/wfstar</div><div class="line">user=prod</div><div class="line">numprocs=1</div><div class="line">stdout_logfile=/home/prod/deploys/wfstar/logs/celerybeat.log</div><div class="line">redirect_stderr=true</div><div class="line">autostart=true</div><div class="line">autorestart=true</div><div class="line">startsecs=10</div><div class="line">stopwaitsecs = 600</div><div class="line">killasgroup=true</div><div class="line">priority=999</div><div class="line">stopsignal=QUIT</div></pre></td></tr></table></figure>
+<p>配置文件可参考 <a href="https://github.com/celery/celery/tree/master/extra/supervisord" target="_blank" rel="external">github celery supervisord configure</a></p>
+<p>3.启动</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ sudo supervisorctl reread</div><div class="line">$ sudo supervisorctl update</div><div class="line">$ sudo supervisorctl start all</div><div class="line">$ sudo supervisorctl status</div><div class="line">wfstar_beat                      RUNNING   pid 16752, uptime 0:00:34</div><div class="line">wfstar_worker                    RUNNING   pid 16751, uptime 0:00:34</div></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://pythad.github.io/articles/2016-12/how-to-run-celery-as-a-daemon-in-production" target="_blank" rel="external">How to run celery as a daemon</a></p>
+<p><a href="https://yangchy.com/2018/01/17/Celery-%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C/" target="_blank" rel="external">Celery 后台运行</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;init-script&quot;&gt;&lt;a href=&quot;#init-script&quot; class=&quot;headerlink&quot; title=&quot;init-script&quot;&gt;&lt;/a&gt;init-script&lt;/h3&gt;&lt;p&gt;1.先下载两个脚本文件 &lt;a href=&quot;https://githu
+    
+    </summary>
+    
+    
+      <category term="celery" scheme="http://yoursite.com/tags/celery/"/>
+    
+  </entry>
   
   <entry>
     <title>十一月读书总结</title>
@@ -1256,75 +1296,6 @@ Ctrl-a :   // 然后输入quit命令退出Screen会话,会杀死所有窗口并�
     
       &lt;h3 id=&quot;Dmidecode-简介&quot;&gt;&lt;a href=&quot;#Dmidecode-简介&quot; class=&quot;headerlink&quot; title=&quot;Dmidecode 简介&quot;&gt;&lt;/a&gt;Dmidecode 简介&lt;/h3&gt;&lt;blockquote&gt;
 &lt;p&gt;Dmidecode reports
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>RAID阵列卡系列命令备忘</title>
-    <link href="http://yoursite.com/2015/10/11/raid/"/>
-    <id>http://yoursite.com/2015/10/11/raid/</id>
-    <published>2015-10-11T12:27:51.000Z</published>
-    <updated>2017-06-21T15:26:56.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="阵列卡类型"><a href="#阵列卡类型" class="headerlink" title="阵列卡类型"></a>阵列卡类型</h2><h3 id="查看阵列卡的类型"><a href="#查看阵列卡的类型" class="headerlink" title="查看阵列卡的类型"></a>查看阵列卡的类型</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ lspci | grep -i raid</div></pre></td></tr></table></figure>
-<p>一般有LSI和HP的两种，对应的管理命令为 MegaCli 和 hpssacli</p>
-<p>LSI官方网站和驱动下载： <a href="http://www.avagotech.com" target="_blank" rel="external">avagotech</a></p>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="LSI的MegaSAS-RAID卡系列命令"><a href="#LSI的MegaSAS-RAID卡系列命令" class="headerlink" title="LSI的MegaSAS RAID卡系列命令"></a>LSI的MegaSAS RAID卡系列命令</h3><h4 id="显示所有逻辑磁盘组信息"><a href="#显示所有逻辑磁盘组信息" class="headerlink" title="显示所有逻辑磁盘组信息"></a>显示所有逻辑磁盘组信息</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ MegaCli -LDInfo -Lall -aALL</div><div class="line">$ MegaCli -LDInfo -Lall -aALL | grep State</div><div class="line">// 过滤State， 正常情况为：&quot;State : Optimal&quot;，否则为异常，例如 &quot;State : Degraded&quot;</div></pre></td></tr></table></figure>
-<a id="more"></a>
-<h4 id="查看所有物理磁盘信息"><a href="#查看所有物理磁盘信息" class="headerlink" title="查看所有物理磁盘信息"></a>查看所有物理磁盘信息</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ MegaCli -PDList -aAll -NoLog</div><div class="line">$ MegaCli -PDList -aAll -NoLog | grep   &quot;Firmware state&quot;</div><div class="line">//如果 &quot;Firmware state&quot; 显示为非 Online，则表示该磁盘有问题。</div></pre></td></tr></table></figure>
-<h4 id="显示-RAID-卡型号，RAID-设置及物理磁盘的相关信息"><a href="#显示-RAID-卡型号，RAID-设置及物理磁盘的相关信息" class="headerlink" title="显示 RAID 卡型号，RAID 设置及物理磁盘的相关信息"></a>显示 RAID 卡型号，RAID 设置及物理磁盘的相关信息</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ MegaCli -cfgdsply -aALL -NoLog</div></pre></td></tr></table></figure>
-<h4 id="查看磁盘总数和磁盘类型"><a href="#查看磁盘总数和磁盘类型" class="headerlink" title="查看磁盘总数和磁盘类型"></a>查看磁盘总数和磁盘类型</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ MegaCli -cfgdsply -aALL -NoLog | grep &quot;Media Type:&quot;</div></pre></td></tr></table></figure>
-<h4 id="查看磁盘的rebuild-进度"><a href="#查看磁盘的rebuild-进度" class="headerlink" title="查看磁盘的rebuild 进度"></a>查看磁盘的rebuild 进度</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ MegaCli -PDRbld -ShowProg -PhysDrv [32:3] -a0</div><div class="line">Rebuild Progress on Device at Enclosure 32, Slot 3 Completed 95% in 50 Minutes.</div></pre></td></tr></table></figure>
-<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># 显示 RAID 卡信息</div><div class="line">$ MegaCli -AdpAllInfo -aALL -NoLog</div><div class="line"></div><div class="line"># 查看 RAID 卡日志</div><div class="line">$ MegaCli -FwTermLog -Dsply -aALL -NoLog</div><div class="line"></div><div class="line"># 查看电池信息</div><div class="line">$ MegaCli -AdpBbuCmd -aAll -NoLog</div><div class="line"></div><div class="line"># 显示适配器个数</div><div class="line">$ MegaCli -adpCount -NoLog</div><div class="line"></div><div class="line">#显示适配器时间</div><div class="line">$ MegaCli -AdpGetTime –aALL -NoLog</div></pre></td></tr></table></figure>
-<h4 id="初始化设置"><a href="#初始化设置" class="headerlink" title="初始化设置"></a>初始化设置</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ MegaCli -LDSetProp WB -LALL -aALL</div><div class="line">$ MegaCli -LDSetProp ADRA -LALL-aALL</div><div class="line">$ MegaCli -LDSetProp disDskCache -LALL-aALL</div><div class="line">$ MegaCli -LDSetProp CachedBadBBU -Lall -aALL</div></pre></td></tr></table></figure>
-<h3 id="HP-Smart-Array-CLI-命令"><a href="#HP-Smart-Array-CLI-命令" class="headerlink" title="HP Smart Array CLI 命令"></a>HP Smart Array CLI 命令</h3><h4 id="显示raid卡信息"><a href="#显示raid卡信息" class="headerlink" title="显示raid卡信息"></a>显示raid卡信息</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ hpssacli ctrl all show  config</div><div class="line">$ hpssacli ctrl all show detail config   //查看raid卡详细信息</div></pre></td></tr></table></figure>
-<h4 id="显示所有物理磁盘信息"><a href="#显示所有物理磁盘信息" class="headerlink" title="显示所有物理磁盘信息"></a>显示所有物理磁盘信息</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ hpssacli ctrl slot=0 pd all show status</div><div class="line">$ hpssacli ctrl slot=0 pd all show detail   //查看所有物理磁盘详细信息</div><div class="line">$ hpssacli ctrl all show config | grep physicaldrive  //查看磁盘总数和磁盘类型</div></pre></td></tr></table></figure>
-<h4 id="查看电池状态"><a href="#查看电池状态" class="headerlink" title="查看电池状态"></a>查看电池状态</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ hpssacli ctrl all show status | grep Battery</div></pre></td></tr></table></figure>
-<h4 id="查看raid缓存策略"><a href="#查看raid缓存策略" class="headerlink" title="查看raid缓存策略"></a>查看raid缓存策略</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ hpssacli ctrl all show detail config | grep &quot;Drive Write Cache:&quot;</div><div class="line">Drive Write Cache: Enabled</div><div class="line">// Drive Write Cache 有两种状态：Disable和Enable。</div><div class="line">// Disable代表将数据直接写入磁盘，Enable代表先将数据写入缓存然后在写入磁盘。</div></pre></td></tr></table></figure>
-<h4 id="常见设置"><a href="#常见设置" class="headerlink" title="常见设置"></a>常见设置</h4><p>开启阵列逻辑盘cache加速策略</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ hpssacli ctrl slot=1 logicaldrive 1 modify arrayaccelerator=enable</div></pre></td></tr></table></figure>
-<p>没有电池的情况下开启raid写缓存</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ hpssacli ctrl slot=1 modify nobatterywritecache=enable forced</div></pre></td></tr></table></figure>
-<p>启用物理磁盘cache功能</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ hpssacli ctrl slot=1 modify drivewritecache=enable</div></pre></td></tr></table></figure>
-<p>设置读写百分比</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ hpssacli ctrl slot=1 modify cacheratio=25/75</div></pre></td></tr></table></figure>
-<h2 id="raid电池策略"><a href="#raid电池策略" class="headerlink" title="raid电池策略"></a>raid电池策略</h2><h3 id="电池作用"><a href="#电池作用" class="headerlink" title="电池作用"></a>电池作用</h3><p>保护数据：当服务器掉电时，raid电池提供电量保证raid卡缓存的数据写入磁盘。</p>
-<h3 id="电池的充放电"><a href="#电池的充放电" class="headerlink" title="电池的充放电"></a>电池的充放电</h3><p>由于电池是可充电电池，在空闲时候会有微弱的放电。当电量低于一定的阀值，raid卡程序会进行一次放电，将剩余电量放掉然后再充电。在充放电的过程，raid的缓存策略会发生改变，当电池电量低于阀值时，raid卡程序会认为电池不可用，从而禁用了缓存策略，这时数据会直接写入磁盘，raid IO性能会下降，系统的IO的负载会升高。对于高IO的应用，IO性能下降的影响还是比较大。</p>
-<h3 id="电池充放电对IO影响的解决方案"><a href="#电池充放电对IO影响的解决方案" class="headerlink" title="电池充放电对IO影响的解决方案"></a>电池充放电对IO影响的解决方案</h3><p>1.检测电池的状态，掌握电池充放电的周期，在机器负载低的情况下手动强制放电。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ MegaCli -AdpBbuCmd -BbuLearn -aALL</div></pre></td></tr></table></figure>
-<p>电池在放电过程策略会从WriteBack变成WriteThrough</p>
-<p>2.强制改变raid策略，使其在充放电过程不禁用raid卡缓存</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ MegaCli -LDSetProp CachedBadBBU -lall -a0</div></pre></td></tr></table></figure>
-<p>raid缓存策略从No Write Cache if Bad BBU变成Write Cache OK if Bad BBU，这样在充放电的过程IO性能也不下降。</p>
-<h3 id="简单介绍四种raid-cache策略"><a href="#简单介绍四种raid-cache策略" class="headerlink" title="简单介绍四种raid cache策略"></a>简单介绍四种raid cache策略</h3><ul>
-<li>WriteBack</li>
-</ul>
-<p>进行写操作时，将数据写入RAID卡缓存，并直接返回，RAID卡控制器将在系统负载低或者Cache满了的情况下把数据写入硬盘。该设置会大大提升RAID卡写性能，绝大多数的情况下会降低系统IO负载。数据的可靠性由RAID卡的BBU(Battery Backup Unit)进行保证。</p>
-<ul>
-<li>WriteThrough</li>
-</ul>
-<p>数据写操作不使用缓存，数据直接写入磁盘。RAID卡写性能下降，在大多数情况下该设置会造成系统IO负载上升。</p>
-<ul>
-<li>No Write Cache if Bad BBU</li>
-</ul>
-<p>如果BBU出问题，则关闭Write Cache。由WriteBack自动切换到WriteThrough模式。如果没有特殊要求，强烈建议采用该设置，以确保数据的安全。</p>
-<ul>
-<li>Write Cache OK if Bad BBU</li>
-</ul>
-<p>如果BBU出问题，依然启用Write Cache. 这是不推荐的设置，BBU出问题将无法保证断电情况下数据的正常，如果此时依然采用WriteBack模式，遇到断电将发生数据丢失。除非有UPS作额外保证，不然不推荐采用这个设置。</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.inetmail.ca/Wiki/index.php/HP_Smart_Array_CLI_commands_on_ESXi" target="_blank" rel="external">HP_Smart_Array_CLI_commands</a><br><a href="http://zh.community.dell.com/techcenter/b/weblog/archive/2013/03/07/megacli-command-share" target="_blank" rel="external">MegaCli常用管理命令汇总</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;阵列卡类型&quot;&gt;&lt;a href=&quot;#阵列卡类型&quot; class=&quot;headerlink&quot; title=&quot;阵列卡类型&quot;&gt;&lt;/a&gt;阵列卡类型&lt;/h2&gt;&lt;h3 id=&quot;查看阵列卡的类型&quot;&gt;&lt;a href=&quot;#查看阵列卡的类型&quot; class=&quot;headerlink&quot; title=&quot;查看阵列卡的类型&quot;&gt;&lt;/a&gt;查看阵列卡的类型&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ lspci | grep -i raid&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;一般有LSI和HP的两种，对应的管理命令为 MegaCli 和 hpssacli&lt;/p&gt;
-&lt;p&gt;LSI官方网站和驱动下载： &lt;a href=&quot;http://www.avagotech.com&quot;&gt;avagotech&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&quot;常用命令&quot;&gt;&lt;a href=&quot;#常用命令&quot; class=&quot;headerlink&quot; title=&quot;常用命令&quot;&gt;&lt;/a&gt;常用命令&lt;/h2&gt;&lt;h3 id=&quot;LSI的MegaSAS-RAID卡系列命令&quot;&gt;&lt;a href=&quot;#LSI的MegaSAS-RAID卡系列命令&quot; class=&quot;headerlink&quot; title=&quot;LSI的MegaSAS RAID卡系列命令&quot;&gt;&lt;/a&gt;LSI的MegaSAS RAID卡系列命令&lt;/h3&gt;&lt;h4 id=&quot;显示所有逻辑磁盘组信息&quot;&gt;&lt;a href=&quot;#显示所有逻辑磁盘组信息&quot; class=&quot;headerlink&quot; title=&quot;显示所有逻辑磁盘组信息&quot;&gt;&lt;/a&gt;显示所有逻辑磁盘组信息&lt;/h4&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ MegaCli -LDInfo -Lall -aALL&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ MegaCli -LDInfo -Lall -aALL | grep State&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;// 过滤State， 正常情况为：&amp;quot;State : Optimal&amp;quot;，否则为异常，例如 &amp;quot;State : Degraded&amp;quot;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
