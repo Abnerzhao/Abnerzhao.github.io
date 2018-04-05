@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2018/04/05/douban-spider/</loc>
+    
+    <lastmod>2018-04-05T06:05:07.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/02/25/django-celery-notes/</loc>
     
     <lastmod>2018-03-25T09:53:17.000Z</lastmod>
