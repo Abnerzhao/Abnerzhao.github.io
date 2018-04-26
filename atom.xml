@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-04-26T15:22:12.000Z</updated>
+  <updated>2018-04-26T15:25:13.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>vagrant 使用笔记</title>
+    <title>Vagrant 使用笔记</title>
     <link href="http://yoursite.com/2018/04/26/vagrant-notes/"/>
     <id>http://yoursite.com/2018/04/26/vagrant-notes/</id>
     <published>2018-04-26T15:20:54.000Z</published>
-    <updated>2018-04-26T15:22:12.000Z</updated>
+    <updated>2018-04-26T15:25:13.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Vagrant 是一个基于 Ruby 用于创建和部署虚拟化环境的工具。</p>
 <p>Vagrant 提供了易于配置、便于重现、且便携的工作环境，它基于行业技术标准，通过一个统一的流程控制来最大限度地提高 团队的灵活性及生产力。</p>
