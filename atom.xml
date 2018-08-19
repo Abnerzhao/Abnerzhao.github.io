@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-04-26T15:26:19.000Z</updated>
+  <updated>2018-08-19T04:52:12.089Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,347 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>QuerySet API 学习笔记</title>
+    <link href="http://yoursite.com/2018/08/19/QuerySet-API-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <id>http://yoursite.com/2018/08/19/QuerySet-API-学习笔记/</id>
+    <published>2018-08-19T04:51:03.000Z</published>
+    <updated>2018-08-19T04:52:12.089Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="QuerySets-evaluated"><a href="#QuerySets-evaluated" class="headerlink" title="QuerySets evaluated"></a>QuerySets evaluated</h3><p>可以创建、过滤、切片和传递查询集而不用真实操作数据库。在你对查询集做求值之前，不会发生任何实际的数据库操作。</p>
+<p>对于查询集我们使用以下方法进行求值：</p>
+<ul>
+<li>Iteration</li>
+<li>Slicing</li>
+<li>Pickling/Caching</li>
+<li>repr()</li>
+<li>len()</li>
+<li>list()</li>
+<li>bool()</li>
+</ul>
+<h3 id="QuerySet-API"><a href="#QuerySet-API" class="headerlink" title="QuerySet API"></a>QuerySet API</h3><h4 id="返回新的查询集方法"><a href="#返回新的查询集方法" class="headerlink" title="返回新的查询集方法"></a>返回新的查询集方法</h4><ul>
+<li>filter</li>
+</ul>
+<p>返回一个新的 QuerySet 包含给定参数的查询匹配对象，更复杂的查询可以使用 Q 对象。</p>
+<ul>
+<li>exclude</li>
+</ul>
+<p>返回一个新的 QuerySet，它包含不满足给定的查找参数的对象，更复杂的查询同样可以使用 Q 对象。</p>
+<a id="more"></a>
+<ul>
+<li>annotate</li>
+</ul>
+<p>使用提供的查询表达式给 QuerySet 的每个对象增加注释，可以理解为增加一个新的属性。</p>
+<p>查询表达式可以是一个简单的值、模型（或关联模型）字段的一个引用或对查询集中的对象一个聚合函数（平均值、和等）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&gt;&gt;&gt; from django.db.models import Count</div><div class="line">&gt;&gt;&gt; q = Blog.objects.annotate(Count(&apos;entry&apos;))</div><div class="line">&gt;&gt;&gt; q[0].name</div><div class="line">&apos;Blogasaurus&apos;</div><div class="line">&gt;&gt;&gt; q[0].entry__count # 新增的 entry__count 属性</div><div class="line">42</div><div class="line"></div><div class="line"># 指定注释名称</div><div class="line">&gt;&gt;&gt; q = Blog.objects.annotate(number_of_entries=Count(&apos;entry&apos;))</div><div class="line">&gt;&gt;&gt; q[0].number_of_entries</div><div class="line">42</div></pre></td></tr></table></figure>
+<p>使用 annotate 需要用 django.db.models 的统计方法。除了 Count 统计方法之外，还有 Max、Min、Sum、Avg 等方法。</p>
+<ul>
+<li>order_by</li>
+</ul>
+<p>指定 QuerySet 排序</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># 升序</div><div class="line">&gt;&gt;&gt; Author.objects.filter().order_by(&apos;name&apos;)</div><div class="line">&lt;QuerySet [&lt;Author: abner&gt;, &lt;Author: mike&gt;]&gt;</div><div class="line"> </div><div class="line"># 降序</div><div class="line">&gt;&gt;&gt; Author.objects.filter().order_by(&apos;-name&apos;)</div><div class="line">&lt;QuerySet [&lt;Author: mike&gt;, &lt;Author: abner&gt;]&gt;</div><div class="line"></div><div class="line"># 随机排序，不推荐使用(速度慢、查询昂贵)</div><div class="line">&gt;&gt;&gt; Author.objects.order_by(&apos;?&apos;)</div></pre></td></tr></table></figure>
+<ul>
+<li>reverse</li>
+</ul>
+<p>反向排序 QuerySet 中返回的元素</p>
+<ul>
+<li>distinct</li>
+</ul>
+<p>返回一个新的 QuerySet 并去除查询结果中的重复的行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&gt;&gt;&gt; CompileRules.objects.values(&apos;business__name&apos;).distinct()</div><div class="line">&lt;QuerySet [&#123;&apos;business__name&apos;: &apos;img.ppdai.com&apos;&#125;, &#123;&apos;business__name&apos;: &apos;api.alert.risk.ppdaicorp.com&apos;&#125;, &#123;&apos;business__name&apos;: &apos;api.antifraud.risk.ppdaicorp.com&apos;&#125;, &#123;&apos;business__name&apos;: &apos;chargingjob.ppdapi.com&apos;&#125;]&gt;</div><div class="line"></div><div class="line">&gt;&gt;&gt; rules = CompileRules.objects.distinct().values_list(&apos;business__name&apos;)</div><div class="line">&gt;&gt;&gt; [i[0] for i in rules]</div><div class="line">[&apos;img.ppdai.com&apos;,&apos;api.alert.risk.ppdaicorp.com&apos;,&apos;api.antifraud.risk.ppdaicorp.com&apos;,&apos;chargingjob.ppdapi.com&apos;]</div></pre></td></tr></table></figure>
+<ul>
+<li>values</li>
+</ul>
+<p>把 QuerySets 当作迭代器使用，返回一个字典，而不是模型实例</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&gt;&gt;&gt; Author.objects.filter(name=&apos;abner&apos;).values()</div><div class="line">&lt;QuerySet [&#123;&apos;id&apos;: 2, &apos;name&apos;: &apos;abner&apos;, &apos;email&apos;: &apos;abner@163.com&apos;&#125;, &#123;&apos;id&apos;: 3, &apos;name&apos;: &apos;abner&apos;, &apos;email&apos;: &apos;abner@qq.com&apos;&#125;]&gt;</div><div class="line"></div><div class="line"></div><div class="line"># 指定字段</div><div class="line">&gt;&gt;&gt; Author.objects.values(&apos;name&apos;)</div><div class="line">&lt;QuerySet [&#123;&apos;name&apos;: &apos;abner&apos;&#125;,&#123;&apos;name&apos;: &apos;abner&apos;&#125;,v&#123;&apos;name&apos;: &apos;mike&apos;&#125;]&gt;</div><div class="line"></div><div class="line"></div><div class="line"># 数据库函数，Lower 返回小写形式</div><div class="line">&gt;&gt;&gt; from django.db.models.functions import Lower</div><div class="line">&gt;&gt;&gt; Author.objects.values(lower=Lower(&apos;name&apos;))</div><div class="line">&lt;QuerySet [&#123;&apos;lower&apos;: &apos;dkey&apos;&#125;, &#123;&apos;lower&apos;: &apos;jerry&apos;&#125;, &#123;&apos;lower&apos;: &apos;jerry&apos;&#125;]&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>values_list</li>
+</ul>
+<p>以元组的形式返回查询集，可以返回特定字段的值，也可以是列表的形式</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&gt;&gt;&gt; Business.objects.filter(level=1).values_list(&apos;id&apos;, &apos;name&apos;)</div><div class="line">&lt;TreeQuerySet [(3, &apos;借入运营&apos;), (106, &apos;借入借贷&apos;), (219, &apos;数据决策平台&apos;), (225, &apos;数据架构&apos;), (234, &apos;测试&apos;)]&gt;</div><div class="line"></div><div class="line">&gt;&gt;&gt; Business.objects.filter(level=1).values_list(&apos;name&apos;, flat=True)</div><div class="line">&lt;TreeQuerySet [&apos;借入运营&apos;, &apos;借入借贷&apos;, &apos;数据决策平台&apos;, &apos;数据架构&apos;, &apos;测试&apos;]&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>dates</li>
+</ul>
+<blockquote>
+<p>dates(field, kind, order=’ASC’)</p>
+</blockquote>
+<p>返回 datetime.date 对象列表，查询的字段应该是 DateField 模型，kind应为”year”、”month”或”day”。隐式的是升序排序</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">1.year:返回字段不同年份值列表</div><div class="line">2.month:返回字段所有不同年/月值列表</div><div class="line">3.day:返回字段所有不同年/月/日值列表</div></pre></td></tr></table></figure>
+<ul>
+<li>datetimes</li>
+</ul>
+<blockquote>
+<p>datetimes(field_name, kind, order=’ASC’, tzinfo=None)</p>
+</blockquote>
+<p>返回 datetime.datetimes 对象列表，查询的字段应该是 DateField 模型，kind应为”year”、”month”或”day”。隐式的是升序排序</p>
+<ul>
+<li>none</li>
+</ul>
+<p>创建一个不返回任何对象的查询集，访问结果时不会执行任何查询。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&gt;&gt;&gt; Entry.objects.none()</div><div class="line">[]</div><div class="line">&gt;&gt;&gt; from django.db.models.query import EmptyQuerySet</div><div class="line">&gt;&gt;&gt; isinstance(Entry.objects.none(), EmptyQuerySet)</div><div class="line">True</div></pre></td></tr></table></figure>
+<ul>
+<li>all</li>
+</ul>
+<p>所有查询集</p>
+<ul>
+<li>select_related</li>
+</ul>
+<blockquote>
+<p>对于 ForeignKey 和 OneToOneField 等字段，通过添加 select_related，可以把相关的对象在一次查询中查出，之后使用时就不需要再次查数据库</p>
+</blockquote>
+<p>返回一个新的查询集，沿着外键查询关联对象的数据。它会生成一个复杂的查询并引起性能的损耗，但是在以后使用外键关系时将不需要数据库查询。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># 普通查询</div><div class="line"># Hits the database.</div><div class="line">e = Entry.objects.get(id=5)</div><div class="line"># Hits the database again to get the related Blog object.</div><div class="line">b = e.blog</div><div class="line"></div><div class="line">#select_related 查询 </div><div class="line"># Hits the database.</div><div class="line">e = Entry.objects.select_related(&apos;blog&apos;).get(id=5)</div><div class="line"># Doesn&apos;t hit the database, because e.blog has been prepopulated</div><div class="line"># in the previous query.</div><div class="line">b = e.blog</div></pre></td></tr></table></figure>
+<ul>
+<li>prefetch_related</li>
+</ul>
+<blockquote>
+<p>prefetch_related 对于相关对象会进行一次独立的查询，然后在 Python 中把对象关联起来。所以prefetch_related可以用于many-to-many and many-to-one关系</p>
+</blockquote>
+<ul>
+<li>extra</li>
+</ul>
+<blockquote>
+<p>extra(select=None, where=None, params=None, tables=None, order_by=None, select_params=None)</p>
+</blockquote>
+<p>有些情况下，Django的查询语法难以简单的表达复杂的 WHERE 子句，对于这种情况, Django 提供了 extra() QuerySet 修改机制 — 它能在 QuerySet生成的SQL从句中注入新子句</p>
+<p>extra可以指定一个或多个参数,例如 select, where or tables。 这些参数都不是必须的，但是你至少要使用一个</p>
+<ul>
+<li>defer</li>
+</ul>
+<p>排除不需要的字段，降低性能损耗</p>
+<ul>
+<li>only</li>
+</ul>
+<p>仅选择需要的字段</p>
+<ul>
+<li>using</li>
+</ul>
+<blockquote>
+<p>using(alias) // alias 数据库别名</p>
+</blockquote>
+<p>如果使用多个数据库，改方法可以控制从哪个数据库上求值。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># queries the database with the &apos;default&apos; alias.</div><div class="line">&gt;&gt;&gt; Entry.objects.all()</div><div class="line"></div><div class="line"># queries the database with the &apos;backup&apos; alias</div><div class="line">&gt;&gt;&gt; Entry.objects.using(&apos;backup&apos;)</div></pre></td></tr></table></figure>
+<ul>
+<li>select_for_update</li>
+</ul>
+<p>返回一个 queryset ，会锁定相关行直到事务结束</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">entries = Entry.objects.select_for_update().filter(author=request.user)</div></pre></td></tr></table></figure>
+<p>所有匹配的行将被锁定，直到事务结束。这意味着可以通过锁防止数据被其它事务修改。</p>
+<ul>
+<li>raw</li>
+</ul>
+<p>接收一个原始的SQL 查询，执行它并返回一个django.db.models.query.RawQuerySet 实例</p>
+<p>Django提供两种方法使用原始SQL进行查询：一种是使用Manager.raw()方法，进行原始查询并返回模型实例；另一种是完全避开模型层，直接执行自定义的SQL语句。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&gt;&gt;&gt; raw = Author.objects.raw(&apos;select * from polls_author&apos;)</div><div class="line">&gt;&gt;&gt; type(raw)</div><div class="line">&lt;class &apos;django.db.models.query.RawQuerySet&apos;&gt;</div></pre></td></tr></table></figure>
+<h4 id="不返回新的查询集"><a href="#不返回新的查询集" class="headerlink" title="不返回新的查询集"></a>不返回新的查询集</h4><ul>
+<li>get</li>
+</ul>
+<p>返回按照参数匹配的对象</p>
+<ul>
+<li>create</li>
+</ul>
+<p>创建并保存对象</p>
+<ul>
+<li>get_or_create</li>
+</ul>
+<p>通过给定参数来查询对象，如果对象不存在则会创建一个新的对象</p>
+<p>返回一个由(object, created)组成的元组，元组中的object 是一个查询到的或者是被创建的对象， created 是一个表示是否创建了新的对象的布尔值。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">try:</div><div class="line">    obj = Person.objects.get(first_name=&apos;John&apos;, last_name=&apos;Lennon&apos;)</div><div class="line">except Person.DoesNotExist:</div><div class="line">    obj = Person(first_name=&apos;John&apos;, last_name=&apos;Lennon&apos;, birthday=date(1940, 10, 9))</div><div class="line">    obj.save()</div><div class="line">    </div><div class="line"># use get_or_create</div><div class="line">obj, created = Person.objects.get_or_create(first_name=&apos;John&apos;, last_name=&apos;Lennon&apos;,</div><div class="line">                  defaults=&#123;&apos;birthday&apos;: date(1940, 10, 9)&#125;)</div></pre></td></tr></table></figure>
+<p>任何传递给 get_or_create() 的关键字参数，除了一个可选的defaults，都将传递给get() 调用</p>
+<blockquote>
+<p>get_or_create() 在Django 视图中的使用。请确保只在POST 请求中使用，除非你有充分的理由。GET 请求不应该对数据有任何影响。而POST 则用于对数据产生影响的请求</p>
+</blockquote>
+<ul>
+<li>update_or_create</li>
+</ul>
+<p>通过给定参数来更新对象，如果对象不存在则会创建一个新的对象</p>
+<p>一个通过给出的kwargs 来更新对象的便捷方法， 如果需要的话创建一个新的对象。defaults 是一个由 (field, value) 对组成的字典，用于更新对象</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">try:</div><div class="line">    obj = Person.objects.get(first_name=&apos;John&apos;, last_name=&apos;Lennon&apos;)</div><div class="line">    for key, value in updated_values.iteritems():</div><div class="line">        setattr(obj, key, value)</div><div class="line">    obj.save()</div><div class="line">except Person.DoesNotExist:</div><div class="line">    updated_values.update(&#123;&apos;first_name&apos;: &apos;John&apos;, &apos;last_name&apos;: &apos;Lennon&apos;&#125;)</div><div class="line">    obj = Person(**updated_values)</div><div class="line">    obj.save()</div><div class="line">    </div><div class="line"></div><div class="line"># use update_or_create</div><div class="line">obj, created = Person.objects.update_or_create(</div><div class="line">    first_name=&apos;John&apos;, last_name=&apos;Lennon&apos;, defaults=updated_values)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>和上文描述的get_or_create() 一样，这个方式容易导致竞态条件，如果数据库层级没有前置唯一性它会让多行同时插入。</p>
+</blockquote>
+<ul>
+<li>bulk_create</li>
+</ul>
+<p>批量写入数据</p>
+<ul>
+<li>count</li>
+</ul>
+<p>返回 QuerySet 对象个数</p>
+<ul>
+<li>in_bulk</li>
+</ul>
+<p>获取主键值的列表，并返回将每个主键值映射到具有给定ID的对象的实例的字典。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&gt;&gt;&gt; Blog.objects.in_bulk([1])</div><div class="line">&#123;1: &lt;Blog: Beatles Blog&gt;&#125;</div><div class="line">&gt;&gt;&gt; Blog.objects.in_bulk([1, 2])</div><div class="line">&#123;1: &lt;Blog: Beatles Blog&gt;, 2: &lt;Blog: Cheddar Talk&gt;&#125;</div><div class="line">&gt;&gt;&gt; Blog.objects.in_bulk([])</div><div class="line">&#123;&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>iterator</li>
+<li>latest:使用作为日期字段提供的field_name，按日期返回表中的最新对象</li>
+<li>earliest</li>
+<li>first</li>
+<li>last</li>
+<li>aggregate:聚合查询</li>
+</ul>
+<p>返回一个字典，包含根据QuerySet 计算得到的聚合值（平均数、和等等）。aggregate() 的每个参数指定返回的字典中将要包含的值</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&gt;&gt;&gt; from django.db.models import Count</div><div class="line">&gt;&gt;&gt; q = Blog.objects.aggregate(Count(&apos;entry&apos;))</div><div class="line">&#123;&apos;entry__count&apos;: 16&#125;</div><div class="line"></div><div class="line">&gt;&gt;&gt; q = Blog.objects.aggregate(number_of_entries=Count(&apos;entry&apos;))</div><div class="line">&#123;&apos;number_of_entries&apos;: 16&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>exists</li>
+</ul>
+<p>exists() 用于搜寻对象是否在QuerySet 中以及QuerySet 是否存在任何对象，特别是QuerySet 比较大的时候。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># exists 方法比普通方法快</div><div class="line">entry = Entry.objects.get(pk=123)</div><div class="line">if some_queryset.filter(pk=entry.pk).exists():</div><div class="line">    print(&quot;Entry contained in queryset&quot;)</div><div class="line">    </div><div class="line"># 普通方法</div><div class="line">if entry in some_queryset:</div><div class="line">   print(&quot;Entry contained in QuerySet&quot;)    </div><div class="line">   </div><div class="line"># 判断 queryset 是否含有对象，exists 比普通判断快特别是查询集比较大的情况下   </div><div class="line">if some_queryset.exists():</div><div class="line">    print(&quot;There is at least one object in some_queryset&quot;)</div><div class="line">    </div><div class="line">if some_queryset:</div><div class="line">    print(&quot;There is at least one object in some_queryset&quot;)</div></pre></td></tr></table></figure>
+<ul>
+<li>update</li>
+</ul>
+<p>对指定的字段执行SQL更新查询，并返回匹配的行数</p>
+<ul>
+<li>delete</li>
+</ul>
+<p>对QuerySet中的所有行执行SQL删除查询</p>
+<ul>
+<li>as_manager</li>
+</ul>
+<h4 id="字段查找"><a href="#字段查找" class="headerlink" title="字段查找"></a>字段查找</h4><table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">exact</td>
+<td style="text-align:left">精确匹配</td>
+</tr>
+<tr>
+<td style="text-align:left">iexact</td>
+<td style="text-align:left">忽略大小写精确匹配</td>
+</tr>
+<tr>
+<td style="text-align:left">contains</td>
+<td style="text-align:left">包含关系</td>
+</tr>
+<tr>
+<td style="text-align:left">icontains</td>
+<td style="text-align:left">忽略大小写包含关系</td>
+</tr>
+<tr>
+<td style="text-align:left">in</td>
+<td style="text-align:left">在给定的列表</td>
+</tr>
+<tr>
+<td style="text-align:left">gt</td>
+<td style="text-align:left">大于</td>
+</tr>
+<tr>
+<td style="text-align:left">gte</td>
+<td style="text-align:left">大于等于</td>
+</tr>
+<tr>
+<td style="text-align:left">lt</td>
+<td style="text-align:left">小于</td>
+</tr>
+<tr>
+<td style="text-align:left">lte</td>
+<td style="text-align:left">小于等于</td>
+</tr>
+<tr>
+<td style="text-align:left">startswith</td>
+<td style="text-align:left">区分大小写，从开始位置匹配</td>
+</tr>
+<tr>
+<td style="text-align:left">istartswith</td>
+<td style="text-align:left">不区分大小写，从开始位置匹配</td>
+</tr>
+<tr>
+<td style="text-align:left">endswith</td>
+<td style="text-align:left">区分大小写，从结束位置匹</td>
+</tr>
+<tr>
+<td style="text-align:left">iendswith</td>
+<td style="text-align:left">不区分大小写，从结束位置匹配</td>
+</tr>
+<tr>
+<td style="text-align:left">range</td>
+<td style="text-align:left">范围测试（包含于之中）</td>
+</tr>
+<tr>
+<td style="text-align:left">year</td>
+<td style="text-align:left">对于日期和日期时间字段，年份匹配</td>
+</tr>
+<tr>
+<td style="text-align:left">month</td>
+<td style="text-align:left">对于日期和日期时间字段，月份匹配</td>
+</tr>
+<tr>
+<td style="text-align:left">day</td>
+<td style="text-align:left">对于日期和日期时间字段，天数匹配</td>
+</tr>
+<tr>
+<td style="text-align:left">week_day</td>
+<td style="text-align:left">星期匹配</td>
+</tr>
+<tr>
+<td style="text-align:left">hour</td>
+<td style="text-align:left">对于日期时间字段，精确的小时匹配</td>
+</tr>
+<tr>
+<td style="text-align:left">minute</td>
+<td style="text-align:left">对于日期时间字段，精确的分钟匹配</td>
+</tr>
+<tr>
+<td style="text-align:left">second</td>
+<td style="text-align:left">对于datetime字段，精确的秒匹配</td>
+</tr>
+<tr>
+<td style="text-align:left">isnull</td>
+<td style="text-align:left">判断字段值为 True 或 False</td>
+</tr>
+<tr>
+<td style="text-align:left">search</td>
+<td style="text-align:left">一个Boolean类型的全文搜索，以全文搜索的优势</td>
+</tr>
+<tr>
+<td style="text-align:left">regex</td>
+<td style="text-align:left">正则表达式</td>
+</tr>
+<tr>
+<td style="text-align:left">iregex</td>
+<td style="text-align:left">不区分大小写的正则表达式匹配</td>
+</tr>
+</tbody>
+</table>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://docs.djangoproject.com/en/1.11/ref/models/querysets/" target="_blank" rel="external">官方文档</a></p>
+<p><a href="https://wizardforcel.gitbooks.io/django-chinese-docs-18/content/2_2_2_QuerySet%20method%20reference.html" target="_blank" rel="external">Django 1.8 中文文档</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;QuerySets-evaluated&quot;&gt;&lt;a href=&quot;#QuerySets-evaluated&quot; class=&quot;headerlink&quot; title=&quot;QuerySets evaluated&quot;&gt;&lt;/a&gt;QuerySets evaluated&lt;/h3&gt;&lt;p&gt;可以创建、过滤、切片和传递查询集而不用真实操作数据库。在你对查询集做求值之前，不会发生任何实际的数据库操作。&lt;/p&gt;
+&lt;p&gt;对于查询集我们使用以下方法进行求值：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Iteration&lt;/li&gt;
+&lt;li&gt;Slicing&lt;/li&gt;
+&lt;li&gt;Pickling/Caching&lt;/li&gt;
+&lt;li&gt;repr()&lt;/li&gt;
+&lt;li&gt;len()&lt;/li&gt;
+&lt;li&gt;list()&lt;/li&gt;
+&lt;li&gt;bool()&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;QuerySet-API&quot;&gt;&lt;a href=&quot;#QuerySet-API&quot; class=&quot;headerlink&quot; title=&quot;QuerySet API&quot;&gt;&lt;/a&gt;QuerySet API&lt;/h3&gt;&lt;h4 id=&quot;返回新的查询集方法&quot;&gt;&lt;a href=&quot;#返回新的查询集方法&quot; class=&quot;headerlink&quot; title=&quot;返回新的查询集方法&quot;&gt;&lt;/a&gt;返回新的查询集方法&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;filter&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;返回一个新的 QuerySet 包含给定参数的查询匹配对象，更复杂的查询可以使用 Q 对象。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;exclude&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;返回一个新的 QuerySet，它包含不满足给定的查找参数的对象，更复杂的查询同样可以使用 Q 对象。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Django" scheme="http://yoursite.com/tags/Django/"/>
+    
+  </entry>
   
   <entry>
     <title>Vagrant 使用笔记</title>
@@ -1224,167 +1565,6 @@ Ctrl-a :   // 然后输入quit命令退出Screen会话,会杀死所有窗口并�
     
     
       <category term="screen" scheme="http://yoursite.com/tags/screen/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Ansible基础知识备忘</title>
-    <link href="http://yoursite.com/2016/05/20/ansible/"/>
-    <id>http://yoursite.com/2016/05/20/ansible/</id>
-    <published>2016-05-20T08:25:38.000Z</published>
-    <updated>2017-06-21T15:30:53.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="一、体系结构"><a href="#一、体系结构" class="headerlink" title="一、体系结构"></a>一、体系结构</h2><p>ansible是一款基于python开发，揉合了众多自动化运维工具功能的轻量级自动化运维工具，目前实现了除系统安装以外的批量系统配置、批量任务执行及批量程序部署等功能。</p>
-<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/25.png" alt=""></p>
-<ul>
-<li>Inventory：主机库，定义可控制的主机</li>
-<li>Modules：基于模块化设计，通过模块来实现批量部署</li>
-<li>playbook：剧本，使用YAML编写的声明性的配置文件</li>
-<li>plugins: 插件，完成日志记录、邮件等功能</li>
-</ul>
-<a id="more"></a>
-<h2 id="二、-特点"><a href="#二、-特点" class="headerlink" title="二、 特点"></a>二、 特点</h2><ul>
-<li>高度模块化，借助模块完成各种任务</li>
-<li>agentless，无需在被控制端安装agent</li>
-<li>默认基于ssh协议向被控制端发送操作指令<ul>
-<li>基于密钥认证</li>
-<li>在inventory文件中指定账号和密码</li>
-</ul>
-</li>
-<li>批量任务执行可写成剧本playbook</li>
-<li>幂等性：不会重复执行相同操作</li>
-</ul>
-<h2 id="三、简单使用"><a href="#三、简单使用" class="headerlink" title="三、简单使用"></a>三、简单使用</h2><h3 id="3-1-ssh免密钥登录"><a href="#3-1-ssh免密钥登录" class="headerlink" title="3.1 ssh免密钥登录"></a>3.1 ssh免密钥登录</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ssh-keygen -t rsa -P &apos;&apos;</div><div class="line"># ssh-copy-id  -i /root/.ssh/id_rsa.pub  10.249.6.64</div><div class="line"># ssh-copy-id  -i /root/.ssh/id_rsa.pub  10.48.156.8</div></pre></td></tr></table></figure>
-<h3 id="3-2-常用命令"><a href="#3-2-常用命令" class="headerlink" title="3.2 常用命令"></a>3.2 常用命令</h3><h4 id="ansible-doc"><a href="#ansible-doc" class="headerlink" title="ansible-doc"></a>ansible-doc</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Options:</div><div class="line"></div><div class="line">   -l, --list            List available modules  //列出所有模块</div><div class="line">   -s, --snippet         Show playbook snippet for specified module(s) //查看指定模块用法</div><div class="line"></div><div class="line">// 更多信息请参考manual手册</div></pre></td></tr></table></figure>
-<h4 id="ansible"><a href="#ansible" class="headerlink" title="ansible"></a>ansible</h4><blockquote>
-<p>ansible <host-pattern>  [-f forks][-m module_name] [-a args] [options]</host-pattern></p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Options:</div><div class="line"></div><div class="line">    -a MODULE_ARGS, --args=MODULE_ARGS</div><div class="line">                        module arguments   // 传递模块参数</div><div class="line">    -f FORKS, --forks=FORKS  // 指定并发数</div><div class="line">                        specify number of parallel processes to use</div><div class="line">                        (default=5)</div><div class="line">    -i INVENTORY, --inventory-file=INVENTORY</div><div class="line">                        specify inventory host file</div><div class="line">                        (default=/etc/ansible/hosts)</div><div class="line">    -m MODULE_NAME, --module-name=MODULE_NAME</div><div class="line">                        module name to execute (default=command)</div><div class="line">//更多信息请参考manual手册</div></pre></td></tr></table></figure>
-<h4 id="ansible-playbook"><a href="#ansible-playbook" class="headerlink" title="ansible-playbook"></a>ansible-playbook</h4><blockquote>
-<p>ansible-playbook <filename.yml> … [options]</filename.yml></p>
-</blockquote>
-<h2 id="四、模块"><a href="#四、模块" class="headerlink" title="四、模块"></a>四、模块</h2><h3 id="command"><a href="#command" class="headerlink" title="command"></a>command</h3><p>命令模块: ansible默认模块，用于在远程执行命令，command模块并不支持shell变量和管道等，若想使用shell来执行，应使用shell模块。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ansible-doc -l | grep ^command</div><div class="line">command              Executes a command on a remote node</div><div class="line"></div><div class="line"># ansible 10.249.6.64 -m command -a &quot;date&quot;</div><div class="line">10.249.6.64 | success | rc=0 &gt;&gt;</div><div class="line">Wed May 11 21:21:35 CST 2016</div></pre></td></tr></table></figure>
-<h3 id="ping"><a href="#ping" class="headerlink" title="ping"></a>ping</h3><p>ping模块：测试指定主机是否能连接</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ansible-doc -l | grep  -w ^ping</div><div class="line">ping                 Try to connect to host and return `pong&apos; on success.</div><div class="line"></div><div class="line"># ansible 10.249.6.64 -m ping</div><div class="line">10.249.6.64 | success &gt;&gt; &#123;</div><div class="line">    &quot;changed&quot;: false,</div><div class="line">    &quot;ping&quot;: &quot;pong&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="cron"><a href="#cron" class="headerlink" title="cron"></a>cron</h3><p>计划任务模块 ：管理计划任务</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ansible-doc -l | grep  ^cron</div><div class="line">cron                 Manage cron.d and crontab entries.</div><div class="line"></div><div class="line"># ansible-doc  -s cron</div><div class="line">- name: Manage cron.d and crontab entries.</div><div class="line">action: cron</div><div class="line">    backup                 # If set, create a backup of the crontab before it is modified. The location of the backup is returned in the `backup&apos; variable by this module.</div><div class="line">    cron_file              # If specified, uses this file in cron.d instead of an individual user&apos;s crontab.</div><div class="line">    day                    # Day of the month the job should run ( 1-31, *, */2, etc )</div><div class="line">    hour                   # Hour when the job should run ( 0-23, *, */2, etc )</div><div class="line">    job                    # The command to execute. Required if state=present.</div><div class="line">    minute                 # Minute when the job should run ( 0-59, *, */2, etc )</div><div class="line">    month                  # Month of the year the job should run ( 1-12, *, */2, etc )</div><div class="line">    name                   # Description of a crontab entry.</div><div class="line">    reboot                 # If the job should be run at reboot. This option is deprecated. Users should use special_time.</div><div class="line">    special_time           # Special time specification nickname.</div><div class="line">    state                  # Whether to ensure the job is present or absent.</div><div class="line">    user                   # The specific user who&apos;s crontab should be modified.</div><div class="line">    weekday                # Day of the week that the job should run ( 0-7 for Sunday - Saturday, *, etc )</div><div class="line"></div><div class="line"># ansible 10.249.6.64 -m cron -a &apos;name=&quot;sync time&quot; minute=&quot;*/10&quot; \</div><div class="line">  job=&quot;/usr/sbin/ntpdate 0.centos.pool.ntp.org &amp;&amp; hwclock -w&quot; &apos;</div><div class="line"></div><div class="line">10.249.6.64 | success &gt;&gt; &#123;</div><div class="line">    &quot;changed&quot;: true,</div><div class="line">    &quot;jobs&quot;: [</div><div class="line">    &quot;sync time&quot;</div><div class="line">    ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="user"><a href="#user" class="headerlink" title="user"></a>user</h3><p>用户模块：管理用户账户</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ansible-doc -l | grep ^user</div><div class="line">user                 Manage user accounts</div><div class="line"></div><div class="line"># ansible 10.249.6.64 -m user -a &apos;name=work shell=/bin/bash home=/home/www&apos;   //添加用户</div><div class="line">10.249.6.64 | success &gt;&gt; &#123;</div><div class="line">    &quot;changed&quot;: true,</div><div class="line">    &quot;comment&quot;: &quot;&quot;,</div><div class="line">    &quot;createhome&quot;: true,</div><div class="line">    &quot;group&quot;: 500,</div><div class="line">    &quot;home&quot;: &quot;/home/www&quot;,</div><div class="line">    &quot;name&quot;: &quot;work&quot;,</div><div class="line">    &quot;shell&quot;: &quot;/bin/bash&quot;,</div><div class="line">    &quot;state&quot;: &quot;present&quot;,</div><div class="line">    &quot;system&quot;: false,</div><div class="line">    &quot;uid&quot;: 500</div><div class="line">&#125;</div><div class="line"></div><div class="line"># ansible 10.249.6.64 -m user -a &apos;name=work state=absent&apos;  // 删除用户</div><div class="line">10.249.6.64 | success &gt;&gt; &#123;</div><div class="line">    &quot;changed&quot;: true,</div><div class="line">    &quot;force&quot;: false,</div><div class="line">    &quot;name&quot;: &quot;work&quot;,</div><div class="line">    &quot;remove&quot;: false,</div><div class="line">    &quot;state&quot;: &quot;absent&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h3><p>copy模块：文件复制</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">#  ansible-doc -l | grep ^copy</div><div class="line">copy                 Copies files to remote locations.</div><div class="line"></div><div class="line"># ansible-doc -s copy</div><div class="line">- name: Copies files to remote locations.</div><div class="line">action: copy</div><div class="line">    backup                 # Create a backup file including the timestamp information so you can get the original file back if you somehow clobbered it incorrectly.</div><div class="line">    content                # When used instead of &apos;src&apos;, sets the contents of a file directly to the specified value.</div><div class="line">    dest=                  # Remote absolute path where the file should be copied to. If src is a directory, this must be a directory too.</div><div class="line">    directory_mode         # When doing a recursive copy set the mode for the directories. If this is not set we will default the system defaults.</div><div class="line">    force                  # the default is `yes&apos;, which will replace the remote file when contents are different than the source.  If `no&apos;, the file will only be transferred if the destination does not exist.</div><div class="line">    src                    # Local path to a file to copy to the remote server; can be absolute or relative. If path is a directory, it is copied recursively. In this case, if path ends with &quot;/&quot;, only inside contents of that directory are copied to destination. Otherwise, if it does not end with &quot;/&quot;, the directory itself with all contents is copied. This behavior is similar to Rsync.</div><div class="line">    validate               # The validation command to run before copying into place.  The path to the file to validate is passed in via &apos;%s&apos; which must be present as in the visudo example below. The command is passed securely so shell features like expansion and pipes won&apos;t work.</div><div class="line"></div><div class="line"># ansible 10.249.6.64 -m copy -a &quot;src=/root/test.txt dest=/tmp/&quot;</div><div class="line">10.249.6.64 | success &gt;&gt; &#123;</div><div class="line">    &quot;changed&quot;: true,</div><div class="line">    &quot;dest&quot;: &quot;/tmp/test.txt&quot;,</div><div class="line">    &quot;gid&quot;: 0,</div><div class="line">    &quot;group&quot;: &quot;root&quot;,</div><div class="line">    &quot;md5sum&quot;: &quot;d41d8cd98f00b204e9800998ecf8427e&quot;,</div><div class="line">    &quot;mode&quot;: &quot;0644&quot;,</div><div class="line">    &quot;owner&quot;: &quot;root&quot;,</div><div class="line">    &quot;size&quot;: 0,</div><div class="line">    &quot;src&quot;: &quot;/root/.ansible/tmp/ansible-tmp-1463662606.99-26627840524349/source&quot;,</div><div class="line">    &quot;state&quot;: &quot;file&quot;,</div><div class="line">    &quot;uid&quot;: 0</div><div class="line">&#125;</div><div class="line"># ansible 10.249.6.64 -m copy -a &quot;content=&apos;hello world&apos; dest=/tmp/test.txt&quot;</div><div class="line"># ansible 10.249.6.64 -m copy -a &apos;src=/root/test.txt dest=/tmp/test.txt owner=evans group=evans mode=600 backup=yes&apos;</div></pre></td></tr></table></figure>
-<h3 id="file"><a href="#file" class="headerlink" title="file"></a>file</h3><p>file模块：文件模块，设置文件属性</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ansible-doc -l | grep -w ^file</div><div class="line">file                 Sets attributes of files</div><div class="line"># ansible 10.249.6.64 -m file -a &quot;src=/tmp/test.txt path=/tmp/test.link state=link&quot;</div><div class="line"># ansible 10.249.6.64 -m file -a &quot;owner=evans group=evans mode=600 path=/tmp/test.txt&quot;</div></pre></td></tr></table></figure>
-<h3 id="service"><a href="#service" class="headerlink" title="service"></a>service</h3><p>service模块： 服务模块，管理系统服务</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ansible-doc -l | grep ^service</div><div class="line">service              Manage services.</div><div class="line"># ansible-doc -s service</div><div class="line">- name: Manage services.</div><div class="line">  action: service</div><div class="line">    arguments              # Additional arguments provided on the command line</div><div class="line">    enabled                # Whether the service should start on boot. *At least one of state and enabled are required.*</div><div class="line">    name=                  # Name of the service.</div><div class="line">    pattern                # If the service does not respond to the status command, name a substring to look for as would be found in the output of the `ps&apos; command as a stand-in for a status result.  If the string is found, the service will be assumed to be running.</div><div class="line">    runlevel               # For OpenRC init scripts (ex: Gentoo) only.  The runlevel that this service belongs to.</div><div class="line">    sleep                  # If the service is being `restarted&apos; then sleep this many seconds between the stop and start command. This helps to workaround badly behaving init scripts that exit immediately after signaling a process to stop.</div><div class="line">    state                  # `started&apos;/`stopped&apos; are idempotent actions that will not run commands unless necessary.  `restarted&apos; will always bounce the service.  `reloaded&apos; will always reload. *At least one of state and enabled are required.*</div><div class="line"># ansible 10.249.6.64 -m service -a &quot;name=mysqld state=restarted enabled=true&quot;  //重启mysql服务并设置开机自启动</div></pre></td></tr></table></figure>
-<h3 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h3><p>shell模块：远程执行命令</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ansible 10.249.6.64 -m shell -a &apos;date&apos;</div><div class="line">10.249.6.64 | success | rc=0 &gt;&gt;</div><div class="line">Thu May 19 21:20:51 CST 2016</div></pre></td></tr></table></figure>
-<h3 id="script"><a href="#script" class="headerlink" title="script"></a>script</h3><p>script模块：脚本模块，远程主机运行脚本<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ansible-doc  -l | grep ^script</div><div class="line">script               Runs a local script on a remote node after transferring it..</div><div class="line"># ansible 10.249.6.64 -m script -a &apos;/root/test.sh&apos;  //在远程主机上运行脚本，并没有拷贝到指定目录</div><div class="line">10.249.6.64 | success &gt;&gt; &#123;</div><div class="line">    &quot;changed&quot;: true,</div><div class="line">    &quot;rc&quot;: 0,</div><div class="line">    &quot;stderr&quot;: &quot;&quot;,</div><div class="line">    &quot;stdout&quot;: &quot;&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="yum、apt"><a href="#yum、apt" class="headerlink" title="yum、apt"></a>yum、apt</h3><p>yum模块和apt模块：包管理模块</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">yum                  Manages packages with the `yum&apos; package manager</div><div class="line">apt                  Manages apt-packages</div><div class="line"># ansible 10.249.6.64 -m yum -a &quot;name=tree state=present&quot;</div><div class="line"># ansible 10.249.6.43 -m apt -a &quot;name=tree state=present&quot;</div><div class="line"># ansible 10.249.6.43 -m apt -a &quot;name=tree state=absent&quot;</div></pre></td></tr></table></figure>
-<blockquote>
-<p> state<br>Whether to install (<code>present&#39;,</code>latest’), or remove (`absent’) a package.</p>
-</blockquote>
-<h3 id="setup"><a href="#setup" class="headerlink" title="setup"></a>setup</h3><p>setup模块：收集主机信息，playbook运行时，会自动调用setup模块收集远程主机的相关信息（称为facts，如操作系统版本、ip地址、cpu数量等），这些信息保存于变量中，可在playbook中引用</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ansible-doc -l | grep  setup</div><div class="line">setup                Gathers facts about remote hosts</div><div class="line"># ansible-doc -s setup</div><div class="line">- name: Gathers facts about remote hosts</div><div class="line">    action: setup</div><div class="line">    fact_path              # path used for local ansible facts (*.fact) - files in this dir will be run (if executable) and their results be added to ansible_local facts if a file is not executable it is read. File/results format can be json or ini-format</div><div class="line">    filter                 # if supplied, only return facts that match this shell-style (fnmatch) wildcard.</div><div class="line"># ansible 10.249.6.43 -m setup</div><div class="line"># ansible 10.249.6.43 -m setup -a &apos;filter=ansible_eth0&apos;   //过滤信息</div><div class="line"># ansible 10.249.6.64 -m setup --tree /tmp/test.txt  //将收集的信息输出到本地文件</div></pre></td></tr></table></figure>
-<p>更多模块信息请查看：<a href="http://docs.ansible.com/ansible/list_of_all_modules.html" target="_blank" rel="external">官方文档</a></p>
-<h2 id="五、playbook"><a href="#五、playbook" class="headerlink" title="五、playbook"></a>五、playbook</h2><h3 id="5-1-YAML"><a href="#5-1-YAML" class="headerlink" title="5.1 YAML"></a>5.1 YAML</h3><p>YAML是一种可读性高的用来表达资料序列的语言，其语法和其他高阶语言类似，并且可以简单表达清单、散列表、标量等数据结构。</p>
-<p>所有的yaml文件都以”—“开头表示开始一个document，所有的列表元素以”-“开头，键值对用”:”，后面必须有空格。YAML文件扩展名通常为.yaml或.yml</p>
-<h3 id="5-2-playbook简介"><a href="#5-2-playbook简介" class="headerlink" title="5.2 playbook简介"></a>5.2 playbook简介</h3><p>playbook是ansible管理配置、部署应用和编排的文件，可用来描述在远程主机上执行的策略或一组任务。</p>
-<p>一个playbook文件由一个或多个play组成，每个play定义了在一个或多个远程主机上执行的一系列的task，其中每个task一般就是调用一个ansible的模块。</p>
-<p>playbook使用YAML语言编写，文件名以.yaml或.yml结尾。此外playbook和模板文件（template）还可使用jinja2语法语法实现高级功能。</p>
-<p>5.2.1 playbook的基本组成</p>
-<ul>
-<li>targets：指定要执行playbook的远程主机组</li>
-<li>variables：定义playbook运行时需要使用的变量</li>
-<li>tasks：要执行的任务</li>
-<li>handlers：处理器，在某些条件下被触发的操作</li>
-</ul>
-<p>简单playbook示例：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># cat nginx.yml</div><div class="line">---</div><div class="line">- hosts: 10.249.6.43</div><div class="line">  user: root</div><div class="line">  vars:</div><div class="line">    remote_conffile_path: /etc/nginx/sites-enabled/mirror.conf</div><div class="line">  tasks:</div><div class="line">  - name: install nginx</div><div class="line">    apt: name=nginx state=latest</div><div class="line">    when: ansible_distribution == &apos;Ubuntu&apos;</div><div class="line"></div><div class="line">  - name: configration file</div><div class="line">    tags: conf</div><div class="line">    copy: src=/root/mirror.conf dest=&#123;&#123;remote_conffile_path&#125;&#125;</div><div class="line">    notify: restart nginx</div><div class="line"></div><div class="line">  - name: start nginx</div><div class="line">    service: name=nginx enabled=yes state=started</div><div class="line"></div><div class="line">  handlers:</div><div class="line">  - name: restart nginx</div><div class="line">    service: name=nginx state=restarted</div><div class="line"># ansible-playbook  nginx.yml   // 执行playbook</div></pre></td></tr></table></figure>
-<ul>
-<li>hosts、user</li>
-</ul>
-<p>hosts用于指定要执行指定任务的主机，其可以是一个或多个由逗号分隔主机组；user则用于指定远程主机上的执行任务的用户，还能使用sudo</p>
-<ul>
-<li>task list、action</li>
-</ul>
-<p>task list中的各任务按次序逐个在hosts中指定的所有主机上执行，即在所有主机上完成第一个任务后再开始第二个。如果中途发生错误，所有已执行任务都将回滚，因此，在更正playbook后重新执行一次即可。</p>
-<p> task的目的是使用指定的参数执行模块，而在模块参数中可以使用变量。模块执行是幂等的，这意味着多次执行是安全的，因为其结果均一致。</p>
-<p> 每个task都应该有其name，用于playbook的执行结果输出，建议其内容尽可能清晰地描述任务执行步骤。如果未提供name，则action的结果将用于输出。</p>
-<p>定义task的可以使用“action: module options”或“module: options”的格式，推荐使用后者以实现向后兼容例如：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">tasks:</div><div class="line">- name: make sure apache is running</div><div class="line">  service: name=httpd state=running</div></pre></td></tr></table></figure>
-<p>在众多模块中，只有command和shell模块仅需要给定一个列表而无需使用“key=value”格式，例如：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">tasks:</div><div class="line">- name: disable selinux</div><div class="line">  command: /sbin/setenforce 0</div></pre></td></tr></table></figure>
-<p>shell模块执行多条命令</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">---</div><div class="line">- name: update zabbix agent conf</div><div class="line">  shell: |</div><div class="line">       ...</div></pre></td></tr></table></figure>
-<p>如果模块执行返回值不为零，即表示执行失败，任务会立即中止，后续任务不再执行。可以使用ignore_errors来忽略错误信息确保后续任务的执行。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">tasks:</div><div class="line">    - name: run this command and ignore the result</div><div class="line">      shell: /usr/bin/somecommand</div><div class="line">      ignore_errors: yes</div></pre></td></tr></table></figure>
-<ul>
-<li>handlers</li>
-</ul>
-<p>当关注的资源发生变化时触发一定的操作。handler是task列表，这些task与前述的task并没有本质上的不同。</p>
-<p>“notify”这个action可用于在每个play的最后被触发，这样可以避免多次有改变发生时每次都执行指定的操作，取而代之，仅在所有的变化发生完成后一次性地执行指定操作。在notify中列出的操作称为handler，也即notify中调用handler中定义的操作。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">- name: template configuration file</div><div class="line">  template: src=/root/template.conf dest=/etc/template.conf</div><div class="line"></div><div class="line">notify:</div><div class="line">  - restart memcached</div><div class="line">  - restart apache</div><div class="line"></div><div class="line">handlers:</div><div class="line">  - name: restart memcached</div><div class="line">    service: name=memcached state=restarted</div><div class="line">  - name: restart apache</div><div class="line">    service: name=apache state=restarted</div></pre></td></tr></table></figure>
-<ul>
-<li>vars</li>
-</ul>
-<p>变量名仅能由字母、数字和下划线组成，且只能以字母开头</p>
-<ul>
-<li>when</li>
-</ul>
-<p>条件判断：如果需要根据变量、facts或此前任务的执行结果来做为某task执行与否的前提，这时就要用到条件判断。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">when: ansible_distribution == &apos;Debian&apos; or ansible_distribution == &apos;Ubuntu&apos;</div><div class="line"></div><div class="line">when: ansible_distribution == &apos;CentOS&apos; or ansible_distribution == &apos;RedHat&apos; and ansible_distribution_version|int &gt;=6</div></pre></td></tr></table></figure>
-<p>忽略此前某语句的错误并基于其结果（failed或者sucess）运行后面指定的语句:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">---</div><div class="line">- hosts: 10.249.6.64</div><div class="line">  user: root</div><div class="line">  tasks:</div><div class="line">    - name: false test</div><div class="line">      command: /bin/false</div><div class="line">      register: result</div><div class="line">      ignore_errors: yes</div><div class="line">    - name: when false  to do</div><div class="line">      command: touch /tmp/1.txt</div><div class="line">      when: result | failed</div><div class="line">    - name: when success to do</div><div class="line">      command: touch /tmp/2.txt</div><div class="line">      when: result | success</div><div class="line">    - name: when skip to do</div><div class="line">      command: touch /tmp/3.txt</div><div class="line">      when: result | skipped</div></pre></td></tr></table></figure>
-<ul>
-<li>item</li>
-</ul>
-<p>item 迭代：当有需要重复性执行的任务时，可以使用迭代机制。其使用格式为将需要迭代的内容定义为item变量引用，并通过with_items语句来指明迭代的元素列表即可</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">- name: install base software</div><div class="line">  apt: pkg=&#123;&#123; item &#125;&#125; state=present force=yes</div><div class="line">  with_items:</div><div class="line">    - gcc</div><div class="line">    - g++</div><div class="line">    - mysql-client-5.5</div><div class="line">    - libmcrypt-dev</div><div class="line">    - libmysqlclient-dev</div><div class="line">    - libgmp10</div><div class="line">    - vim</div><div class="line">    - openssh-client</div><div class="line">    - ethtool</div><div class="line">  when: ansible_distribution == &apos;Debian&apos; or ansible_distribution == &apos;Ubuntu&apos;</div></pre></td></tr></table></figure>
-<ul>
-<li>tag</li>
-</ul>
-<p>tag标签：让用户选择运行playbook中的某个或某些任务。虽然ansible具有幂等性，会跳过没有变化的部分，有些代码为测试其确实没有发生变化，也会耗费很长时间。我们将playbook中的指定任务打上标签，在运行playbook时指定标签名称，这样就不用运行全部代码了。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">---</div><div class="line">- hosts: 10.249.6.43</div><div class="line">  user: root</div><div class="line">  vars:</div><div class="line">    remote_conffile_path: /etc/nginx/sites-enabled/mirror.conf</div><div class="line">  tasks:</div><div class="line">  - name: install nginx</div><div class="line">    apt: name=nginx state=latest</div><div class="line">    when: ansible_distribution == &apos;Ubuntu&apos;</div><div class="line">      </div><div class="line">  - name: configration file</div><div class="line">    tags: conf</div><div class="line">    copy: src=/root/mirror.conf dest=&#123;&#123;remote_conffile_path&#125;&#125;</div><div class="line">    notify: restart nginx</div><div class="line"></div><div class="line">  - name: start nginx</div><div class="line">    service: name=nginx enabled=yes state=started</div><div class="line">  handlers:</div><div class="line">  - name: restart nginx</div><div class="line">    service: name=nginx state=restarted</div><div class="line"># ansible-playbook nginx.yml -t conf   // 只执行tags部分</div></pre></td></tr></table></figure>
-<h2 id="六、roles"><a href="#六、roles" class="headerlink" title="六、roles"></a>六、roles</h2><p>roles 用于层次性、结构化地组织playbook。</p>
-<p>roles能够根据层次型结构自动装载变量文件、tasks以及handlers等。roles就是通过分别将变量、文件、任务、模块及处理器放置于单独的目录中，并可以便捷地include它们的一种机制。角色一般用于基于主机构建服务的场景中，但也可以是用于构建守护进程等场景中。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># ls</div><div class="line">deploy_hosts  deploy.yml  roles  run.sh</div><div class="line"># cat deploy_hosts   //主机或主机组列表</div><div class="line">[web]</div><div class="line">10.126.83.30</div><div class="line">10.126.93.83</div><div class="line">[db]</div><div class="line">10.126.87.150</div><div class="line">10.126.92.89</div><div class="line"># cat deploy.yml  // 总的playbook 调用roles</div><div class="line">---</div><div class="line">- name: init for os</div><div class="line">  hosts: web</div><div class="line">  user: root</div><div class="line">  gather_facts: True</div><div class="line">  roles:</div><div class="line">    - init</div><div class="line">    - raid</div><div class="line">- name: init for os</div><div class="line">  hosts: db</div><div class="line">  user: root</div><div class="line">  gather_facts: True</div><div class="line">  roles:</div><div class="line">    - init</div><div class="line">    - raid</div><div class="line">    - db_init</div><div class="line"></div><div class="line"># cat run.sh  // 运行playbook脚本</div><div class="line">#!/bin/bash</div><div class="line">/usr/bin/ansible-playbook -i ./deploy_hosts deploy.yml</div><div class="line"># ls roles/</div><div class="line">db_init   init    raid</div></pre></td></tr></table></figure>
-<p>在每个角色命名的目录中分别创建files、handlers、meta、tasks、templates和vars目录，用不到的目录可以创建为空目录，也可以不创建。</p>
-<p>role内各目录中可用的文件:</p>
-<ul>
-<li><p>tasks目录：至少应该包含一个名为main.yml的文件，其定义了此角色的任务列表；此文件可以使用include包含其它的位于此目录中的task文件</p>
-</li>
-<li><p>files目录：存放由copy或script等模块调用的静态文件</p>
-</li>
-<li><p>templates目录：template模块会自动在此目录中寻找Jinja2模板文件</p>
-</li>
-<li><p>handlers目录：此目录中应当包含一个main.yml文件，用于定义此角色用到的各handler；此文件可以使用include包含其它的位于此目录中的handler文件</p>
-</li>
-<li><p>vars目录：至少有一个main.yml文件，用于定义此角色用到的变量</p>
-</li>
-<li><p>meta目录：至少有一个main.yml文件，用于定义此角色的特殊设定及其依赖关系；ansible 1.3及其以后的版本才支持</p>
-</li>
-<li><p>default目录：为当前角色设定默认变量时使用此目录；应当包含一个main.yml文件</p>
-</li>
-</ul>
-<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><p><a href="http://9124573.blog.51cto.com/9114573/1769887" target="_blank" rel="external">轻量级自动化运维工具ansible</a></p>
-<p><a href="http://docs.ansible.com/ansible/intro.html" target="_blank" rel="external">ansible doc</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;一、体系结构&quot;&gt;&lt;a href=&quot;#一、体系结构&quot; class=&quot;headerlink&quot; title=&quot;一、体系结构&quot;&gt;&lt;/a&gt;一、体系结构&lt;/h2&gt;&lt;p&gt;ansible是一款基于python开发，揉合了众多自动化运维工具功能的轻量级自动化运维工具，目前实现了除系统安装以外的批量系统配置、批量任务执行及批量程序部署等功能。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7vzmp5.com1.z0.glb.clouddn.com/25.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Inventory：主机库，定义可控制的主机&lt;/li&gt;
-&lt;li&gt;Modules：基于模块化设计，通过模块来实现批量部署&lt;/li&gt;
-&lt;li&gt;playbook：剧本，使用YAML编写的声明性的配置文件&lt;/li&gt;
-&lt;li&gt;plugins: 插件，完成日志记录、邮件等功能&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
     
   </entry>
   
