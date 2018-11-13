@@ -7,7 +7,7 @@
 <h2 id="主从复制的原理"><a href="#主从复制的原理" class="headerlink" title="主从复制的原理"></a>主从复制的原理</h2><ul>
 <li>主从复制的步骤</li>
 </ul>
-<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/94D51A80-A0DB-4189-8F30-673260AC6FCC.png" alt=""></p>
+<p><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/94D51A80-A0DB-4189-8F30-673260AC6FCC.png" alt=""></p>
 <a id="more"></a>
 <p>1.master将改变记录到二进制日志(binary log)</p>
 <p>2.slave将master的binary log events(二进制日志事件)拷贝到它的中继日志(relay log)</p>
@@ -28,13 +28,13 @@
 <p>编辑/etc/my.cnf 文件</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">...</div><div class="line">server_id=1</div><div class="line">log-bin=mysql-bin</div><div class="line">...</div></pre></td></tr></table></figure>
 <p>重启服务，查看状态</p>
-<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/BAC-9068-D8174D803F18.png" alt=""></p>
+<p><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/BAC-9068-D8174D803F18.png" alt=""></p>
 <h3 id="Slave"><a href="#Slave" class="headerlink" title="Slave"></a>Slave</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ mysqladmin -u root -p password 123  // 修改密码</div></pre></td></tr></table></figure>
 <p>编辑/etc/my.cnf 文件</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">...</div><div class="line">server_id=2</div><div class="line">log-bin=mysql-bin</div><div class="line">log_slave_updates=1</div><div class="line">...</div></pre></td></tr></table></figure>
 <p>同步master并查看状态</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">mysql&gt; change master to master_host=&apos;10.249.17.38&apos;,master_user=&apos;zzf&apos;,master_password=&apos;zzf&apos;,master_log_file=&apos;mysql-bin.000002&apos;,master_log_pos=106;</div><div class="line">mysql&gt; start slave;</div></pre></td></tr></table></figure>
-<p><img src="http://7vzmp5.com1.z0.glb.clouddn.com/F2D3964D-8081-4F27-ACFF-39ADF603CCDB.png" alt=""></p>
+<p><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/F2D3964D-8081-4F27-ACFF-39ADF603CCDB.png" alt=""></p>
 <blockquote>
 <p>Slave_IO_Running: Yes\<br>Slave_SQL_Running: Yes</p>
 </blockquote>
