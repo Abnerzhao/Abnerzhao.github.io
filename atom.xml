@@ -70,7 +70,7 @@
     <link href="http://yoursite.com/2018/09/08/%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%81%93/"/>
     <id>http://yoursite.com/2018/09/08/学习之道/</id>
     <published>2018-09-08T13:51:15.000Z</published>
-    <updated>2018-11-13T15:33:58.623Z</updated>
+    <updated>2018-11-14T15:52:42.065Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>公司书架上随手拿的一本书，豆瓣的评分还可以，于是花了一个礼拜读完，顺便做点笔记。</p>
@@ -113,7 +113,7 @@
 <blockquote>
 <p>构建组块是一种从下至上的学习过程，总览全局则是一种从上至下的学习过程</p>
 </blockquote>
-<p><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/13112312312312.png" alt=""></p>
+<p><img src="/img/13112312312312.png" alt=""></p>
 <h3 id="拖延与习惯"><a href="#拖延与习惯" class="headerlink" title="拖延与习惯"></a>拖延与习惯</h3><h4 id="拖延的形成"><a href="#拖延的形成" class="headerlink" title="拖延的形成"></a>拖延的形成</h4><p>人讨厌做自己不擅长的事，如果是擅长的事往往乐在其中。做不怎么喜欢的事情会激活大脑中的痛觉中枢，驱使我们转移到令自己开心的事情上，获得暂时的感觉良好。而专注做事情需要获得顽强的意志力，需要调用大量的神经资源。转移到轻松愉悦的事情却是简单轻松的，所以很容易陷入拖延，渐渐的拖延也会变成一种习惯。</p>
 <h3 id="习惯的组成"><a href="#习惯的组成" class="headerlink" title="习惯的组成"></a>习惯的组成</h3><p>1.信号：习惯动作的触发点</p>
 <p>2.反应程序：接收信号暗示时做出的常规性、习惯性的反应</p>
@@ -565,7 +565,7 @@
     <link href="http://yoursite.com/2018/04/11/jsTree-notes/"/>
     <id>http://yoursite.com/2018/04/11/jsTree-notes/</id>
     <published>2018-04-11T03:02:46.000Z</published>
-    <updated>2018-11-13T15:35:07.769Z</updated>
+    <updated>2018-11-14T15:52:08.961Z</updated>
     
     <content type="html"><![CDATA[<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>jsTree 是一个免费开源的 jQuery 插件，可以提供交互式树型结构。jsTree 很容易扩展，配置方便，支持 HTML 和 JSON 数据源以及 AJAX 数据加载。它使用 jQuery 的事件系统，因此绑定树中各种事件的回调很容易实现。</p>
 <h3 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h3><h4 id="获取文件"><a href="#获取文件" class="headerlink" title="获取文件"></a>获取文件</h4><p>要想正常加载 jsTree 需要满足一下三个条件：</p>
@@ -584,7 +584,7 @@
 <h5 id="使用-CDN"><a href="#使用-CDN" class="headerlink" title="使用 CDN"></a>使用 CDN</h5><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># jsTree 默认主题</div><div class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css&quot; /&gt;</div><div class="line"></div><div class="line">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js&quot;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
 <h4 id="填充树结构"><a href="#填充树结构" class="headerlink" title="填充树结构"></a>填充树结构</h4><p>将下载的文件解压到本地，通过一个简单的 HTML 页面先来看效果<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"></div><div class="line">$ ls</div><div class="line">LICENSE-MIT        bower.json         composer.json      dist               gruntfile.js       jstree.jquery.json src</div><div class="line">README.md          component.json     demo               exp1.html          jquery             package.json       test</div><div class="line">$ cat exp1.html</div><div class="line"></div><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=&quot;en&quot;&gt;</div><div class="line"></div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;utf-8&quot;&gt;</div><div class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;</div><div class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</div><div class="line">    &lt;meta name=&quot;description&quot; content=&quot;&quot;&gt;</div><div class="line">    &lt;meta name=&quot;author&quot; content=&quot;&quot;&gt;</div><div class="line"></div><div class="line">    &lt;title&gt;Jstree&lt;/title&gt;</div><div class="line"></div><div class="line">    &lt;link rel=&quot;stylesheet&quot; href=&quot;dist/themes/default/style.min.css&quot; /&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;div id=&quot;jstree_demo_div&quot;&gt;</div><div class="line">        &lt;ul&gt;</div><div class="line">            &lt;li&gt;Root node</div><div class="line">                &lt;ul&gt;</div><div class="line">                    &lt;li&gt;Child node 1&lt;/li&gt;</div><div class="line">                    &lt;li&gt;Child node 2&lt;/li&gt;</div><div class="line">                &lt;/ul&gt;</div><div class="line">            &lt;/li&gt;</div><div class="line">        &lt;/ul&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">    &lt;script src=&quot;jquery/jquery-3.3.1.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script src=&quot;dist/jstree.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">    </div><div class="line">    </div><div class="line">    &lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">    $(function () &#123; $(&apos;#jstree_demo_div&apos;).jstree(); &#125;);</div><div class="line">    &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
 <p>浏览器效果</p>
-<p><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/C50152E0-0A00-4D2A-A176-E0F4BFC89BE9.png" alt=""></p>
+<p><img src="/img/C50152E0-0A00-4D2A-A176-E0F4BFC89BE9.png" alt=""></p>
 <p>这里我们使用的 HTML 的元素进行树的数据填充但不够灵活，我们可以使用 JSON 数据进行填充。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=&quot;en&quot;&gt;</div><div class="line"></div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;utf-8&quot;&gt;</div><div class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;</div><div class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</div><div class="line">    &lt;meta name=&quot;description&quot; content=&quot;&quot;&gt;</div><div class="line">    &lt;meta name=&quot;author&quot; content=&quot;&quot;&gt;</div><div class="line"></div><div class="line">    &lt;title&gt;Jstree&lt;/title&gt;</div><div class="line"></div><div class="line">    &lt;link rel=&quot;stylesheet&quot; href=&quot;dist/themes/default/style.min.css&quot; /&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;div id=&quot;jstree_demo_div&quot;&gt;&lt;/div&gt;</div><div class="line">    &lt;script src=&quot;jquery/jquery-3.3.1.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script src=&quot;dist/jstree.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">    $(function () &#123;</div><div class="line">        $(&apos;#jstree_demo_div&apos;).jstree(&#123;</div><div class="line">            &apos;core&apos; : &#123;</div><div class="line">              &apos;data&apos; : [</div><div class="line">                &#123; &apos;text&apos; : &apos;Root node&apos;, &apos;children&apos; : [</div><div class="line">                    &#123; &apos;text&apos; : &apos;Child node 1&apos; &#125;,</div><div class="line">                    &#123; &apos;text&apos; : &apos;Child node 2&apos; &#125;</div><div class="line">                  ]</div><div class="line">                &#125;</div><div class="line">              ]</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line">    &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
 <p>除了 HTML 数据元素 JSON 格式数据进行填充之外，还可以通过 Ajax 的请求数据进行填充。现在我们对 jsTree 就有一定的认知了，它其实就是将我们的数据进行结构化，通过树型进行展示。</p>
@@ -606,7 +606,7 @@
 <p>对于 icon 可以使用 <a href="https://github-production-release-asset-2e65be.s3.amazonaws.com/2126244/9c5b6db6-5245-11e6-800b-b1e5008b1179?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20180410%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20180410T092649Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=95d684a00d66bd0dd0bb48f6c3bbaba38e06d54c990b1d426db104c08e12d46f&amp;X-Amz-SignedHeaders=host&amp;actor_id=11457625&amp;response-content-disposition=attachment%3B%20filename%3Dbootstrap-3.3.7-dist.zip&amp;response-content-type=application%2Foctet-stream" target="_blank" rel="external">Bootstrap3</a></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&lt;div id=&quot;jstree_demo_div&quot;&gt;</div><div class="line">        &lt;ul&gt;</div><div class="line">            &lt;li&gt;Root node 1</div><div class="line">                &lt;ul&gt;</div><div class="line">                    &lt;li&gt;Child node 1&lt;/li&gt;</div><div class="line">                    &lt;li&gt;Child node 2&lt;/li&gt;</div><div class="line">                &lt;/ul&gt;</div><div class="line">            &lt;/li&gt;</div><div class="line">            &lt;li data-jstree=&apos;&#123;&quot;opened&quot;: true, &quot;selected&quot;: true&#125;&apos;&gt;Root node 2</div><div class="line">                &lt;ul&gt;</div><div class="line">                    &lt;li data-jstree=&apos;&#123;&quot;disabled&quot;: true&#125;&apos;&gt;Child node 3&lt;/li&gt;</div><div class="line">                    &lt;li data-jstree=&apos;&#123;&quot;icon&quot;: &quot;http://jstree.com/tree.png&quot;&#125;&apos;&gt;Child node 4&lt;/li&gt;</div><div class="line">                    &lt;li data-jstree=&apos;&#123;&quot;icon&quot;: &quot;glyphicon glyphicon-file&quot;&#125;&apos;&gt;Child node 5&lt;/li&gt;</div><div class="line">                    &lt;li data-jstree=&apos;&#123;&quot;icon&quot;: &quot;glyphicon glyphicon-leaf&quot;&#125;&apos;&gt;&lt;a href=&quot;http://jstree.com&quot;&gt;jstree.com&lt;/a&gt;&lt;/li&gt;</div><div class="line">                    &lt;!-- 点击链接并不会跳转，需要通过 changed.jstree 事件来处理--&gt;</div><div class="line">                &lt;/ul&gt;</div><div class="line">            &lt;/li&gt;</div><div class="line">        &lt;/ul&gt;</div><div class="line">    &lt;/div&gt;</div></pre></td></tr></table></figure>
 <p>效果如下：</p>
-<p><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/C9201E55-8924-4BB0-A8F0-36B06DD0C76B.png" alt=""></p>
+<p><img src="/img/C9201E55-8924-4BB0-A8F0-36B06DD0C76B.png" alt=""></p>
 <h3 id="JSON-数据配置"><a href="#JSON-数据配置" class="headerlink" title="JSON 数据配置"></a>JSON 数据配置</h3><p>jsTree 需要特定的格式才能使用JSON。 在标准语法中，不需要任何字段 - 只传递您所需的内容。</p>
 <p>数据格式：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// Expected format of the node (there are no required fields)</div><div class="line">&#123;</div><div class="line">  id          : &quot;string&quot; // will be autogenerated if omitted</div><div class="line">  text        : &quot;string&quot; // node text</div><div class="line">  icon        : &quot;string&quot; // string for custom</div><div class="line">  state       : &#123;</div><div class="line">    opened    : boolean  // is the node open</div><div class="line">    disabled  : boolean  // is the node disabled</div><div class="line">    selected  : boolean  // is the node selected</div><div class="line">  &#125;,</div><div class="line">  children    : []  // array of strings or objects</div><div class="line">  li_attr     : &#123;&#125;  // attributes for the generated LI node</div><div class="line">  a_attr      : &#123;&#125;  // attributes for the generated A node</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -652,17 +652,17 @@
     <link href="http://yoursite.com/2018/04/05/douban-spider/"/>
     <id>http://yoursite.com/2018/04/05/douban-spider/</id>
     <published>2018-04-05T06:03:55.000Z</published>
-    <updated>2018-11-13T15:37:59.775Z</updated>
+    <updated>2018-11-14T15:51:00.816Z</updated>
     
     <content type="html"><![CDATA[<p>最近又要开始找房，来上海三年不到已经是第三次搬家，真是居大不易。现在住的房子是在豆瓣小组上找的，豆瓣上个人房源较多，但是豆瓣小组没有对房源信息进行分类，找起来比较费时，索性写了个简单的爬虫，根据关键字来找房。网上也有一些现成的代码实现，想着还是自己实践一下。</p>
 <p>Python 新手上路…</p>
 <h3 id="获取豆瓣房源小组链接"><a href="#获取豆瓣房源小组链接" class="headerlink" title="获取豆瓣房源小组链接"></a>获取豆瓣房源小组链接</h3><p>先搜索一下上海的租房小组</p>
-<p><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/270B4257-2781-4F04-A000001F-A539B7F1791D.png" alt=""></p>
-<p>找几个人数较多和活跃度高的小组，进入小组讨论页面，观察 URL 的规律。<br><a id="more"></a><br><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/1D40CBE0-36C5-45E4-9B42-0E7823ADF269.png" alt=""><br><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/7BD30596-ABF6-428C-BF7B-D232B1C6605D.png" alt=""></p>
+<p><img src="/img/270B4257-2781-4F04-A000001F-A539B7F1791D.png" alt=""></p>
+<p>找几个人数较多和活跃度高的小组，进入小组讨论页面，观察 URL 的规律。<br><a id="more"></a><br><img src="/img/1D40CBE0-36C5-45E4-9B42-0E7823ADF269.png" alt=""><br><img src="/img/7BD30596-ABF6-428C-BF7B-D232B1C6605D.png" alt=""></p>
 <p>由此可知我们可以通过 <code>https://www.douban.com/group/&lt;组名&gt;/disscussion</code> 来获取不同组的房源帖子信息，我选取了五个小组进行爬取。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">In [1]: import os</div><div class="line">In [2]: group_list = [&apos;shanghaizufang&apos;, &apos;homeatshanghai&apos;, &apos;383972&apos;, &apos;shzf&apos;, &apos;251101&apos;]</div><div class="line">In [3]: index_url = [os.path.join(&apos;https://www.douban.com/group&apos;, i, &apos;discussion&apos;) for i in group_list]</div><div class="line">In [4]: index_url</div><div class="line">Out[4]:</div><div class="line">[&apos;https://www.douban.com/group/shanghaizufang/discussion&apos;,</div><div class="line"> &apos;https://www.douban.com/group/homeatshanghai/discussion&apos;,</div><div class="line"> &apos;https://www.douban.com/group/383972/discussion&apos;,</div><div class="line"> &apos;https://www.douban.com/group/shzf/discussion&apos;,</div><div class="line"> &apos;https://www.douban.com/group/251101/discussion&apos;]</div></pre></td></tr></table></figure>
 <h3 id="资源定位"><a href="#资源定位" class="headerlink" title="资源定位"></a>资源定位</h3><p>通过查看页面元素信息，找到每个帖子标题所对应的网页代码。我们可以发现每个房源标题对应的是一个 <code>class</code> 属性为 <code>title</code> 的 <code>td</code> 标记。</p>
-<p><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/59E824C2-AC6A-45F4-86D4-2582065E92A5.png" alt=""></p>
+<p><img src="/img/59E824C2-AC6A-45F4-86D4-2582065E92A5.png" alt=""></p>
 <p>使用 <code>BeautifulSoup</code> 尝试获取一下小组讨论中帖子标题网页代码</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">In [1]: import requests</div><div class="line">In [2]: from bs4 import BeautifulSoup</div><div class="line">In [3]: url = &apos;https://www.douban.com/group/shanghaizufang/discussion&apos;</div><div class="line">In [4]: headers = &#123;&apos;User-Agent&apos;: &apos;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 &apos;</div><div class="line">   ...:                                  &apos;(KHTML, like Gecko) Chrome/47.0.2526.80 Safari/537.36&apos;&#125;</div><div class="line">In [5]: res = requests.get(url, headers=headers)</div><div class="line">In [6]: soup = BeautifulSoup(res.text, &apos;html.parser&apos;)</div><div class="line">In [7]: title_list = soup.find_all(&apos;td&apos;, class_=&apos;title&apos;)</div><div class="line">In [8]: for tl in title_list:</div><div class="line">    ...:     print(tl)</div><div class="line">    ...:</div><div class="line">&lt;td class=&quot;title&quot;&gt;</div><div class="line">&lt;a class=&quot;&quot; href=&quot;https://www.douban.com/group/topic/114471599/&quot; title=&quot;黄浦区临地铁4号13号线单间出租。2300！无中介，可月租！&quot;&gt;</div><div class="line">                       黄浦区临地铁4号13号线单间出租。2300！无中介，可...</div><div class="line">                    &lt;/a&gt;</div><div class="line">&lt;/td&gt;</div><div class="line">&lt;td class=&quot;title&quot;&gt;</div><div class="line">&lt;a class=&quot;&quot; href=&quot;https://www.douban.com/group/topic/113810667/&quot; title=&quot;——有阳台·房间空间大·低价出租·2260元·正南·电梯房·步行6分钟到7号线·《盒马生鲜·DFC影院·大华锦绣国际》隔壁·锦绣华城2街区&quot;&gt;</div><div class="line">                       ——有阳台·房间空间大·低价出租·2260元·正南...</div><div class="line">                    &lt;/a&gt;</div><div class="line">&lt;/td&gt;</div><div class="line">&lt;td class=&quot;title&quot;&gt;</div><div class="line">&lt;a class=&quot;&quot; href=&quot;https://www.douban.com/group/topic/111282163/&quot; title=&quot;7号线杨高南路___北艾路1200弄超大1室_正南_大飘窗_2790元&quot;&gt;</div><div class="line">                       7号线杨高南路___北艾路1200弄超大1室_正南_大飘窗...</div><div class="line">                    &lt;/a&gt;</div><div class="line">&lt;/td&gt;</div><div class="line">...</div></pre></td></tr></table></figure>
 <h3 id="关键字过滤"><a href="#关键字过滤" class="headerlink" title="关键字过滤"></a>关键字过滤</h3><p>通过 <code>BeautifulSoup</code> 我们已经成功获取到帖子标题相关网页代码信息，接下来就是匹配我们的关键字并把对应标题的 url 保存下来，这样我们就不用一页页去找房源信息。</p>
@@ -675,7 +675,7 @@
 <p>请使用 Python3，<a href="https://github.com/Abnerzhao/spider/blob/master/douban/douban_spider_exp1.py" target="_blank" rel="external">爬虫源码地址</a></p>
 </blockquote>
 <p>执行效果：</p>
-<p><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/BAFCA92D-6F56-478A-B94E-8D18830BB546.png" alt=""></p>
+<p><img src="/img/BAFCA92D-6F56-478A-B94E-8D18830BB546.png" alt=""></p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这个爬虫很简单，没有进行模拟登陆也能抓取，当抓取页面数较大时会耗时较长。同一个房源信息可能在不同的小组中都有，所以通过一个字典来保存抓取的标题和链接，避免重复的标题。</p>
 <p>后续待优化的地方:</p>
 <ul>
@@ -690,7 +690,7 @@
       &lt;p&gt;最近又要开始找房，来上海三年不到已经是第三次搬家，真是居大不易。现在住的房子是在豆瓣小组上找的，豆瓣上个人房源较多，但是豆瓣小组没有对房源信息进行分类，找起来比较费时，索性写了个简单的爬虫，根据关键字来找房。网上也有一些现成的代码实现，想着还是自己实践一下。&lt;/p&gt;
 &lt;p&gt;Python 新手上路…&lt;/p&gt;
 &lt;h3 id=&quot;获取豆瓣房源小组链接&quot;&gt;&lt;a href=&quot;#获取豆瓣房源小组链接&quot; class=&quot;headerlink&quot; title=&quot;获取豆瓣房源小组链接&quot;&gt;&lt;/a&gt;获取豆瓣房源小组链接&lt;/h3&gt;&lt;p&gt;先搜索一下上海的租房小组&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/270B4257-2781-4F04-A000001F-A539B7F1791D.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/270B4257-2781-4F04-A000001F-A539B7F1791D.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;找几个人数较多和活跃度高的小组，进入小组讨论页面，观察 URL 的规律。&lt;br&gt;
     
     </summary>
@@ -838,7 +838,7 @@
     <link href="http://yoursite.com/2017/10/14/quickstart-wiki/"/>
     <id>http://yoursite.com/2017/10/14/quickstart-wiki/</id>
     <published>2017-10-14T07:54:01.000Z</published>
-    <updated>2018-11-13T15:32:32.742Z</updated>
+    <updated>2018-11-14T15:49:08.127Z</updated>
     
     <content type="html"><![CDATA[<p>Sphinx 是一个基于 ReStructuredText 的文档生成工具，有很多开源工程都采用sphinx作为文档生成系统，最有名的就是 python 官方文档。</p>
 <p>Read the Docs是一个在线文档托管服务，可以从各种版本控制系统中导入文档。支持 webhooks，当你提交代码时，文档将被自动构建。</p>
@@ -859,9 +859,9 @@
 <h4 id="使用-github-进行版本控制"><a href="#使用-github-进行版本控制" class="headerlink" title="使用 github 进行版本控制"></a>使用 github 进行版本控制</h4><p>首先在 github 创建新的仓库 mywiki，然后将本地的 mywiki/source 目录 push 到 mywiki 远程仓库。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cd source</div><div class="line">$ echo &quot;# mywiki&quot; &gt;&gt; README.md</div><div class="line">$ git init</div><div class="line">$ git add .</div><div class="line">$ git commit -m &quot;first commit&quot;</div><div class="line">$ git remote add origin git@github.com:[yourusename]/mywiki.git</div><div class="line">$ git push -u origin master</div></pre></td></tr></table></figure>
 <h4 id="导入到-ReadtheDocs"><a href="#导入到-ReadtheDocs" class="headerlink" title="导入到 ReadtheDocs"></a>导入到 ReadtheDocs</h4><p>首先到 github 中选择 mywiki 仓库，Settings / Services / Add ReadTheDocs</p>
-<p><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/B18863C1-6A9F-4A72-95C0-2580B1E75983.png" alt=""></p>
+<p><img src="/img/B18863C1-6A9F-4A72-95C0-2580B1E75983.png" alt=""></p>
 <p>然后到 ReadtheDocs 网站 import mywiki 仓库，导入成功后可看到如下页面：</p>
-<p><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/C1184CE3-2FA6-4898-ADAE-3072C6E8FF4E.png" alt=""></p>
+<p><img src="/img/C1184CE3-2FA6-4898-ADAE-3072C6E8FF4E.png" alt=""></p>
 <h4 id="构建文档"><a href="#构建文档" class="headerlink" title="构建文档"></a>构建文档</h4><p>现在 mywiki 目录只有默认内容，需要我们自己添加内容，然后构建。构建方式有两种：</p>
 <ul>
 <li>命令行执行 <code>make html</code> </li>
@@ -869,11 +869,11 @@
 </ul>
 <p>我们先看一下默认构建出来是什么样子，执行<code>make html</code> 成功后，即可到 ReadtheDocs 网站阅读文档。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cd /Users/Mr-zhao/mywiki</div><div class="line">$ ls</div><div class="line">Makefile build    make.bat source</div><div class="line">$ make html</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/4CE490E0-C3D4-448A-9A69-0BC2FFF95A1D.png" alt=""></p>
+<p><img src="/img/4CE490E0-C3D4-448A-9A69-0BC2FFF95A1D.png" alt=""></p>
 <p>简单的 wiki 就基本搭建完成了，后续我们需要添加内容。不过这玩意使用的 reStructureText 语法而不是我们熟悉的 Markdown，我们可以通过 <a href="http://pandoc.org/try/" target="_blank" rel="external">pandoc</a> 进行格式转换。reStructureText 的语法也比较简单。</p>
 <h4 id="开始写-wiki"><a href="#开始写-wiki" class="headerlink" title="开始写 wiki"></a>开始写 wiki</h4><p>简单添加些内容，看看效果<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat /Users/Mr-zhao/mywiki/index.rst</div><div class="line">.. mywiki documentation master file, created by</div><div class="line">   sphinx-quickstart on Sat Oct 14 14:26:23 2017.</div><div class="line">   You can adapt this file completely to your liking, but it should at least</div><div class="line">   contain the root `toctree` directive.</div><div class="line"></div><div class="line">Abnerzhao&apos;s Wiki</div><div class="line">=============================================</div><div class="line"></div><div class="line">.. toctree::</div><div class="line">   :maxdepth: 2</div><div class="line">   :glob:</div><div class="line"></div><div class="line">   programming/index</div><div class="line"></div><div class="line">$ cd /Users/Mr-zhao/mywiki/source/programming </div><div class="line">$ cat index.rst</div><div class="line">一、编程</div><div class="line">==================</div><div class="line"></div><div class="line">.. toctree::</div><div class="line">    :maxdepth: 2</div><div class="line">    :glob:</div><div class="line"></div><div class="line">    python.rst</div><div class="line">$ cat python.rst</div><div class="line"></div><div class="line">1. Python</div><div class="line">----------</div><div class="line"></div><div class="line">1.1 基础知识</div><div class="line">~~~~~~~~~~~~~~</div><div class="line"></div><div class="line">1.2 爬虫</div><div class="line">~~~~~~~~~~</div><div class="line"></div><div class="line">1.3 Web</div><div class="line">~~~~~~~~~</div><div class="line">$ cd /Users/Mr-zhao/mywiki</div><div class="line">$ make html</div></pre></td></tr></table></figure></p>
 <p>再次查看文档：</p>
-<p><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/B35BA734-C452-44C1-AF8A-ACE9243D9D58.png" alt=""></p>
+<p><img src="/img/B35BA734-C452-44C1-AF8A-ACE9243D9D58.png" alt=""></p>
 <h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>Sphinx + GitHub + ReadtheDocs 总体的使用感受比 GitBook 要好，GitBook 使用起来总感觉很慢。平时写博客记点东西都比较琐碎，使用 Sphinx 更规范系统些。</p>
 <p>工具倒是搭建好，能否坚持系统地总结梳理知识，Emm….这是个问题！</p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://zh-sphinx-doc.readthedocs.io/en/latest/contents.html" target="_blank" rel="external">Sphinx使用手册</a><br><a href="http://jwch.sdut.edu.cn/book/tool/UseSphinx.html#id5" target="_blank" rel="external">使用sphinx记笔记</a><br><a href="http://www.jianshu.com/p/78e9e1b8553a" target="_blank" rel="external">如何用 ReadtheDocs、Sphinx 快速搭建写书环境</a></p>
@@ -950,14 +950,14 @@
     <link href="http://yoursite.com/2017/09/04/set-up-svn-server/"/>
     <id>http://yoursite.com/2017/09/04/set-up-svn-server/</id>
     <published>2017-09-04T14:05:18.000Z</published>
-    <updated>2018-11-13T15:29:57.487Z</updated>
+    <updated>2018-11-14T15:47:37.499Z</updated>
     
     <content type="html"><![CDATA[<h3 id="软件包安装"><a href="#软件包安装" class="headerlink" title="软件包安装"></a>软件包安装</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ sudo apt-get install subversion apache2 libapache2-svn apache2-utils</div></pre></td></tr></table></figure>
 <h3 id="创建仓库目录"><a href="#创建仓库目录" class="headerlink" title="创建仓库目录"></a>创建仓库目录</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ sudo mkdir -p /home/abner/svn</div><div class="line">$ sudo svnadmin create /home/abner/svn/test_project</div><div class="line">$ sudo svnadmin create /home/abner/svn/ops</div><div class="line">$ sudo chown -R www-data:www-data /home/abner/svn</div></pre></td></tr></table></figure>
 <h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><p><code>/etc/apache2/mods-available/dav_svn.conf</code> 文件末尾添加如下配置：<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&lt;Location /svn&gt;</div><div class="line">    DAV svn   # 启用仓库</div><div class="line">    SVNListParentPath on # 路径下有多个仓库</div><div class="line">    SVNParentPath /home/abner/svn # 仓库路径</div><div class="line">    SVNAdvertiseV2Protocol off # 禁用 V2 协议</div><div class="line">    AuthType Basic </div><div class="line">    AuthName &quot;Subversion repository&quot;  </div><div class="line">    AuthUserFile /home/abner/svn/passwd # 用户验证文件</div><div class="line">    AuthzSVNAccessFile /home/abner/svn/auth # 权限验证文件</div><div class="line">    Require valid-user # 需要有效用户，禁止匿名访问</div><div class="line">&lt;/Location&gt;</div></pre></td></tr></table></figure></p>
 <h3 id="用户和权限设置"><a href="#用户和权限设置" class="headerlink" title="用户和权限设置"></a>用户和权限设置</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ sudo htpasswd -c /home/abner/svn/passwd mike</div><div class="line">New password:</div><div class="line">Re-type new password:</div><div class="line">Adding password for user mike</div><div class="line">$ cat /home/abner/svn/passwd</div><div class="line">mike:$apr1$nfAtmtla$ZguuxNODA.nRu3wsUq1Qv/</div><div class="line">$ sudo htpasswd  /home/abner/svn/passwd abner # 新增用户，无需 -c 选项</div><div class="line">$ cat /home/abner/svn/auth</div><div class="line">[groups]</div><div class="line">administrator=mike,abner</div><div class="line">[test:/]</div><div class="line">@administrator=rw</div><div class="line">[test_project:/]</div><div class="line">@administrator=rw</div><div class="line">[ops:/]</div><div class="line">@administrator=rw</div></pre></td></tr></table></figure>
 <h3 id="访问仓库目录"><a href="#访问仓库目录" class="headerlink" title="访问仓库目录"></a>访问仓库目录</h3><p>浏览器访问 <a href="http://127.0.0.1/svn/" target="_blank" rel="external">http://127.0.0.1/svn/</a></p>
-<p><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/DA0DAFAC-78BE-43CF-8316-3D1BBAD0D585.png" alt=""></p>
+<p><img src="/img/DA0DAFAC-78BE-43CF-8316-3D1BBAD0D585.png" alt=""></p>
 <h3 id="客户端操作"><a href="#客户端操作" class="headerlink" title="客户端操作"></a>客户端操作</h3><p>客户端使用 svn 命令拉取代码<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ svn checkout username=abner http://127.0.0.1/svn/ops</div></pre></td></tr></table></figure></p>
 <blockquote>
 <p>更多 htpasswd、svnadmin 和 svn 命令参数和使用请参考man手册</p>
@@ -1090,7 +1090,7 @@
     <link href="http://yoursite.com/2017/04/11/ansible-callback-plugins/"/>
     <id>http://yoursite.com/2017/04/11/ansible-callback-plugins/</id>
     <published>2017-04-11T12:20:44.000Z</published>
-    <updated>2018-11-13T15:29:14.711Z</updated>
+    <updated>2018-11-14T15:47:08.759Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Developing-Plugins"><a href="#Developing-Plugins" class="headerlink" title="Developing Plugins"></a>Developing Plugins</h2><p>插件是增强ansible核心功能的代码片段，我们可以很方便的使用插件，编写插件代码。如果我们想要对ansible的执行结果进行分析，根据返回结果发送邮件，写入日志等都可以通过插件实现。</p>
 <h3 id="插件列表"><a href="#插件列表" class="headerlink" title="插件列表"></a>插件列表</h3><ul>
@@ -1115,7 +1115,7 @@
 <p>测试</p>
 <figure class="highlight"><table><tr><td class="code"><pre><div class="line">$ ansible-playbook  -i hosts  test.yml</div><div class="line"></div><div class="line">PLAY [default_group] **********************************************************</div><div class="line"></div><div class="line">TASK: [test | cp test auto install script] ************************************</div><div class="line">fatal: [172.31.30.178] =&gt; SSH encountered an unknown error during the connection. We recommend you re-run the command using -vvvv, which will enable SSH debugging output to help diagnose the issue</div><div class="line"></div><div class="line">FATAL: all hosts have already failed -- aborting</div><div class="line"></div><div class="line">PLAY RECAP ********************************************************************</div><div class="line">           to retry, use: --limit @/root/startoftwares.retry</div><div class="line"></div><div class="line">172.31.30.178              : ok=0    changed=0    unreachable=1    failed=0</div></pre></td></tr></table></figure>
 <p>查收邮件</p>
-<p><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/B028FB3F-50E6-4B04-8969-BDCFD20ECAEB.png" alt=""></p>
+<p><img src="/img/B028FB3F-50E6-4B04-8969-BDCFD20ECAEB.png" alt=""></p>
 <p>以上脚本都写的比较简单，建议参考:<a href="https://github.com/ansible/ansible/blob/devel/lib/ansible/plugins" target="_blank" rel="external">官方插件代码样例</a></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://docs.ansible.com/ansible/dev_guide/developing_plugins.html" target="_blank" rel="external">官方文档</a><br><a href="http://ansible-tran.readthedocs.io/en/latest/docs/intro_configuration.html#bin-ansible-callbacks" target="_blank" rel="external">中文文档配置文件参数详解</a><br><a href="http://rfyiamcool.blog.51cto.com/1030776/1440624" target="_blank" rel="external">ansible调用callbacks插件实现结果nosql输出回调</a></p>
 ]]></content>
@@ -1402,7 +1402,7 @@
     <link href="http://yoursite.com/2017/01/21/low-level-discovery/"/>
     <id>http://yoursite.com/2017/01/21/low-level-discovery/</id>
     <published>2017-01-21T14:13:32.000Z</published>
-    <updated>2018-11-13T15:28:28.822Z</updated>
+    <updated>2018-11-14T15:46:33.071Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>Low-level discovery provides a way to automatically create items, triggers, and graphs for different entities on a computer. For instance, Zabbix can automatically start monitoring file systems or network interfaces on your machine, without the need to create items for each file system or network interface manually. </p>
@@ -1423,8 +1423,8 @@
 <h4 id="3-检测自定义键值"><a href="#3-检测自定义键值" class="headerlink" title="3.检测自定义键值"></a>3.检测自定义键值</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ python udpport_discovery.py PORT</div><div class="line">&#123;&quot;data&quot;: [&#123;&quot;&#123;#PORT&#125;&quot;: &quot;12222&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12223&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12224&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12225&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12226&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12227&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12228&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12229&quot;&#125;]&#125;</div></pre></td></tr></table></figure>
 <p>zabbix server端测试：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ ./zabbix_get -s 10.0.0.206 -k discovery.udpport</div><div class="line">&#123;&quot;data&quot;: [&#123;&quot;&#123;#PORT&#125;&quot;: &quot;12222&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12223&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12224&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12225&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12226&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12227&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12228&quot;&#125;, &#123;&quot;&#123;#PORT&#125;&quot;: &quot;12229&quot;&#125;]&#125;</div></pre></td></tr></table></figure></p>
 <h4 id="4-编写监控脚本"><a href="#4-编写监控脚本" class="headerlink" title="4.编写监控脚本"></a>4.编写监控脚本</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat udp_port.sh</div><div class="line">Port=$1</div><div class="line">case $Port in</div><div class="line">        12222)   netstat -nupl | grep 12222 |wc -l;;</div><div class="line">        12223)   netstat -nupl | grep 12223 |wc -l;;</div><div class="line">        12224)   netstat -nupl | grep 12224 |wc -l;;</div><div class="line">        12225)   netstat -nupl | grep 12225 |wc -l;;</div><div class="line">        12226)   netstat -nupl | grep 12226 |wc -l;;</div><div class="line">        12227)   netstat -nupl | grep 12227 |wc -l;;</div><div class="line">        12228)   netstat -nupl | grep 12228 |wc -l;;</div><div class="line">        12229)   netstat -nupl | grep 12229 |wc -l;;</div><div class="line">        *) echo Error; exit 1;;</div><div class="line">esac</div></pre></td></tr></table></figure>
-<h4 id="5-web添加模板"><a href="#5-web添加模板" class="headerlink" title="5.web添加模板"></a>5.web添加模板</h4><p><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/01256527-8987-40C4-9C65-2FC6D1D8610F.png" alt=""></p>
-<p><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/E604037B-096A-4789-9AB3-A47B14020FB2.png" alt=""></p>
+<h4 id="5-web添加模板"><a href="#5-web添加模板" class="headerlink" title="5.web添加模板"></a>5.web添加模板</h4><p><img src="/img/01256527-8987-40C4-9C65-2FC6D1D8610F.png" alt=""></p>
+<p><img src="/img/E604037B-096A-4789-9AB3-A47B14020FB2.png" alt=""></p>
 <h4 id="6-将模板关联对应机器"><a href="#6-将模板关联对应机器" class="headerlink" title="6.将模板关联对应机器"></a>6.将模板关联对应机器</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.zabbix.com/documentation/2.4/manual/discovery/low_level_discovery" target="_blank" rel="external">LDD官方文档</a></p>
 ]]></content>
     
@@ -1456,7 +1456,7 @@
     <link href="http://yoursite.com/2016/11/16/python-datetime/"/>
     <id>http://yoursite.com/2016/11/16/python-datetime/</id>
     <published>2016-11-16T13:08:40.000Z</published>
-    <updated>2018-11-13T15:27:10.055Z</updated>
+    <updated>2018-11-14T15:46:03.685Z</updated>
     
     <content type="html"><![CDATA[<p>关于datetime时间操作在日常工作中也没有经常用到，但是每次要用时却又想不起来，与其重复查文档不如总结一下备忘。本文只简单记录了常用的一些方法，不同类型格式之间的转换(如时间对象类型、字符串、timestamp、time tuple类型）以及时区问题等暂未深入了解。</p>
 <h2 id="datetime模块"><a href="#datetime模块" class="headerlink" title="datetime模块"></a>datetime模块</h2><p>datetime 模块主要用来操作日期和时间</p>
@@ -1552,7 +1552,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="数据类型转换"><a href="#数据类型转换" class="headerlink" title="数据类型转换"></a>数据类型转换</h2><p><img src="https://github.com/Abnerzhao/Abnerzhao.github.io/blob/master/img/C24469F5-B517-4D77-963E-37A6BC4B56AC.png" alt=""></p>
+<h2 id="数据类型转换"><a href="#数据类型转换" class="headerlink" title="数据类型转换"></a>数据类型转换</h2><p><img src="/img/C24469F5-B517-4D77-963E-37A6BC4B56AC.png" alt=""></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://docs.python.org/2/library/datetime.html" target="_blank" rel="external">datetime官方文档</a></p>
 ]]></content>
     
