@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2016/01/01/command/</loc>
+    
+    <lastmod>2018-11-14T00:09:08.018Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/04/05/douban-spider/</loc>
     
     <lastmod>2018-11-13T15:37:59.775Z</lastmod>
@@ -61,13 +68,6 @@
     <loc>http://yoursite.com/2016/05/20/ansible/</loc>
     
     <lastmod>2018-11-13T15:25:24.214Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/01/01/command/</loc>
-    
-    <lastmod>2018-11-13T15:23:21.868Z</lastmod>
     
   </url>
   
