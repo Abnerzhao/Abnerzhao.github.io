@@ -1,0 +1,32 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Django 最佳实践(译) · Abnerzhao</title><meta name="description" content="Django 最佳实践(译) - Abnerzhao"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Abnerzhao"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://github.com/Abnerzhao" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Django 最佳实践(译)</h1><div class="post-info">Dec 19, 2018</div><div class="post-content"><blockquote>
+<p>使用 Django 也有快两年了，主要是开发一些运维自动化平台。日常使用更多是停留在功能交付，有很多不规范的地方，是时候要改掉一些不好的习惯，拥抱变化。</p>
+</blockquote>
+<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><ul>
+<li>使用 <a href="https://pipenv.readthedocs.io" target="_blank" rel="external">Pipenv</a> 管理虚拟环境</li>
+<li>使用 <a href="https://docs.djangoproject.com/en/dev/topics/auth/customizing/#using-a-custom-user-model-when-starting-a-project" target="_blank" rel="external">自定义用户模型</a></li>
+<li>尽可能地使用<a href="https://docs.djangoproject.com/en/dev/topics/class-based-views/generic-display/" target="_blank" rel="external">通用类视图 GCBV</a>，然后才是<a href="https://docs.djangoproject.com/en/dev/topics/class-based-views/" target="_blank" rel="external">类视图</a>而不是函数视图</li>
+<li>使用<a href="https://github.com/joke2k/django-environ" target="_blank" rel="external">环境变量</a>来管理像 <code>SECRET_KET</code> 这样的变量</li>
+<li>使用<a href="https://simpleisbetterthancomplex.com/tips/2017/07/03/django-tip-20-working-with-multiple-settings-modules.html" target="_blank" rel="external">多 setting 文件</a>，DEBUG 模式不允许出现在生产环境中</li>
+<li>本地使用基于 <a href="https://wsvincent.com/django-docker-postgresql/" target="_blank" rel="external">Docker</a> 的 Postgres 数据库</li>
+<li>进行单元测试和集成测试，越多越好</li>
+</ul>
+<a id="more"></a>
+<h2 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h2><ul>
+<li>使用 <a href="https://www.ponycheckup.com/" target="_blank" rel="external">Pony Checkup</a> 检查网站的安全</li>
+<li>始终使用最新版 Django</li>
+<li>用 <a href="https://docs.djangoproject.com/en/2.0/topics/security/#ssl-https" target="_blank" rel="external">SSL/HTTPS</a> 部署</li>
+<li>修改 admin 的 url，不要使用默认的 <code>/admin/</code></li>
+</ul>
+<h2 id="第三方包"><a href="#第三方包" class="headerlink" title="第三方包"></a>第三方包</h2><ul>
+<li><a href="https://github.com/jazzband/django-debug-toolbar" target="_blank" rel="external">django-debug-toolbar</a> 调试消息和数据库查询</li>
+<li><a href="https://github.com/django-extensions/django-extensions" target="_blank" rel="external">django-extensions</a> 收集了很多扩展库，尤其是 <code>runserver_plus</code></li>
+<li><a href="https://github.com/pennersr/django-allauth" target="_blank" rel="external">django-allauth</a> 提供社交认证和用户email确认</li>
+<li><a href="https://whitenoise.readthedocs.io" target="_blank" rel="external">Whitenoise</a> 用于静态文件（也可以使用S3）</li>
+<li><a href="https://sentry.io" target="_blank" rel="external">Sentry</a> 记录错误日志</li>
+</ul>
+<h2 id="通用"><a href="#通用" class="headerlink" title="通用"></a>通用</h2><ul>
+<li>最流行的 Django 项目目录结构 <a href="https://github.com/pydanny/cookiecutter-django" target="_blank" rel="external">cookiecutter-django</a></li>
+<li>使用 <a href="https://www.django-rest-framework.org/" target="_blank" rel="external">Django Rest Framework</a>来构建 Result API</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://wsvincent.com/django-best-practices/" target="_blank" rel="external">Django Best Practices</a></p>
+</div></article></div></main><footer><div class="paginator"><a href="/2018/09/08/学习之道/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">Abnerzhao</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

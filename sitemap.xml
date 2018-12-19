@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2018/12/19/django-best-practices/</loc>
+    
+    <lastmod>2018-12-19T15:00:49.783Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/09/08/%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%81%93/</loc>
     
     <lastmod>2018-11-14T15:52:42.065Z</lastmod>
