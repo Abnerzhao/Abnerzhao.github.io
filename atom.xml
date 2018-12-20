@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-12-19T15:00:49.783Z</updated>
+  <updated>2018-12-20T00:39:45.695Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,12 +20,9 @@
     <link href="http://yoursite.com/2018/12/19/django-best-practices/"/>
     <id>http://yoursite.com/2018/12/19/django-best-practices/</id>
     <published>2018-12-19T14:59:08.000Z</published>
-    <updated>2018-12-19T15:00:49.783Z</updated>
+    <updated>2018-12-20T00:39:45.695Z</updated>
     
-    <content type="html"><![CDATA[<blockquote>
-<p>使用 Django 也有快两年了，主要是开发一些运维自动化平台。日常使用更多是停留在功能交付，有很多不规范的地方，是时候要改掉一些不好的习惯，拥抱变化。</p>
-</blockquote>
-<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><ul>
+    <content type="html"><![CDATA[<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><ul>
 <li>使用 <a href="https://pipenv.readthedocs.io" target="_blank" rel="external">Pipenv</a> 管理虚拟环境</li>
 <li>使用 <a href="https://docs.djangoproject.com/en/dev/topics/auth/customizing/#using-a-custom-user-model-when-starting-a-project" target="_blank" rel="external">自定义用户模型</a></li>
 <li>尽可能地使用<a href="https://docs.djangoproject.com/en/dev/topics/class-based-views/generic-display/" target="_blank" rel="external">通用类视图 GCBV</a>，然后才是<a href="https://docs.djangoproject.com/en/dev/topics/class-based-views/" target="_blank" rel="external">类视图</a>而不是函数视图</li>
@@ -57,10 +54,7 @@
     
     <summary type="html">
     
-      &lt;blockquote&gt;
-&lt;p&gt;使用 Django 也有快两年了，主要是开发一些运维自动化平台。日常使用更多是停留在功能交付，有很多不规范的地方，是时候要改掉一些不好的习惯，拥抱变化。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;基础&quot;&gt;&lt;a href=&quot;#基础&quot; class=&quot;headerlink&quot; title=&quot;基础&quot;&gt;&lt;/a&gt;基础&lt;/h2&gt;&lt;ul&gt;
+      &lt;h2 id=&quot;基础&quot;&gt;&lt;a href=&quot;#基础&quot; class=&quot;headerlink&quot; title=&quot;基础&quot;&gt;&lt;/a&gt;基础&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;使用 &lt;a href=&quot;https://pipenv.readthedocs.io&quot;&gt;Pipenv&lt;/a&gt; 管理虚拟环境&lt;/li&gt;
 &lt;li&gt;使用 &lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/auth/customizing/#using-a-custom-user-model-when-starting-a-project&quot;&gt;自定义用户模型&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;尽可能地使用&lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/class-based-views/generic-display/&quot;&gt;通用类视图 GCBV&lt;/a&gt;，然后才是&lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/class-based-views/&quot;&gt;类视图&lt;/a&gt;而不是函数视图&lt;/li&gt;
