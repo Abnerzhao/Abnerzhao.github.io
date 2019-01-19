@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2019/01/19/pipenv-quick-start/</loc>
+    <loc>http://yoursite.com/2019/01/18/pipenv-quick-start/</loc>
     
-    <lastmod>2019-01-19T09:31:26.183Z</lastmod>
+    <lastmod>2019-01-19T12:51:02.110Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/01/19/vue-cli-create-project/</loc>
+    
+    <lastmod>2019-01-19T12:50:38.346Z</lastmod>
     
   </url>
   

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-01-19T09:31:26.183Z</updated>
+  <updated>2019-01-19T12:50:38.346Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,78 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>使用 Vue CLI 快速创建 Vue 项目</title>
+    <link href="http://yoursite.com/2019/01/19/vue-cli-create-project/"/>
+    <id>http://yoursite.com/2019/01/19/vue-cli-create-project/</id>
+    <published>2019-01-19T12:49:05.000Z</published>
+    <updated>2019-01-19T12:50:38.346Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://cli.vuejs.org/zh/guide/" target="_blank" rel="external">Vue CLI</a> 是一个基于 Vue.js 进行快速开发的完整系统，提供：</p>
+<ul>
+<li>通过 @vue/cli 搭建交互式的项目脚手架</li>
+<li>通过 @vue/cli + @vue/cli-service-global 快速开始零配置原型开发</li>
+<li>一个运行时依赖 (@vue/cli-service)，该依赖：<ul>
+<li>可升级；</li>
+<li>基于 webpack 构建，并带有合理的默认配置；</li>
+<li>可以通过项目内的配置文件进行配置；</li>
+<li>可以通过插件进行扩展。</li>
+</ul>
+</li>
+<li>一个丰富的官方插件集合，集成了前端生态中最好的工具。</li>
+<li>一套完全图形化的创建和管理 Vue.js 项目的用户界面。</li>
+</ul>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>Vue CLI 需要 Node 环境，确保已经安装 Node 环境和 npm 包管理工具<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ npm install -g @vue/cli</div></pre></td></tr></table></figure></p>
+<h3 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ vue create hello-world</div><div class="line">Vue CLI v3.3.0</div><div class="line">? Please pick a preset: (Use arrow keys)</div><div class="line">❯ default (babel, eslint)  //默认选项提供 babel 和 eslint 支持，适合快速创建一个新项目的原型</div><div class="line">  Manually select features //手动选择特性，提供了更多的选项，它们是面向生产的项目更加需要的</div></pre></td></tr></table></figure>
+<p>上下键选择、Enter 选中，我们选择第二项手动选择特性</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Vue CLI v3.3.0</div><div class="line">? Please pick a preset: Manually select features</div><div class="line">? Check the features needed for your project: (Press &lt;space&gt; to select, &lt;a&gt; to toggle all, &lt;i&gt; to invert selection)</div><div class="line">❯◉ Babel  //支持babel</div><div class="line"> ◯ TypeScript  //支持使用 TypeScript 书写源码</div><div class="line"> ◯ Progressive Web App (PWA) Support</div><div class="line"> ◯ Router //支持 vue-router </div><div class="line"> ◯ Vuex  //支持 vuex </div><div class="line"> ◯ CSS Pre-processors  //支持 CSS 预处理器</div><div class="line"> ◉ Linter / Formatter  //支持代码风格检查和格式化</div><div class="line"> ◯ Unit Testing  //支持单元测试</div><div class="line"> ◯ E2E Testing  //支持 E2E 测试</div></pre></td></tr></table></figure>
+<p>基于开发常见的项目，同时兼顾项目健壮性的原则，选择如下选项：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Vue CLI v3.3.0</div><div class="line">? Please pick a preset: Manually select features</div><div class="line">? Check the features needed for your project:</div><div class="line"> ◉ Babel</div><div class="line"> ◉ TypeScript</div><div class="line"> ◯ Progressive Web App (PWA) Support</div><div class="line"> ◉ Router</div><div class="line"> ◉ Vuex</div><div class="line"> ◉ CSS Pre-processors</div><div class="line"> ◉ Linter / Formatter</div><div class="line">❯◉ Unit Testing</div><div class="line"> ◯ E2E Testing</div></pre></td></tr></table></figure>
+<p>开发 Vue 组件时是否使用 class 风格的写法 （是）<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Vue CLI v3.3.0</div><div class="line">? Please pick a preset: Manually select features</div><div class="line">? Check the features needed for your project: Babel, TS, Router, Vuex, CSS Pre-processors, Linter, Unit</div><div class="line">? Use class-style component syntax? (Y/n) Y</div></pre></td></tr></table></figure></p>
+<p>是否使用 babel 工具自动为转换后的 TypeScript 代码注入 polyfiills （是）<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">? Use Babel alongside TypeScript for auto-detected polyfills? (Y/n) Y</div></pre></td></tr></table></figure></p>
+<p>vue-router 是否使用 history 模式 （否，使用默认 hash 模式）<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">? Use history mode for router? (Requires proper server setup for index fallback in production) (Y/n) n</div></pre></td></tr></table></figure></p>
+<p>项目里面使用哪种 CSS 预处理语言（选择  LESS ）<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">? Pick a CSS pre-processor (PostCSS, Autoprefixer and CSS Modules are supported by default): (Use arrow keys)</div><div class="line">  Sass/SCSS</div><div class="line">❯ Less</div><div class="line">  Stylus</div></pre></td></tr></table></figure></p>
+<p>选择哪个自动化代码格式化检测（选择 ESLint + Prettier ）<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">? Pick a linter / formatter config: (Use arrow keys)</div><div class="line">  TSLint</div><div class="line">  ESLint with error prevention only</div><div class="line">  ESLint + Airbnb config</div><div class="line">  ESLint + Standard config</div><div class="line">❯ ESLint + Prettier</div></pre></td></tr></table></figure></p>
+<p>选择什么时候进行代码规则检查<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">? Pick additional lint features: (Press &lt;space&gt; to select, &lt;a&gt; to toggle all, &lt;i&gt; to invert selection)</div><div class="line">❯◉ Lint on save //保存就检查</div><div class="line"> ◯ Lint and fix on commit // fix 和 commit 的时候检查</div></pre></td></tr></table></figure></p>
+<p>选择单元测试工具 （ 选择 Mocha ）</p>
+<p>Mocha 是流行的 JavaScript 测试框架之一，通过它添加和运行测试，Chai 是断言库<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">? Pick a unit testing solution: (Use arrow keys)</div><div class="line">❯ Mocha + Chai</div><div class="line">  Jest</div></pre></td></tr></table></figure></p>
+<p>选择配置文件的位置 （ 选择独立文件存放 ）<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">? Where do you prefer placing config for Babel, PostCSS, ESLint, etc.?</div><div class="line">❯ In dedicated config files  //配置存放独立文件</div><div class="line">  In package.json  //配置存放 package.json</div></pre></td></tr></table></figure></p>
+<p>是否将以上这些将此保存为未来项目的预配置，对于 MAC 保存的配置信息会放在 ~/.vuerc 里面 （否）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">? Save this as a preset for future projects? (y/N)</div></pre></td></tr></table></figure>
+<p>下一步初始化 CLI 插件<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Vue CLI v3.3.0</div><div class="line">✨  Creating project in /Users/abner/work_space/projects/vue-project/hello-world.</div><div class="line">🗃  Initializing git repository...</div><div class="line">⚙  Installing CLI plugins. This might take a while...</div><div class="line">......</div></pre></td></tr></table></figure></p>
+<h3 id="启动项目"><a href="#启动项目" class="headerlink" title="启动项目"></a>启动项目</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cd hello-world</div><div class="line">$ npm run serve</div></pre></td></tr></table></figure>
+<p>浏览器看到的页面如下：</p>
+<p><img src="vue-cli-01.png" alt=""></p>
+<p>代码结构：</p>
+<p><img src="vue-cli-02.png" alt=""></p>
+<h3 id="打包上线"><a href="#打包上线" class="headerlink" title="打包上线"></a>打包上线</h3><p>项目开发完成之后需要打包上线，vue-cli 也提供了打包的命令<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ npm run build</div></pre></td></tr></table></figure></p>
+<p>打包好的静态资源会保存在 dist 目录，直接部署到静态资源服务器即可。</p>
+<h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ npm run test</div></pre></td></tr></table></figure>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>这里使用的是 vue-cli 3.0，相比 vue-cli 2.X 有些许不同</p>
+<ul>
+<li>启动命令行有变化</li>
+<li>配置可以保存</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://cli.vuejs.org/zh/guide/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Vue CLI&lt;/a&gt; 是一个基于 Vue.js 进行快速开发的完整系统，提供：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过 @vue/cl
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="http://yoursite.com/tags/Vue/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Pipenv 快速上手</title>
-    <link href="http://yoursite.com/2019/01/19/pipenv-quick-start/"/>
-    <id>http://yoursite.com/2019/01/19/pipenv-quick-start/</id>
-    <published>2019-01-19T09:26:22.000Z</published>
-    <updated>2019-01-19T09:31:26.183Z</updated>
+    <link href="http://yoursite.com/2019/01/18/pipenv-quick-start/"/>
+    <id>http://yoursite.com/2019/01/18/pipenv-quick-start/</id>
+    <published>2019-01-18T09:26:22.000Z</published>
+    <updated>2019-01-19T12:51:02.110Z</updated>
     
     <content type="html"><![CDATA[<p><a href="https://pipenv.readthedocs.io/en/latest/" target="_blank" rel="external">Pipenv</a> 是 Python 官方推荐的的包管理工具，它集成了 virtualenv、pyenv 和 pip 三者的功能。 Pipenv 是 requests 的作者 Kenneth Reitz 大神开发了用于创建和管理 Python 虚拟环境的工具。</p>
 <p>Pipenv 主要解决了以下问题：</p>
@@ -92,6 +159,8 @@
     
     </summary>
     
+    
+      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
     
   </entry>
   
