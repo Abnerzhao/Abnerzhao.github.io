@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-12-23T13:43:27.468Z</updated>
+  <updated>2019-01-19T09:27:44.164Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,86 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>pipenv_quick_start</title>
+    <link href="http://yoursite.com/2019/01/19/pipenv-quick-start/"/>
+    <id>http://yoursite.com/2019/01/19/pipenv-quick-start/</id>
+    <published>2019-01-19T09:26:22.000Z</published>
+    <updated>2019-01-19T09:27:44.164Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://pipenv.readthedocs.io/en/latest/" target="_blank" rel="external">Pipenv</a> 是 Python 官方推荐的的包管理工具，它集成了 virtualenv、pyenv 和 pip 三者的功能。 Pipenv 是 requests 的作者 Kenneth Reitz 大神开发了用于创建和管理 Python 虚拟环境的工具。</p>
+<p>Pipenv 主要解决了以下问题：</p>
+<ul>
+<li>不用再单独使用 virtualenv 和 pip，而是将两者结合</li>
+<li>不用再维护 requirements.txt，使用 Pipfile 和 Pipfile.lock 来代替</li>
+<li>可以在开发环境使用多个 Python 版本</li>
+<li>在安装的 pyenv 条件下，可以自动安装需要的 Python 版本</li>
+<li>随时查看图形化的依赖关系</li>
+</ul>
+<a id="more"></a>
+<h3 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>和普通的第三方包安装相同，直接使用 pip 命令进行安装。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ pip install pipenv</div></pre></td></tr></table></figure>
+<h4 id="创建虚拟环境"><a href="#创建虚拟环境" class="headerlink" title="创建虚拟环境"></a>创建虚拟环境</h4><p>虚拟环境是每个 Python 项目的独立执行环境。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cd mytest</div><div class="line">$ pipenv  install</div><div class="line">Creating a virtualenv for this project...</div><div class="line">Pipfile: /root/deploys/mytest/Pipfile</div><div class="line">Using /usr/bin/python (2.7.15) to create virtualenv...</div><div class="line">⠋ Creating virtual environment...Already using interpreter /usr/bin/python</div><div class="line">New python executable in /root/.local/share/virtualenvs/mytest-2D3nqn7b/bin/python</div><div class="line">Installing setuptools, pip, wheel...</div><div class="line">done.</div><div class="line"></div><div class="line">✔ Successfully created virtual environment!</div><div class="line">Virtualenv location: /root/.local/share/virtualenvs/mytest-2D3nqn7b</div><div class="line">Creating a Pipfile for this project...</div><div class="line">Pipfile.lock not found, creating...</div><div class="line">Locking [dev-packages] dependencies...</div><div class="line">Locking [packages] dependencies...</div><div class="line">Updated Pipfile.lock (dfae9f)!</div><div class="line">Installing dependencies from Pipfile.lock (dfae9f)...</div><div class="line">  🐍   ▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉ 0/0 — 00:00:00</div><div class="line">To activate this project&apos;s virtualenv, run pipenv shell.</div><div class="line">Alternatively, run a command inside the virtualenv with pipenv run.</div><div class="line">$ ls</div><div class="line">Pipfile  Pipfile.lock</div></pre></td></tr></table></figure>
+<p>我们在一个新项目的目录中创建了虚拟环境，默认使用的是系统的 Python2 版本，当然也可以指定 Python 版本。Pipenv 也自动为我们选择虚拟环境的存储位置，创建完成之后目录下出现了 <code>Pipfile</code> 和 <code>Pipfile.lock</code> 两个文件。 </p>
+<h4 id="激活和退出虚拟环境"><a href="#激活和退出虚拟环境" class="headerlink" title="激活和退出虚拟环境"></a>激活和退出虚拟环境</h4><p>激活虚拟环境</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ pipenv shell</div></pre></td></tr></table></figure>
+<p>退出虚拟环境</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ exit //或者 ctrl+d</div></pre></td></tr></table></figure>
+<h4 id="安装第三方包"><a href="#安装第三方包" class="headerlink" title="安装第三方包"></a>安装第三方包</h4><p>既然 Pipenv 能够替代 pip，那么我们就直接使用 Pipenv 命令来安装软件包</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ pipenv install requests</div><div class="line">Installing requests...</div><div class="line">Adding requests to Pipfile&apos;s [packages]...</div><div class="line">✔ Installation Succeeded</div><div class="line">Pipfile.lock (ab273c) out of date, updating to (dfae9f)...</div><div class="line">Locking [dev-packages] dependencies...</div><div class="line">Locking [packages] dependencies...</div><div class="line">✔ Success!</div><div class="line">Updated Pipfile.lock (ab273c)!</div><div class="line">Installing dependencies from Pipfile.lock (ab273c)...</div><div class="line">  🐍   ▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉ 5/5 — 00:00:02</div><div class="line">To activate this project&apos;s virtualenv, run pipenv shell.</div><div class="line">Alternatively, run a command inside the virtualenv with pipenv run.</div></pre></td></tr></table></figure>
+<p>使用 Pipenv 安装第三方包不需要激活虚拟环境，会直接下载到虚拟环境中。如果使用 pip 安装，我们需要先激活项目的虚拟环境才能保证软件包的正确安装。安装完包之后，Pipfile 和 Pipfile.lock 两个文件会被更新。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat Pipfile</div><div class="line">[[source]]</div><div class="line">name = &quot;pypi&quot;</div><div class="line">url = &quot;https://pypi.org/simple&quot;</div><div class="line">verify_ssl = true</div><div class="line"></div><div class="line">[dev-packages]</div><div class="line"></div><div class="line">[packages]</div><div class="line">requests = &quot;*&quot;</div><div class="line"></div><div class="line">[requires]</div><div class="line">python_version = &quot;2.7&quot;</div><div class="line">$ cat Pipfile.lock</div><div class="line">&#123;</div><div class="line">    &quot;_meta&quot;: &#123;</div><div class="line">        &quot;hash&quot;: &#123;</div><div class="line">            &quot;sha256&quot;: &quot;9838c8bf3aa442453b393e09e534ba7e1666aab4da1b9b408ecdf3ae58ab273c&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;pipfile-spec&quot;: 6,</div><div class="line">        &quot;requires&quot;: &#123;</div><div class="line">            &quot;python_version&quot;: &quot;2.7&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;sources&quot;: [</div><div class="line">            &#123;</div><div class="line">                &quot;name&quot;: &quot;pypi&quot;,</div><div class="line">                &quot;url&quot;: &quot;https://pypi.org/simple&quot;,</div><div class="line">                &quot;verify_ssl&quot;: true</div><div class="line">            &#125;</div><div class="line">        ]</div><div class="line">    &#125;,</div><div class="line">    &quot;default&quot;: &#123;</div><div class="line">        &quot;certifi&quot;: &#123;</div><div class="line">            &quot;hashes&quot;: [</div><div class="line">                &quot;sha256:47f9c83ef4c0c621eaef743f133f09fa8a74a9b75f037e8624f83bd1b6626cb7&quot;,</div><div class="line">                &quot;sha256:993f830721089fef441cdfeb4b2c8c9df86f0c63239f06bd025a76a7daddb033&quot;</div><div class="line">            ],</div><div class="line">            &quot;version&quot;: &quot;==2018.11.29&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;chardet&quot;: &#123;</div><div class="line">            &quot;hashes&quot;: [</div><div class="line">                &quot;sha256:84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae&quot;,</div><div class="line">                &quot;sha256:fc323ffcaeaed0e0a02bf4d117757b98aed530d9ed4531e3e15460124c106691&quot;</div><div class="line">            ],</div><div class="line">            &quot;version&quot;: &quot;==3.0.4&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;idna&quot;: &#123;</div><div class="line">            &quot;hashes&quot;: [</div><div class="line">                &quot;sha256:c357b3f628cf53ae2c4c05627ecc484553142ca23264e593d327bcde5e9c3407&quot;,</div><div class="line">                &quot;sha256:ea8b7f6188e6fa117537c3df7da9fc686d485087abf6ac197f9c46432f7e4a3c&quot;</div><div class="line">            ],</div><div class="line">            &quot;version&quot;: &quot;==2.8&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;requests&quot;: &#123;</div><div class="line">            &quot;hashes&quot;: [</div><div class="line">                &quot;sha256:502a824f31acdacb3a35b6690b5fbf0bc41d63a24a45c4004352b0242707598e&quot;,</div><div class="line">                &quot;sha256:7bf2a778576d825600030a110f3c0e3e8edc51dfaafe1c146e39a2027784957b&quot;</div><div class="line">            ],</div><div class="line">            &quot;index&quot;: &quot;pypi&quot;,</div><div class="line">            &quot;version&quot;: &quot;==2.21.0&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;urllib3&quot;: &#123;</div><div class="line">            &quot;hashes&quot;: [</div><div class="line">                &quot;sha256:61bf29cada3fc2fbefad4fdf059ea4bd1b4a86d2b6d15e1c7c0b582b9752fe39&quot;,</div><div class="line">                &quot;sha256:de9529817c93f27c8ccbfead6985011db27bd0ddfcdb2d86f3f663385c6a9c22&quot;</div><div class="line">            ],</div><div class="line">            &quot;version&quot;: &quot;==1.24.1&quot;</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    &quot;develop&quot;: &#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Pipfile 文件中记录了如下信息：</p>
+<ul>
+<li>pip 仓库地址</li>
+<li>需要下载哪些包， * 表示始终下载最新版本，dev-packages 表示专用于开发阶段使用的包</li>
+<li>Python 版本</li>
+</ul>
+<p>Pipfile.lock 文件中记录了包的详细信息：</p>
+<ul>
+<li>hash 值</li>
+<li>依赖关系</li>
+</ul>
+<p>有了 Pipfile 文件当我们把项目部署到生产环境时，直接 pipenv install 就自动创建虚拟环境并把包安装好。</p>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><h4 id="pipenv-选项"><a href="#pipenv-选项" class="headerlink" title="pipenv 选项"></a>pipenv 选项</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Options:</div><div class="line">  --where             Output project home information. </div><div class="line">  --venv              Output virtualenv information.</div><div class="line">  --py                Output Python interpreter information. </div><div class="line">  --envs              Output Environment Variable options.</div><div class="line">  --rm                Remove the virtualenv.</div><div class="line">  --bare              Minimal output.</div><div class="line">  --completion        Output completion (to be eval&apos;d).</div><div class="line">  --man               Display manpage.</div><div class="line">  --support           Output diagnostic information for use in GitHub issues.</div><div class="line">  --site-packages     Enable site-packages for the virtualenv.  [env var:</div><div class="line">                      PIPENV_SITE_PACKAGES]</div><div class="line">  --python TEXT       Specify which version of Python virtualenv should use.</div><div class="line">  --three / --two     Use Python 3/2 when creating virtualenv.</div><div class="line">  --clear             Clears caches (pipenv, pip, and pip-tools).  [env var:</div><div class="line">                      PIPENV_CLEAR]</div><div class="line">  -v, --verbose       Verbose mode.</div><div class="line">  --pypi-mirror TEXT  Specify a PyPI mirror.</div><div class="line">  --version           Show the version and exit.</div><div class="line">  -h, --help          Show this message and exit.</div></pre></td></tr></table></figure>
+<h4 id="pipenv-命令参数"><a href="#pipenv-命令参数" class="headerlink" title="pipenv 命令参数"></a>pipenv 命令参数</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Commands:</div><div class="line">  check      Checks for security vulnerabilities and against PEP 508 markers</div><div class="line">             provided in Pipfile.</div><div class="line">  clean      Uninstalls all packages not specified in Pipfile.lock.</div><div class="line">  graph      Displays currently-installed dependency graph information.</div><div class="line">  install    Installs provided packages and adds them to Pipfile, or (if no</div><div class="line">             packages are given), installs all packages from Pipfile.</div><div class="line">  lock       Generates Pipfile.lock.</div><div class="line">  open       View a given module in your editor.</div><div class="line">  run        Spawns a command installed into the virtualenv.</div><div class="line">  shell      Spawns a shell within the virtualenv.</div><div class="line">  sync       Installs all packages specified in Pipfile.lock.</div><div class="line">  uninstall  Un-installs a provided package and removes it from Pipfile.</div><div class="line">  update     Runs lock, then sync.</div></pre></td></tr></table></figure>
+<h4 id="pipenv-常用命令示例"><a href="#pipenv-常用命令示例" class="headerlink" title="pipenv 常用命令示例"></a>pipenv 常用命令示例</h4><p>创建项目虚拟环境指定 Python 版本<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ pipenv --python 3.7</div><div class="line">$ pipenv --python 2.7.15</div></pre></td></tr></table></figure></p>
+<p>不必显式激活虚拟环境，用虚拟机环境执行命令</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ pipenv run python -m http.server</div><div class="line">$ pipenv run python test.py</div></pre></td></tr></table></figure>
+<p>软件包只安装到开发环境</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ pipenv install pytest --dev</div></pre></td></tr></table></figure>
+<p>删除虚拟环境，该操作会把虚拟环境目录和里面所有的依赖包删除，但是 Pipfile 和 Pipfile.lock 文件会保留</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ pipenv --rm</div></pre></td></tr></table></figure>
+<p>删除软件包</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ pipenv uninstall requests</div></pre></td></tr></table></figure>
+<p>生成 requirements.txt 格式</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ pipenv lock -r</div><div class="line">$ pipenv lock -r -d //生成 dev-packages 的 requirements.txt</div></pre></td></tr></table></figure>
+<p>导入 requirements.txt </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ pipenv install -r requirements.txt</div></pre></td></tr></table></figure>
+<p>显示依赖树</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ pipenv graph</div></pre></td></tr></table></figure>
+<p>安全检查</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ pipenv check</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://pipenv.readthedocs.io/en/latest/&quot;&gt;Pipenv&lt;/a&gt; 是 Python 官方推荐的的包管理工具，它集成了 virtualenv、pyenv 和 pip 三者的功能。 Pipenv 是 requests 的作者 Kenneth Reitz 大神开发了用于创建和管理 Python 虚拟环境的工具。&lt;/p&gt;
+&lt;p&gt;Pipenv 主要解决了以下问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;不用再单独使用 virtualenv 和 pip，而是将两者结合&lt;/li&gt;
+&lt;li&gt;不用再维护 requirements.txt，使用 Pipfile 和 Pipfile.lock 来代替&lt;/li&gt;
+&lt;li&gt;可以在开发环境使用多个 Python 版本&lt;/li&gt;
+&lt;li&gt;在安装的 pyenv 条件下，可以自动安装需要的 Python 版本&lt;/li&gt;
+&lt;li&gt;随时查看图形化的依赖关系&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>摄影知识快速入门</title>
