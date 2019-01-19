@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-01-19T09:27:44.164Z</updated>
+  <updated>2019-01-19T09:31:26.183Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>pipenv_quick_start</title>
+    <title>Pipenv 快速上手</title>
     <link href="http://yoursite.com/2019/01/19/pipenv-quick-start/"/>
     <id>http://yoursite.com/2019/01/19/pipenv-quick-start/</id>
     <published>2019-01-19T09:26:22.000Z</published>
-    <updated>2019-01-19T09:27:44.164Z</updated>
+    <updated>2019-01-19T09:31:26.183Z</updated>
     
     <content type="html"><![CDATA[<p><a href="https://pipenv.readthedocs.io/en/latest/" target="_blank" rel="external">Pipenv</a> 是 Python 官方推荐的的包管理工具，它集成了 virtualenv、pyenv 和 pip 三者的功能。 Pipenv 是 requests 的作者 Kenneth Reitz 大神开发了用于创建和管理 Python 虚拟环境的工具。</p>
 <p>Pipenv 主要解决了以下问题：</p>
