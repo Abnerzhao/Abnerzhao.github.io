@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/08/06/django-rest-framework-cache/</loc>
+    
+    <lastmod>2019-08-06T14:47:32.944Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/01/19/vue-cli-create-project/</loc>
     
     <lastmod>2019-01-20T01:42:51.965Z</lastmod>
