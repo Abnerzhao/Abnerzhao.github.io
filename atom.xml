@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-08-12T13:36:25.908Z</updated>
+  <updated>2019-08-12T13:39:25.494Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>kong-api-gateway</title>
+    <title>API 网关 Kong 实践</title>
     <link href="http://yoursite.com/2019/08/12/kong-api-gateway/"/>
     <id>http://yoursite.com/2019/08/12/kong-api-gateway/</id>
     <published>2019-08-12T13:35:38.000Z</published>
-    <updated>2019-08-12T13:36:25.908Z</updated>
+    <updated>2019-08-12T13:39:25.494Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>Kong is a cloud-native, fast, scalable, and distributed Microservice Abstraction Layer (also known as an API Gateway, API Middleware or in some cases Service Mesh). Made available as an open-source project in 2015, its core values are high performance and extensibility.</p>
