@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-08-06T14:47:32.944Z</updated>
+  <updated>2019-08-12T13:36:25.908Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,105 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>kong-api-gateway</title>
+    <link href="http://yoursite.com/2019/08/12/kong-api-gateway/"/>
+    <id>http://yoursite.com/2019/08/12/kong-api-gateway/</id>
+    <published>2019-08-12T13:35:38.000Z</published>
+    <updated>2019-08-12T13:36:25.908Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>Kong is a cloud-native, fast, scalable, and distributed Microservice Abstraction Layer (also known as an API Gateway, API Middleware or in some cases Service Mesh). Made available as an open-source project in 2015, its core values are high performance and extensibility.</p>
+</blockquote>
+<ul>
+<li><a href="https://docs.konghq.com/" target="_blank" rel="external">官方文档</a></li>
+<li><a href="https://github.com/Kong/kong" target="_blank" rel="external">GitHub</a></li>
+</ul>
+<blockquote>
+<h4 id="实体对象"><a href="#实体对象" class="headerlink" title="实体对象"></a>实体对象</h4></blockquote>
+<ul>
+<li>Router：请求转发规则，将请求转发给 Service</li>
+<li>Services：多个 Upstream 集合，Router 的转发目标</li>
+<li>Consumers：消费者</li>
+<li>Plugin：插件，可以是全局的也可以配置到特定的 Router、Services、Consumers</li>
+<li>Certificate：https 证书</li>
+<li>Sni：域名与 Certificate 的绑定</li>
+<li>Upstream：负载均衡策略</li>
+<li>Target：最终处理请求的后端服务</li>
+</ul>
+<a id="more"></a>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
+<li><a href="https://docs.konghq.com/install/centos/?_ga=2.213911703.1402138674.1565577491-1519282909.1548232294" target="_blank" rel="external">CentOS Installation</a></li>
+<li><a href="https://www.postgresql.org/download/linux/redhat/" target="_blank" rel="external">PostgreSQL Installation</a></li>
+</ul>
+<h3 id="API"><a href="#API" class="headerlink" title="API"></a>API</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># Admin api 对 Kong 的所有操作</div><div class="line">$ curl localhost:8001</div><div class="line"></div><div class="line"># Proxy api 提供给客户端或者消费者对上游 service 的消费接口</div><div class="line">$ curl localhost:8000</div><div class="line">$ curl localhost:8443 （SSL）</div></pre></td></tr></table></figure>
+<blockquote>
+<p>具体操作请参考： <a href="https://docs.konghq.com/0.14.x/admin-api/" target="_blank" rel="external">Admin API  操作手册</a></p>
+</blockquote>
+<h3 id="核心实体"><a href="#核心实体" class="headerlink" title="核心实体"></a>核心实体</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ curl localhost:8001/apis  //service apis</div><div class="line">$ curl localhost:8001/consumers  //消费者</div><div class="line">$ curl localhost:8001/plugins  //插件</div></pre></td></tr></table></figure>
+<h3 id="图形界面"><a href="#图形界面" class="headerlink" title="图形界面"></a>图形界面</h3><ul>
+<li><a href="https://github.com/pantsel/konga" target="_blank" rel="external">konga</a></li>
+<li><a href="https://github.com/PGBI/kong-dashboard" target="_blank" rel="external">kong-dashboard</a></li>
+</ul>
+<h3 id="简单的接入配置"><a href="#简单的接入配置" class="headerlink" title="简单的接入配置"></a>简单的接入配置</h3><p>添加 API 到 Kong 中，首先添加 Service, 这个服务就是Kong 管理的微服务或者 Upstream 上游的服务。</p>
+<p>本地测试使用 Flask 部署一个最简单的 Web 应用</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ cat web.py</div><div class="line">from flask import Flask</div><div class="line">app = Flask(__name__)</div><div class="line"></div><div class="line">@app.route(&apos;/&apos;)</div><div class="line">def hello_world():</div><div class="line">    return &apos;Hello, World!&apos;</div><div class="line">    </div><div class="line">$ export FLASK_APP=web.py</div><div class="line">$ flask run</div><div class="line"> * Serving Flask app &quot;web.py&quot;</div><div class="line"> * Environment: production</div><div class="line">   WARNING: This is a development server. Do not use it in a production deployment.</div><div class="line">   Use a production WSGI server instead.</div><div class="line"> * Debug mode: off</div><div class="line"> * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)</div></pre></td></tr></table></figure>
+<h4 id="添加-Service"><a href="#添加-Service" class="headerlink" title="添加 Service"></a>添加 Service</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ curl -i -X POST \</div><div class="line">  --url http://localhost:8001/services/ \</div><div class="line">  --data &apos;name=example-service&apos; \ </div><div class="line">  --data &apos;url=http://localhost:5000&apos;</div><div class="line"></div><div class="line">HTTP/1.1 201 Created</div><div class="line">Date: Mon, 12 Aug 2019 06:28:29 GMT</div><div class="line">Content-Type: application/json; charset=utf-8</div><div class="line">Connection: keep-alive</div><div class="line">Access-Control-Allow-Origin: *</div><div class="line">Server: kong/1.2.1</div><div class="line">Content-Length: 270</div><div class="line"></div><div class="line">&#123;</div><div class="line">    &quot;host&quot;:&quot;localhost&quot;,</div><div class="line">    &quot;created_at&quot;:1565591309,</div><div class="line">    &quot;connect_timeout&quot;:60000,</div><div class="line">    &quot;id&quot;:&quot;00100765-1bb9-45d8-bb38-afb853f6fa37&quot;,</div><div class="line">    &quot;protocol&quot;:&quot;http&quot;,</div><div class="line">    &quot;name&quot;:&quot;example-service&quot;,</div><div class="line">    &quot;read_timeout&quot;:60000,</div><div class="line">    &quot;port&quot;:5000,</div><div class="line">    &quot;path&quot;:null,</div><div class="line">    &quot;updated_at&quot;:1565591309,</div><div class="line">    &quot;retries&quot;:5,</div><div class="line">    &quot;write_timeout&quot;:60000,</div><div class="line">    &quot;tags&quot;:null</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="给-Service-添加-Router"><a href="#给-Service-添加-Router" class="headerlink" title="给 Service 添加 Router"></a>给 Service 添加 Router</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ curl -i -X POST \</div><div class="line">  --url http://localhost:8001/services/example-service/routes \</div><div class="line">  --data &apos;hosts[]=example.com&apos;</div><div class="line"> </div><div class="line">HTTP/1.1 201 Created</div><div class="line">Date: Mon, 12 Aug 2019 06:35:36 GMT</div><div class="line">Content-Type: application/json; charset=utf-8</div><div class="line">Connection: keep-alive</div><div class="line">Access-Control-Allow-Origin: *</div><div class="line">Server: kong/1.2.1</div><div class="line">Content-Length: 393</div><div class="line"></div><div class="line">&#123;</div><div class="line">    &quot;id&quot;:&quot;3daac1d8-7570-414a-b1a9-606cda10d2f1&quot;,</div><div class="line">    &quot;tags&quot;:null,</div><div class="line">    &quot;paths&quot;:null,</div><div class="line">    &quot;destinations&quot;:null,</div><div class="line">    &quot;protocols&quot;:[</div><div class="line">        &quot;http&quot;,</div><div class="line">        &quot;https&quot;</div><div class="line">    ],</div><div class="line">    &quot;created_at&quot;:1565591736,</div><div class="line">    &quot;snis&quot;:null,</div><div class="line">    &quot;hosts&quot;:[</div><div class="line">        &quot;example.com&quot;</div><div class="line">    ],</div><div class="line">    &quot;name&quot;:null,</div><div class="line">    &quot;preserve_host&quot;:false,</div><div class="line">    &quot;regex_priority&quot;:0,</div><div class="line">    &quot;strip_path&quot;:true,</div><div class="line">    &quot;sources&quot;:null,</div><div class="line">    &quot;updated_at&quot;:1565591736,</div><div class="line">    &quot;https_redirect_status_code&quot;:426,</div><div class="line">    &quot;service&quot;:&#123;</div><div class="line">        &quot;id&quot;:&quot;00100765-1bb9-45d8-bb38-afb853f6fa37&quot;</div><div class="line">    &#125;,</div><div class="line">    &quot;methods&quot;:null</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="通过-Kong-转发请求"><a href="#通过-Kong-转发请求" class="headerlink" title="通过 Kong 转发请求"></a>通过 Kong 转发请求</h4><p>直接访问 Kong 的 Proxy api 即可访问到 Flask 应用</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ curl -i -X GET \</div><div class="line">  --url http://localhost:8000/ \</div><div class="line">  --header &apos;Host: example.com&apos;</div><div class="line">  </div><div class="line">HTTP/1.1 200 OK</div><div class="line">Content-Type: text/html; charset=utf-8</div><div class="line">Content-Length: 13</div><div class="line">Connection: keep-alive</div><div class="line">Server: Werkzeug/0.15.5 Python/2.7.11</div><div class="line">Date: Mon, 12 Aug 2019 06:37:10 GMT</div><div class="line">X-Kong-Upstream-Latency: 2</div><div class="line">X-Kong-Proxy-Latency: 1</div><div class="line">Via: kong/1.2.1</div><div class="line"></div><div class="line">Hello, World!</div></pre></td></tr></table></figure>
+<h4 id="添加插件"><a href="#添加插件" class="headerlink" title="添加插件"></a>添加插件</h4><p>添加一个接口验证 <code>key-auth</code> 插件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ curl -i -X POST \</div><div class="line">  --url http://localhost:8001/services/example-service/plugins/ \</div><div class="line">  --data &apos;name=key-auth&apos;</div><div class="line">  </div><div class="line">HTTP/1.1 201 Created</div><div class="line">Date: Mon, 12 Aug 2019 06:43:47 GMT</div><div class="line">Content-Type: application/json; charset=utf-8</div><div class="line">Connection: keep-alive</div><div class="line">Access-Control-Allow-Origin: *</div><div class="line">Server: kong/1.2.1</div><div class="line">Content-Length: 365</div><div class="line"></div><div class="line">&#123;</div><div class="line">    &quot;created_at&quot;:1565592227,</div><div class="line">    &quot;config&quot;:&#123;</div><div class="line">        &quot;key_names&quot;:[</div><div class="line">            &quot;apikey&quot;</div><div class="line">        ],</div><div class="line">        &quot;run_on_preflight&quot;:true,</div><div class="line">        &quot;anonymous&quot;:null,</div><div class="line">        &quot;hide_credentials&quot;:false,</div><div class="line">        &quot;key_in_body&quot;:false</div><div class="line">    &#125;,</div><div class="line">    &quot;id&quot;:&quot;54ca5f58-975a-49b4-8c14-d6b4e5add330&quot;,</div><div class="line">    &quot;service&quot;:&#123;</div><div class="line">        &quot;id&quot;:&quot;00100765-1bb9-45d8-bb38-afb853f6fa37&quot;</div><div class="line">    &#125;,</div><div class="line">    &quot;name&quot;:&quot;key-auth&quot;,</div><div class="line">    &quot;protocols&quot;:[</div><div class="line">        &quot;http&quot;,</div><div class="line">        &quot;https&quot;</div><div class="line">    ],</div><div class="line">    &quot;enabled&quot;:true,</div><div class="line">    &quot;run_on&quot;:&quot;first&quot;,</div><div class="line">    &quot;consumer&quot;:null,</div><div class="line">    &quot;route&quot;:null,</div><div class="line">    &quot;tags&quot;:null</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>再次访问则提示 <code>401 Unauthorized</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ curl -i -X GET \</div><div class="line">  --url http://localhost:8000/ \</div><div class="line">  --header &apos;Host: example.com&apos;</div><div class="line">  </div><div class="line">HTTP/1.1 401 Unauthorized</div><div class="line">Date: Mon, 12 Aug 2019 06:45:24 GMT</div><div class="line">Content-Type: application/json; charset=utf-8</div><div class="line">Connection: keep-alive</div><div class="line">WWW-Authenticate: Key realm=&quot;kong&quot;</div><div class="line">Content-Length: 41</div><div class="line">Server: kong/1.2.1</div><div class="line"></div><div class="line">&#123;</div><div class="line">    &quot;message&quot;:&quot;No API key found in request&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="添加消费者"><a href="#添加消费者" class="headerlink" title="添加消费者"></a>添加消费者</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ curl -i -X POST \</div><div class="line">  --url http://localhost:8001/consumers/ \</div><div class="line">  --data &quot;username=Abner&quot;</div><div class="line">  </div><div class="line">HTTP/1.1 201 Created</div><div class="line">Date: Mon, 12 Aug 2019 06:51:54 GMT</div><div class="line">Content-Type: application/json; charset=utf-8</div><div class="line">Connection: keep-alive</div><div class="line">Access-Control-Allow-Origin: *</div><div class="line">Server: kong/1.2.1</div><div class="line">Content-Length: 117</div><div class="line"></div><div class="line">&#123;</div><div class="line">    &quot;custom_id&quot;:null,</div><div class="line">    &quot;created_at&quot;:1565592714,</div><div class="line">    &quot;id&quot;:&quot;c3d8a745-5d6f-4966-8678-e6644139e0b7&quot;,</div><div class="line">    &quot;tags&quot;:null,</div><div class="line">    &quot;username&quot;:&quot;Abner&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="给消费者添加-key"><a href="#给消费者添加-key" class="headerlink" title="给消费者添加 key"></a>给消费者添加 key</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ curl -i -X POST \</div><div class="line">  --url http://localhost:8001/consumers/Abner/key-auth/ \</div><div class="line">  --data &apos;key=test&apos;</div><div class="line">  </div><div class="line">HTTP/1.1 201 Created</div><div class="line">Date: Mon, 12 Aug 2019 06:53:42 GMT</div><div class="line">Content-Type: application/json; charset=utf-8</div><div class="line">Connection: keep-alive</div><div class="line">Access-Control-Allow-Origin: *</div><div class="line">Server: kong/1.2.1</div><div class="line">Content-Length: 139</div><div class="line"></div><div class="line">&#123;</div><div class="line">    &quot;key&quot;:&quot;test&quot;,</div><div class="line">    &quot;created_at&quot;:1565592822,</div><div class="line">    &quot;consumer&quot;:&#123;</div><div class="line">        &quot;id&quot;:&quot;c3d8a745-5d6f-4966-8678-e6644139e0b7&quot;</div><div class="line">    &#125;,</div><div class="line">    &quot;id&quot;:&quot;d71b6d4d-3f74-489f-a036-d340f4bcc991&quot;</div><div class="line">&#125;</div><div class="line"></div><div class="line"># 验证</div><div class="line">$ curl -i -X GET \</div><div class="line">  --url http://localhost:8000 \</div><div class="line">  --header &quot;Host: example.com&quot; \</div><div class="line">  --header &quot;apikey: test&quot;</div><div class="line">  </div><div class="line">HTTP/1.1 200 OK</div><div class="line">Content-Type: text/html; charset=utf-8</div><div class="line">Content-Length: 13</div><div class="line">Connection: keep-alive</div><div class="line">Server: Werkzeug/0.15.5 Python/2.7.11</div><div class="line">Date: Mon, 12 Aug 2019 06:55:51 GMT</div><div class="line">X-Kong-Upstream-Latency: 2</div><div class="line">X-Kong-Proxy-Latency: 2</div><div class="line">Via: kong/1.2.1</div><div class="line"></div><div class="line">Hello, World!</div></pre></td></tr></table></figure>
+<h3 id="负载均衡配置"><a href="#负载均衡配置" class="headerlink" title="负载均衡配置"></a>负载均衡配置</h3><p>我们可以通过 Kong 配置如下的负载均衡效果</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">upstream example &#123;</div><div class="line">    server localhost:5000 weight=100;</div><div class="line">    server localhost:5001 weight=50;</div><div class="line">&#125;</div><div class="line"></div><div class="line">server &#123;</div><div class="line">    listen  80;</div><div class="line">    location /example &#123;</div><div class="line">        proxy_pass http://example;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>主要涉及到的 Kong 的几个核心东西：</p>
+<ul>
+<li>upstream：和 nginx upstream 相同，对上游服务器进行抽象</li>
+<li>target：具体的主机或者微服务实例，<code>IP + PORT</code> 的形式</li>
+<li>service：服务层面抽象，可以映射到具体服务，也可以指向 upstream 来实现负载均衡</li>
+<li>router：路由的抽象，将请求映射到 service</li>
+</ul>
+<p>首先我用 Flask 启动两个 web 应用，分别监听 5000 和 5001 端口</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ curl 0.0.0.0:5000</div><div class="line">server 5000</div><div class="line">$ curl 0.0.0.0:5001</div><div class="line">server 5001</div></pre></td></tr></table></figure>
+<h4 id="配置-upstream-和-target"><a href="#配置-upstream-和-target" class="headerlink" title="配置 upstream 和 target"></a>配置 upstream 和 target</h4><p>添加 example upstream</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ curl -X POST http://localhost:8001/upstreams \</div><div class="line">  --data &quot;name=example&quot;</div></pre></td></tr></table></figure>
+<p>添加两个负载均衡节点</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ curl -X POST http://localhost:8001/upstreams/example/targets \</div><div class="line">  --data &quot;target=localhost:5000&quot; \</div><div class="line">  --data &quot;weight=100&quot;</div><div class="line">$ curl -X POST http://localhost:8001/upstreams/example/targets \</div><div class="line">  --data &quot;target=localhost:5001&quot; \</div><div class="line">  --data &quot;weight=50&quot;</div></pre></td></tr></table></figure>
+<h4 id="配置-service-和-route"><a href="#配置-service-和-route" class="headerlink" title="配置 service 和 route"></a>配置 service 和 route</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ curl -X POST http://localhost:8001/services\</div><div class="line">  --data &quot;name=example&quot; \</div><div class="line">  --data &quot;host=example&quot;</div><div class="line">&#123;</div><div class="line">    &quot;host&quot;:&quot;example&quot;,</div><div class="line">    &quot;created_at&quot;:1565595520,</div><div class="line">    &quot;connect_timeout&quot;:60000,</div><div class="line">    &quot;id&quot;:&quot;d9873e6e-6dd5-4a5a-accb-40f96865d0a2&quot;,</div><div class="line">    &quot;protocol&quot;:&quot;http&quot;,</div><div class="line">    &quot;name&quot;:&quot;example&quot;,</div><div class="line">    &quot;read_timeout&quot;:60000,</div><div class="line">    &quot;port&quot;:80,</div><div class="line">    &quot;path&quot;:null,</div><div class="line">    &quot;updated_at&quot;:1565595520,</div><div class="line">    &quot;retries&quot;:5,</div><div class="line">    &quot;write_timeout&quot;:60000,</div><div class="line">    &quot;tags&quot;:null</div><div class="line">&#125;</div><div class="line">$ curl -X POST http://localhost:8001/routes \</div><div class="line">  --data &quot;paths[]=/example&quot; \</div><div class="line">  --data &quot;service.id=d9873e6e-6dd5-4a5a-accb-40f96865d0a2&quot;</div></pre></td></tr></table></figure>
+<p>至此一个典型的负载均衡已经配置完成，实测有效。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Kong is a cloud-native, fast, scalable, and distributed Microservice Abstraction Layer (also known as an API Gateway, API Middleware or in some cases Service Mesh). Made available as an open-source project in 2015, its core values are high performance and extensibility.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.konghq.com/&quot;&gt;官方文档&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/Kong/kong&quot;&gt;GitHub&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;h4 id=&quot;实体对象&quot;&gt;&lt;a href=&quot;#实体对象&quot; class=&quot;headerlink&quot; title=&quot;实体对象&quot;&gt;&lt;/a&gt;实体对象&lt;/h4&gt;&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Router：请求转发规则，将请求转发给 Service&lt;/li&gt;
+&lt;li&gt;Services：多个 Upstream 集合，Router 的转发目标&lt;/li&gt;
+&lt;li&gt;Consumers：消费者&lt;/li&gt;
+&lt;li&gt;Plugin：插件，可以是全局的也可以配置到特定的 Router、Services、Consumers&lt;/li&gt;
+&lt;li&gt;Certificate：https 证书&lt;/li&gt;
+&lt;li&gt;Sni：域名与 Certificate 的绑定&lt;/li&gt;
+&lt;li&gt;Upstream：负载均衡策略&lt;/li&gt;
+&lt;li&gt;Target：最终处理请求的后端服务&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Django REST framework 缓存</title>
@@ -1854,33 +1953,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>运维必备之Linux命令概览</title>
-    <link href="http://yoursite.com/2016/01/01/command/"/>
-    <id>http://yoursite.com/2016/01/01/command/</id>
-    <published>2016-01-01T12:48:46.000Z</published>
-    <updated>2018-11-14T00:11:37.928Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h3><p><img src="/img/C3EB9F70-7F51-4B46-8B14-825CD9B8C11B.png" alt=""></p>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p><img src="/img/BF852F66-2D8E-42D8-A4EB-2826A98C354C.png" alt=""></p>
-<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><p><img src="/img/429014F3-442B-4115-A97D-32D62E6BEE7F.png" alt=""></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.brendangregg.com/linuxperf.html" target="_blank" rel="external">Linux Performance</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;监控&quot;&gt;&lt;a href=&quot;#监控&quot; class=&quot;headerlink&quot; title=&quot;监控&quot;&gt;&lt;/a&gt;监控&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;/img/C3EB9F70-7F51-4B46-8B14-825CD9B8C11B.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;
-    
-    </summary>
-    
-      <category term="Cmd" scheme="http://yoursite.com/categories/Cmd/"/>
-    
-    
-      <category term="命令汇总" scheme="http://yoursite.com/tags/%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB/"/>
     
   </entry>
   

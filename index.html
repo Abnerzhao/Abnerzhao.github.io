@@ -1,4 +1,22 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Abnerzhao</title><meta name="description" content="DevOps"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Abnerzhao"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link active">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://github.com/Abnerzhao" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li></ul></header><main class="container"><ul class="home post-list"><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2019/08/06/django-rest-framework-cache/" class="post-title-link">Django REST framework 缓存</a></h2><div class="post-info">Aug 6, 2019</div><div class="post-content"><p>最近对 DRF 的接口进行监控，发现部分高频访问的接口性能不佳，响应比较慢，于是想通过缓存将接口性能优化。</p>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Abnerzhao</title><meta name="description" content="DevOps"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Abnerzhao"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link active">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://github.com/Abnerzhao" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/about/" target="_self" class="nav-list-link">ABOUT</a></li></ul></header><main class="container"><ul class="home post-list"><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2019/08/12/kong-api-gateway/" class="post-title-link">kong-api-gateway</a></h2><div class="post-info">Aug 12, 2019</div><div class="post-content"><blockquote>
+<p>Kong is a cloud-native, fast, scalable, and distributed Microservice Abstraction Layer (also known as an API Gateway, API Middleware or in some cases Service Mesh). Made available as an open-source project in 2015, its core values are high performance and extensibility.</p>
+</blockquote>
+<ul>
+<li><a href="https://docs.konghq.com/">官方文档</a></li>
+<li><a href="https://github.com/Kong/kong">GitHub</a></li>
+</ul>
+<blockquote>
+<h4 id="实体对象"><a href="#实体对象" class="headerlink" title="实体对象"></a>实体对象</h4></blockquote>
+<ul>
+<li>Router：请求转发规则，将请求转发给 Service</li>
+<li>Services：多个 Upstream 集合，Router 的转发目标</li>
+<li>Consumers：消费者</li>
+<li>Plugin：插件，可以是全局的也可以配置到特定的 Router、Services、Consumers</li>
+<li>Certificate：https 证书</li>
+<li>Sni：域名与 Certificate 的绑定</li>
+<li>Upstream：负载均衡策略</li>
+<li>Target：最终处理请求的后端服务</li>
+</ul></div><a href="/2019/08/12/kong-api-gateway/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2019/08/06/django-rest-framework-cache/" class="post-title-link">Django REST framework 缓存</a></h2><div class="post-info">Aug 6, 2019</div><div class="post-content"><p>最近对 DRF 的接口进行监控，发现部分高频访问的接口性能不佳，响应比较慢，于是想通过缓存将接口性能优化。</p>
 <p>常用的解决方案如下：</p>
 <ul>
 <li><a href="http://chibisov.github.io/drf-extensions/docs/#caching">drf-extensions</a></li>
